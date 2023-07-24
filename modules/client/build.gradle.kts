@@ -3,10 +3,6 @@ plugins {
     id("application")
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")

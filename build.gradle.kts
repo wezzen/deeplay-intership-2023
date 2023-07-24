@@ -7,8 +7,10 @@ allprojects {
     dependencies {
         errorprone("com.google.errorprone:error_prone_core:2.20.0")
     }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-repositories {
-    mavenCentral()
-}
+

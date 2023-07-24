@@ -3,10 +3,6 @@ plugins {
     id("application")
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
 
     implementation("org.apache.groovy:groovy:4.0.12")
