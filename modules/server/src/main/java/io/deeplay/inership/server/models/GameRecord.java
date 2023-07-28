@@ -12,7 +12,8 @@ public class GameRecord {
   }
 
   public void write(final Board board) {
-    gameHistory.add(board);
+    //TODO: когда будет готов класс Board, реализовать копирование объекта
+    gameHistory.add(new Board());
   }
 
   public List<Board> getGameHistory() {
