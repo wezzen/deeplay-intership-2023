@@ -1,17 +1,11 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import io.deeplay.inership.server.Board;
-import io.deeplay.inership.server.BoardLogger;
-import io.deeplay.inership.server.Cell;
-import io.deeplay.inership.server.Color;
-import io.deeplay.inership.server.Group;
-import io.deeplay.inership.server.Stone;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class BoardLoggerTest {
 
@@ -19,10 +13,10 @@ public class BoardLoggerTest {
 
   @Test
   public void simpleTest() {
-    Board board = mock(Board.class);
-    Color color = mock(Color.class);
-    Cell cell = mock(Cell.class);
-    Group group = mock(Group.class);
+    Board board = Mockito.mock(Board.class);
+    Color color = Mockito.mock(Color.class);
+    Cell cell = Mockito.mock(Cell.class);
+    Group group = Mockito.mock(Group.class);
     Stone[][] stones = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < stones[i].length; j++) {
@@ -37,8 +31,8 @@ public class BoardLoggerTest {
 
   @Test
   public void testReturnCellSymbol() {
-    final Cell cell = mock(Cell.class);
-    final Group group = mock(Group.class);
+    final Cell cell = Mockito.mock(Cell.class);
+    final Group group = Mockito.mock(Group.class);
     final BoardLogger boardLogger = new BoardLogger();
     final Stone emptyStone = new Stone(Color.EMPTY, cell, group);
     final Stone whiteStone = new Stone(Color.WHITE, cell, group);

@@ -1,10 +1,8 @@
-package io.deeplay.inership.server;
-
-import java.util.Objects;
+package io.deeplay.intership.service;
 
 /**
- * Класс, представляющий камень для игры в Го. Камень имеет свой цвет, позицию на доске {@ling Cell}
- * и принадлежит определенной группе камней {@ling Group}.
+ * Класс, представляющий камень для игры в Го. Камень имеет свой цвет, позицию на доске {@link Cell}
+ * и принадлежит определенной группе камней {@link Group}.
  */
 
 public class Stone {
@@ -17,6 +15,10 @@ public class Stone {
     this.color = color;
     this.cell = cell;
     this.group = group;
+  }
+
+  public Stone(Color color, Cell cell) {
+    this(color, cell, null);
   }
 
   public Color getColor() {

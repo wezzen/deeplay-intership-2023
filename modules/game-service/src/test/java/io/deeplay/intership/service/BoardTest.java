@@ -1,10 +1,8 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.deeplay.inership.server.Board;
-import io.deeplay.inership.server.Color;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -18,8 +16,8 @@ public class BoardTest {
     for (int i = 0; i < board.getField().length; i++) {
       for (int j = 0; j < board.getField()[i].length; j++) {
         assertEquals(Color.EMPTY, board.getField()[i][j].getColor());
-        assertEquals(i, board.getField()[i][j].getCell().getX());
-        assertEquals(j, board.getField()[i][j].getCell().getY());
+        assertEquals(i, board.getField()[i][j].getCell().x());
+        assertEquals(j, board.getField()[i][j].getCell().y());
       }
     }
   }
