@@ -1,4 +1,4 @@
-package io.deeplay.inership.server;
+package io.deeplay.intership.service;
 
 /**
  * Класс отвечает за вывод в лог на консоль состояния поля на доске {@link Board}

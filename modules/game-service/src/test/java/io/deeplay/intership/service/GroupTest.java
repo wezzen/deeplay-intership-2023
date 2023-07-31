@@ -1,9 +1,7 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import io.deeplay.inership.server.Group;
-import io.deeplay.inership.server.Stone;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,7 @@ public class GroupTest {
 
     Set<Stone> stones = new HashSet<>();
     Set<Stone> freeCells = new HashSet<>();
-    Group group = new Group(stones,freeCells);
+    Group group = new Group(stones, freeCells);
 
     assertNotNull(group.getStones());
     assertNotNull(group.getFreeCells());

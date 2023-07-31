@@ -1,24 +1,19 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import io.deeplay.inership.server.Cell;
-import io.deeplay.inership.server.Color;
-import io.deeplay.inership.server.Group;
-import io.deeplay.inership.server.Stone;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class StoneTest {
 
   @Test
   public void testStone() {
-    Cell cell = mock(Cell.class);
-    Color color = mock(Color.class);
-    Group group = mock(Group.class);
+    Cell cell = Mockito.mock(Cell.class);
+    Color color = Mockito.mock(Color.class);
+    Group group = Mockito.mock(Group.class);
     Stone stone = new Stone(color, cell, group);
 
     assertAll(
