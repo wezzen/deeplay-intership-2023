@@ -15,15 +15,7 @@ public class Group {
     return stones;
   }
 
-  public void setStones(Set<Stone> stones) {
-    this.stones = stones;
-  }
-
   public Set<Stone> getFreeCells() {
     return freeCells;
-  }
-
-  public void setFreeCells(Set<Stone> freeCells) {
-    this.freeCells = freeCells;
   }
 }
