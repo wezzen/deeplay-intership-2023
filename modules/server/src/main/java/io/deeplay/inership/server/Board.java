@@ -1,5 +1,7 @@
 
 package io.deeplay.inership.server;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -9,29 +11,38 @@ public class Board {
     /**
      * Ширина
      */
-    private final int WEIGHT = 9;
-
-    /** Высота */
-    private final int HEIGHT = 9;
+    private static final int SIZE = 9;
     /** Поле игры*/
     private Stone[][] field;
 
     /** Множество групп камней */
     private Set<Group> stoneGroups;
 
+    public Board() {
+        field = new Stone[SIZE][SIZE];
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                field[i][j] = new Stone(Color.EMPTY, new Cell(i, j), null);
+            }
+        }
+        stoneGroups = new HashSet<>();
+    }
+
+    public int getSize() {
+        return SIZE;
+    }
     /**
      * Установить камень на позицию
      *
-     * @param xPosition  (1..9)
-     * @param yPosition  (1..9)
+     * @param cell Ячейка (0..8, 0..8)
      * @param stoneColor Цвет камня
-     * @return true если поставил камень
+     * @return true - если камень поставлен
      */
-    public boolean setStone(int xPosition, int yPosition, Color stoneColor) {
+    public boolean setStone(Cell cell, Color stoneColor) {
         boolean answer;
-        if (isEmptyCell(xPosition, yPosition)) {
+        if (isEmptyCell(cell)) {
             answer = true;
-            field[xPosition][yPosition].setColor(stoneColor);
+            field[cell.getX()][cell.getY()].setColor(stoneColor);
         } else {
             answer = false;
         }
@@ -39,13 +50,15 @@ public class Board {
     }
 
     /**
-     * Проверить свободное место на позиции
      *
-     * @param xPosition (1..9)
-     * @param yPosition (1..9)
-     * @return true если не вышли за границы и место свободно
+     * @param cell Ячейка (0..8, 0..8)
+     * @return true - если ячейка пустая и в границах доски
      */
-    private boolean isEmptyCell(int xPosition, int yPosition) {
-        return (xPosition <= HEIGHT && xPosition >= 1) && (yPosition < WEIGHT && xPosition >= 1) && (field[xPosition][yPosition].getColor() == Color.EMPTY);
+    public boolean isEmptyCell(Cell cell) {
+        return isInBoard(cell) && (field[cell.getX()][cell.getY()].getColor() == Color.EMPTY);
+    }
+
+    private boolean isInBoard(Cell cell) {
+        return (cell.getX() <= (SIZE - 1) && cell.getX() >= 0) && (cell.getY() <= (SIZE - 1) && cell.getY() >= 0);
     }
 }

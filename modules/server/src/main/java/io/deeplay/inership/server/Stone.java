@@ -10,6 +10,11 @@ public class Stone {
         return color;
     }
 
+    public Stone(Color color, Cell cell, Group group) {
+        this.color = color;
+        this.cell = cell;
+        this.sequence = group;
+    }
     public void setColor(Color color1) {
         this.color = color1;
     }
