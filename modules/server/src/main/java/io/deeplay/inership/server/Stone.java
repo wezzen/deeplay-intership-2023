@@ -1,5 +1,7 @@
 package io.deeplay.inership.server;
 
+import java.util.Objects;
+
 /**
  * Класс, представляющий камень для игры в Го. Камень имеет свой цвет, позицию на доске {@ling Cell}
  * и принадлежит определенной группе камней {@ling Group}.
