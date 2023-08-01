@@ -2,6 +2,7 @@ package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,11 @@ public class BoardLoggerTest {
   public void simpleTest() {
     Board board = Mockito.mock(Board.class);
     Color color = Mockito.mock(Color.class);
-    Cell cell = Mockito.mock(Cell.class);
     Group group = Mockito.mock(Group.class);
     Stone[][] stones = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < stones[i].length; j++) {
-        stones[i][j] = new Stone(color, cell, group);
+        stones[i][j] = new Stone(color, i, j, group);
       }
     }
     when(board.getField()).thenReturn(stones);
@@ -31,12 +31,13 @@ public class BoardLoggerTest {
 
   @Test
   public void testReturnCellSymbol() {
-    final Cell cell = Mockito.mock(Cell.class);
+    final int x = 1;
+    final int y = 1;
     final Group group = Mockito.mock(Group.class);
     final BoardLogger boardLogger = new BoardLogger();
-    final Stone emptyStone = new Stone(Color.EMPTY, cell, group);
-    final Stone whiteStone = new Stone(Color.WHITE, cell, group);
-    final Stone blackStone = new Stone(Color.BLACK, cell, group);
+    final Stone emptyStone = new Stone(Color.EMPTY, x, y, group);
+    final Stone whiteStone = new Stone(Color.WHITE, x, y, group);
+    final Stone blackStone = new Stone(Color.BLACK, x, y, group);
 
     final char expectedEmpty = '0';
     final char expectedWhite = '+';
