@@ -22,8 +22,8 @@ public class StoneTest {
         () -> assertNotNull(stone.getColor()),
         () -> assertEquals(color, stone.getColor()),
 
-        () -> assertEquals(x, stone.getX()),
-        () -> assertEquals(y, stone.getY()),
+        () -> assertEquals(x, stone.getRowNumber()),
+        () -> assertEquals(y, stone.getColumnNumber()),
 
         () -> assertNotNull(stone.getGroup()),
         () -> assertEquals(group, stone.getGroup())
@@ -41,8 +41,8 @@ public class StoneTest {
         () -> assertNotNull(stone.getColor()),
         () -> assertEquals(color, stone.getColor()),
 
-        () -> assertEquals(x, stone.getX()),
-        () -> assertEquals(y, stone.getY()),
+        () -> assertEquals(x, stone.getRowNumber()),
+        () -> assertEquals(y, stone.getColumnNumber()),
 
         () -> assertNull(stone.getGroup())
     );
