@@ -1,4 +1,4 @@
-package io.deeplay.inership.server;
+package io.deeplay.intership.server;
 
 public class Server {
 
