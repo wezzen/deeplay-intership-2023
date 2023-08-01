@@ -4,25 +4,26 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class StoneTest {
 
   @Test
   public void testStone() {
-    Cell cell = Mockito.mock(Cell.class);
-    Color color = Mockito.mock(Color.class);
-    Group group = Mockito.mock(Group.class);
-    Stone stone = new Stone(color, cell, group);
+    int x = 1;
+    int y = 1;
+    Color color = mock(Color.class);
+    Group group = mock(Group.class);
+    Stone stone = new Stone(color, x, y, group);
 
     assertAll(
         () -> assertNotNull(stone.getColor()),
         () -> assertEquals(color, stone.getColor()),
 
-        () -> assertNotNull(stone.getCell()),
-        () -> assertEquals(cell, stone.getCell()),
+        () -> assertEquals(x, stone.getX()),
+        () -> assertEquals(y, stone.getY()),
 
         () -> assertNotNull(stone.getGroup()),
         () -> assertEquals(group, stone.getGroup())
@@ -31,16 +32,17 @@ public class StoneTest {
 
   @Test
   public void testStoneConstructor() {
-    Cell cell = Mockito.mock(Cell.class);
-    Color color = Mockito.mock(Color.class);
-    Stone stone = new Stone(color, cell);
+    int x = 1;
+    int y = 1;
+    Color color = mock(Color.class);
+    Stone stone = new Stone(color, x, y);
 
     assertAll(
         () -> assertNotNull(stone.getColor()),
         () -> assertEquals(color, stone.getColor()),
 
-        () -> assertNotNull(stone.getCell()),
-        () -> assertEquals(cell, stone.getCell()),
+        () -> assertEquals(x, stone.getX()),
+        () -> assertEquals(y, stone.getY()),
 
         () -> assertNull(stone.getGroup())
     );

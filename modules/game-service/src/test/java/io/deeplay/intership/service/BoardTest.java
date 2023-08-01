@@ -16,8 +16,8 @@ public class BoardTest {
     for (int i = 0; i < board.getField().length; i++) {
       for (int j = 0; j < board.getField()[i].length; j++) {
         assertEquals(Color.EMPTY, board.getField()[i][j].getColor());
-        assertEquals(i, board.getField()[i][j].getCell().x());
-        assertEquals(j, board.getField()[i][j].getCell().y());
+        assertEquals(i, board.getField()[i][j].getX());
+        assertEquals(j, board.getField()[i][j].getY());
       }
     }
   }
