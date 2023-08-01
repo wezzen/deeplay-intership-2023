@@ -1,6 +1,5 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.inership.server.Server;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
