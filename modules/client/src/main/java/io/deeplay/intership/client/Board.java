@@ -2,14 +2,14 @@ import java.util.*;
 
 public class Board {
     private static final int sizeOfBoard = 9;
-    private Stone board[][];
+    private Stone board[][] = new Stone[sizeOfBoard][sizeOfBoard];
     private Set<Group> setOfGroups;
     Board(){
         setOfGroups = new HashSet<>();
-        board = new Stone[sizeOfBoard][sizeOfBoard];
         for(int y = 0; y < sizeOfBoard; y++){
             for(int x = 0; x < sizeOfBoard; x++){
-                board[y][x] = new Stone(x, y);
+                board[y][
+                        x] = new Stone(x, y);
             }
         }
     }
