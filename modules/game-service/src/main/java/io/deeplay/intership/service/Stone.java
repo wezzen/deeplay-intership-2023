@@ -1,5 +1,7 @@
 package io.deeplay.intership.service;
 
+import java.util.Objects;
+
 /**
  * Класс, представляющий камень для игры в Го. Камень имеет свой цвет и позицию на доске {@code x,y}
  * и принадлежит определенной группе камней {@link Group}.
@@ -8,34 +10,53 @@ package io.deeplay.intership.service;
 public class Stone {
 
   private Color color;
-  private final int x;
-  private final int y;
+  private final int rowNumber;
+  private final int columnNumber;
   private Group group;
 
-  public Stone(Color color, int x, int y, Group group) {
+  public Stone(Color color, int rowNumber, int columnNumber, Group group) {
     this.color = color;
-    this.x = x;
-    this.y = y;
+    this.rowNumber = rowNumber;
+    this.columnNumber = columnNumber;
     this.group = group;
   }
 
-  public Stone(Color color, int x, int y) {
-    this(color, x, y, null);
+  public Stone(Color color, int rowNumber, int columnNumber) {
+    this(color, rowNumber, columnNumber, null);
   }
 
   public Color getColor() {
     return color;
   }
 
-  public int getX() {
-    return x;
+  public int getRowNumber() {
+    return rowNumber;
   }
 
-  public int getY() {
-    return y;
+  public int getColumnNumber() {
+    return columnNumber;
   }
 
   public Group getGroup() {
     return group;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Stone stone = (Stone) o;
+    return rowNumber == stone.rowNumber && columnNumber == stone.columnNumber
+        && color == stone.color && Objects.equals(group,
+        stone.group);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(color, rowNumber, columnNumber, group);
   }
 }
