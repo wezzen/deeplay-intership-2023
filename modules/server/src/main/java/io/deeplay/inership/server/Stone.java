@@ -3,16 +3,17 @@ package io.deeplay.inership.server;
 
 public class Stone {
     private Color color;
-    private Cell cell;
+    private int xPosition, yPosition;
     private Group sequence;
 
     public Color getColor() {
         return color;
     }
 
-    public Stone(Color color, Cell cell, Group group) {
+    public Stone(Color color, int x, int y, Group group) {
         this.color = color;
-        this.cell = cell;
+        this.xPosition = x;
+        this.yPosition = y;
         this.sequence = group;
     }
     public void setColor(Color color1) {

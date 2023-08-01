@@ -22,7 +22,7 @@ public class Board {
         field = new Stone[SIZE][SIZE];
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[i].length; j++) {
-                field[i][j] = new Stone(Color.EMPTY, new Cell(i, j), null);
+                field[i][j] = new Stone(Color.EMPTY, i, j, null);
             }
         }
         stoneGroups = new HashSet<>();
@@ -31,34 +31,35 @@ public class Board {
     public int getSize() {
         return SIZE;
     }
+
     /**
-     * Установить камень на позицию
-     *
-     * @param cell Ячейка (0..8, 0..8)
+     * Метод добавляющий камень на доску
+     * @param xPosition (0..8)
+     * @param yPosition (0..8)
      * @param stoneColor Цвет камня
-     * @return true - если камень поставлен
+     * @return true -- если успешно
      */
-    public boolean setStone(Cell cell, Color stoneColor) {
-        boolean answer;
-        if (isEmptyCell(cell)) {
-            answer = true;
-            field[cell.getX()][cell.getY()].setColor(stoneColor);
-        } else {
-            answer = false;
+    public boolean setStone(int xPosition, int yPosition, Color stoneColor) {
+        boolean answer = isEmptyCell(xPosition, yPosition);
+        if (answer) {
+            field[xPosition][yPosition].setColor(stoneColor);
         }
         return answer;
     }
 
     /**
-     *
-     * @param cell Ячейка (0..8, 0..8)
-     * @return true - если ячейка пустая и в границах доски
+     * Метод проверяет свободное место на позиции
+     * @param xPosition (0..8)
+     * @param yPosition (0..8)
+     * @return true -- если есть свободное место
      */
-    public boolean isEmptyCell(Cell cell) {
-        return isInBoard(cell) && (field[cell.getX()][cell.getY()].getColor() == Color.EMPTY);
+    public boolean isEmptyCell(int xPosition, int yPosition) {
+        return isInBoard(xPosition, yPosition) &&
+                (field[xPosition][yPosition].getColor() == Color.EMPTY);
     }
 
-    private boolean isInBoard(Cell cell) {
-        return (cell.getX() <= (SIZE - 1) && cell.getX() >= 0) && (cell.getY() <= (SIZE - 1) && cell.getY() >= 0);
+    private boolean isInBoard(int xPosition, int yPosition) {
+        return (xPosition <= (SIZE - 1) && xPosition >= 0) &&
+                (yPosition <= (SIZE - 1) && yPosition >= 0);
     }
 }
