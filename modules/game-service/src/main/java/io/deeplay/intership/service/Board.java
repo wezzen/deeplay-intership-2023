@@ -10,29 +10,29 @@ import java.util.Set;
  */
 public class Board {
 
-  private static final int DEFAULT_BOARD_SIZE = 9;
-  private Stone[][] field;
-  private Set<Group> groups;
+    private static final int DEFAULT_BOARD_SIZE = 9;
+    private Stone[][] field;
+    private Set<Group> groups;
 
-  /**
-   * Конструктор класса Board. Инициализирует двумерный массив бесцветными камнями {@link Stone}.
-   * Множество групп камней инициализируется через {@link HashSet}.
-   */
-  public Board() {
-    field = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
-    for (int i = 0; i < field.length; i++) {
-      for (int j = 0; j < field[i].length; j++) {
-        field[i][j] = new Stone(Color.EMPTY, i, j);
-      }
+    /**
+     * Конструктор класса Board. инициализирует двумерный массив бесцветными камнями {@link Stone}.
+     * Множество групп камней инициализируется через {@link HashSet}.
+     */
+    public Board() {
+        field = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                field[i][j] = new Stone(Color.EMPTY, i, j);
+            }
+        }
+        groups = new HashSet<>();
     }
-    groups = new HashSet<>();
-  }
 
-  public Stone[][] getField() {
-    return field;
-  }
+    public Stone[][] getField() {
+        return field;
+    }
 
-  public Set<Group> getGroups() {
-    return groups;
-  }
+    public Set<Group> getGroups() {
+        return groups;
+    }
 }
