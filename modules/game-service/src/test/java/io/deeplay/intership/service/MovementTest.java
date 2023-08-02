@@ -1,15 +1,21 @@
 package io.deeplay.intership.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovementTest {
+    Board board;
+    public void setInitialStones(List<Stone> initialStones) {
+        board = new Board();
+        Stone[][] field = board.getField();
+        for (Stone stone : initialStones) {
+            field[stone.getX()][stone.getY()] = stone;
+        }
+    }
+
     public boolean test1(){
-        Board board = new Board();
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 0, 2, new Group()));
         testStones.add(new Stone(Color.BLACK, 1, 3, new Group()));
@@ -18,7 +24,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.BLACK, 0, 5));
         testStones.add(new Stone(Color.WHITE, 0, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 4, new Group()));
-        board.setInitialStones(testStones);
+        setInitialStones(testStones);
         Stone[][] field = board.getField();
 
         Group groupTuple = new Group();
@@ -37,8 +43,8 @@ public class MovementTest {
 
         return board.isCorrectMove(Color.WHITE, 0, 4);
     }
+
     public boolean test2(){
-        Board board = new Board();
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 1, 1, new Group()));
         testStones.add(new Stone(Color.BLACK, 2, 2, new Group()));
@@ -46,7 +52,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.BLACK, 0, 3));
         testStones.add(new Stone(Color.WHITE, 0, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
-        board.setInitialStones(testStones);
+        setInitialStones(testStones);
         Stone[][] field = board.getField();
 
         Group groupTuple = new Group();
@@ -66,13 +72,13 @@ public class MovementTest {
 
         return board.isCorrectMove(Color.WHITE, 0, 2);
     }
+
     public boolean test3(){
-        Board board = new Board();
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 0, 1));
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 2, 0, new Group()));
-        board.setInitialStones(testStones);
+        setInitialStones(testStones);
         Stone[][] field = board.getField();
 
         Group groupTuple = new Group();
@@ -93,8 +99,8 @@ public class MovementTest {
 
         return board.isCorrectMove(Color.WHITE, 1, 0);
     }
+
     public boolean test4(){
-        Board board = new Board();
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 0, 2, new Group()));
         testStones.add(new Stone(Color.BLACK, 1, 1, new Group()));
@@ -109,7 +115,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 2, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 3, 2, new Group()));
-        board.setInitialStones(testStones);
+        setInitialStones(testStones);
         Stone[][] field = board.getField();
 
         testStones.get(8).getGroup().addStone(testStones.get(8));
@@ -123,8 +129,8 @@ public class MovementTest {
 
         return board.isCorrectMove(Color.WHITE, 2, 2);
     }
+
     public boolean test5(){
-        Board board = new Board();
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 1, 2, new Group()));
         testStones.add(new Stone(Color.BLACK, 2, 1, new Group()));
@@ -139,7 +145,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 3, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 3, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 4, 2, new Group()));
-        board.setInitialStones(testStones);
+        setInitialStones(testStones);
         Stone[][] field = board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
@@ -153,9 +159,9 @@ public class MovementTest {
 
         return board.isCorrectMove(Color.WHITE, 2, 2);
     }
+
     @Test
     public void testCorrectMovement() {
-
         assertEquals(test1(), false);
         assertEquals(test2(), true);
         assertEquals(test3(), true);

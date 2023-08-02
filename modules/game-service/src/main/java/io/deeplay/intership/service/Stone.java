@@ -6,7 +6,6 @@ package io.deeplay.intership.service;
  */
 
 public class Stone {
-
   private Color color;
   private final int x;
   private final int y;
