@@ -49,9 +49,16 @@ public class Validator {
    * противном случае {@code false}
    */
   public boolean isValidAction(String input) {
-    return input.trim().length() == 1;
+    return input != null &&
+        input.trim().length() == 1;
   }
 
+/**
+ * Проверяет, представляет ли данное действие пользователя действие выбора цвета.
+ *
+ * @param action действие пользователя для проверки
+ * @return {@code true}, если действие является действием выбора цвета, иначе {@code false}
+ */
   public boolean isColorAction(UserAction action) {
     return action == UserAction.CHOOSE_WHITE_COLOR ||
         action == UserAction.CHOOSE_BLACK_COLOR ||
