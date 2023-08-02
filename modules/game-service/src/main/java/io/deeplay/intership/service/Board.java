@@ -1,7 +1,6 @@
 package io.deeplay.intership.service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,7 +9,6 @@ import java.util.Set;
  * цвета, примыкающие друг к другу по горизонтали и/или вертикали.
  */
 public class Board {
-
     private static final int DEFAULT_BOARD_SIZE = 9;
     private Stone[][] field;
     private Set<Group> groups;
@@ -19,6 +17,7 @@ public class Board {
      * Конструктор класса Board. Инициализирует двумерный массив бесцветными камнями {@link Stone}.
      * Множество групп камней инициализируется через {@link HashSet}.
      */
+
     public Board() {
         field = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
         for (int i = 0; i < field.length; i++) {
@@ -28,12 +27,8 @@ public class Board {
         }
         groups = new HashSet<>();
     }
-    public void setInitialStones(List<Stone> initialStones) {
-        for (Stone stone : initialStones) {
-            field[stone.getX()][stone.getY()] = stone;
-        }
-    }
-    Set<Stone> getNearStones(Color color, int x, int y){
+
+    private Set<Stone> getNearStones(Color color, int x, int y){
         Set<Stone> nearStones = new HashSet<>();
         if (x > 0 && field[x-1][y].getColor() == color){
             nearStones.add(field[x-1][y]);
@@ -49,6 +44,7 @@ public class Board {
         }
         return nearStones;
     }
+
     private boolean isSuicide(Color color, int x, int y) {
         Color enemyColor = Color.values()[(color.ordinal()+1)%2];
         Set<Stone> friendStones = getNearStones(color, x, y);
@@ -68,6 +64,7 @@ public class Board {
         }
         return true;
     }
+
     public boolean isCorrectMove(Color color, int x, int y) {
         Set<Stone> emptyStones = getNearStones(Color.EMPTY, x, y);
         if(field[x][y].getColor() != Color.EMPTY){
@@ -80,9 +77,11 @@ public class Board {
             return !isSuicide(color, x, y);
         }
     }
+
     public Stone[][] getField() {
         return field;
     }
+
     public Set<Group> getGroups() {
         return groups;
     }
