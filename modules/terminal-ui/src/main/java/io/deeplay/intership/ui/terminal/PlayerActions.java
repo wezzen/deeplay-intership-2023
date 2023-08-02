@@ -14,7 +14,7 @@ import io.deeplay.intership.service.Stone;
  */
 public interface PlayerActions {
 
-  void chooseGameAction(final Board board);
+  Stone chooseGameAction(final Board board);
 
   /**
    * Определяет действие игрока "сделать ход".
@@ -24,7 +24,7 @@ public interface PlayerActions {
   /**
    * Определяет действие игрока "пропустить ход".
    */
-  void skipTurn();
+  Stone skipTurn();
 
   /**
    * Определяет действие игрока "выбрать цвет".
