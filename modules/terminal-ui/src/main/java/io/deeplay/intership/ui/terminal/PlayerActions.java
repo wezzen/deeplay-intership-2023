@@ -14,31 +14,31 @@ import io.deeplay.intership.service.Stone;
  */
 public interface PlayerActions {
 
-  Stone chooseGameAction(final Board board);
+    Stone chooseGameAction(final Board board);
 
-  /**
-   * Определяет действие игрока "сделать ход".
-   */
-  Stone makeMove(final Board board);
+    /**
+     * Определяет действие игрока "сделать ход".
+     */
+    Stone makeMove(final Board board);
 
-  /**
-   * Определяет действие игрока "пропустить ход".
-   */
-  Stone skipTurn();
+    /**
+     * Определяет действие игрока "пропустить ход".
+     */
+    Stone skipTurn();
 
-  /**
-   * Определяет действие игрока "выбрать цвет".
-   */
-  Color chooseColor();
+    /**
+     * Определяет действие игрока "выбрать цвет".
+     */
+    Color chooseColor();
 
-  /**
-   * Определяет действие игрока "начать игру".
-   */
-  void startGame();
+    /**
+     * Определяет действие игрока "начать игру".
+     */
+    void startGame();
 
-  /**
-   * Определяет действие игрока "завершить игру".
-   */
-  void endGame();
+    /**
+     * Определяет действие игрока "завершить игру".
+     */
+    void endGame();
 }
 
