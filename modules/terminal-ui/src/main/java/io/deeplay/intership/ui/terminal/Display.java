@@ -20,7 +20,7 @@ public class Display {
   /**
    * Показывает сообщение заголовка для пользовательского ввода.
    */
-  public void showHeader() {
+  public void showMoveRules() {
     System.out.println("Введите координаты нового камня через пробел");
     System.out.println("Формат записи: 1 d");
     String range = String.format("Диапазон допустимых значений для строки от %d до %d",
@@ -34,7 +34,7 @@ public class Display {
   /**
    * Показывает доступные действия для пользователя.
    */
-  public void showActions() {
+  public void showGameActions() {
     showHorizontalLine();
     System.out.println("Ваш ход.");
     System.out.println("Выберите следущее действие:");
@@ -72,7 +72,7 @@ public class Display {
       for (int j = 0; j < board.getField()[i].length; j++) {
         stringBuilder
             .append(" ")
-            .append(converter.getCellSymbol(board.getField()[i][j]))
+            .append(converter.getStoneSymbol(board.getField()[i][j]))
             .append(" ");
       }
       stringBuilder.append("#");
@@ -118,5 +118,14 @@ public class Display {
    */
   public void showHorizontalLine() {
     System.out.println("====================================================================");
+  }
+
+  public void showColorSelection() {
+    System.out.println(
+        "Для выбора белого цвета введите " + UserAction.CHOOSE_WHITE_COLOR.getActionCode());
+    System.out.println(
+        "Для выбора черного цвета введите " + UserAction.CHOOSE_BLACK_COLOR.getActionCode());
+    System.out.println(
+        "Для выбора случайного цвета введите " + UserAction.CHOOSE_EMPTY_COLOR.getActionCode());
   }
 }

@@ -1,6 +1,8 @@
 package io.deeplay.intership.ui.terminal;
 
+import io.deeplay.intership.service.Board;
 import io.deeplay.intership.service.Color;
+import io.deeplay.intership.service.Stone;
 
 /**
  * Класс реализует интерфейс {@link PlayerActions}, с которым взаимодействует пользователь через
@@ -9,7 +11,9 @@ import io.deeplay.intership.service.Color;
 public class UserPlayerActions implements PlayerActions {
 
   private final Color color;
+  private final Display display;
   private final InputUtil inputUtil;
+  private final Converter converter;
 
   /**
    * Конструктор класса UserPlayerActions.
@@ -18,16 +22,34 @@ public class UserPlayerActions implements PlayerActions {
    */
   public UserPlayerActions(Color color) {
     this.color = color;
+    this.display = new Display();
     this.inputUtil = new InputUtil();
+    this.converter = new Converter();
   }
 
 
+  @Override
+  public void chooseGameAction(final Board board) {
+    display.showBoard(board);
+    display.showGameActions();
+    switch (inputUtil.inputAction()) {
+      case MOVE -> makeMove(board);
+      case SKIP -> skipTurn();
+      default -> throw new IllegalArgumentException();
+    }
+  }
+
   /**
    * Делает ход в игре на основе ввода пользователя.
+   *
+   * @param board класс {@link Board} хранящий состояние доски.
+   * @return камень {@link Stone} содержащий цвет игрока и координаты заданные пользователем.
    */
   @Override
-  public void makeMove() {
-
+  public Stone makeMove(final Board board) {
+    display.showBoard(board);
+    display.showMoveRules();
+    return inputUtil.inputMove(color);
   }
 
   /**
@@ -35,15 +57,19 @@ public class UserPlayerActions implements PlayerActions {
    */
   @Override
   public void skipTurn() {
-
+    display.showAwaitState();
+    //TODO: что-то должно передаваться
   }
 
   /**
    * Реализует выбор цвета игрока.
+   *
+   * @return цвет {@link Color}, за который будет играть пользователь
    */
   @Override
-  public void chooseColor() {
-
+  public Color chooseColor() {
+    display.showColorSelection();
+    return converter.convertActionToColor(inputUtil.inputColorAction());
   }
 
   /**
@@ -51,7 +77,7 @@ public class UserPlayerActions implements PlayerActions {
    */
   @Override
   public void startGame() {
-
+    chooseColor();
   }
 
   /**
