@@ -5,8 +5,8 @@ import io.deeplay.intership.service.Color;
 import io.deeplay.intership.service.Stone;
 
 /**
- * Класс реализует интерфейс {@link PlayerActions}, с которым взаимодействует пользователь через
- * консоль, чтобы играть.
+ * Класс {@link UserPlayerActions} реализует интерфейс {@link PlayerActions}, с которым
+ * взаимодействует пользователь через консоль, чтобы играть.
  */
 public class UserPlayerActions implements PlayerActions {
 
@@ -28,15 +28,22 @@ public class UserPlayerActions implements PlayerActions {
   }
 
 
+  /**
+   * Выбирает одно из двух действий на основе ввода пользователя: пропустить ход или поставить
+   * камень.
+   *
+   * @param board класс {@link Board} хранящий состояние доски.
+   * @return камень {@link Stone} содержащий цвет игрока и координаты заданные пользователем.
+   */
   @Override
-  public void chooseGameAction(final Board board) {
+  public Stone chooseGameAction(final Board board) {
     display.showBoard(board);
     display.showGameActions();
-    switch (inputUtil.inputAction()) {
+    return switch (inputUtil.inputAction()) {
       case MOVE -> makeMove(board);
       case SKIP -> skipTurn();
       default -> throw new IllegalArgumentException();
-    }
+    };
   }
 
   /**
@@ -56,9 +63,9 @@ public class UserPlayerActions implements PlayerActions {
    * Реализует пропуск хода игрока.
    */
   @Override
-  public void skipTurn() {
+  public Stone skipTurn() {
     display.showAwaitState();
-    //TODO: что-то должно передаваться
+    return new Stone(Color.EMPTY, 0, 0);
   }
 
   /**
