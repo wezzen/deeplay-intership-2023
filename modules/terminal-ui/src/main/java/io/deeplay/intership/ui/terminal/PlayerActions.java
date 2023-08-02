@@ -1,6 +1,10 @@
 package io.deeplay.intership.ui.terminal;
 
 
+import io.deeplay.intership.service.Board;
+import io.deeplay.intership.service.Color;
+import io.deeplay.intership.service.Stone;
+
 /**
  * Интерфейс PlayerActions определяет действия игрока в игре.
  * <p>
@@ -10,10 +14,12 @@ package io.deeplay.intership.ui.terminal;
  */
 public interface PlayerActions {
 
+  void chooseGameAction(final Board board);
+
   /**
    * Определяет действие игрока "сделать ход".
    */
-  void makeMove();
+  Stone makeMove(final Board board);
 
   /**
    * Определяет действие игрока "пропустить ход".
@@ -23,7 +29,7 @@ public interface PlayerActions {
   /**
    * Определяет действие игрока "выбрать цвет".
    */
-  void chooseColor();
+  Color chooseColor();
 
   /**
    * Определяет действие игрока "начать игру".

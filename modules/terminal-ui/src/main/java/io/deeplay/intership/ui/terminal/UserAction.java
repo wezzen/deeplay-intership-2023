@@ -10,7 +10,11 @@ public enum UserAction {
   SKIP(2),
   MOVE(3),
   CHOOSE_COLOR(4),
-  END_GAME(5);
+  END_GAME(5),
+  CHOOSE_WHITE_COLOR(6),
+  CHOOSE_BLACK_COLOR(7),
+  CHOOSE_EMPTY_COLOR(8),
+  ;
 
   private final int actionCode;
 
