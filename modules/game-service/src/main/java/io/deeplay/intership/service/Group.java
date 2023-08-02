@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Group {
-  private Set<Stone> stones;
-  private Set<Stone> freeCells;
+    private Set<Stone> stones;
+    private Set<Stone> freeCells;
 
-  public Group(Set<Stone> stones, Set<Stone> freeCells) {
-    this.stones = stones;
-    this.freeCells = freeCells;
-  }
+    public Group(Set<Stone> stones, Set<Stone> freeCells) {
+        this.stones = stones;
+        this.freeCells = freeCells;
+    }
 
   public Group(){
     stones = new HashSet<>();
