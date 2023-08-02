@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 
 /**
- * Класс Converter предоставляет методы для анализа входных строк и преобразования представлений
- * символов. к соответствующим целочисленным значениям для игры в го.
+ * Класс {@code Converter} предоставляет методы для анализа входных строк и преобразования
+ * представлений символов. к соответствующим значениям для игры в го.
  */
 public class Converter {
 
@@ -29,8 +29,8 @@ public class Converter {
 
     return new Stone(
         color,
-        convertCharToInt(parse[0]) - 1,
-        convertCharToInt(parse[1]) - 1
+        convertStringToInt(parse[0]) - 1,
+        convertStringToInt(parse[1]) - 1
     );
   }
 
@@ -43,7 +43,7 @@ public class Converter {
    * @return соответствующее целочисленное значение столбца
    * @throws IllegalArgumentException, если введенный символ недействителен
    */
-  public int convertCharToInt(String str) {
+  public int convertStringToInt(String str) {
     return switch (str.toUpperCase()) {
       case "A", "1" -> 1;
       case "B", "2" -> 2;
@@ -111,11 +111,35 @@ public class Converter {
    * @param stone камень, который, нужно отобразить в выводе консоли{@link Stone}
    * @return символ соответствующий цвету камня{@link Stone}
    */
-  public char getCellSymbol(final Stone stone) {
+  public char getStoneSymbol(final Stone stone) {
     return switch (stone.getColor()) {
       case BLACK -> '-';
       case WHITE -> '+';
-      default -> '0';
+      case EMPTY -> '0';
+      default -> throw new NullPointerException();
+    };
+  }
+
+  public UserAction convertStringToAction(final String input) {
+    return switch (input) {
+      case "1" -> UserAction.START_GAME;
+      case "2" -> UserAction.SKIP;
+      case "3" -> UserAction.MOVE;
+      case "4" -> UserAction.CHOOSE_COLOR;
+      case "5" -> UserAction.END_GAME;
+      case "6" -> UserAction.CHOOSE_WHITE_COLOR;
+      case "7" -> UserAction.CHOOSE_BLACK_COLOR;
+      case "8" -> UserAction.CHOOSE_EMPTY_COLOR;
+      default -> throw new IllegalArgumentException();
+    };
+  }
+
+  public Color convertActionToColor(final UserAction action) {
+    return switch (action) {
+      case CHOOSE_BLACK_COLOR -> Color.BLACK;
+      case CHOOSE_WHITE_COLOR -> Color.WHITE;
+      case CHOOSE_EMPTY_COLOR -> Color.EMPTY;
+      default -> throw new IllegalArgumentException();
     };
   }
 }

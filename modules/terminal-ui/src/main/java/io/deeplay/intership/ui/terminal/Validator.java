@@ -41,4 +41,20 @@ public class Validator {
         number <= maxBorderValue;
   }
 
+  /**
+   * Проверяет, представляет ли данный ввод допустимое действие.
+   *
+   * @param input входная строка для проверки
+   * @return {@code true}, если ввод представляет допустимое действие (имеет длину в 1 символ), в
+   * противном случае {@code false}
+   */
+  public boolean isValidAction(String input) {
+    return input.trim().length() == 1;
+  }
+
+  public boolean isColorAction(UserAction action) {
+    return action == UserAction.CHOOSE_WHITE_COLOR ||
+        action == UserAction.CHOOSE_BLACK_COLOR ||
+        action == UserAction.CHOOSE_EMPTY_COLOR;
+  }
 }
