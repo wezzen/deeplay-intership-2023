@@ -79,19 +79,13 @@ public class UserPlayerActions implements PlayerActions {
         return converter.convertActionToColor(inputUtil.inputColorAction());
     }
 
-    /**
-     * Реализует начало игры.
-     */
-    @Override
-    public void startGame() {
-        chooseColor();
-    }
 
     /**
      * Реализует окончание игры.
+     * @param gameResult строка с результатами игры
      */
     @Override
-    public void endGame() {
-
+    public void endGame(String gameResult) {
+        display.showGameResult(gameResult);
     }
 }

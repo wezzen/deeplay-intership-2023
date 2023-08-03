@@ -31,14 +31,10 @@ public interface PlayerActions {
      */
     Color chooseColor();
 
-    /**
-     * Определяет действие игрока "начать игру".
-     */
-    void startGame();
 
     /**
      * Определяет действие игрока "завершить игру".
      */
-    void endGame();
+    void endGame(String gameResult);
 }
 
