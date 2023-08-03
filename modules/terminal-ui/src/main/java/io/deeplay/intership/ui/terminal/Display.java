@@ -52,7 +52,6 @@ public class Display {
         showHorizontalLine();
     }
 
-
     /**
      * Показывает текущее состояние игрового поля на консоли с помощью {@link BoardLogger}.
      *
@@ -126,5 +125,14 @@ public class Display {
                 "Для выбора черного цвета введите " + UserAction.CHOOSE_BLACK_COLOR.getActionCode() + "\n");
         System.out.print(
                 "Для выбора случайного цвета введите " + UserAction.CHOOSE_EMPTY_COLOR.getActionCode() + "\n");
+    }
+
+    /**
+     * Показывает результаты игры.
+     */
+    public void showGameResult(String result) {
+        System.out.println("Игра закончена.\n");
+        System.out.println("Результаты игры:\n");
+        System.out.print(result);
     }
 }
