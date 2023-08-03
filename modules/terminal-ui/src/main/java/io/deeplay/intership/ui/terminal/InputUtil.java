@@ -1,7 +1,7 @@
 package io.deeplay.intership.ui.terminal;
 
-import io.deeplay.intership.service.Color;
-import io.deeplay.intership.service.Stone;
+import io.deeplay.intership.game.Color;
+import io.deeplay.intership.game.Stone;
 
 import java.util.Scanner;
 

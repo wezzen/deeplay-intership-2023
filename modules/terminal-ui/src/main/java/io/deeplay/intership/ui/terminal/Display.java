@@ -1,7 +1,7 @@
 package io.deeplay.intership.ui.terminal;
 
-import io.deeplay.intership.service.Board;
-import io.deeplay.intership.service.BoardLogger;
+import io.deeplay.intership.game.Board;
+import io.deeplay.intership.game.BoardLogger;
 
 /**
  * Класс {@code Display} отвечает за отображение игрового поля и различных сообщений пользователю.

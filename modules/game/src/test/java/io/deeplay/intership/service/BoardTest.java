@@ -1,5 +1,7 @@
 package io.deeplay.intership.service;
 
+import io.deeplay.intership.game.Board;
+import io.deeplay.intership.game.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

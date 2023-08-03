@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":game-service"))
+    implementation(project(":game"))
 }
