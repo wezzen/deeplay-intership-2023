@@ -9,7 +9,7 @@ import java.util.Set;
  * цвета, примыкающие друг к другу по горизонтали и/или вертикали.
  */
 public class Board {
-    private static final int DEFAULT_BOARD_SIZE = 9;
+    public static final int DEFAULT_BOARD_SIZE = 9;
     private Stone[][] field;
     private Set<Group> groups;
 
@@ -33,5 +33,12 @@ public class Board {
 
     public Set<Group> getGroups() {
         return groups;
+    }
+
+    public void addGroup(Group group){
+        groups.add(group);
+    }
+    public void removeGroup(Group group){
+        groups.remove(group);
     }
 }
