@@ -41,4 +41,8 @@ public class Stone {
   public void setGroup(Group group){
     this.group = group;
   }
+
+  public void setColor(Color color){
+    this.color = color;
+  }
 }

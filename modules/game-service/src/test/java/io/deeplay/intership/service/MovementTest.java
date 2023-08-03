@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovementTest {
-    Board board;
+    Validation validation;
+
     public void setInitialStones(List<Stone> initialStones) {
-        board = new Board();
+        Board board = new Board();
         Stone[][] field = board.getField();
         for (Stone stone : initialStones) {
             field[stone.getX()][stone.getY()] = stone;
         }
+        validation = new Validation(board);
     }
 
     public boolean test1(){
@@ -25,7 +27,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 0, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 4, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = board.getField();
+        Stone[][] field = validation.getBoard().getField();
 
         Group groupTuple = new Group();
         testStones.get(3).setGroup(groupTuple);
@@ -41,7 +43,7 @@ public class MovementTest {
         testStones.get(6).getGroup().addStone(testStones.get(6));
         testStones.get(6).getGroup().addFreeCell(field[0][4]);
 
-        return board.isCorrectMove(Color.WHITE, 0, 4);
+        return validation.isCorrectMove(Color.WHITE, 0, 4);
     }
 
     public boolean test2(){
@@ -53,7 +55,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 0, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = board.getField();
+        Stone[][] field = validation.getBoard().getField();
 
         Group groupTuple = new Group();
         testStones.get(2).setGroup(groupTuple);
@@ -70,7 +72,7 @@ public class MovementTest {
         testStones.get(5).getGroup().addStone(testStones.get(5));
         testStones.get(5).getGroup().addFreeCell(field[0][2]);
 
-        return board.isCorrectMove(Color.WHITE, 0, 2);
+        return validation.isCorrectMove(Color.WHITE, 0, 2);
     }
 
     public boolean test3(){
@@ -79,7 +81,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 2, 0, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = board.getField();
+        Stone[][] field = validation.getBoard().getField();
 
         Group groupTuple = new Group();
         testStones.get(0).setGroup(groupTuple);
@@ -97,7 +99,7 @@ public class MovementTest {
         testStones.get(2).getGroup().addFreeCell(field[2][1]);
         testStones.get(2).getGroup().addFreeCell(field[3][0]);
 
-        return board.isCorrectMove(Color.WHITE, 1, 0);
+        return validation.isCorrectMove(Color.WHITE, 1, 0);
     }
 
     public boolean test4(){
@@ -116,7 +118,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 2, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 3, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = board.getField();
+        Stone[][] field = validation.getBoard().getField();
 
         testStones.get(8).getGroup().addStone(testStones.get(8));
         testStones.get(8).getGroup().addFreeCell(field[2][2]);
@@ -127,7 +129,7 @@ public class MovementTest {
         testStones.get(11).getGroup().addStone(testStones.get(11));
         testStones.get(11).getGroup().addFreeCell(field[2][2]);
 
-        return board.isCorrectMove(Color.WHITE, 2, 2);
+        return validation.isCorrectMove(Color.WHITE, 2, 2);
     }
 
     public boolean test5(){
@@ -146,7 +148,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 3, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 4, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = board.getField();
+        Stone[][] field = validation.getBoard().getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(0).getGroup().addFreeCell(field[2][2]);
@@ -157,7 +159,7 @@ public class MovementTest {
         testStones.get(3).getGroup().addStone(testStones.get(3));
         testStones.get(3).getGroup().addFreeCell(field[2][2]);
 
-        return board.isCorrectMove(Color.WHITE, 2, 2);
+        return validation.isCorrectMove(Color.WHITE, 2, 2);
     }
 
     @Test
