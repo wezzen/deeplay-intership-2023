@@ -29,11 +29,23 @@ public class Group {
     stones.add(stone);
   }
 
+  public void addStones(Set<Stone> stones){
+    this.stones.addAll(stones);
+  }
+
   public void addFreeCell(Stone stone){
     freeCells.add(stone);
   }
 
+  public void addFreeCells(Set<Stone> freeCells){
+    this.freeCells.addAll(freeCells);
+  }
+
   public int getCountOfFreeDames(){
     return freeCells.size();
+  }
+
+  public int getCountOfStones(){
+    return stones.size();
   }
 }
