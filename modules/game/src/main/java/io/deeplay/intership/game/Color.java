@@ -1,4 +1,4 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
 public enum Color {
     BLACK,

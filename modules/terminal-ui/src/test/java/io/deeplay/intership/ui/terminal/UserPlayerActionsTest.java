@@ -1,8 +1,8 @@
 package io.deeplay.intership.ui.terminal;
 
-import io.deeplay.intership.service.Board;
-import io.deeplay.intership.service.Color;
-import io.deeplay.intership.service.Stone;
+import io.deeplay.intership.game.Board;
+import io.deeplay.intership.game.Color;
+import io.deeplay.intership.game.Stone;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

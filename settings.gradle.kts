@@ -6,8 +6,8 @@ project(":client").projectDir = file("modules/client")
 include("server")
 project(":server").projectDir = file("modules/server")
 
-include("game-service")
-project(":game-service").projectDir = file("modules/game-service")
+include("game")
+project(":game").projectDir = file("modules/game")
 
 include("terminal-ui")
 project(":terminal-ui").projectDir = file("modules/terminal-ui")

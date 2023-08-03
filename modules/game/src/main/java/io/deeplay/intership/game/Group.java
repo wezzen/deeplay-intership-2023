@@ -1,4 +1,4 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
 import java.util.HashSet;
 import java.util.Set;

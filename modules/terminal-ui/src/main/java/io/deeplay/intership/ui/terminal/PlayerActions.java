@@ -1,9 +1,9 @@
 package io.deeplay.intership.ui.terminal;
 
 
-import io.deeplay.intership.service.Board;
-import io.deeplay.intership.service.Color;
-import io.deeplay.intership.service.Stone;
+import io.deeplay.intership.game.Board;
+import io.deeplay.intership.game.Color;
+import io.deeplay.intership.game.Stone;
 
 /**
  * интерфейс PlayerActions определяет действия игрока в игре.
