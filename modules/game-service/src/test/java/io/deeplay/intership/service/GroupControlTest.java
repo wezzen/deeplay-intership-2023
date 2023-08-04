@@ -13,7 +13,7 @@ public class GroupControlTest {
         Board board = new Board();
         Stone[][] field = board.getField();
         for (Stone stone : initialStones) {
-            field[stone.getX()][stone.getY()] = stone;
+            field[stone.getRowNumber()][stone.getColumnNumber()] = stone;
         }
         groupControl = new GroupControl(board);
     }
@@ -201,9 +201,8 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 1, 2));
 
-        testStones.add(new Stone(Color.WHITE, 0, 1));
         testStones.add(new Stone(Color.WHITE, 1, 0, new Group()));
-        testStones.add(new Stone(Color.WHITE, 0, 2));
+        testStones.add(new Stone(Color.WHITE, 0, 2, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 1));
         testStones.add(new Stone(Color.WHITE, 2, 2));
         testStones.add(new Stone(Color.WHITE, 1, 3, new Group()));
@@ -212,18 +211,24 @@ public class GroupControlTest {
 
         Group tuple1 = new Group();
         Group tuple2 = new Group();
-        tuple1.addStone(field[0][1]);
-        tuple1.addStone(field[0][2]);
-        tuple2.addStone(field[1][2]);
+        tuple1.addStone(field[1][1]);
+        tuple1.addStone(field[1][2]);
+        tuple2.addStone(field[2][1]);
         tuple2.addStone(field[2][2]);
+        field[1][1].setGroup(tuple1);
+        field[1][2].setGroup(tuple1);
+        field[2][1].setGroup(tuple2);
+        field[2][2].setGroup(tuple2);
 
+
+        field[1][1].getGroup().addFreeCell(field[0][0]);
         field[1][0].getGroup().addFreeCell(field[0][0]);
-        field[1][0].getGroup().addFreeCell(field[2][0]);
+        field[1][0].getGroup().addFreeCell(field[0][2]);
         field[1][3].getGroup().addFreeCell(field[0][3]);
         field[1][3].getGroup().addFreeCell(field[1][4]);
         field[1][3].getGroup().addFreeCell(field[2][3]);
-        field[0][1].getGroup().addFreeCell(field[0][0]);
-        field[0][1].getGroup().addFreeCell(field[0][3]);
+        field[0][2].getGroup().addFreeCell(field[0][1]);
+        field[0][2].getGroup().addFreeCell(field[0][3]);
         field[2][1].getGroup().addFreeCell(field[2][0]);
         field[2][1].getGroup().addFreeCell(field[2][3]);
         field[2][1].getGroup().addFreeCell(field[3][1]);
@@ -240,9 +245,8 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 1, 2));
 
-        testStones.add(new Stone(Color.WHITE, 0, 1));
         testStones.add(new Stone(Color.WHITE, 1, 0, new Group()));
-        testStones.add(new Stone(Color.WHITE, 0, 2));
+        testStones.add(new Stone(Color.WHITE, 0, 2, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 1));
         testStones.add(new Stone(Color.WHITE, 2, 2));
         setInitialStones(testStones);
@@ -250,19 +254,25 @@ public class GroupControlTest {
 
         Group tuple1 = new Group();
         Group tuple2 = new Group();
-        tuple1.addStone(field[0][1]);
-        tuple1.addStone(field[0][2]);
-        tuple2.addStone(field[1][2]);
+        tuple1.addStone(field[1][1]);
+        tuple1.addStone(field[1][2]);
+        tuple2.addStone(field[2][1]);
         tuple2.addStone(field[2][2]);
+        field[1][1].setGroup(tuple1);
+        field[1][2].setGroup(tuple1);
+        field[2][1].setGroup(tuple2);
+        field[2][2].setGroup(tuple2);
 
         field[1][0].getGroup().addFreeCell(field[0][0]);
         field[1][0].getGroup().addFreeCell(field[2][0]);
-        field[0][1].getGroup().addFreeCell(field[0][0]);
-        field[0][1].getGroup().addFreeCell(field[0][3]);
+        field[0][2].getGroup().addFreeCell(field[0][1]);
+        field[0][2].getGroup().addFreeCell(field[0][3]);
         field[2][1].getGroup().addFreeCell(field[2][0]);
         field[2][1].getGroup().addFreeCell(field[2][3]);
         field[2][1].getGroup().addFreeCell(field[3][1]);
         field[2][1].getGroup().addFreeCell(field[3][2]);
+        field[1][1].getGroup().addFreeCell(field[0][1]);
+        field[1][1].getGroup().addFreeCell(field[1][3]);
 
         field[0][1].setColor(Color.WHITE);
         groupControl.removeGroup(field[0][1]);

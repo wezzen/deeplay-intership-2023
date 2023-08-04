@@ -14,20 +14,20 @@ public class GroupControl {
     }
 
     Set<Stone> getNearStones(Stone stone, Color color){
-        int x = stone.getX();
-        int y = stone.getY();
+        int x = stone.getRowNumber();
+        int y = stone.getColumnNumber();
         Stone[][] field = board.getField();
         Set<Stone> nearStones = new HashSet<>();
         if(x > 0 && field[x-1][y].getColor() == color){
             nearStones.add(field[x-1][y]);
         }
-        if(x < board.DEFAULT_BOARD_SIZE && field[x+1][y].getColor() == color){
+        if(x < board.getField().length && field[x+1][y].getColor() == color){
             nearStones.add(field[x+1][y]);
         }
         if(y > 0 && field[x][y-1].getColor() == color){
             nearStones.add(field[x][y-1]);
         }
-        if(y < board.DEFAULT_BOARD_SIZE && field[x][y+1].getColor() == color){
+        if(y < board.getField().length && field[x][y+1].getColor() == color){
             nearStones.add(field[x][y+1]);
         }
         return nearStones;
@@ -39,7 +39,7 @@ public class GroupControl {
         Set<Stone> enemyStones = getNearStones(stone, enemyColor);
         for(Stone enemyStone : enemyStones){
             Group enemyGroup = enemyStone.getGroup();
-            if(enemyGroup.getCountOfStones() < 2){
+            if(enemyGroup.getCountOfFreeDames() < 2){
                 enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
                     @Override
                     public void accept(Stone stone) {
@@ -56,7 +56,7 @@ public class GroupControl {
         Set<Stone> friendStones = getNearStones(stone, stone.getColor());
         if(friendStones.isEmpty()){
             Group group = new Group(new HashSet<>(Arrays.asList(stone)),
-                                    getNearStones(stone, Color.EMPTY));
+                    getNearStones(stone, Color.EMPTY));
             stone.setGroup(group);
             board.addGroup(group);
         }
@@ -73,11 +73,9 @@ public class GroupControl {
             maxStone.getGroup().addStone(stone);
             maxStone.getGroup().addFreeCells(getNearStones(stone, Color.EMPTY));
             stone.setGroup(maxStone.getGroup());
-            System.out.println(maxStone.getGroup());
-            System.out.println(stone.getGroup());
 
             for(Stone friendStone : friendStones){
-                if(friendStone != maxStone){
+                if(friendStone.getGroup() != maxStone.getGroup()){
                     Group friendGroup = friendStone.getGroup();
                     friendGroup.getStones().stream().forEach(new Consumer<Stone>() {
                         @Override
@@ -90,6 +88,7 @@ public class GroupControl {
                     board.removeGroup(friendGroup);
                 }
             }
+            maxStone.getGroup().removeFreeCell(stone);
         }
     }
 }

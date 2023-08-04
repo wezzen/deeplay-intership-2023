@@ -23,10 +23,10 @@ public class Validation {
         if (y > 0 && field[x][y-1].getColor() == color){
             nearStones.add(field[x][y-1]);
         }
-        if (x < 8 && field[x+1][y].getColor() == color){
+        if (x < board.getField().length && field[x+1][y].getColor() == color){
             nearStones.add(field[x+1][y]);
         }
-        if (y < 8 && field[x][y+1].getColor() == color){
+        if (y < board.getField().length && field[x][y+1].getColor() == color){
             nearStones.add(field[x][y+1]);
         }
         return nearStones;
