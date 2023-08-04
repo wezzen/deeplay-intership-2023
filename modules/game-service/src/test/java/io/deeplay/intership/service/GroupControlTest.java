@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GroupControlTest {
-    GroupControl groupControl;
+    private GroupControl groupControl;
 
     public void setInitialStones(List<Stone> initialStones) {
         Board board = new Board();
@@ -27,7 +27,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 1, 2));
         testStones.add(new Stone(Color.WHITE, 1, 3));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         Group groupTriple = new Group();
         groupTriple.addStone(testStones.get(3));
@@ -70,7 +70,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.BLACK, 1, 2, new Group()));
         testStones.add(new Stone(Color.BLACK, 2, 1, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(1).getGroup().addStone(testStones.get(1));
@@ -96,7 +96,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 0, 1));
         testStones.add(new Stone(Color.WHITE, 0, 2));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         Group groupTuple = new Group();
         testStones.get(0).getGroup().addStone(testStones.get(0));
@@ -131,7 +131,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 1, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(1).getGroup().addStone(testStones.get(1));
@@ -159,7 +159,7 @@ public class GroupControlTest {
 
     public boolean test5(){
         setInitialStones(new ArrayList<Stone>());
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         field[0][2].setColor(Color.WHITE);
         groupControl.setGroup(field[0][2]);
@@ -174,7 +174,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 1, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(1).getGroup().addStone(testStones.get(1));
@@ -207,7 +207,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 2, 2));
         testStones.add(new Stone(Color.WHITE, 1, 3, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         Group tuple1 = new Group();
         Group tuple2 = new Group();
@@ -250,7 +250,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 2, 1));
         testStones.add(new Stone(Color.WHITE, 2, 2));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.getBoard().getField();
+        Stone[][] field = groupControl.board.getField();
 
         Group tuple1 = new Group();
         Group tuple2 = new Group();

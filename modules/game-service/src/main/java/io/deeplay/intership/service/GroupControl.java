@@ -4,13 +4,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class GroupControl {
-    private Board board;
+    public final Board board;
     public GroupControl(Board board){
         this.board = board;
-    }
-
-    public Board getBoard(){
-        return board;
     }
 
     Set<Stone> getNearStones(Stone stone, Color color){
