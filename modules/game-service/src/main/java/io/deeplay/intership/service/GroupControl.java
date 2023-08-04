@@ -39,7 +39,7 @@ public class GroupControl {
         Set<Stone> enemyStones = getNearStones(stone, enemyColor);
         for(Stone enemyStone : enemyStones){
             Group enemyGroup = enemyStone.getGroup();
-            if(enemyGroup.getCountOfStones() < 2){
+            if(enemyGroup.getCountOfFreeDames() < 2){
                 enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
                     @Override
                     public void accept(Stone stone) {
