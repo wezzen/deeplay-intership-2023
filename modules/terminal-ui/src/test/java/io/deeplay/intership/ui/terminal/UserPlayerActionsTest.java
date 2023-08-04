@@ -37,8 +37,7 @@ public class UserPlayerActionsTest {
 
     @Test
     public void testSkipTurn() {
-        final Color color = Color.BLACK;
-        final UserPlayerActions terminalUI = new UserPlayerActions(color);
+        final UserPlayerActions terminalUI = new UserPlayerActions();
         assertDoesNotThrow(terminalUI::skipTurn);
     }
 }

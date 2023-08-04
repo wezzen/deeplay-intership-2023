@@ -108,14 +108,14 @@ public class ValidatorTest {
     @Test
     public void testIsValidAction_WithCorrectData() {
         Validator validator = new Validator();
-        final String input1 = "1";
-        final String input2 = "2";
-        final String input3 = "3";
-        final String input4 = "4";
-        final String input5 = "5";
-        final String input6 = "6";
-        final String input7 = "7";
-        final String input8 = "8";
+        final int input1 = 1;
+        final int input2 = 2;
+        final int input3 = 3;
+        final int input4 = 4;
+        final int input5 = 5;
+        final int input6 = 6;
+        final int input7 = 7;
+        final int input8 = 8;
 
         assertAll(
                 () -> assertTrue(validator.isValidAction(input1)),
@@ -132,24 +132,16 @@ public class ValidatorTest {
     @Test
     public void testIsValidAction_WithIncorrectData() {
         Validator validator = new Validator();
-        final String input1 = "";
-        final String input2 = "-1";
-        final String input3 = "20";
-        final String input4 = "100";
-        final String input5 = "Ab";
-        final String input6 = "aB";
-        final String input7 = "22";
-        final String input8 = "11";
+        final int input1 = Integer.MIN_VALUE;
+        final int input2 = -1;
+        final int input3 = 20;
+        final int input4 = 100;
 
         assertAll(
                 () -> assertFalse(validator.isValidAction(input1)),
                 () -> assertFalse(validator.isValidAction(input2)),
                 () -> assertFalse(validator.isValidAction(input3)),
-                () -> assertFalse(validator.isValidAction(input4)),
-                () -> assertFalse(validator.isValidAction(input5)),
-                () -> assertFalse(validator.isValidAction(input6)),
-                () -> assertFalse(validator.isValidAction(input7)),
-                () -> assertFalse(validator.isValidAction(input8))
+                () -> assertFalse(validator.isValidAction(input4))
         );
     }
 

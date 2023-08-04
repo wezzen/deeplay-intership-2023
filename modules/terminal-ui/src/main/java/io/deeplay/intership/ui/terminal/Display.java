@@ -39,7 +39,7 @@ public class Display {
         System.out.print("Ваш ход.\n");
         System.out.print("Выберите следущее действие:\n");
         System.out.print("Чтобы сделать ход нажмите " + UserAction.MOVE.getActionCode() + "\n");
-        System.out.print("Чтобы пропустить ход нажмите " + UserAction.MOVE.getActionCode() + "\n");
+        System.out.print("Чтобы пропустить ход нажмите " + UserAction.SKIP.getActionCode() + "\n");
         showHorizontalLine();
     }
 

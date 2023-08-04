@@ -9,19 +9,15 @@ import io.deeplay.intership.game.Stone;
  * взаимодействует пользователь через консоль, чтобы играть.
  */
 public class UserPlayerActions implements PlayerActions {
-
-    private final Color color;
     private final Display display;
     private final InputUtil inputUtil;
     private final Converter converter;
+    private Color color;
 
     /**
      * Конструктор класса UserPlayerActions.
-     *
-     * @param color цвет игрока
      */
-    public UserPlayerActions(Color color) {
-        this.color = color;
+    public UserPlayerActions() {
         this.display = new Display();
         this.inputUtil = new InputUtil();
         this.converter = new Converter();
@@ -76,16 +72,22 @@ public class UserPlayerActions implements PlayerActions {
     @Override
     public Color chooseColor() {
         display.showColorSelection();
-        return converter.convertActionToColor(inputUtil.inputColorAction());
+        color = converter.convertActionToColor(inputUtil.inputColorAction());
+        return color;
     }
 
 
     /**
      * Реализует окончание игры.
+     *
      * @param gameResult строка с результатами игры
      */
     @Override
     public void endGame(String gameResult) {
         display.showGameResult(gameResult);
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
