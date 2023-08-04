@@ -60,8 +60,6 @@ public class Validation {
         else if(!emptyStones.isEmpty()){
             return true;
         }
-        else {
-            return !isSuicide(color, x, y);
-        }
+        return !isSuicide(color, x, y);
     }
 }
