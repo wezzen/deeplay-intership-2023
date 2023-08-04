@@ -17,7 +17,6 @@ public class Board {
      * Конструктор класса Board. Инициализирует двумерный массив бесцветными камнями {@link Stone}.
      * Множество групп камней инициализируется через {@link HashSet}.
      */
-
     public Board() {
         field = new Stone[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
         for (int i = 0; i < field.length; i++) {
