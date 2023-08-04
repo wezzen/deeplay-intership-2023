@@ -48,4 +48,6 @@ public class Group {
   public int getCountOfStones(){
     return stones.size();
   }
+
+  public void removeFreeCell(Stone freeCell){ freeCells.remove(freeCell);}
 }
