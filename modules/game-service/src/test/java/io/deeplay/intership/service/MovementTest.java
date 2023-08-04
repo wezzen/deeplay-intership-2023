@@ -12,7 +12,7 @@ public class MovementTest {
         Board board = new Board();
         Stone[][] field = board.getField();
         for (Stone stone : initialStones) {
-            field[stone.getX()][stone.getY()] = stone;
+            field[stone.getRowNumber()][stone.getColumnNumber()] = stone;
         }
         validation = new Validation(board);
     }
