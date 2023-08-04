@@ -45,12 +45,10 @@ public class GameLog {
         if(totalScore > 0){
             message += "Белый игрок победил со счётом: ";
             message += totalScore;
-        } else if (totalScore < 0) {
+        } else {
             message += "Черный игрок победил со счётом: ";
             totalScore = -1 * totalScore;
             message += totalScore;
-        } else {
-            message += "Игра окончена. Ничья";
         }
         logger.info(message);
     }
