@@ -4,15 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Validation {
-    private Board board;
+    public final Board board;
     private Stone[][] field;
     public Validation(Board board){
         this.board = board;
         field = board.getField();
-    }
-
-    public Board getBoard(){
-        return board;
     }
 
     private Set<Stone> getNearStones(Color color, int x, int y){
@@ -23,10 +19,10 @@ public class Validation {
         if (y > 0 && field[x][y-1].getColor() == color){
             nearStones.add(field[x][y-1]);
         }
-        if (x < 8 && field[x+1][y].getColor() == color){
+        if (x < board.getField().length && field[x+1][y].getColor() == color){
             nearStones.add(field[x+1][y]);
         }
-        if (y < 8 && field[x][y+1].getColor() == color){
+        if (y < board.getField().length && field[x][y+1].getColor() == color){
             nearStones.add(field[x][y+1]);
         }
         return nearStones;
@@ -60,8 +56,6 @@ public class Validation {
         else if(!emptyStones.isEmpty()){
             return true;
         }
-        else {
-            return !isSuicide(color, x, y);
-        }
+        return !isSuicide(color, x, y);
     }
 }

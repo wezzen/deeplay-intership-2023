@@ -27,7 +27,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 0, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 4, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = validation.getBoard().getField();
+        Stone[][] field = validation.board.getField();
 
         Group groupTuple = new Group();
         testStones.get(3).setGroup(groupTuple);
@@ -55,7 +55,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 0, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = validation.getBoard().getField();
+        Stone[][] field = validation.board.getField();
 
         Group groupTuple = new Group();
         testStones.get(2).setGroup(groupTuple);
@@ -81,7 +81,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 2, 0, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = validation.getBoard().getField();
+        Stone[][] field = validation.board.getField();
 
         Group groupTuple = new Group();
         testStones.get(0).setGroup(groupTuple);
@@ -118,7 +118,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 2, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 3, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = validation.getBoard().getField();
+        Stone[][] field = validation.board.getField();
 
         testStones.get(8).getGroup().addStone(testStones.get(8));
         testStones.get(8).getGroup().addFreeCell(field[2][2]);
@@ -148,7 +148,7 @@ public class MovementTest {
         testStones.add(new Stone(Color.WHITE, 3, 3, new Group()));
         testStones.add(new Stone(Color.WHITE, 4, 2, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = validation.getBoard().getField();
+        Stone[][] field = validation.board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(0).getGroup().addFreeCell(field[2][2]);

@@ -4,13 +4,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class GroupControl {
-    private Board board;
+    public final Board board;
     public GroupControl(Board board){
         this.board = board;
-    }
-
-    public Board getBoard(){
-        return board;
     }
 
     Set<Stone> getNearStones(Stone stone, Color color){
@@ -21,13 +17,13 @@ public class GroupControl {
         if(x > 0 && field[x-1][y].getColor() == color){
             nearStones.add(field[x-1][y]);
         }
-        if(x < board.DEFAULT_BOARD_SIZE && field[x+1][y].getColor() == color){
+        if(x < board.getField().length && field[x+1][y].getColor() == color){
             nearStones.add(field[x+1][y]);
         }
         if(y > 0 && field[x][y-1].getColor() == color){
             nearStones.add(field[x][y-1]);
         }
-        if(y < board.DEFAULT_BOARD_SIZE && field[x][y+1].getColor() == color){
+        if(y < board.getField().length && field[x][y+1].getColor() == color){
             nearStones.add(field[x][y+1]);
         }
         return nearStones;
@@ -73,11 +69,9 @@ public class GroupControl {
             maxStone.getGroup().addStone(stone);
             maxStone.getGroup().addFreeCells(getNearStones(stone, Color.EMPTY));
             stone.setGroup(maxStone.getGroup());
-            System.out.println(maxStone.getGroup());
-            System.out.println(stone.getGroup());
 
             for(Stone friendStone : friendStones){
-                if(friendStone != maxStone){
+                if(friendStone.getGroup() != maxStone.getGroup()){
                     Group friendGroup = friendStone.getGroup();
                     friendGroup.getStones().stream().forEach(new Consumer<Stone>() {
                         @Override
@@ -90,6 +84,7 @@ public class GroupControl {
                     board.removeGroup(friendGroup);
                 }
             }
+            maxStone.getGroup().removeFreeCell(stone);
         }
     }
 }

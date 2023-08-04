@@ -41,6 +41,10 @@ public class Group {
     this.freeCells.addAll(freeCells);
   }
 
+  public void removeFreeCell(Stone stone){
+    freeCells.remove(stone);
+  }
+
   public int getCountOfFreeDames(){
     return freeCells.size();
   }
