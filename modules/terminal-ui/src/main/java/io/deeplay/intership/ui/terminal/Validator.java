@@ -48,9 +48,9 @@ public class Validator {
      * @return {@code true}, если ввод представляет допустимое действие (имеет длину в 1 символ), в
      * противном случае {@code false}
      */
-    public boolean isValidAction(String input) {
-        return input != null &&
-                input.trim().length() == 1;
+    public boolean isValidAction(int input) {
+        return input == UserAction.SKIP.getActionCode() ||
+                input == UserAction.MOVE.getActionCode();
     }
 
     /**

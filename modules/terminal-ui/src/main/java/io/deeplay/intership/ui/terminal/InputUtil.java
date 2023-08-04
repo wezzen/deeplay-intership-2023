@@ -11,7 +11,6 @@ import java.util.Scanner;
  */
 public class InputUtil {
 
-    private final Scanner scanner;
     private final Converter converter;
     private final Validator validator;
 
@@ -19,7 +18,6 @@ public class InputUtil {
      * Создает новый объект InputUtil с {@link Converter} по умолчанию.
      */
     public InputUtil() {
-        this.scanner = new Scanner(System.in);
         this.converter = new Converter();
         this.validator = new Validator();
     }
@@ -31,7 +29,18 @@ public class InputUtil {
      * @throws IllegalArgumentException, если ввод не в правильном формате
      */
     public Stone inputMove(Color color) {
-        String input = scanner.nextLine();
+        final Scanner scanner = new Scanner(System.in);
+        String input = null;
+        Stone stone = null;
+
+        while (stone == null) {
+            try {
+                input = scanner.nextLine();
+                stone = converter.convertStringToStone(input, color);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Некорректный ввод");
+            }
+        }
         return converter.convertStringToStone(input, color);
     }
 
@@ -41,12 +50,20 @@ public class InputUtil {
      * @return объект {@link UserAction} на основе пользовательского ввода
      */
     public UserAction inputAction() {
-        String input;
-        do {
-            input = scanner.nextLine();
-        } while (validator.isValidAction(input));
+        final Scanner scanner = new Scanner(System.in);
+        int action = 0;
+        while (!validator.isValidAction(action)) {
+            try {
+                action = scanner.nextInt();
+                converter.convertStringToAction(action + "");
+                System.out.println(action);
+            } catch (Exception e) {
+                System.out.println("Некорректный ввод");
+                action = 0;
+            }
+        }
 
-        return converter.convertStringToAction(input);
+        return converter.convertStringToAction(action + "");
     }
 
     /**
