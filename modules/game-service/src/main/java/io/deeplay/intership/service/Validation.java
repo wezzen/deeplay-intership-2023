@@ -4,15 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Validation {
-    private Board board;
+    public final Board board;
     private Stone[][] field;
     public Validation(Board board){
         this.board = board;
         field = board.getField();
-    }
-
-    public Board getBoard(){
-        return board;
     }
 
     private Set<Stone> getNearStones(Color color, int x, int y){
