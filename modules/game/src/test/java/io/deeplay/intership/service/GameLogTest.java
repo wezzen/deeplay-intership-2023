@@ -1,5 +1,6 @@
 package io.deeplay.intership.service;
 
+import io.deeplay.intership.game.GameLog;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

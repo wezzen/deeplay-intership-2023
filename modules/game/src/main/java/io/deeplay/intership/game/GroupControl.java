@@ -1,4 +1,4 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -29,7 +29,7 @@ public class GroupControl {
         return nearStones;
     }
 
-    void removeGroup(Stone stone){
+    public void removeGroup(Stone stone){
         Color stoneColor = stone.getColor();
         Color enemyColor = Color.values()[(stoneColor.ordinal() + 1)%2];
         Set<Stone> enemyStones = getNearStones(stone, enemyColor);
