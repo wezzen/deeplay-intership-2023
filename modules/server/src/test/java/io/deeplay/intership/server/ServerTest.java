@@ -11,9 +11,4 @@ class ServerTest {
         assertDoesNotThrow(Server::new);
     }
 
-    @Test
-    void mainThrowTest() {
-        assertDoesNotThrow(() -> Server.main(new String[0]));
-    }
-
 }

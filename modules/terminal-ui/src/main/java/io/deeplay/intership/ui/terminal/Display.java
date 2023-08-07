@@ -36,7 +36,6 @@ public class Display {
      */
     public void showGameActions() {
         showHorizontalLine();
-        System.out.print("Ваш ход.\n");
         System.out.print("Выберите следущее действие:\n");
         System.out.print("Чтобы сделать ход нажмите " + UserAction.MOVE.getActionCode() + "\n");
         System.out.print("Чтобы пропустить ход нажмите " + UserAction.SKIP.getActionCode() + "\n");
@@ -58,8 +57,6 @@ public class Display {
      * @param board игровое поле {@link Board}, которое нужно вывести на консоль
      */
     public void showBoard(final Board board) {
-        showHorizontalLine();
-        System.out.println("игровое поле");
         showBoardNumeric(board);
         showHorizontalBorder(board);
 
@@ -81,7 +78,6 @@ public class Display {
         }
         System.out.println(stringBuilder);
         showHorizontalBorder(board);
-        showHorizontalLine();
     }
 
 
@@ -131,7 +127,7 @@ public class Display {
      * Показывает результаты игры.
      */
     public void showGameResult(String result) {
-        System.out.println("Игра закончена.\n");
+        System.out.println("игра закончена.\n");
         System.out.println("Результаты игры:\n");
         System.out.print(result);
     }
