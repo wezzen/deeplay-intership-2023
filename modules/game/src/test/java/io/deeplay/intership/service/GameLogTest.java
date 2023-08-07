@@ -24,6 +24,7 @@ public class GameLogTest {
                 () -> gameLog.move(new Stone(Color.EMPTY, 4, 5), Color.WHITE),
                 () -> gameLog.wrongMove(Color.BLACK),
                 () -> gameLog.deleteStones(15, Color.WHITE),
+                () -> gameLog.skipMove(Color.WHITE),
                 () -> gameLog.endGame(-34),
                 () -> gameLog.endSession()
         );
