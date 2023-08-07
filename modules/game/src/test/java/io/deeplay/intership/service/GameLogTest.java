@@ -21,7 +21,7 @@ public class GameLogTest {
                 () -> gameLog.startSession(),
                 () -> gameLog.startGame(1),
                 () -> gameLog.introducePlayers("Simon", true, "Terminator", false),
-                () -> gameLog.move(new Stone(Color.EMPTY, 4, 5), Color.WHITE),
+                () -> gameLog.move(new Stone(Color.WHITE, 4, 5)),
                 () -> gameLog.wrongMove(Color.BLACK),
                 () -> gameLog.deleteStones(15, Color.WHITE),
                 () -> gameLog.skipMove(Color.WHITE),

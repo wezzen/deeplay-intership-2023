@@ -49,7 +49,7 @@ public class Game {
         if (validation.isCorrectMove(stone.getColor(), stone.getColumnNumber(), stone.getRowNumber())) {
             checkGameOver.resetSkipCount();
             gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()].setColor(stone.getColor());
-            gameLog.move(stone, Color.WHITE);
+            gameLog.move(stone);
         } else {
             gameLog.wrongMove(Color.WHITE);
         }

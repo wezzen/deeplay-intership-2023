@@ -29,8 +29,8 @@ public class GameLog {
         message += playerWhite + "]";
         logger.info(message);
     }
-    public void move(Stone move, Color playerColor){
-        String message = String.format("%s игрок поставил камень на (%d, %d)", chooseColor(playerColor), move.getRowNumber(), move.getColumnNumber());
+    public void move(Stone move){
+        String message = String.format("%s игрок поставил камень на (%d, %d)", chooseColor(move.getColor()), move.getRowNumber(), move.getColumnNumber());
         logger.info(message);
     }
 
