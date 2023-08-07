@@ -108,34 +108,22 @@ public class ValidatorTest {
     @Test
     public void testIsValidAction_WithCorrectData() {
         Validator validator = new Validator();
-        final int input1 = 1;
-        final int input2 = 2;
-        final int input3 = 3;
-        final int input4 = 4;
-        final int input5 = 5;
-        final int input6 = 6;
-        final int input7 = 7;
-        final int input8 = 8;
+        final UserAction input1 = UserAction.SKIP;
+        final UserAction input2 = UserAction.MOVE;
 
         assertAll(
                 () -> assertTrue(validator.isValidAction(input1)),
-                () -> assertTrue(validator.isValidAction(input2)),
-                () -> assertTrue(validator.isValidAction(input3)),
-                () -> assertTrue(validator.isValidAction(input4)),
-                () -> assertTrue(validator.isValidAction(input5)),
-                () -> assertTrue(validator.isValidAction(input6)),
-                () -> assertTrue(validator.isValidAction(input7)),
-                () -> assertTrue(validator.isValidAction(input8))
+                () -> assertTrue(validator.isValidAction(input2))
         );
     }
 
     @Test
     public void testIsValidAction_WithIncorrectData() {
         Validator validator = new Validator();
-        final int input1 = Integer.MIN_VALUE;
-        final int input2 = -1;
-        final int input3 = 20;
-        final int input4 = 100;
+        final UserAction input1 = null;
+        final UserAction input2 = UserAction.START_GAME;
+        final UserAction input3 = UserAction.CHOOSE_COLOR;
+        final UserAction input4 = UserAction.END_GAME;
 
         assertAll(
                 () -> assertFalse(validator.isValidAction(input1)),

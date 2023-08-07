@@ -51,19 +51,19 @@ public class InputUtil {
      */
     public UserAction inputAction() {
         final Scanner scanner = new Scanner(System.in);
-        int action = 0;
+        String input = "";
+        UserAction action = null;
         while (!validator.isValidAction(action)) {
             try {
-                action = scanner.nextInt();
-                converter.convertStringToAction(action + "");
-                System.out.println(action);
+                input = scanner.nextLine();
+                action = converter.convertStringToAction(input.trim());
             } catch (Exception e) {
                 System.out.println("Некорректный ввод");
-                action = 0;
+                input = "";
             }
         }
 
-        return converter.convertStringToAction(action + "");
+        return converter.convertStringToAction(input + "");
     }
 
     /**

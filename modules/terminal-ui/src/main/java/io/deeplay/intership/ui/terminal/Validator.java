@@ -44,13 +44,13 @@ public class Validator {
     /**
      * Проверяет, представляет ли данный ввод допустимое действие.
      *
-     * @param input входная строка для проверки
+     * @param action действие для проверки
      * @return {@code true}, если ввод представляет допустимое действие (имеет длину в 1 символ), в
      * противном случае {@code false}
      */
-    public boolean isValidAction(int input) {
-        return input == UserAction.SKIP.getActionCode() ||
-                input == UserAction.MOVE.getActionCode();
+    public boolean isValidAction(UserAction action) {
+        return action == UserAction.SKIP ||
+                action == UserAction.MOVE;
     }
 
     /**
