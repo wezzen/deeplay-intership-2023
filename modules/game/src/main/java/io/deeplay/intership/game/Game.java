@@ -49,9 +49,9 @@ public class Game {
         if (validation.isCorrectMove(stone.getColor(), stone.getColumnNumber(), stone.getRowNumber())) {
             checkGameOver.resetSkipCount();
             gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()].setColor(stone.getColor());
-            gameLog.move(stone.getColumnNumber(), stone.getRowNumber(), stone.getColor() == Color.WHITE);
+            gameLog.move(stone, Color.WHITE);
         } else {
-            gameLog.wrongMove(stone.getColor() == Color.WHITE);
+            gameLog.wrongMove(Color.WHITE);
         }
 
         return gameField;

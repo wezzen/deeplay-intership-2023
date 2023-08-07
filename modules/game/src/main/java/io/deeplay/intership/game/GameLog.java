@@ -29,14 +29,8 @@ public class GameLog {
         message += playerWhite + "]";
         logger.info(message);
     }
-    public void move(int xPosition, int yPosition, boolean isWhite){
-        String message = "";
-        if(isWhite){
-            message += "Белый ";
-        } else{
-            message += "Черный ";
-        }
-        message += " игрок поставил камень на (" + xPosition + ", " + yPosition + ")";
+    public void move(Stone move, Color playerColor){
+        String message = String.format("%s игрок поставил камень на (%d, %d)", chooseColor(playerColor), move.getRowNumber(), move.getColumnNumber());
         logger.info(message);
     }
 
@@ -55,25 +49,25 @@ public class GameLog {
     public void endSession(){
         logger.info("Сессия закончилась");
     }
-    public void wrongMove(boolean isWhite){
-        String message = "";
-        if(isWhite){
-            message += "Белый игрок ";
-        } else {
-            message += "Черный игрок ";
-        }
-        message += "сделал неправильный ход";
+    public void wrongMove(Color playerColor){
+        String message = String.format("%s игрок сделал неправильный ход", chooseColor(playerColor));
         logger.warn(message);
     }
-    public void deleteStones(int stoneNumber, boolean isWhite){
-        String message = "";
-        if (isWhite){
-            message += "Белый ";
-        } else {
-            message += "Черный ";
-        }
-        message += "Игрок закрыл " + stoneNumber + " камней";
+    public void deleteStones(int stoneNumber, Color playerColor){
+        String message = String.format("%s игрок закрыл %d камней",chooseColor(playerColor),stoneNumber);
         logger.info(message);
     }
-
+    public void skipMove(Color playerColor){
+        String message = String.format("%s игрок пропустил ход",chooseColor(playerColor));
+        logger.info(message);
+    }
+    private String chooseColor(Color color){
+        String playersColor = "";
+        if (color == Color.WHITE){
+            playersColor += "Белый";
+        } else {
+            playersColor += "Черный";
+        }
+        return playersColor;
+    }
 }
