@@ -1,5 +1,7 @@
 package io.deeplay.intership.game;
 
+import org.apache.log4j.Logger;
+
 public class Game {
     private static int idGenerator = 1;
     private final int gameId;
@@ -27,31 +29,37 @@ public class Game {
 
     public void analyzeMove(Stone stone) {
         if (stone.getColor() == Color.EMPTY) {
-            skipTurn();
+            skipTurn(stone.getColor());
         } else {
             makeMove(stone);
         }
     }
 
-    public void skipTurn() {
-        //TODO: Skip для логгера
+    public void skipTurn(Color color) {
         if (!checkGameOver.canSkipTurn()) {
             endGame();
         }
+        gameLog.skipMove(color);
     }
 
     public Board makeMove(Stone stone) {
         if (!checkGameOver.canMakeMove(stone.getColor())) {
             //если у игрока не осталось камней, то автоматически засчитывается пропуск хода
-            skipTurn();
+            skipTurn(stone.getColor());
         }
 
-        if (validation.isCorrectMove(stone.getColor(), stone.getColumnNumber(), stone.getRowNumber())) {
-            checkGameOver.resetSkipCount();
+        if (validation.isCorrectMove(stone.getColor(), stone.getRowNumber(), stone.getColumnNumber())) {
             gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()].setColor(stone.getColor());
+            stone = gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()];
+            checkGameOver.resetSkipCount();
+            gameField.updateLastMoveState(stone);
+            groupControl.setGroup(stone);
+            groupControl.removeFreeCellFromNeighborStones(stone);
+            groupControl.removeGroup(stone);
+
             gameLog.move(stone);
         } else {
-            gameLog.wrongMove(Color.WHITE);
+            gameLog.wrongMove(stone.getColor());
         }
 
         return gameField;
