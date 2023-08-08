@@ -1,22 +1,19 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
-import io.deeplay.intership.game.Color;
-import io.deeplay.intership.game.GameLog;
-import io.deeplay.intership.game.Stone;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-
 public class GameLogTest {
     private static final GameLog gameLog = new GameLog();
+
     @BeforeAll
-    public static void initLogger(){
+    public static void initLogger() {
         gameLog.init();
     }
+
     @Test
-    public void testLogger(){
+    public void testLogger() {
         Assertions.assertAll(
                 () -> gameLog.startSession(),
                 () -> gameLog.startGame(1),
