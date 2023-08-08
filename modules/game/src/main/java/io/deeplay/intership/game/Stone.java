@@ -58,12 +58,11 @@ public class Stone {
         }
         Stone stone = (Stone) o;
         return rowNumber == stone.rowNumber && columnNumber == stone.columnNumber
-                && color == stone.color && Objects.equals(group,
-                stone.group);
+                && color == stone.color;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, rowNumber, columnNumber, group);
+        return Objects.hash(color, rowNumber, columnNumber);
     }
 }

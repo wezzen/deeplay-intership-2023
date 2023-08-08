@@ -1,5 +1,7 @@
 package io.deeplay.intership.game;
 
+import org.apache.log4j.Logger;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,7 +54,7 @@ public class Validation {
      */
     private boolean isSuicide(Color color, int x, int y) {
         Set<Stone> friendStones = getNearStones(color, x, y);
-        Set<Stone> enemyStones = getNearStones(getEnemyColor(color), x, y);
+        Set<Stone> enemyStones = getNearStones(Color.invertColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
                 if (enemyStone.getGroup().getCountOfFreeDames() < 2) {
@@ -110,7 +112,7 @@ public class Validation {
             return false;
         }
 
-        Set<Stone> enemy = getNearStones(getEnemyColor(color), x, y);
+        Set<Stone> enemy = getNearStones(Color.invertColor(color), x, y);
         for (Stone stone : enemy) {
             if (stone.getGroup().getCountOfFreeDames() == 1 &&
                     stone.getGroup().getFreeCells().contains(field[x][y])) {
@@ -118,15 +120,5 @@ public class Validation {
             }
         }
         return false;
-    }
-
-    /**
-     * Получает цвет противника для данного цвета.
-     *
-     * @param color цвет, для которого требуется цвет оппонента
-     * @return цвет соперника
-     */
-    private Color getEnemyColor(Color color) {
-        return Color.values()[(color.ordinal() + 1) % 2];
     }
 }

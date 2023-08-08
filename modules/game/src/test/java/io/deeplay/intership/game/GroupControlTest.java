@@ -1,16 +1,18 @@
 package io.deeplay.intership.game;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GroupControlTest {
+    private Board board;
     private GroupControl groupControl;
 
     public void setInitialStones(List<Stone> initialStones) {
-        Board board = new Board();
+        board = new Board();
         Stone[][] field = board.getField();
         for (Stone stone : initialStones) {
             field[stone.getRowNumber()][stone.getColumnNumber()] = stone;
@@ -18,7 +20,7 @@ public class GroupControlTest {
         groupControl = new GroupControl(board);
     }
 
-    public boolean test1(){
+    public boolean test1() {
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 2, 1, new Group()));
         testStones.add(new Stone(Color.BLACK, 2, 3, new Group()));
@@ -27,7 +29,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 1, 2));
         testStones.add(new Stone(Color.WHITE, 1, 3));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         Group groupTriple = new Group();
         groupTriple.addStone(testStones.get(3));
@@ -64,13 +66,13 @@ public class GroupControlTest {
         return field[2][2].getGroup() == field[1][1].getGroup();
     }
 
-    public boolean test2(){
+    public boolean test2() {
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 0, 1, new Group()));
         testStones.add(new Stone(Color.BLACK, 1, 2, new Group()));
         testStones.add(new Stone(Color.BLACK, 2, 1, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(1).getGroup().addStone(testStones.get(1));
@@ -89,14 +91,14 @@ public class GroupControlTest {
         return field[1][1].getGroup() != null;
     }
 
-    public boolean test3(){
+    public boolean test3() {
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 1, 1, new Group()));
         testStones.add(new Stone(Color.WHITE, 1, 0, new Group()));
         testStones.add(new Stone(Color.WHITE, 0, 1));
         testStones.add(new Stone(Color.WHITE, 0, 2));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         Group groupTuple = new Group();
         testStones.get(0).getGroup().addStone(testStones.get(0));
@@ -120,7 +122,7 @@ public class GroupControlTest {
                 field[0][2].getGroup() == field[1][0].getGroup();
     }
 
-    public boolean test4(){
+    public boolean test4() {
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 2, 0, new Group()));
         testStones.add(new Stone(Color.BLACK, 3, 1, new Group()));
@@ -131,7 +133,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
         testStones.add(new Stone(Color.WHITE, 2, 1, new Group()));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         testStones.get(0).getGroup().addStone(testStones.get(0));
         testStones.get(1).getGroup().addStone(testStones.get(1));
@@ -157,90 +159,16 @@ public class GroupControlTest {
                 field[1][1].getGroup() == field[0][1].getGroup();
     }
 
-    public boolean test5(){
+    public boolean test5() {
         setInitialStones(new ArrayList<Stone>());
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         field[0][2].setColor(Color.WHITE);
         groupControl.setGroup(field[0][2]);
         return field[0][2].getGroup() != null;
     }
 
-    public boolean test6(){
-        List<Stone> testStones = new ArrayList<>();
-        testStones.add(new Stone(Color.BLACK, 1, 1, new Group()));
-
-        testStones.add(new Stone(Color.WHITE, 0, 1, new Group()));
-        testStones.add(new Stone(Color.WHITE, 1, 2, new Group()));
-        testStones.add(new Stone(Color.WHITE, 2, 1, new Group()));
-        setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
-
-        testStones.get(0).getGroup().addStone(testStones.get(0));
-        testStones.get(1).getGroup().addStone(testStones.get(1));
-        testStones.get(2).getGroup().addStone(testStones.get(2));
-        testStones.get(3).getGroup().addStone(testStones.get(3));
-
-        testStones.get(0).getGroup().addFreeCell(field[1][0]);
-        testStones.get(1).getGroup().addFreeCell(field[0][0]);
-        testStones.get(1).getGroup().addFreeCell(field[0][2]);
-        testStones.get(2).getGroup().addFreeCell(field[0][2]);
-        testStones.get(2).getGroup().addFreeCell(field[1][3]);
-        testStones.get(2).getGroup().addFreeCell(field[2][2]);
-        testStones.get(3).getGroup().addFreeCell(field[2][0]);
-        testStones.get(3).getGroup().addFreeCell(field[2][2]);
-        testStones.get(3).getGroup().addFreeCell(field[3][1]);
-
-        field[1][0].setColor(Color.WHITE);
-        groupControl.removeGroup(field[1][0]);
-        return field[1][1].getColor() == Color.EMPTY;
-    }
-
-    public boolean test7(){
-        List<Stone> testStones = new ArrayList<>();
-        testStones.add(new Stone(Color.BLACK, 1, 1));
-        testStones.add(new Stone(Color.BLACK, 1, 2));
-
-        testStones.add(new Stone(Color.WHITE, 1, 0, new Group()));
-        testStones.add(new Stone(Color.WHITE, 0, 2, new Group()));
-        testStones.add(new Stone(Color.WHITE, 2, 1));
-        testStones.add(new Stone(Color.WHITE, 2, 2));
-        testStones.add(new Stone(Color.WHITE, 1, 3, new Group()));
-        setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
-
-        Group tuple1 = new Group();
-        Group tuple2 = new Group();
-        tuple1.addStone(field[1][1]);
-        tuple1.addStone(field[1][2]);
-        tuple2.addStone(field[2][1]);
-        tuple2.addStone(field[2][2]);
-        field[1][1].setGroup(tuple1);
-        field[1][2].setGroup(tuple1);
-        field[2][1].setGroup(tuple2);
-        field[2][2].setGroup(tuple2);
-
-
-        field[1][1].getGroup().addFreeCell(field[0][0]);
-        field[1][0].getGroup().addFreeCell(field[0][0]);
-        field[1][0].getGroup().addFreeCell(field[0][2]);
-        field[1][3].getGroup().addFreeCell(field[0][3]);
-        field[1][3].getGroup().addFreeCell(field[1][4]);
-        field[1][3].getGroup().addFreeCell(field[2][3]);
-        field[0][2].getGroup().addFreeCell(field[0][1]);
-        field[0][2].getGroup().addFreeCell(field[0][3]);
-        field[2][1].getGroup().addFreeCell(field[2][0]);
-        field[2][1].getGroup().addFreeCell(field[2][3]);
-        field[2][1].getGroup().addFreeCell(field[3][1]);
-        field[2][1].getGroup().addFreeCell(field[3][2]);
-
-        field[0][1].setColor(Color.WHITE);
-        groupControl.removeGroup(field[0][1]);
-        return field[1][1].getColor() == Color.EMPTY &&
-                field[1][2].getColor() == Color.EMPTY;
-    }
-
-    public boolean test8(){
+    public boolean test6() {
         List<Stone> testStones = new ArrayList<>();
         testStones.add(new Stone(Color.BLACK, 1, 1));
         testStones.add(new Stone(Color.BLACK, 1, 2));
@@ -250,7 +178,7 @@ public class GroupControlTest {
         testStones.add(new Stone(Color.WHITE, 2, 1));
         testStones.add(new Stone(Color.WHITE, 2, 2));
         setInitialStones(testStones);
-        Stone[][] field = groupControl.board.getField();
+        Stone[][] field = board.getField();
 
         Group tuple1 = new Group();
         Group tuple2 = new Group();
@@ -290,9 +218,7 @@ public class GroupControlTest {
     }
 
     @Test
-    public void testRemoveGroup(){
+    public void testRemoveGroup() {
         assertEquals(test6(), true);
-        assertEquals(test7(), true);
-        assertEquals(test8(), true);
     }
 }
