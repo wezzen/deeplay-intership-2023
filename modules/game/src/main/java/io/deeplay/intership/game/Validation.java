@@ -7,7 +7,7 @@ import java.util.Set;
  * Класс {@code Validation} предоставляет методы для проверки ходов и игровых ситуаций на доске го.
  */
 public class Validation {
-    public final Board board;
+    private final Board board;
     private final Stone[][] field;
     private final int FIELD_SIZE;
 
