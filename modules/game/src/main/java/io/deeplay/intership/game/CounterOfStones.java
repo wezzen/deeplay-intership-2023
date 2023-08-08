@@ -5,24 +5,17 @@ import java.util.List;
 
 public class CounterOfStones {
     private String[][] field;
-    private static int counterOfGroups = 0;
+    private int counterOfGroups = 0;
 
-    private static int whitePoints = 0;
+    private int whitePoints = 0;
 
-    private static int blackPoints = 0;
+    private int blackPoints = 0;
 
     private List<Owner> owners;
 
     public CounterOfStones(Board board){
         this.field = createField(board);
-        owners = new ArrayList<>();
-    }
-
-    public CounterOfStones(String line, int sizeField){
-        field = new String[sizeField][sizeField];
-        for(int i = 0; i < sizeField * sizeField; i++){
-            field[i/sizeField][i%sizeField] = String.valueOf(line.charAt(i));
-        }
+        counterOfGroups = blackPoints = whitePoints = 0;
         owners = new ArrayList<>();
     }
 
@@ -48,8 +41,8 @@ public class CounterOfStones {
     }
 
     public void findGroupsOfEmptyStones(){
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
+        for(int i = 0; i < field.length; i++){
+            for(int j = 0; j < field.length; j++){
                 if(field[i][j].equals("E")){
                     owners.add(Owner.NONE);
                     openGroup(i, j);
@@ -69,7 +62,7 @@ public class CounterOfStones {
                 changeOwner(field[i-1][j]);
             }
         }
-        if(i < 9){
+        if(i < field.length-1){
             if(field[i+1][j].equals("E")){
                 openGroup(i+1, j);
             }
@@ -85,7 +78,7 @@ public class CounterOfStones {
                 changeOwner(field[i][j-1]);
             }
         }
-        if(j < 9){
+        if(j < field.length-1){
             if(field[i][j+1].equals("E")){
                 openGroup(i, j+1);
             }
