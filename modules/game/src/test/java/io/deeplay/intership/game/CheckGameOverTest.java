@@ -1,7 +1,5 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
-import io.deeplay.intership.game.CheckGameOver;
-import io.deeplay.intership.game.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

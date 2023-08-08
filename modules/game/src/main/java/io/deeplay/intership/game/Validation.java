@@ -14,7 +14,7 @@ public class Validation {
     public Validation(Board board) {
         this.board = board;
         this.field = board.getField();
-        this.FIELD_SIZE = field.length;
+        this.FIELD_SIZE = field.length - 1;
     }
 
     /**
@@ -51,9 +51,8 @@ public class Validation {
      * @return {@code true}, если ход самоубийственный, иначе {@code false}
      */
     private boolean isSuicide(Color color, int x, int y) {
-        Color enemyColor = Color.values()[(color.ordinal() + 1) % 2];
         Set<Stone> friendStones = getNearStones(color, x, y);
-        Set<Stone> enemyStones = getNearStones(enemyColor, x, y);
+        Set<Stone> enemyStones = getNearStones(getEnemyColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
                 if (enemyStone.getGroup().getCountOfFreeDames() < 2) {
@@ -87,6 +86,47 @@ public class Validation {
         if (!emptyStones.isEmpty()) {
             return true;
         }
+        if (isKoSituation(color, x, y)) {
+            return false;
+        }
         return !isSuicide(color, x, y);
+    }
+
+    /**
+     * Проверяет, представляет ли позиция ситуацию Ko, в которой повторение предыдущего хода запрещено.
+     *
+     * @param color цвет игрока, делающего ход
+     * @param x     координата x в массиве {@code field} из {@link Board}
+     * @param y     координата y в массиве {@code field} из {@link Board}
+     * @return {@code true}, если ситуация Ко, иначе {@code false}
+     */
+    public boolean isKoSituation(Color color, int x, int y) {
+        Group group = field[x][y].getGroup();
+        if (group == null || group.getCountOfStones() != 1) {
+            return false;
+        }
+        Stone previousMove = board.getLastMoveByColor(color);
+        if (new Stone(color, x, y).equals(previousMove)) {
+            return false;
+        }
+
+        Set<Stone> enemy = getNearStones(getEnemyColor(color), x, y);
+        for (Stone stone : enemy) {
+            if (stone.getGroup().getCountOfFreeDames() == 1 &&
+                    stone.getGroup().getFreeCells().contains(field[x][y])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Получает цвет противника для данного цвета.
+     *
+     * @param color цвет, для которого требуется цвет оппонента
+     * @return цвет соперника
+     */
+    private Color getEnemyColor(Color color) {
+        return Color.values()[(color.ordinal() + 1) % 2];
     }
 }

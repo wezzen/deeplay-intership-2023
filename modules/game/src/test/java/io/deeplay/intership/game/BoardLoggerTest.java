@@ -1,6 +1,5 @@
-package io.deeplay.intership.service;
+package io.deeplay.intership.game;
 
-import io.deeplay.intership.game.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
