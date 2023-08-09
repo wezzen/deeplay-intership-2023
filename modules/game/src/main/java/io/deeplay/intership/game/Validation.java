@@ -1,7 +1,5 @@
 package io.deeplay.intership.game;
 
-import org.apache.log4j.Logger;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -120,5 +118,39 @@ public class Validation {
             }
         }
         return false;
+    }
+
+    /**
+     * Проверяет, является ли данная группа крепостью, что означает, что у нее больше 1 свободных дамэ, окруженных
+     * своей группой.
+     *
+     * @param group {@link Group} для проверки состояния крепости
+     * @return {@code true}, если группа является крепостью, иначе {@code false}
+     */
+    public boolean isFortress(Group group) {
+        final int freeCellsForFortress = 2;
+        if (group.getCountOfFreeDames() < freeCellsForFortress) {
+            return false;
+        }
+        Color groupColor = group.getStones().stream().toList().get(0).getColor();
+        Set<Stone> dames = group.getFreeCells();
+        int freeCellCounter = 0;
+        for (var item : dames) {
+            if (isSurroundedOneColor(item, groupColor)) {
+                freeCellCounter++;
+            }
+        }
+        return freeCellCounter > freeCellsForFortress;
+    }
+
+    /**
+     * Проверяет, окружен ли данный камень камнями определенного цвета со всех четырех сторон.
+     *
+     * @param stone - камень, который нужно проверить на окружение
+     * @param color цвет окружающих камней
+     * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
+     */
+    private boolean isSurroundedOneColor(Stone stone, Color color) {
+        return getNearStones(color, stone.getRowNumber(), stone.getColumnNumber()).size() == 4;
     }
 }
