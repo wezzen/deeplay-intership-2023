@@ -5,6 +5,11 @@ import java.util.List;
 
 public class CounterOfStones {
     private String[][] field;
+
+    private final int minRangeOfField;
+
+    private final int maxRangeOfField;
+
     private int counterOfGroups = 0;
 
     private int whitePoints = 0;
@@ -17,6 +22,8 @@ public class CounterOfStones {
         this.field = createField(board);
         counterOfGroups = blackPoints = whitePoints = 0;
         owners = new ArrayList<>();
+        minRangeOfField = 0;
+        maxRangeOfField = field.length;
     }
 
     public String[][] createField(Board board){
@@ -54,7 +61,7 @@ public class CounterOfStones {
 
     public void openGroup(int i, int j){
         field[i][j] = String.valueOf(counterOfGroups);
-        if(i > 0){
+        if(i > minRangeOfField){
             if(field[i-1][j].equals("E")){
                 openGroup(i-1, j);
             }
@@ -62,7 +69,7 @@ public class CounterOfStones {
                 changeOwner(field[i-1][j]);
             }
         }
-        if(i < field.length-1){
+        if(i < maxRangeOfField-1){
             if(field[i+1][j].equals("E")){
                 openGroup(i+1, j);
             }
@@ -70,7 +77,7 @@ public class CounterOfStones {
                 changeOwner(field[i+1][j]);
             }
         }
-        if(j > 0){
+        if(j > minRangeOfField){
             if(field[i][j-1].equals("E")){
                 openGroup(i, j-1);
             }
@@ -78,7 +85,7 @@ public class CounterOfStones {
                 changeOwner(field[i][j-1]);
             }
         }
-        if(j < field.length-1){
+        if(j < maxRangeOfField-1){
             if(field[i][j+1].equals("E")){
                 openGroup(i, j+1);
             }

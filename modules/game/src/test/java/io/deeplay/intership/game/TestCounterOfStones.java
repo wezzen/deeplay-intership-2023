@@ -20,6 +20,7 @@ public class TestCounterOfStones {
             }
         }
     }
+
     @Test
     public void testCountCapturedEmptyStones(){
         String s = "EEBEEEEWEEBEEEEWEEBBEEWWEWEEEEWEEWEWEEEEWEWEEBBEEEWEEBEBEEEEEBEEBBEEEBEEEBEEEEEEE";
