@@ -51,7 +51,8 @@ public class GroupControl {
                 enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
                     @Override
                     public void accept(Stone stone) {
-                        stone.setGroup(new Group());
+                        returnFreeCell(stone);
+                        stone.setGroup(null);
                         stone.setColor(Color.EMPTY);
                     }
                 });
@@ -61,6 +62,14 @@ public class GroupControl {
             }
         }
         return countOfRemovedStones;
+    }
+
+    private void returnFreeCell(Stone stone){
+        Color color = stone.getColor();
+        Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(color));
+        for(Stone enemyStone : enemyStones){
+            enemyStone.getGroup().addFreeCell(stone);
+        }
     }
 
     public void setGroup(Stone stone) {

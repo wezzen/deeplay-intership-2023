@@ -1,15 +1,16 @@
 package io.deeplay.intership.game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class CounterOfStones {
+    private Board board;
     private String[][] field;
     private final int MIN_FIELD_RANGE;
     private final int MAX_FIELD_RANGE;
-    private int counterOfGroups = 0;
-    private int whitePoints = 0;
-    private int blackPoints = 0;
+    private int counterOfGroups;
+    private int whitePoints;
+    private int blackPoints;
     private List<Owner> owners;
 
     public CounterOfStones(Board board) {
@@ -36,6 +37,15 @@ public class CounterOfStones {
             }
         }
         return field;
+    }
+
+    public void print(){
+        for(int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++){
+            for(int j = 0; j <= MAX_FIELD_RANGE; j++){
+                System.out.print(field[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     public void findGroupsOfEmptyStones(){
