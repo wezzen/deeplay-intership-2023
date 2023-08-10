@@ -22,19 +22,17 @@ public class CounterOfStones {
         this.field = createField(board);
     }
 
-    public String[][] createField(Board board){
+    public String[][] createField(Board board) {
         Stone[][] fieldBoard = board.getField();
         String[][] field = new String[MAX_FIELD_RANGE +1][MAX_FIELD_RANGE +1];
         for(int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++){
             for(int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++){
                 Color color = fieldBoard[i][j].getColor();
-                if(color == Color.WHITE){
+                if (color == Color.WHITE) {
                     field[i][j] = "W";
-                }
-                else if(color == Color.BLACK){
+                } else if (color == Color.BLACK) {
                     field[i][j] = "B";
-                }
-                else{
+                } else {
                     field[i][j] = "E";
                 }
             }
@@ -54,7 +52,7 @@ public class CounterOfStones {
         }
     }
 
-    public void openGroup(int i, int j){
+    public void openGroup(int i, int j) {
         field[i][j] = String.valueOf(counterOfGroups);
         if(i > MIN_FIELD_RANGE){
             if(field[i-1][j].equals("E")){
@@ -90,20 +88,17 @@ public class CounterOfStones {
         }
     }
 
-    public void changeOwner(String color){
-        if(color.equals("B")){
-            if(owners.get(counterOfGroups) == Owner.NONE){
-                owners.set(counterOfGroups,Owner.BLACK);
+    public void changeOwner(String color) {
+        if (color.equals("B")) {
+            if (owners.get(counterOfGroups) == Owner.NONE) {
+                owners.set(counterOfGroups, Owner.BLACK);
+            } else if (owners.get(counterOfGroups) == Owner.WHITE) {
+                owners.set(counterOfGroups, Owner.COMMON);
             }
-            else if(owners.get(counterOfGroups) == Owner.WHITE){
-                owners.set(counterOfGroups,Owner.COMMON);
-            }
-        }
-        else{
-            if(owners.get(counterOfGroups) == Owner.NONE){
-                owners.set(counterOfGroups,Owner.WHITE);
-            }
-            else if(owners.get(counterOfGroups) == Owner.BLACK){
+        } else {
+            if (owners.get(counterOfGroups) == Owner.NONE) {
+                owners.set(counterOfGroups, Owner.WHITE);
+            } else if (owners.get(counterOfGroups) == Owner.BLACK) {
                 owners.set(counterOfGroups, Owner.COMMON);
             }
         }
@@ -122,8 +117,7 @@ public class CounterOfStones {
                 if(!field[i][j].equals("B") && !field[i][j].equals("W")){
                     if(owners.get(Integer.valueOf(field[i][j])) == Owner.BLACK){
                         blackPoints++;
-                    }
-                    else if(owners.get(Integer.valueOf(field[i][j])) == Owner.WHITE){
+                    } else if (owners.get(Integer.valueOf(field[i][j])) == Owner.WHITE) {
                         whitePoints++;
                     }
                 }

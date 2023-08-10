@@ -1,7 +1,5 @@
 package io.deeplay.intership.game;
 
-import org.apache.log4j.Logger;
-
 public class Game {
     private static int idGenerator = 1;
     private final int gameId;
