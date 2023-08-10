@@ -141,7 +141,7 @@ public class Validation {
                 freeCellCounter++;
 
                 //получаем окружающие свои камни
-                Set<Stone> neighbors = getNearStones(
+                Set<Stone> neighbors = getNearStonesByColor(
                         groupColor,
                         emptyStone.getRowNumber(),
                         emptyStone.getColumnNumber());
@@ -164,11 +164,11 @@ public class Validation {
      * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
      */
     private boolean isSurroundedOneColor(Stone stone, Color color) {
-        return getNearStones(
+        return getNearStonesByColor(
                 Color.invertColor(color),
                 stone.getRowNumber(),
                 stone.getColumnNumber()).size() == 0 &&
-                getNearStones(
+                getNearStonesByColor(
                         Color.EMPTY,
                         stone.getRowNumber(),
                         stone.getColumnNumber()).size() == 0;
