@@ -121,4 +121,70 @@ public class Validation {
         }
         return false;
     }
+
+    /**
+     * Проверяет, является ли данная группа крепостью, что означает, что у нее больше 1 свободных дамэ, окруженных
+     * своей группой.
+     *
+     * @param group {@link Group} для проверки состояния крепости
+     * @return {@code true}, если группа является крепостью, иначе {@code false}
+     */
+    public boolean isFortress(Group group) {
+        final int freeCellsForFortress = 2;
+
+        //проверка на необходимый минимум пустых ячеек
+        final Color groupColor = group.getStones().stream().toList().get(0).getColor();
+        final Set<Stone> dames = group.getFreeCells();
+        int freeCellCounter = 0;
+        for (Stone emptyStone : dames) {
+            if (isSurroundedOneColor(emptyStone, groupColor)) {
+                freeCellCounter++;
+
+                //получаем окружающие свои камни
+                Set<Stone> neighbors = getNearStones(
+                        groupColor,
+                        emptyStone.getRowNumber(),
+                        emptyStone.getColumnNumber());
+
+                //проверяем, могут ли эти камни быть окружены
+                if (hasDifferentGroups(neighbors)) {
+                    return false;
+                }
+            }
+        }
+
+        return freeCellCounter >= freeCellsForFortress;
+    }
+
+    /**
+     * Проверяет, окружен ли данный камень камнями определенного цвета со всех четырех сторон.
+     *
+     * @param stone - камень, который нужно проверить на окружение
+     * @param color цвет окружающих камней
+     * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
+     */
+    private boolean isSurroundedOneColor(Stone stone, Color color) {
+        return getNearStones(
+                Color.invertColor(color),
+                stone.getRowNumber(),
+                stone.getColumnNumber()).size() == 0 &&
+                getNearStones(
+                        Color.EMPTY,
+                        stone.getRowNumber(),
+                        stone.getColumnNumber()).size() == 0;
+    }
+
+    /**
+     * Проверяет принадлежность всех камней из {@link Set} к одной группе камней.
+     *
+     * @param stones - {@link Set} камней, который нужно проверить
+     * @return {@code false}, если все камни принадлежат одной группе, иначе {@code true}
+     */
+    private boolean hasDifferentGroups(Set<Stone> stones) {
+        Group group = stones.stream().toList().get(0).getGroup();
+        return stones
+                .stream()
+                .filter(stone -> stone.getGroup() == group)
+                .count() != stones.size();
+    }
 }
