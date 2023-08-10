@@ -9,14 +9,14 @@ import java.util.Set;
 public class Validation {
     private final Board board;
     private final Stone[][] field;
-    private final int MAX_FIELD_VALUE;
-    private final int MIN_FIELD_VALUE;
+    private final int MIN_FIELD_RANGE;
+    private final int MAX_FIELD_RANGE;
 
     public Validation(Board board) {
         this.board = board;
         this.field = board.getField();
-        this.MAX_FIELD_VALUE = field.length - 1;
-        this.MIN_FIELD_VALUE = 0;
+        this.MAX_FIELD_RANGE = field.length - 1;
+        this.MIN_FIELD_RANGE = 0;
     }
 
     /**
@@ -27,18 +27,18 @@ public class Validation {
      * @param y     координата номера столбца в двумерном массиве {@link Stone}
      * @return набор {@code Set} соседних камней указанного цвета {@code Color}
      */
-    private Set<Stone> getNearStones(Color color, int x, int y) {
+    private Set<Stone> getNearStonesByColor(Color color, int x, int y) {
         Set<Stone> nearStones = new HashSet<>();
-        if (x > 0 && field[x - 1][y].getColor() == color) {
+        if (x > MIN_FIELD_RANGE && field[x - 1][y].getColor() == color) {
             nearStones.add(field[x - 1][y]);
         }
-        if (y > 0 && field[x][y - 1].getColor() == color) {
+        if (y > MIN_FIELD_RANGE && field[x][y - 1].getColor() == color) {
             nearStones.add(field[x][y - 1]);
         }
-        if (x < MAX_FIELD_VALUE && field[x + 1][y].getColor() == color) {
+        if (x < MAX_FIELD_RANGE && field[x + 1][y].getColor() == color) {
             nearStones.add(field[x + 1][y]);
         }
-        if (y < MAX_FIELD_VALUE && field[x][y + 1].getColor() == color) {
+        if (y < MAX_FIELD_RANGE && field[x][y + 1].getColor() == color) {
             nearStones.add(field[x][y + 1]);
         }
         return nearStones;
@@ -53,8 +53,8 @@ public class Validation {
      * @return {@code true}, если ход самоубийственный, иначе {@code false}
      */
     private boolean isSuicide(Color color, int x, int y) {
-        Set<Stone> friendStones = getNearStones(color, x, y);
-        Set<Stone> enemyStones = getNearStones(Color.invertColor(color), x, y);
+        Set<Stone> friendStones = getNearStonesByColor(color, x, y);
+        Set<Stone> enemyStones = getNearStonesByColor(Color.invertColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
                 if (enemyStone.getGroup().getCountOfFreeDames() < 2) {
@@ -84,7 +84,7 @@ public class Validation {
             return false;
         }
 
-        Set<Stone> emptyStones = getNearStones(Color.EMPTY, x, y);
+        Set<Stone> emptyStones = getNearStonesByColor(Color.EMPTY, x, y);
         if (!emptyStones.isEmpty()) {
             return true;
         }
@@ -112,7 +112,7 @@ public class Validation {
             return false;
         }
 
-        Set<Stone> enemy = getNearStones(Color.invertColor(color), x, y);
+        Set<Stone> enemy = getNearStonesByColor(Color.invertColor(color), x, y);
         for (Stone stone : enemy) {
             if (stone.getGroup().getCountOfFreeDames() == 1 &&
                     stone.getGroup().getFreeCells().contains(field[x][y])) {
@@ -141,7 +141,7 @@ public class Validation {
                 freeCellCounter++;
 
                 //получаем окружающие свои камни
-                Set<Stone> neighbors = getNearStones(
+                Set<Stone> neighbors = getNearStonesByColor(
                         groupColor,
                         emptyStone.getRowNumber(),
                         emptyStone.getColumnNumber());
@@ -164,11 +164,11 @@ public class Validation {
      * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
      */
     private boolean isSurroundedOneColor(Stone stone, Color color) {
-        return getNearStones(
+        return getNearStonesByColor(
                 Color.invertColor(color),
                 stone.getRowNumber(),
                 stone.getColumnNumber()).size() == 0 &&
-                getNearStones(
+                getNearStonesByColor(
                         Color.EMPTY,
                         stone.getRowNumber(),
                         stone.getColumnNumber()).size() == 0;

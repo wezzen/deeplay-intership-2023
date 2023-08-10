@@ -11,11 +11,13 @@ import java.util.function.Consumer;
 public class GroupControl {
     private final Logger logger = Logger.getLogger(GroupControl.class);
     private final Board board;
-    private final int MAX_SIZE;
+    private final int MAX_FIELD_RANGE;
+    private final int MIN_FIELD_RANGE;
 
     public GroupControl(Board board) {
         this.board = board;
-        MAX_SIZE = board.getField().length - 1;
+        this.MAX_FIELD_RANGE = board.getField().length - 1;
+        this.MIN_FIELD_RANGE = 0;
     }
 
     public Set<Stone> getNearStonesByColor(Stone stone, Color color) {
@@ -24,26 +26,28 @@ public class GroupControl {
         Stone[][] field = board.getField();
         Set<Stone> nearStones = new HashSet<>();
 
-        if (x > 0 && field[x - 1][y].getColor() == color) {
+        if (x > MIN_FIELD_RANGE && field[x - 1][y].getColor() == color) {
             nearStones.add(field[x - 1][y]);
         }
-        if (x < MAX_SIZE && field[x + 1][y].getColor() == color) {
+        if (x < MAX_FIELD_RANGE && field[x + 1][y].getColor() == color) {
             nearStones.add(field[x + 1][y]);
         }
-        if (y > 0 && field[x][y - 1].getColor() == color) {
+        if (y > MIN_FIELD_RANGE && field[x][y - 1].getColor() == color) {
             nearStones.add(field[x][y - 1]);
         }
-        if (y < MAX_SIZE && field[x][y + 1].getColor() == color) {
+        if (y < MAX_FIELD_RANGE && field[x][y + 1].getColor() == color) {
             nearStones.add(field[x][y + 1]);
         }
         return nearStones;
     }
 
-    public void removeGroup(Stone stone) {
+    public int removeGroup(Stone stone) {
         Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(stone.getColor()));
+        int countOfRemovedStones = 0;
         for (Stone enemyStone : enemyStones) {
             Group enemyGroup = enemyStone.getGroup();
             if (enemyGroup.getCountOfFreeDames() < 1) {
+                countOfRemovedStones += enemyGroup.getCountOfStones();
                 enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
                     @Override
                     public void accept(Stone stone) {
@@ -56,6 +60,7 @@ public class GroupControl {
                 enemyGroup.removeFreeCell(stone);
             }
         }
+        return countOfRemovedStones;
     }
 
     public void setGroup(Stone stone) {
@@ -113,16 +118,16 @@ public class GroupControl {
         int y = currentStone.getColumnNumber();
         Stone[][] field = board.getField();
         Set<Stone> nearStones = new HashSet<>();
-        if (x > 0) {
+        if (x > MIN_FIELD_RANGE) {
             nearStones.add(field[x - 1][y]);
         }
-        if (x < MAX_SIZE) {
+        if (x < MAX_FIELD_RANGE) {
             nearStones.add(field[x + 1][y]);
         }
-        if (y > 0) {
+        if (y > MIN_FIELD_RANGE) {
             nearStones.add(field[x][y - 1]);
         }
-        if (y < MAX_SIZE) {
+        if (y < MAX_FIELD_RANGE) {
             nearStones.add(field[x][y + 1]);
         }
         return nearStones;
