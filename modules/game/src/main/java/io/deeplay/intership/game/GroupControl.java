@@ -48,13 +48,11 @@ public class GroupControl {
             Group enemyGroup = enemyStone.getGroup();
             if (enemyGroup.getCountOfFreeDames() < 1) {
                 countOfRemovedStones += enemyGroup.getCountOfStones();
-                enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
-                    @Override
-                    public void accept(Stone stone) {
-                        returnFreeCell(stone);
-                        stone.setGroup(null);
-                        stone.setColor(Color.EMPTY);
-                    }
+                enemyGroup.getStones().stream().forEach((Stone eachStone) ->
+                {
+                    returnFreeCell(eachStone);
+                    eachStone.setGroup(null);
+                    eachStone.setColor(Color.EMPTY);
                 });
                 board.removeGroup(enemyGroup);
             } else {
