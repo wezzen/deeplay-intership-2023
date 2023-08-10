@@ -62,10 +62,10 @@ public class GroupControl {
         return countOfRemovedStones;
     }
 
-    private void returnFreeCell(Stone stone){
+    private void returnFreeCell(Stone stone) {
         Color color = stone.getColor();
         Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(color));
-        for(Stone enemyStone : enemyStones){
+        for(Stone enemyStone : enemyStones) {
             enemyStone.getGroup().addFreeCell(stone);
         }
     }
