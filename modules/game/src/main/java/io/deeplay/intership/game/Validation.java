@@ -147,7 +147,7 @@ public class Validation {
                         emptyStone.getColumnNumber());
 
                 //проверяем, могут ли эти камни быть окружены
-                if (hasDifferentGroups(neighbors)){
+                if (hasDifferentGroups(neighbors)) {
                     return false;
                 }
             }
@@ -164,7 +164,14 @@ public class Validation {
      * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
      */
     private boolean isSurroundedOneColor(Stone stone, Color color) {
-        return getNearStones(color, stone.getRowNumber(), stone.getColumnNumber()).size() == 4;
+        return getNearStones(
+                Color.invertColor(color),
+                stone.getRowNumber(),
+                stone.getColumnNumber()).size() == 0 &&
+                getNearStones(
+                        Color.EMPTY,
+                        stone.getRowNumber(),
+                        stone.getColumnNumber()).size() == 0;
     }
 
     private boolean hasDifferentGroups(Set<Stone> stones) {
