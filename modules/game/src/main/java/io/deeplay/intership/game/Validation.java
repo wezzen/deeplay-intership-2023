@@ -174,6 +174,12 @@ public class Validation {
                         stone.getColumnNumber()).size() == 0;
     }
 
+    /**
+     * Проверяет принадлежность всех камней из {@link Set} к одной группе камней.
+     *
+     * @param stones - {@link Set} камней, который нужно проверить
+     * @return {@code false}, если все камни принадлежат одной группе, иначе {@code true}
+     */
     private boolean hasDifferentGroups(Set<Stone> stones) {
         Group group = stones.stream().toList().get(0).getGroup();
         return stones
