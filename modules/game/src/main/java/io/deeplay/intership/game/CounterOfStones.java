@@ -7,6 +7,9 @@ public class CounterOfStones {
     private String[][] field;
     private final int minRangeOfField;
     private final int maxRangeOfField;
+    private final String WHITE = "W";
+    private final String BLACK = "B";
+    private final String EMPTY = "E";
     private int counterOfGroups = 0;
     private int whitePoints = 0;
     private int blackPoints = 0;
@@ -28,11 +31,11 @@ public class CounterOfStones {
             for (int j = 0; j < sizeOfField; j++) {
                 Color color = fieldBoard[i][j].getColor();
                 if (color == Color.WHITE) {
-                    field[i][j] = "W";
+                    field[i][j] = WHITE;
                 } else if (color == Color.BLACK) {
-                    field[i][j] = "B";
+                    field[i][j] = BLACK;
                 } else {
-                    field[i][j] = "E";
+                    field[i][j] = EMPTY;
                 }
             }
         }
@@ -42,7 +45,7 @@ public class CounterOfStones {
     public void findGroupsOfEmptyStones() {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
-                if (field[i][j].equals("E")) {
+                if (field[i][j].equals(WHITE)) {
                     owners.add(Owner.NONE);
                     openGroup(i, j);
                     counterOfGroups++;
@@ -54,37 +57,37 @@ public class CounterOfStones {
     public void openGroup(int i, int j) {
         field[i][j] = String.valueOf(counterOfGroups);
         if (i > minRangeOfField) {
-            if (field[i - 1][j].equals("E")) {
+            if (field[i - 1][j].equals(EMPTY)) {
                 openGroup(i - 1, j);
-            } else if (field[i - 1][j].equals("W") || field[i - 1][j].equals("B")) {
+            } else if (field[i - 1][j].equals(WHITE) || field[i - 1][j].equals(BLACK)) {
                 changeOwner(field[i - 1][j]);
             }
         }
         if (i < maxRangeOfField - 1) {
-            if (field[i + 1][j].equals("E")) {
+            if (field[i + 1][j].equals(EMPTY)) {
                 openGroup(i + 1, j);
-            } else if (field[i + 1][j].equals("W") || field[i + 1][j].equals("B")) {
+            } else if (field[i + 1][j].equals(WHITE) || field[i + 1][j].equals(BLACK)) {
                 changeOwner(field[i + 1][j]);
             }
         }
         if (j > minRangeOfField) {
-            if (field[i][j - 1].equals("E")) {
+            if (field[i][j - 1].equals(EMPTY)) {
                 openGroup(i, j - 1);
-            } else if (field[i][j - 1].equals("W") || field[i][j - 1].equals("B")) {
+            } else if (field[i][j - 1].equals(WHITE) || field[i][j - 1].equals(BLACK)) {
                 changeOwner(field[i][j - 1]);
             }
         }
         if (j < maxRangeOfField - 1) {
-            if (field[i][j + 1].equals("E")) {
+            if (field[i][j + 1].equals(EMPTY)) {
                 openGroup(i, j + 1);
-            } else if (field[i][j + 1].equals("W") || field[i][j + 1].equals("B")) {
+            } else if (field[i][j + 1].equals(WHITE) || field[i][j + 1].equals(BLACK)) {
                 changeOwner(field[i][j + 1]);
             }
         }
     }
 
     public void changeOwner(String color) {
-        if (color.equals("B")) {
+        if (color.equals(BLACK)) {
             if (owners.get(counterOfGroups) == Owner.NONE) {
                 owners.set(counterOfGroups, Owner.BLACK);
             } else if (owners.get(counterOfGroups) == Owner.WHITE) {
@@ -104,7 +107,7 @@ public class CounterOfStones {
         int sizeOfField = field.length;
         for (int i = 0; i < sizeOfField; i++) {
             for (int j = 0; j < sizeOfField; j++) {
-                if (!field[i][j].equals("B") && !field[i][j].equals("W")) {
+                if (!field[i][j].equals(BLACK) && !field[i][j].equals(WHITE)) {
                     if (owners.get(Integer.valueOf(field[i][j])) == Owner.BLACK) {
                         blackPoints++;
                     } else if (owners.get(Integer.valueOf(field[i][j])) == Owner.WHITE) {

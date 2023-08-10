@@ -133,7 +133,7 @@ public class Validation {
         final int freeCellsForFortress = 2;
 
         //проверка на необходимый минимум пустых ячеек
-        final Color groupColor = group.getStones().stream().toList().get(0).getColor();
+        final Color groupColor = group.getStones().iterator().next().getColor();
         final Set<Stone> dames = group.getFreeCells();
         int freeCellCounter = 0;
         for (Stone emptyStone : dames) {
@@ -181,7 +181,7 @@ public class Validation {
      * @return {@code false}, если все камни принадлежат одной группе, иначе {@code true}
      */
     private boolean hasDifferentGroups(Set<Stone> stones) {
-        Group group = stones.stream().toList().get(0).getGroup();
+        Group group = stones.iterator().next().getGroup();
         return stones
                 .stream()
                 .filter(stone -> stone.getGroup() == group)
