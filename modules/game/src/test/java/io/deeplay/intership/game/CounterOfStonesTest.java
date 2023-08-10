@@ -27,7 +27,6 @@ public class CounterOfStonesTest {
         Board board = new Board();
         setField(s, board);
         CounterOfStones counterOfStones = new CounterOfStones(board);
-        counterOfStones.print();
         counterOfStones.countCapturedEmptyStones();
         assertEquals(6, counterOfStones.getBlackPoints());
         assertEquals(8, counterOfStones.getWhitePoints());
