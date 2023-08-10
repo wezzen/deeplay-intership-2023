@@ -42,15 +42,6 @@ public class CounterOfStones {
         return field;
     }
 
-    public void print(){
-        for(int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++){
-            for(int j = 0; j <= MAX_FIELD_RANGE; j++){
-                System.out.print(field[i][j]);
-            }
-            System.out.println();
-        }
-    }
-
     public void findGroupsOfEmptyStones(){
         for(int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++){
             for(int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++){
@@ -119,6 +110,8 @@ public class CounterOfStones {
     }
 
     /**
+     * Метод ищет количество пустых камней внутри каждой замкнутой группы,
+     * подсчитывает отдельно для белых и черных.
      * Вызываем в самом конце подсчета, когда на доске остались только
      * огороженные территории, внутри которых пустые клетки
      */
