@@ -9,12 +9,14 @@ import java.util.Set;
 public class Validation {
     private final Board board;
     private final Stone[][] field;
-    private final int FIELD_SIZE;
+    private final int MAX_FIELD_VALUE;
+    private final int MIN_FIELD_VALUE;
 
     public Validation(Board board) {
         this.board = board;
         this.field = board.getField();
-        this.FIELD_SIZE = field.length - 1;
+        this.MAX_FIELD_VALUE = field.length - 1;
+        this.MIN_FIELD_VALUE = 0;
     }
 
     /**
@@ -33,10 +35,10 @@ public class Validation {
         if (y > 0 && field[x][y - 1].getColor() == color) {
             nearStones.add(field[x][y - 1]);
         }
-        if (x < FIELD_SIZE && field[x + 1][y].getColor() == color) {
+        if (x < MAX_FIELD_VALUE && field[x + 1][y].getColor() == color) {
             nearStones.add(field[x + 1][y]);
         }
-        if (y < FIELD_SIZE && field[x][y + 1].getColor() == color) {
+        if (y < MAX_FIELD_VALUE && field[x][y + 1].getColor() == color) {
             nearStones.add(field[x][y + 1]);
         }
         return nearStones;
@@ -129,18 +131,29 @@ public class Validation {
      */
     public boolean isFortress(Group group) {
         final int freeCellsForFortress = 2;
-        if (group.getCountOfFreeDames() < freeCellsForFortress) {
-            return false;
-        }
-        Color groupColor = group.getStones().stream().toList().get(0).getColor();
-        Set<Stone> dames = group.getFreeCells();
+
+        //проверка на необходимый минимум пустых ячеек
+        final Color groupColor = group.getStones().stream().toList().get(0).getColor();
+        final Set<Stone> dames = group.getFreeCells();
         int freeCellCounter = 0;
-        for (var item : dames) {
-            if (isSurroundedOneColor(item, groupColor)) {
+        for (Stone emptyStone : dames) {
+            if (isSurroundedOneColor(emptyStone, groupColor)) {
                 freeCellCounter++;
+
+                //получаем окружающие свои камни
+                Set<Stone> neighbors = getNearStones(
+                        groupColor,
+                        emptyStone.getRowNumber(),
+                        emptyStone.getColumnNumber());
+
+                //проверяем, могут ли эти камни быть окружены
+                if (hasDifferentGroups(neighbors)){
+                    return false;
+                }
             }
         }
-        return freeCellCounter > freeCellsForFortress;
+
+        return freeCellCounter >= freeCellsForFortress;
     }
 
     /**
@@ -152,5 +165,13 @@ public class Validation {
      */
     private boolean isSurroundedOneColor(Stone stone, Color color) {
         return getNearStones(color, stone.getRowNumber(), stone.getColumnNumber()).size() == 4;
+    }
+
+    private boolean hasDifferentGroups(Set<Stone> stones) {
+        Group group = stones.stream().toList().get(0).getGroup();
+        return stones
+                .stream()
+                .filter(stone -> stone.getGroup() == group)
+                .count() != stones.size();
     }
 }
