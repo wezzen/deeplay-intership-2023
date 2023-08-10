@@ -1,23 +1,25 @@
 package io.deeplay.intership.game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class CounterOfStones {
+    private Board board;
     private String[][] field;
     private final int MIN_FIELD_RANGE;
     private final int MAX_FIELD_RANGE;
-    private int counterOfGroups = 0;
-    private int whitePoints = 0;
-    private int blackPoints = 0;
+    private int counterOfGroups;
+    private int whitePoints;
+    private int blackPoints;
     private List<Owner> owners;
 
     public CounterOfStones(Board board){
-        this.field = createField(board);
+        this.board = board;
         this.owners = new ArrayList<>();
         this.MIN_FIELD_RANGE = 0;
-        this.MAX_FIELD_RANGE = field.length-1;
+        this.MAX_FIELD_RANGE = board.getField().length-1;
         counterOfGroups = blackPoints = whitePoints = 0;
+        this.field = createField(board);
     }
 
     public String[][] createField(Board board){
@@ -38,6 +40,15 @@ public class CounterOfStones {
             }
         }
         return field;
+    }
+
+    public void print(){
+        for(int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++){
+            for(int j = 0; j <= MAX_FIELD_RANGE; j++){
+                System.out.print(field[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     public void findGroupsOfEmptyStones(){
@@ -107,6 +118,10 @@ public class CounterOfStones {
         }
     }
 
+    /**
+     * Вызываем в самом конце подсчета, когда на доске остались только
+     * огороженные территории, внутри которых пустые клетки
+     */
     public void countCapturedEmptyStones(){
         findGroupsOfEmptyStones();
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
