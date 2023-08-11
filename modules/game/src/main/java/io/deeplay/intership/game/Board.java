@@ -9,9 +9,9 @@ import java.util.Set;
  * цвета, примыкающие друг к другу по горизонтали и/или вертикали.
  */
 public class Board {
-    private static final int DEFAULT_BOARD_SIZE = 9;
-    private Stone[][] field;
-    private Set<Group> groups;
+    public static final int DEFAULT_BOARD_SIZE = 9;
+    private final Stone[][] field;
+    private final Set<Group> groups;
     private Stone lastBlackMove;
     private Stone lastWhiteMove;
 
@@ -67,8 +67,5 @@ public class Board {
             case WHITE -> lastWhiteMove;
             default -> throw new IllegalStateException();
         };
-    }
-    public int getDefaultBoardSize(){
-        return DEFAULT_BOARD_SIZE;
     }
 }
