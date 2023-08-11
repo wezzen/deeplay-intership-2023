@@ -9,6 +9,6 @@ public class BotTest {
     public void RandomMoveTest(){
         Bot testBot = new Bot();
         Board board = new Board();
-        Assertions.assertEquals(Color.EMPTY, testBot.randomMove(board).getColor());
+        Assertions.assertEquals(Color.EMPTY, testBot.chooseGameAction(board).getColor());
     }
 }
