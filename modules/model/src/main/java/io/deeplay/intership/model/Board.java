@@ -68,4 +68,7 @@ public class Board {
             default -> throw new IllegalStateException();
         };
     }
+    public int getDefaultBoardSize(){
+        return DEFAULT_BOARD_SIZE;
+    }
 }
