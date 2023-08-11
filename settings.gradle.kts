@@ -10,6 +10,7 @@ include("game")
 project(":game").projectDir = file("modules/game")
 
 include("terminal-ui")
+
 project(":terminal-ui").projectDir = file("modules/user-interface/terminal-ui")
 
 include("model")
@@ -20,5 +21,10 @@ project(":validation").projectDir = file("modules/validation")
 
 include("logger")
 project(":logger").projectDir = file("modules/logger")
+
 include("random-bot")
 project(":random-bot").projectDir = file("modules/bots/random-bot")
+
+include("bot")
+project(":bot").projectDir = file("modules/bot")
+
