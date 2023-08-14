@@ -1,5 +1,6 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
