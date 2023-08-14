@@ -1,5 +1,7 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.model.Color;
+
 /**
  * Класс {@code  CheckGameOver} содержит методы проверки окончания игры.
  * Он отслеживает количество черных камней, белых камней и статус пропуска ходов.

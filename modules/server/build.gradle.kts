@@ -1,9 +1,5 @@
-plugins {
-    id("java")
-    id("application")
-}
-
 dependencies {
     implementation(project(":game"))
+    implementation(project(":model"))
     implementation(project(":terminal-ui"))
 }

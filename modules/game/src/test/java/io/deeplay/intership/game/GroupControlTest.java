@@ -1,5 +1,9 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.model.Board;
+import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Group;
+import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
