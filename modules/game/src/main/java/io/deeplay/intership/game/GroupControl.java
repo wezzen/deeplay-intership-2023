@@ -1,5 +1,9 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.model.Board;
+import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Group;
+import io.deeplay.intership.model.Stone;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;

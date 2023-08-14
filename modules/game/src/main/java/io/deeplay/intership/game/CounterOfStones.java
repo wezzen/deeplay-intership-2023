@@ -1,7 +1,10 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.model.Board;
+import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Stone;
+
 import java.util.*;
-import java.util.function.Consumer;
 
 public class CounterOfStones {
     private Board board;
