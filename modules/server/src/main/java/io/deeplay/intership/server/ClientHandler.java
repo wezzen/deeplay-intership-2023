@@ -24,11 +24,14 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-
         try (DataInputStream in = new DataInputStream(clientSocket.getInputStream());
              DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream())) {
             while (true) {
+                String clientCommand = in.readUTF();
+                String response = defineCommand(clientCommand);
                 //TODO: do something...
+                out.writeUTF(response);
+                out.flush();
             }
         } catch (IOException e) {
             logger.debug(e.getMessage());
@@ -43,4 +46,60 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public String defineCommand(String request) {
+        Dto dto = converter.JsonToObject(request);
+
+        return switch (ClientCommand.valueOf(dto.command())) {
+            case REGISTRATION -> registerUser(request);
+            case LOGIN -> login(request);
+            case LOGOUT -> logout(request);
+            case CREATE_GAME -> createGame(request);
+            case JOIN_GAME -> joinGame(request);
+            case SURRENDER_GAME -> surrenderGame(request);
+            case END_GAME -> endGame(request);
+            case TURN -> turn(request);
+            case PASS -> pass(request);
+            default -> unknownCommand();
+        };
+    }
+
+    public String registerUser(String request) {
+        return null;
+    }
+
+    public String login(String request) {
+        return null;
+    }
+
+    public String logout(String request) {
+        return null;
+    }
+
+    public String createGame(String request) {
+        return null;
+    }
+
+    public String joinGame(String request) {
+        return null;
+    }
+
+    public String surrenderGame(String request) {
+        return null;
+    }
+
+    public String endGame(String request) {
+        return null;
+    }
+
+    public String turn(String request) {
+        return null;
+    }
+
+    public String pass(String request) {
+        return null;
+    }
+
+    public String unknownCommand() {
+        return null;
+    }
 }
