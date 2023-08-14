@@ -10,8 +10,8 @@ import java.util.Set;
  */
 public class Board {
     public static final int DEFAULT_BOARD_SIZE = 9;
-    private Stone[][] field;
-    private Set<Group> groups;
+    private final Stone[][] field;
+    private final Set<Group> groups;
     private Stone lastBlackMove;
     private Stone lastWhiteMove;
 
