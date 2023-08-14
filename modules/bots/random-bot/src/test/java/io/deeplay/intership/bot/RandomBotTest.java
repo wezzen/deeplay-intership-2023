@@ -1,7 +1,7 @@
 package io.deeplay.intership.bot;
-import io.deeplay.intership.game.Board;
-import io.deeplay.intership.game.Color;
-import io.deeplay.intership.game.Stone;
+import io.deeplay.intership.model.Board;
+import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
