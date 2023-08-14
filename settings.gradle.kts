@@ -20,3 +20,5 @@ project(":validation").projectDir = file("modules/validation")
 
 include("logger")
 project(":logger").projectDir = file("modules/logger")
+include("random-bot")
+project(":random-bot").projectDir = file("modules/bots/random-bot")
