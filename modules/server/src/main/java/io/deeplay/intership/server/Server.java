@@ -1,7 +1,7 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.model.Board;
-import io.deeplay.intership.model.Color;
+import io.deeplay.intership.game.Board;
+import io.deeplay.intership.game.Color;
 import io.deeplay.intership.game.Game;
 import io.deeplay.intership.ui.terminal.UserPlayerActions;
 

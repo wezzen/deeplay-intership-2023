@@ -2,11 +2,6 @@ package io.deeplay.intership.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.deeplay.intership.model.Board;
-import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Group;
-import io.deeplay.intership.model.Stone;
-import io.deeplay.intership.validation.Validation;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,5 @@
 package io.deeplay.intership.game;
 
-import io.deeplay.intership.model.Board;
-import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Group;
-import io.deeplay.intership.validation.Validation;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +21,9 @@ public class ValidationTest {
         board.getField()[maxX][maxY].setColor(whiteColor);
 
         assertAll(
-                () -> Assertions.assertDoesNotThrow(() -> validation.isCorrectMove(blackColor, minX, minY)),
+                () -> assertDoesNotThrow(() -> validation.isCorrectMove(blackColor, minX, minY)),
                 () -> assertFalse(validation.isCorrectMove(blackColor, minX, minY)),
-                () -> Assertions.assertDoesNotThrow(() -> validation.isCorrectMove(whiteColor, maxX, maxY)),
+                () -> assertDoesNotThrow(() -> validation.isCorrectMove(whiteColor, maxX, maxY)),
                 () -> assertFalse(validation.isCorrectMove(whiteColor, maxX, maxY))
         );
     }
@@ -71,7 +66,7 @@ public class ValidationTest {
         Group group = board.getField()[0][0].getGroup();
 
         assertAll(
-                () -> Assertions.assertDoesNotThrow(() -> validation.isFortress(group)),
+                () -> assertDoesNotThrow(() -> validation.isFortress(group)),
                 () -> assertTrue(() -> validation.isFortress(group))
         );
     }
@@ -114,7 +109,7 @@ public class ValidationTest {
         Group group = board.getField()[0][0].getGroup();
 
         assertAll(
-                () -> Assertions.assertDoesNotThrow(() -> validation.isFortress(group)),
+                () -> assertDoesNotThrow(() -> validation.isFortress(group)),
                 () -> assertTrue(() -> validation.isFortress(group))
         );
     }

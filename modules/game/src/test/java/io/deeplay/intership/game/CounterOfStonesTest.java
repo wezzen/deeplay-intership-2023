@@ -1,10 +1,6 @@
 package io.deeplay.intership.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import io.deeplay.intership.model.Board;
-import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
 
 public class CounterOfStonesTest {
