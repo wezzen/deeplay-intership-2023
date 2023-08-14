@@ -7,14 +7,16 @@ import java.util.Set;
  * Класс {@code Validation} предоставляет методы для проверки ходов и игровых ситуаций на доске го.
  */
 public class Validation {
-    public final Board board;
+    private final Board board;
     private final Stone[][] field;
-    private final int FIELD_SIZE;
+    private final int MIN_FIELD_RANGE;
+    private final int MAX_FIELD_RANGE;
 
     public Validation(Board board) {
         this.board = board;
         this.field = board.getField();
-        this.FIELD_SIZE = field.length - 1;
+        this.MAX_FIELD_RANGE = field.length - 1;
+        this.MIN_FIELD_RANGE = 0;
     }
 
     /**
@@ -25,18 +27,18 @@ public class Validation {
      * @param y     координата номера столбца в двумерном массиве {@link Stone}
      * @return набор {@code Set} соседних камней указанного цвета {@code Color}
      */
-    private Set<Stone> getNearStones(Color color, int x, int y) {
+    private Set<Stone> getNearStonesByColor(Color color, int x, int y) {
         Set<Stone> nearStones = new HashSet<>();
-        if (x > 0 && field[x - 1][y].getColor() == color) {
+        if (x > MIN_FIELD_RANGE && field[x - 1][y].getColor() == color) {
             nearStones.add(field[x - 1][y]);
         }
-        if (y > 0 && field[x][y - 1].getColor() == color) {
+        if (y > MIN_FIELD_RANGE && field[x][y - 1].getColor() == color) {
             nearStones.add(field[x][y - 1]);
         }
-        if (x < FIELD_SIZE && field[x + 1][y].getColor() == color) {
+        if (x < MAX_FIELD_RANGE && field[x + 1][y].getColor() == color) {
             nearStones.add(field[x + 1][y]);
         }
-        if (y < FIELD_SIZE && field[x][y + 1].getColor() == color) {
+        if (y < MAX_FIELD_RANGE && field[x][y + 1].getColor() == color) {
             nearStones.add(field[x][y + 1]);
         }
         return nearStones;
@@ -51,8 +53,8 @@ public class Validation {
      * @return {@code true}, если ход самоубийственный, иначе {@code false}
      */
     private boolean isSuicide(Color color, int x, int y) {
-        Set<Stone> friendStones = getNearStones(color, x, y);
-        Set<Stone> enemyStones = getNearStones(getEnemyColor(color), x, y);
+        Set<Stone> friendStones = getNearStonesByColor(color, x, y);
+        Set<Stone> enemyStones = getNearStonesByColor(Color.invertColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
                 if (enemyStone.getGroup().getCountOfFreeDames() < 2) {
@@ -82,7 +84,7 @@ public class Validation {
             return false;
         }
 
-        Set<Stone> emptyStones = getNearStones(Color.EMPTY, x, y);
+        Set<Stone> emptyStones = getNearStonesByColor(Color.EMPTY, x, y);
         if (!emptyStones.isEmpty()) {
             return true;
         }
@@ -110,7 +112,7 @@ public class Validation {
             return false;
         }
 
-        Set<Stone> enemy = getNearStones(getEnemyColor(color), x, y);
+        Set<Stone> enemy = getNearStonesByColor(Color.invertColor(color), x, y);
         for (Stone stone : enemy) {
             if (stone.getGroup().getCountOfFreeDames() == 1 &&
                     stone.getGroup().getFreeCells().contains(field[x][y])) {
@@ -121,12 +123,68 @@ public class Validation {
     }
 
     /**
-     * Получает цвет противника для данного цвета.
+     * Проверяет, является ли данная группа крепостью, что означает, что у нее больше 1 свободных дамэ, окруженных
+     * своей группой.
      *
-     * @param color цвет, для которого требуется цвет оппонента
-     * @return цвет соперника
+     * @param group {@link Group} для проверки состояния крепости
+     * @return {@code true}, если группа является крепостью, иначе {@code false}
      */
-    private Color getEnemyColor(Color color) {
-        return Color.values()[(color.ordinal() + 1) % 2];
+    public boolean isFortress(Group group) {
+        final int freeCellsForFortress = 2;
+
+        //проверка на необходимый минимум пустых ячеек
+        final Color groupColor = group.getStones().stream().toList().get(0).getColor();
+        final Set<Stone> dames = group.getFreeCells();
+        int freeCellCounter = 0;
+        for (Stone emptyStone : dames) {
+            if (isSurroundedOneColor(emptyStone, groupColor)) {
+                freeCellCounter++;
+
+                //получаем окружающие свои камни
+                Set<Stone> neighbors = getNearStonesByColor(
+                        groupColor,
+                        emptyStone.getRowNumber(),
+                        emptyStone.getColumnNumber());
+
+                //проверяем, могут ли эти камни быть окружены
+                if (hasDifferentGroups(neighbors)) {
+                    return false;
+                }
+            }
+        }
+
+        return freeCellCounter >= freeCellsForFortress;
+    }
+
+    /**
+     * Проверяет, окружен ли данный камень камнями определенного цвета со всех четырех сторон.
+     *
+     * @param stone - камень, который нужно проверить на окружение
+     * @param color цвет окружающих камней
+     * @return {@code true}, если камень со всех сторон окружен камнями указанного цвета, иначе {@code false}
+     */
+    private boolean isSurroundedOneColor(Stone stone, Color color) {
+        return getNearStonesByColor(
+                Color.invertColor(color),
+                stone.getRowNumber(),
+                stone.getColumnNumber()).size() == 0 &&
+                getNearStonesByColor(
+                        Color.EMPTY,
+                        stone.getRowNumber(),
+                        stone.getColumnNumber()).size() == 0;
+    }
+
+    /**
+     * Проверяет принадлежность всех камней из {@link Set} к одной группе камней.
+     *
+     * @param stones - {@link Set} камней, который нужно проверить
+     * @return {@code false}, если все камни принадлежат одной группе, иначе {@code true}
+     */
+    private boolean hasDifferentGroups(Set<Stone> stones) {
+        Group group = stones.stream().toList().get(0).getGroup();
+        return stones
+                .stream()
+                .filter(stone -> stone.getGroup() == group)
+                .count() != stones.size();
     }
 }

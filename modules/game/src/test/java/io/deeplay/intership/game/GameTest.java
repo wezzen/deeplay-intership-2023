@@ -40,8 +40,12 @@ public class GameTest {
 
     @Test
     public void testSkipTurnSuccess() {
-        Game game = new Game();
-        assertDoesNotThrow(game::skipTurn);
+        final Game game = new Game();
+        final Color whiteColor = Color.WHITE;
+        final Color blackColor = Color.BLACK;
+
+        assertDoesNotThrow(() -> game.skipTurn(whiteColor));
+        assertDoesNotThrow(() -> game.skipTurn(blackColor));
     }
 
     @Test
@@ -76,8 +80,12 @@ public class GameTest {
     @Test
     public void testGameIsOverTrue() {
         final Game game = new Game();
-        game.skipTurn();
-        game.skipTurn();
+        final Color whiteColor = Color.WHITE;
+        final Color blackColor = Color.BLACK;
+
+        game.skipTurn(whiteColor);
+        game.skipTurn(blackColor);
+
         assertDoesNotThrow(game::gameIsOver);
         assertTrue(game::gameIsOver);
     }

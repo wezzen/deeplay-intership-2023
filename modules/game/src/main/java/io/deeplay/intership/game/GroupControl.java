@@ -1,62 +1,84 @@
 package io.deeplay.intership.game;
 
-import java.util.*;
+import org.apache.log4j.Logger;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class GroupControl {
-    public final Board board;
-    public GroupControl(Board board){
+    private final Logger logger = Logger.getLogger(GroupControl.class);
+    private final Board board;
+    private final int MAX_FIELD_RANGE;
+    private final int MIN_FIELD_RANGE;
+
+    public GroupControl(Board board) {
         this.board = board;
+        this.MAX_FIELD_RANGE = board.getField().length - 1;
+        this.MIN_FIELD_RANGE = 0;
     }
 
-    Set<Stone> getNearStones(Stone stone, Color color){
-        int x = stone.getRowNumber();
-        int y = stone.getColumnNumber();
+    public Set<Stone> getNearStonesByColor(Stone stone, Color color) {
+        final int x = stone.getRowNumber();
+        final int y = stone.getColumnNumber();
         Stone[][] field = board.getField();
         Set<Stone> nearStones = new HashSet<>();
-        if(x > 0 && field[x-1][y].getColor() == color){
-            nearStones.add(field[x-1][y]);
+
+        if (x > MIN_FIELD_RANGE && field[x - 1][y].getColor() == color) {
+            nearStones.add(field[x - 1][y]);
         }
-        if(x < board.getField().length && field[x+1][y].getColor() == color){
-            nearStones.add(field[x+1][y]);
+        if (x < MAX_FIELD_RANGE && field[x + 1][y].getColor() == color) {
+            nearStones.add(field[x + 1][y]);
         }
-        if(y > 0 && field[x][y-1].getColor() == color){
-            nearStones.add(field[x][y-1]);
+        if (y > MIN_FIELD_RANGE && field[x][y - 1].getColor() == color) {
+            nearStones.add(field[x][y - 1]);
         }
-        if(y < board.getField().length && field[x][y+1].getColor() == color){
-            nearStones.add(field[x][y+1]);
+        if (y < MAX_FIELD_RANGE && field[x][y + 1].getColor() == color) {
+            nearStones.add(field[x][y + 1]);
         }
         return nearStones;
     }
 
-    public void removeGroup(Stone stone){
-        Color stoneColor = stone.getColor();
-        Color enemyColor = Color.values()[(stoneColor.ordinal() + 1)%2];
-        Set<Stone> enemyStones = getNearStones(stone, enemyColor);
-        for(Stone enemyStone : enemyStones){
+    public int removeGroup(Stone stone) {
+        Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(stone.getColor()));
+        int countOfRemovedStones = 0;
+        for (Stone enemyStone : enemyStones) {
             Group enemyGroup = enemyStone.getGroup();
-            if(enemyGroup.getCountOfFreeDames() < 2){
-                enemyGroup.getStones().stream().forEach(new Consumer<Stone>() {
-                    @Override
-                    public void accept(Stone stone) {
-                        stone.setGroup(new Group());
-                        stone.setColor(Color.EMPTY);
-                    }
+            if (enemyGroup.getCountOfFreeDames() < 1) {
+                countOfRemovedStones += enemyGroup.getCountOfStones();
+                enemyGroup.getStones().stream().forEach((Stone eachStone) ->
+                {
+                    returnFreeCell(eachStone);
+                    eachStone.setGroup(null);
+                    eachStone.setColor(Color.EMPTY);
                 });
                 board.removeGroup(enemyGroup);
+            } else {
+                enemyGroup.removeFreeCell(stone);
             }
+        }
+        return countOfRemovedStones;
+    }
+
+    private void returnFreeCell(Stone stone) {
+        Color color = stone.getColor();
+        Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(color));
+        for(Stone enemyStone : enemyStones) {
+            enemyStone.getGroup().addFreeCell(stone);
         }
     }
 
-    public void setGroup(Stone stone){
-        Set<Stone> friendStones = getNearStones(stone, stone.getColor());
-        if(friendStones.isEmpty()){
+    public void setGroup(Stone stone) {
+        Set<Stone> friendStones = getNearStonesByColor(stone, stone.getColor());
+        if (friendStones.isEmpty()) {
+            logger.debug("не найдены смежные союзные камни");
             Group group = new Group(new HashSet<>(Arrays.asList(stone)),
-                    getNearStones(stone, Color.EMPTY));
+                    getNearStonesByColor(stone, Color.EMPTY));
             stone.setGroup(group);
             board.addGroup(group);
-        }
-        else{
+        } else {
             Stone maxStone = friendStones.stream().max(new Comparator<Stone>() {
                 @Override
                 public int compare(Stone stone1, Stone stone2) {
@@ -65,13 +87,14 @@ public class GroupControl {
                     return countOfStones1 - countOfStones2;
                 }
             }).get();
+            logger.debug("Найден смежный союзный камень с самой большой группой " + maxStone);
 
             maxStone.getGroup().addStone(stone);
-            maxStone.getGroup().addFreeCells(getNearStones(stone, Color.EMPTY));
+            maxStone.getGroup().addFreeCells(getNearStonesByColor(stone, Color.EMPTY));
             stone.setGroup(maxStone.getGroup());
 
-            for(Stone friendStone : friendStones){
-                if(friendStone.getGroup() != maxStone.getGroup()){
+            for (Stone friendStone : friendStones) {
+                if (friendStone.getGroup() != maxStone.getGroup()) {
                     Group friendGroup = friendStone.getGroup();
                     friendGroup.getStones().stream().forEach(new Consumer<Stone>() {
                         @Override
@@ -86,5 +109,34 @@ public class GroupControl {
             }
             maxStone.getGroup().removeFreeCell(stone);
         }
+    }
+
+    public void removeFreeCellFromNeighborStones(Stone stone) {
+        Set<Stone> neighborStones = getNearStones(stone);
+        for (var item : neighborStones) {
+            if (item.getGroup() != null) {
+                item.getGroup().removeFreeCell(stone);
+            }
+        }
+    }
+
+    public Set<Stone> getNearStones(Stone currentStone) {
+        int x = currentStone.getRowNumber();
+        int y = currentStone.getColumnNumber();
+        Stone[][] field = board.getField();
+        Set<Stone> nearStones = new HashSet<>();
+        if (x > MIN_FIELD_RANGE) {
+            nearStones.add(field[x - 1][y]);
+        }
+        if (x < MAX_FIELD_RANGE) {
+            nearStones.add(field[x + 1][y]);
+        }
+        if (y > MIN_FIELD_RANGE) {
+            nearStones.add(field[x][y - 1]);
+        }
+        if (y < MAX_FIELD_RANGE) {
+            nearStones.add(field[x][y + 1]);
+        }
+        return nearStones;
     }
 }
