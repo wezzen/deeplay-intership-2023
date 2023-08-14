@@ -12,5 +12,5 @@ project(":game").projectDir = file("modules/game")
 include("terminal-ui")
 project(":terminal-ui").projectDir = file("modules/terminal-ui")
 
-include("bot")
-project(":bot").projectDir = file("modules/bot")
+include("random-bot")
+project(":random-bot").projectDir = file("modules/bots/random-bot")

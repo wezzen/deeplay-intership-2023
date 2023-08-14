@@ -8,7 +8,7 @@ import io.deeplay.intership.ui.terminal.PlayerActions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bot implements PlayerActions {
+public class RandomBot implements PlayerActions {
 
     @Override
     public Stone chooseGameAction(Board board) {
