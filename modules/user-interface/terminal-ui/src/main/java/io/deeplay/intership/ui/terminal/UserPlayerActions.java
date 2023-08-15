@@ -1,7 +1,7 @@
 package io.deeplay.intership.ui.terminal;
 
+import io.deeplay.intership.action.Move;
 import io.deeplay.intership.action.PlayerActions;
-import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
@@ -13,6 +13,7 @@ public class UserPlayerActions implements PlayerActions {
     private final Display display;
     private final InputUtil inputUtil;
     private final Converter converter;
+    private String token;
     private Color color;
 
     /**
@@ -29,15 +30,15 @@ public class UserPlayerActions implements PlayerActions {
      * Выбирает одно из двух действий на основе ввода пользователя: пропустить ход или поставить
      * камень.
      *
-     * @param board класс {@link Board} хранящий состояние доски.
-     * @return камень {@link Stone} содержащий цвет игрока и координаты заданные пользователем.
+     * @param gameField массив {@link Stone} хранящий состояние доски.
+     * @return ход {@link Move} содержащий токен, цвет игрока и координаты заданные пользователем.
      */
     @Override
-    public Stone chooseGameAction(final Board board) {
-        display.showBoard(board);
+    public Move chooseGameAction(final Stone[][] gameField) {
+        display.showBoard(gameField);
         display.showGameActions();
         return switch (inputUtil.inputAction()) {
-            case MOVE -> makeMove(board);
+            case MOVE -> makeMove(gameField);
             case SKIP -> skipTurn();
             default -> throw new IllegalArgumentException();
         };
@@ -46,23 +47,33 @@ public class UserPlayerActions implements PlayerActions {
     /**
      * Делает ход в игре на основе ввода пользователя.
      *
-     * @param board класс {@link Board} хранящий состояние доски.
-     * @return камень {@link Stone} содержащий цвет игрока и координаты заданные пользователем.
+     * @param gameField массив {@link Stone} хранящий состояние доски.
+     * @return ход {@link Move} содержащий цвет игрока и координаты заданные пользователем.
      */
     @Override
-    public Stone makeMove(final Board board) {
-        display.showBoard(board);
+    public Move makeMove(final Stone[][] gameField) {
+        display.showBoard(gameField);
         display.showMoveRules();
-        return inputUtil.inputMove(color);
+        Stone stone = inputUtil.inputMove(color);
+        return new Move(
+                token,
+                stone.getColor().name(),
+                stone.getRowNumber(),
+                stone.getColumnNumber()
+        );
     }
 
     /**
      * Реализует пропуск хода игрока.
      */
     @Override
-    public Stone skipTurn() {
+    public Move skipTurn() {
         display.showAwaitState();
-        return new Stone(Color.EMPTY, 0, 0);
+        return new Move(
+                token,
+                Color.EMPTY.name(),
+                0,
+                0);
     }
 
     /**
@@ -90,5 +101,9 @@ public class UserPlayerActions implements PlayerActions {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

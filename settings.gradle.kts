@@ -10,7 +10,6 @@ include("game")
 project(":game").projectDir = file("modules/game")
 
 include("terminal-ui")
-
 project(":terminal-ui").projectDir = file("modules/user-interface/terminal-ui")
 
 include("model")
