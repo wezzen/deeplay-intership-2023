@@ -2,5 +2,5 @@ package io.deeplay.intership.dto.request;
 
 import io.deeplay.intership.dto.RequestType;
 
-public record SurrenderDTO(RequestType requestType, String token) {
+public record PassDtoRequest(RequestType requestType, String token) {
 }
