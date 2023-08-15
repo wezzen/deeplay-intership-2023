@@ -1,7 +1,6 @@
 package io.deeplay.intership.action;
 
 
-import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
@@ -11,17 +10,17 @@ import io.deeplay.intership.model.Stone;
  */
 public interface PlayerActions {
 
-    Stone chooseGameAction(final Stone[][] gameField);
+    Move chooseGameAction(final Stone[][] gameField);
 
     /**
      * Определяет действие игрока "сделать ход".
      */
-    Stone makeMove(final Stone[][] gameField);
+    Move makeMove(final Stone[][] gameField);
 
     /**
      * Определяет действие игрока "пропустить ход".
      */
-    String skipTurn();
+    Move skipTurn();
 
     /**
      * Определяет действие игрока "выбрать цвет".

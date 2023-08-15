@@ -2,6 +2,7 @@ package io.deeplay.intership.ui.terminal;
 
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.logger.BoardLogger;
+import io.deeplay.intership.model.Stone;
 
 /**
  * Класс {@code Display} отвечает за отображение игрового поля и различных сообщений пользователю.
@@ -54,41 +55,41 @@ public class Display {
     /**
      * Показывает текущее состояние игрового поля на консоли с помощью {@link BoardLogger}.
      *
-     * @param board игровое поле {@link Board}, которое нужно вывести на консоль
+     * @param gameField игровое поле в виде массива{@link Stone}, которое нужно вывести на консоль
      */
-    public void showBoard(final Board board) {
-        showBoardNumeric(board);
-        showHorizontalBorder(board);
+    public void showBoard(final Stone[][] gameField) {
+        showBoardNumeric(gameField);
+        showHorizontalBorder(gameField);
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < board.getField().length; i++) {
+        for (int i = 0; i < gameField.length; i++) {
             stringBuilder
                     .append(MIN_BORDER_VALUE + i)
                     .append("#");
-            for (int j = 0; j < board.getField()[i].length; j++) {
+            for (int j = 0; j < gameField[i].length; j++) {
                 stringBuilder
                         .append(" ")
-                        .append(converter.getStoneSymbol(board.getField()[i][j]))
+                        .append(converter.getStoneSymbol(gameField[i][j]))
                         .append(" ");
             }
             stringBuilder.append("#");
-            if (i != (board.getField().length - 1)) {
+            if (i != (gameField.length - 1)) {
                 stringBuilder.append("\n");
             }
         }
         System.out.println(stringBuilder);
-        showHorizontalBorder(board);
+        showHorizontalBorder(gameField);
     }
 
 
     /**
      * Показывает символьные обозначения столбцов игрового поля.
      *
-     * @param board игровое поле {@link Board} для расчета границы
+     * @param gameField игровое поле в виде массива {@link Stone} для расчета границы
      */
-    public void showBoardNumeric(final Board board) {
+    public void showBoardNumeric(final Stone[][] gameField) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = MIN_BORDER_VALUE; i < board.getField().length + MIN_BORDER_VALUE; i++) {
+        for (int i = MIN_BORDER_VALUE; i < gameField.length + MIN_BORDER_VALUE; i++) {
             stringBuilder
                     .append(" ")
                     .append(converter.convertIntToChar(i))
@@ -100,11 +101,11 @@ public class Display {
     /**
      * Показывает горизонтальную границу игрового поля.
      *
-     * @param board игровое поле {@link Board} для расчета границы
+     * @param gameField игровое поле в виде массива {@link Stone} для расчета границы
      */
-    public void showHorizontalBorder(final Board board) {
+    public void showHorizontalBorder(final Stone[][] gameField) {
         int symbolsForDisplay = 3;
-        System.out.print(" " + "#".repeat(symbolsForDisplay * board.getField().length + 2) + "\n");
+        System.out.print(" " + "#".repeat(symbolsForDisplay * gameField.length + 2) + "\n");
     }
 
     /**
