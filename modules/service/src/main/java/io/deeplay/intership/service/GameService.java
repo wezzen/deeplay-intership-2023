@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class GameService {
-    private ConcurrentMap<String, GameSession> games;
+    private final ConcurrentMap<String, GameSession> games;
 
     public GameService() {
-        this.games = new ConcurrentHashMap();
+        this.games = new ConcurrentHashMap<>();
     }
 
     public String createGame(final String request) {

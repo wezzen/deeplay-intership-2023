@@ -4,10 +4,15 @@ package io.deeplay.intership.service;
 import io.deeplay.intership.model.User;
 
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class UserService {
-    private ConcurrentMap<String, User> users;
+    private final ConcurrentMap<String, User> users;
+
+    public UserService() {
+        this.users = new ConcurrentHashMap<>();
+    }
 
     public boolean isAuthorized(final String token) {
         return users.containsKey(token);
