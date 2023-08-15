@@ -1,6 +1,11 @@
 package io.deeplay.intership.service;
 
-import java.util.UUID;
+import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.response.ActionDtoResponse;
+import io.deeplay.intership.dto.response.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.FinishGameDtoResponse;
+import io.deeplay.intership.dto.response.InfoDtoResponse;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -8,40 +13,31 @@ public class GameService {
     private final ConcurrentMap<String, GameSession> games;
 
     public GameService() {
+        //FIXME: заменить заглушку на работающий код
         this.games = new ConcurrentHashMap<>();
     }
 
-    public String createGame(final String request) {
-        //TODO: give param for this method
-        String uuid = UUID.randomUUID().toString();
-        GameSession gameSession = new GameSession(uuid);
-//        gameSession.addPlayer(player);
-//        games.put(gameUUID, gameSession);
-
-        return uuid;
-    }
-
-    public String joinGame(final String request) {
-        /*GameSession gameSession = games.get(gameUUID);
-        if (gameSession != null) {
-            gameSession.addPlayer(player);
-        }*/
+    public CreateGameDtoResponse createGame(final CreateGameDtoRequest dtoRequest) {
         return null;
     }
 
-    public String surrenderGame(final String request) {
+    public InfoDtoResponse joinGame(final JoinGameDtoRequest dtoRequest) {
         return null;
     }
 
-    public String endGame(final String request) {
+    public InfoDtoResponse surrenderGame(final SurrenderDtoRequest dtoRequest) {
         return null;
     }
 
-    public String turn(final String request) {
+    public FinishGameDtoResponse endGame(final FinishGameDtoRequest dtoRequest) {
         return null;
     }
 
-    public String pass(final String request) {
+    public ActionDtoResponse turn(final TurnDtoRequest dtoRequest) {
+        return null;
+    }
+
+    public ActionDtoResponse pass(final PassDtoRequest dtoRequest) {
         return null;
     }
 }
