@@ -1,5 +1,8 @@
 package io.deeplay.intership.server;
 
+import io.deeplay.intership.dto.Dto;
+import io.deeplay.intership.service.GameService;
+import io.deeplay.intership.service.UserService;
 import org.apache.log4j.Logger;
 
 import java.io.DataInputStream;
@@ -15,11 +18,15 @@ public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final int clientId;
     private final Converter converter;
+    private final GameService gameService;
+    private final UserService userService;
 
     public ClientHandler(Socket socket) {
         this.clientSocket = socket;
         this.clientId = clientIdCounter.getAndAdd(1);
         this.converter = new Converter();
+        this.gameService = new GameService();
+        this.userService = new UserService();
     }
 
     @Override
@@ -29,7 +36,6 @@ public class ClientHandler implements Runnable {
             while (true) {
                 String clientCommand = in.readUTF();
                 String response = defineCommand(clientCommand);
-                //TODO: do something...
                 out.writeUTF(response);
                 out.flush();
             }
@@ -64,39 +70,40 @@ public class ClientHandler implements Runnable {
     }
 
     public String registerUser(String request) {
-        return null;
+        //FIXME: В сервисы передавать готовые dto, из сервисов возвращать готовые response
+        return userService.register(request);
     }
 
     public String login(String request) {
-        return null;
+        return userService.authorization(request);
     }
 
     public String logout(String request) {
-        return null;
+        return userService.logout(request);
     }
 
     public String createGame(String request) {
-        return null;
+        return gameService.createGame(request);
     }
 
     public String joinGame(String request) {
-        return null;
+        return gameService.joinGame(request);
     }
 
     public String surrenderGame(String request) {
-        return null;
+        return gameService.surrenderGame(request);
     }
 
     public String endGame(String request) {
-        return null;
+        return endGame(request);
     }
 
     public String turn(String request) {
-        return null;
+        return gameService.turn(request);
     }
 
     public String pass(String request) {
-        return null;
+        return gameService.pass(request);
     }
 
     public String unknownCommand() {
