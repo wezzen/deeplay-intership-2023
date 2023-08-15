@@ -25,19 +25,20 @@ public class DisplayTest {
 
     @Test
     public void testShowBoard() {
-        Board board = new Board();
-        assertDoesNotThrow(() -> display.showBoard(board));
+        final Board board = new Board();
+        assertDoesNotThrow(() -> display.showBoard(board.getField()));
     }
 
     @Test
     public void testShowBoardNumeric() {
-        assertDoesNotThrow(() -> display.showBoardNumeric(new Board()));
+        final Board board = new Board();
+        assertDoesNotThrow(() -> display.showBoardNumeric(board.getField()));
     }
 
     @Test
     public void testShowHorizontalBorder() {
         Board board = new Board();
-        assertDoesNotThrow(() -> display.showHorizontalBorder(board));
+        assertDoesNotThrow(() -> display.showHorizontalBorder(board.getField()));
     }
 
     @Test

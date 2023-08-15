@@ -2,6 +2,7 @@ package io.deeplay.intership.action;
 
 
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Move;
 import io.deeplay.intership.model.Stone;
 
 /**

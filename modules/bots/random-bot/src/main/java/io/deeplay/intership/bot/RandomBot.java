@@ -1,6 +1,6 @@
 package io.deeplay.intership.bot;
 
-import io.deeplay.intership.action.Move;
+import io.deeplay.intership.model.Move;
 import io.deeplay.intership.action.PlayerActions;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
@@ -19,11 +19,10 @@ public class RandomBot implements PlayerActions {
 
     @Override
     public Move chooseGameAction(final Stone[][] gameField) {
-        Stone[][] field = gameField;
         boolean canMove = false;
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length && !canMove; j++) {
-                Stone stone = field[i][j];
+                Stone stone = gameField[i][j];
                 if (stone.getColor() == Color.EMPTY) {
                     canMove = true;
                 }
@@ -60,7 +59,7 @@ public class RandomBot implements PlayerActions {
 
     @Override
     public Move skipTurn() {
-        return new Move(token, "EMPTY", 0, 0);
+        return new Move(token, Color.EMPTY.name(), 0, 0);
     }
 
     @Override
