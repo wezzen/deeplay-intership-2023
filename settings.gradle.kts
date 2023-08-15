@@ -25,8 +25,5 @@ project(":logger").projectDir = file("modules/logger")
 include("random-bot")
 project(":random-bot").projectDir = file("modules/bots/random-bot")
 
-include("random-bot")
-project(":random-bot").projectDir = file("modules/bots/random-bot")
-
 include("dto")
 project(":dto").projectDir = file("modules/dto")
