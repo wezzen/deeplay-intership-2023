@@ -1,9 +1,11 @@
 package io.deeplay.intership.ui.terminal;
 
+import io.deeplay.intership.model.Move;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,14 +16,16 @@ public class UserPlayerActionsTest {
 
     @Test
     public void testMakeMove() {
+        final String token = UUID.randomUUID().toString();
         final Color color = Color.BLACK;
         final UserPlayerActions terminalUI = mock(UserPlayerActions.class);
         final Board board = mock(Board.class);
-        final Stone stone = new Stone(color, 1, 1);
-        when(terminalUI.makeMove(board)).thenReturn(stone);
+        final Move move = new Move(token, color.name(), 1, 1);
 
-        assertEquals(stone, terminalUI.makeMove(board));
-        assertDoesNotThrow(() -> terminalUI.makeMove(board));
+        when(terminalUI.makeMove(board.getField())).thenReturn(move);
+
+        assertEquals(move, terminalUI.makeMove(board.getField()));
+        assertDoesNotThrow(() -> terminalUI.makeMove(board.getField()));
     }
 
     @Test

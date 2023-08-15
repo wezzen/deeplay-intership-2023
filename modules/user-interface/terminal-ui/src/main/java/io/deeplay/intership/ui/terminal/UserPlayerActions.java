@@ -1,6 +1,6 @@
 package io.deeplay.intership.ui.terminal;
 
-import io.deeplay.intership.action.Move;
+import io.deeplay.intership.model.Move;
 import io.deeplay.intership.action.PlayerActions;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
