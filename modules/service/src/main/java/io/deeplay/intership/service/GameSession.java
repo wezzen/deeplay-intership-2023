@@ -33,4 +33,8 @@ public class GameSession {
         return gameStatus != GameStatus.WAIT_SECOND_PLAYER;
     }
 
+
+    public String getGameId() {
+        return gameId;
+    }
 }
