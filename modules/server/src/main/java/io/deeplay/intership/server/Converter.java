@@ -1,14 +1,33 @@
 package io.deeplay.intership.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.deeplay.intership.dto.Dto;
 
 public class Converter {
-    public String objectToJson(Dto dto, Class clazz) {
+    private final ObjectMapper objectMapper;
 
-        return dto.toString();
+    public Converter() {
+        this.objectMapper = new ObjectMapper();
     }
 
-    public Dto JsonToObject(String string) {
+    public <T> T getClassFromJson(String jsonString, Class<T> classOfT) {
+        try {
+            return objectMapper.readValue(jsonString, classOfT);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Dto jsonToObject(String string) {
         return null;
+    }
+
+    public String objectToJson(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

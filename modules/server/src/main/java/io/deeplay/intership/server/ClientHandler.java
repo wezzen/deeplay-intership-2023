@@ -1,6 +1,8 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.Dto;
+import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
 import org.apache.log4j.Logger;
@@ -21,12 +23,16 @@ public class ClientHandler implements Runnable {
     private final GameService gameService;
     private final UserService userService;
 
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Socket socket, GameService gameService, UserService userService) {
         this.clientSocket = socket;
         this.clientId = clientIdCounter.getAndAdd(1);
         this.converter = new Converter();
-        this.gameService = new GameService();
-        this.userService = new UserService();
+        this.gameService = gameService;
+        this.userService = userService;
+    }
+
+    public ClientHandler(Socket socket) {
+        this(socket, new GameService(), new UserService());
     }
 
     @Override
@@ -53,7 +59,7 @@ public class ClientHandler implements Runnable {
     }
 
     public String defineCommand(String request) {
-        Dto dto = converter.JsonToObject(request);
+        Dto dto = converter.jsonToObject(request);
 
         return switch (ClientCommand.valueOf(dto.command())) {
             case REGISTRATION -> registerUser(request);
@@ -70,43 +76,72 @@ public class ClientHandler implements Runnable {
     }
 
     public String registerUser(String request) {
-        //FIXME: В сервисы передавать готовые dto, из сервисов возвращать готовые response
-        return userService.register(request);
+        String message = String.format("Client %d send registration", clientId);
+        logger.debug(message);
+
+        RegistrationDtoRequest dto = converter.getClassFromJson(request, RegistrationDtoRequest.class);
+        InfoDtoResponse response = userService.register(dto);
+        return converter.objectToJson(response);
     }
 
     public String login(String request) {
-        return userService.authorization(request);
+        String message = String.format("Client %d send authorization", clientId);
+        logger.debug(message);
+
+        LoginDtoRequest dto = converter.getClassFromJson(request, LoginDtoRequest.class);
+        LoginDtoResponse response = userService.authorization(dto);
+        return converter.objectToJson(response);
     }
 
     public String logout(String request) {
-        return userService.logout(request);
+        String message = String.format("Client %d send authorization", clientId);
+        logger.debug(message);
+
+        LogoutDtoRequest dto = converter.getClassFromJson(request, LogoutDtoRequest.class);
+        var response = userService.logout(dto);
+        return converter.objectToJson(response);
     }
 
     public String createGame(String request) {
-        return gameService.createGame(request);
+        CreateGameDtoRequest dto = converter.getClassFromJson(request, CreateGameDtoRequest.class);
+        var response = gameService.createGame(dto);
+        return converter.objectToJson(response);
     }
 
     public String joinGame(String request) {
-        return gameService.joinGame(request);
+        JoinGameDtoRequest dto = converter.getClassFromJson(request, JoinGameDtoRequest.class);
+        InfoDtoResponse response = gameService.joinGame(dto);
+        return converter.objectToJson(response);
     }
 
     public String surrenderGame(String request) {
-        return gameService.surrenderGame(request);
+        SurrenderDtoRequest dto = converter.getClassFromJson(request, SurrenderDtoRequest.class);
+        InfoDtoResponse response = gameService.surrenderGame(dto);
+        return converter.objectToJson(response);
     }
 
     public String endGame(String request) {
-        return endGame(request);
+        FinishGameDtoRequest dto = converter.getClassFromJson(request, FinishGameDtoRequest.class);
+        FinishGameDtoResponse response = gameService.endGame(dto);
+        return converter.objectToJson(response);
     }
 
     public String turn(String request) {
-        return gameService.turn(request);
+        TurnDtoRequest dto = converter.getClassFromJson(request, TurnDtoRequest.class);
+        ActionDtoResponse response = gameService.turn(dto);
+        return converter.objectToJson(response);
     }
 
     public String pass(String request) {
-        return gameService.pass(request);
+        PassDtoRequest dto = converter.getClassFromJson(request, PassDtoRequest.class);
+        ActionDtoResponse response = gameService.pass(dto);
+        return converter.objectToJson(response);
     }
 
     public String unknownCommand() {
-        return null;
+        FailureDtoResponse response = new FailureDtoResponse(
+                "Unknown command",
+                "FAILURE");
+        return converter.objectToJson(response);
     }
 }
