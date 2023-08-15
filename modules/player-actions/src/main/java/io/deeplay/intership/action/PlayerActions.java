@@ -1,4 +1,4 @@
-package io.deeplay.intership.ui.terminal;
+package io.deeplay.intership.action;
 
 
 import io.deeplay.intership.model.Board;
@@ -7,24 +7,21 @@ import io.deeplay.intership.model.Stone;
 
 /**
  * интерфейс PlayerActions определяет действия игрока в игре.
- * <p>
- * игрок может сделать ход, пропустить свой ход, выбрать цвет,
- * <p>
- * начать игру и завершить игру.
+ * игрок может сделать ход, пропустить свой ход, выбрать цвет, начать игру и завершить игру.
  */
 public interface PlayerActions {
 
-    Stone chooseGameAction(final Board board);
+    Stone chooseGameAction(final Stone[][] gameField);
 
     /**
      * Определяет действие игрока "сделать ход".
      */
-    Stone makeMove(final Board board);
+    Stone makeMove(final Stone[][] gameField);
 
     /**
      * Определяет действие игрока "пропустить ход".
      */
-    Stone skipTurn();
+    String skipTurn();
 
     /**
      * Определяет действие игрока "выбрать цвет".

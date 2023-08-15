@@ -1,10 +1,9 @@
 package io.deeplay.intership.bot;
 
+import io.deeplay.intership.action.PlayerActions;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
-
-import io.deeplay.intership.ui.terminal.PlayerActions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +17,12 @@ public class RandomBot implements PlayerActions {
         for (int i = 0; i < board.DEFAULT_BOARD_SIZE; i++) {
             for (int j = 0; j < board.DEFAULT_BOARD_SIZE && !canMove; j++) {
                 Stone stone = field[i][j];
-                if(stone.getColor() == Color.EMPTY){
+                if (stone.getColor() == Color.EMPTY) {
                     canMove = true;
                 }
             }
         }
-        if(canMove){
+        if (canMove) {
             return makeMove(board);
         } else {
             return skipTurn();
@@ -37,12 +36,12 @@ public class RandomBot implements PlayerActions {
         for (int i = 0; i < board.DEFAULT_BOARD_SIZE; i++) {
             for (int j = 0; j < board.DEFAULT_BOARD_SIZE; j++) {
                 Stone stone = field[i][j];
-                if(stone.getColor() == Color.EMPTY){
+                if (stone.getColor() == Color.EMPTY) {
                     emptyStones.add(stone);
                 }
             }
         }
-        return emptyStones.get((int)(Math.random() * emptyStones.size()));
+        return emptyStones.get((int) (Math.random() * emptyStones.size()));
     }
 
     @Override
