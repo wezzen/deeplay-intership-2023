@@ -27,3 +27,6 @@ project(":random-bot").projectDir = file("modules/bots/random-bot")
 
 include("dto")
 project(":dto").projectDir = file("modules/dto")
+
+include("player-actions")
+project(":player-actions").projectDir = file("modules/player-actions")
