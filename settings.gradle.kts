@@ -32,3 +32,9 @@ project(":dto").projectDir = file("modules/dto")
 
 include("player-actions")
 project(":player-actions").projectDir = file("modules/player-actions")
+
+include("server-exception")
+project(":server-exception").projectDir = file("modules/server-exception")
+
+include("dto-validator")
+project(":dto-validator").projectDir = file("modules/dto-validator")
