@@ -42,8 +42,12 @@ public class Validator {
     }
 
     public void validationLoginDto(LoginDtoRequest dtoRequest) throws ServerException {
-        if (!isNotCorrectLogin(dtoRequest.login())) {
+        if (isNotCorrectLogin(dtoRequest.login())) {
             throw new ServerException(ErrorCode.INCORRECT_LOGIN);
+        }
+
+        if (isNotCorrectPassword(dtoRequest.passwordHash())) {
+            throw new ServerException(ErrorCode.PASSWORD_CANNOT_BE_EMPTY);
         }
 
     }
@@ -71,30 +75,34 @@ public class Validator {
     }
 
     private boolean isExistColor(String color) {
-        return color != null &&
-                (color.equals(Color.BLACK.name()) ||
-                        color.equals(Color.WHITE.name()) ||
-                        color.equals(Color.EMPTY.name()));
+        if (color == null) {
+            return false;
+        }
+        return color.equals(Color.BLACK.name()) ||
+                color.equals(Color.WHITE.name()) ||
+                color.equals(Color.EMPTY.name());
     }
 
     private boolean isNotCorrectLogin(String login) {
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]*$");
-        Matcher matcher = pattern.matcher(login);
-        return login == null ||
-                login.contains(" ") ||
+        if (login == null ||
                 login.isBlank() ||
-                matcher.matches();
+                login.contains(" ")) {
+            return true;
+        }
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]");
+        Matcher matcher = pattern.matcher(login);
+        return matcher.matches();
     }
 
     private boolean isNotCorrectToken(String token) {
-        if (token == null) {
+        if (token == null ||
+                token.isBlank() ||
+                token.contains(" ")) {
             return true;
         }
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9-]*$");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]");
         Matcher matcher = pattern.matcher(token);
-        return token.contains(" ") ||
-                token.isBlank() ||
-                matcher.matches();
+        return matcher.matches();
     }
 
     private boolean isCorrectSize(int size) {
