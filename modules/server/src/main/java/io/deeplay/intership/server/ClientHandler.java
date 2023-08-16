@@ -1,7 +1,10 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
-import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.ActionDtoResponse;
+import io.deeplay.intership.dto.response.FinishGameDtoResponse;
+import io.deeplay.intership.dto.response.InfoDtoResponse;
+import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
 import org.apache.log4j.Logger;
@@ -60,7 +63,7 @@ public class ClientHandler implements Runnable {
     public String defineCommand(String request) {
         BaseDto dto = converter.getClassFromJson(request, BaseDto.class);
 
-        return switch (dto.requestType) {
+        return switch (dto.requestType()) {
             case REGISTRATION -> registerUser(request);
             case LOGIN -> login(request);
             case LOGOUT -> logout(request);
