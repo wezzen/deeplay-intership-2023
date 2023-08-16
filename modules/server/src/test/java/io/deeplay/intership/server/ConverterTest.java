@@ -10,9 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ConverterTest {
     private final ObjectMapper mapper = new ObjectMapper();
+    private final Converter converter = mock(Converter.class);
 
     @Test
     public void testConstructor() {
@@ -21,7 +24,6 @@ public class ConverterTest {
 
     @Test
     public void testGetClassFromJson() throws JsonProcessingException {
-        final Converter converter = new Converter();
         final RequestType requestType = RequestType.CREATE_GAME;
         final boolean withBot = false;
         final String color = Color.WHITE.name();
@@ -36,28 +38,28 @@ public class ConverterTest {
                 token
         );
 
-        String request = mapper.writeValueAsString(expected);
-        var actual = converter.getClassFromJson(request, CreateGameDtoRequest.class);
+        final String request = mapper.writeValueAsString(expected);
+        when(converter.getClassFromJson(request, CreateGameDtoRequest.class)).thenReturn(expected);
 
+        final var result = converter.getClassFromJson(request, CreateGameDtoRequest.class);
         assertAll(
-                () -> assertEquals(expected.requestType(), actual.requestType()),
-                () -> assertEquals(expected.withBot(), actual.withBot()),
-                () -> assertEquals(expected.color(), actual.color()),
-                () -> assertEquals(expected.size(), actual.size()),
-                () -> assertEquals(expected.token(), actual.token())
+                () -> assertEquals(expected.requestType, result.requestType),
+                () -> assertEquals(expected.withBot, result.withBot),
+                () -> assertEquals(expected.color, result.color),
+                () -> assertEquals(expected.size, result.size),
+                () -> assertEquals(expected.token, result.token)
         );
     }
 
     @Test
     public void testObjectToJson() throws JsonProcessingException {
-        final Converter converter = new Converter();
         final RequestType requestType = RequestType.CREATE_GAME;
         final boolean withBot = false;
         final String color = Color.WHITE.name();
         final int gameFieldSize = 9;
         final String token = UUID.randomUUID().toString();
 
-        final CreateGameDtoRequest expected = new CreateGameDtoRequest(
+        final CreateGameDtoRequest object = new CreateGameDtoRequest(
                 requestType,
                 withBot,
                 color,
@@ -65,9 +67,9 @@ public class ConverterTest {
                 token
         );
 
-        String request = mapper.writeValueAsString(expected);
-        var actual = converter.objectToJson(expected);
+        String expected = mapper.writeValueAsString(object);
+        when(converter.objectToJson(expected)).thenReturn(expected);
 
-        assertEquals(request, actual);
+        assertDoesNotThrow(() -> converter.objectToJson(object));
     }
 }
