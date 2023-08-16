@@ -1,6 +1,5 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.dto.Dto;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.service.GameService;
@@ -23,16 +22,16 @@ public class ClientHandler implements Runnable {
     private final GameService gameService;
     private final UserService userService;
 
-    public ClientHandler(Socket socket, GameService gameService, UserService userService) {
+    public ClientHandler(Socket socket, GameService gameService, UserService userService, Converter converter) {
         this.clientSocket = socket;
         this.clientId = clientIdCounter.getAndAdd(1);
-        this.converter = new Converter();
+        this.converter = converter;
         this.gameService = gameService;
         this.userService = userService;
     }
 
     public ClientHandler(Socket socket) {
-        this(socket, new GameService(), new UserService());
+        this(socket, new GameService(), new UserService(), new Converter());
     }
 
     @Override
@@ -59,19 +58,18 @@ public class ClientHandler implements Runnable {
     }
 
     public String defineCommand(String request) {
-        Dto dto = converter.jsonToObject(request);
+        BaseDto dto = converter.getClassFromJson(request, BaseDto.class);
 
-        return switch (ClientCommand.valueOf(dto.command())) {
+        return switch (dto.requestType) {
             case REGISTRATION -> registerUser(request);
             case LOGIN -> login(request);
             case LOGOUT -> logout(request);
             case CREATE_GAME -> createGame(request);
             case JOIN_GAME -> joinGame(request);
-            case SURRENDER_GAME -> surrenderGame(request);
-            case END_GAME -> endGame(request);
+            case SURRENDER -> surrenderGame(request);
+            case FINISH_GAME -> endGame(request);
             case TURN -> turn(request);
             case PASS -> pass(request);
-            default -> unknownCommand();
         };
     }
 
@@ -135,13 +133,6 @@ public class ClientHandler implements Runnable {
     public String pass(String request) {
         PassDtoRequest dto = converter.getClassFromJson(request, PassDtoRequest.class);
         ActionDtoResponse response = gameService.pass(dto);
-        return converter.objectToJson(response);
-    }
-
-    public String unknownCommand() {
-        FailureDtoResponse response = new FailureDtoResponse(
-                "Unknown command",
-                "FAILURE");
         return converter.objectToJson(response);
     }
 }
