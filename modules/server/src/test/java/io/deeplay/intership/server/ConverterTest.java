@@ -43,11 +43,11 @@ public class ConverterTest {
 
         final var result = converter.getClassFromJson(request, CreateGameDtoRequest.class);
         assertAll(
-                () -> assertEquals(expected.requestType, result.requestType),
-                () -> assertEquals(expected.withBot, result.withBot),
-                () -> assertEquals(expected.color, result.color),
-                () -> assertEquals(expected.size, result.size),
-                () -> assertEquals(expected.token, result.token)
+                () -> assertEquals(expected.requestType(), result.requestType()),
+                () -> assertEquals(expected.withBot(), result.withBot()),
+                () -> assertEquals(expected.color(), result.color()),
+                () -> assertEquals(expected.size(), result.size()),
+                () -> assertEquals(expected.token(), result.token())
         );
     }
 
