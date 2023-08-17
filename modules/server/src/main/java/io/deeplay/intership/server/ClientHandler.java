@@ -21,11 +21,11 @@ public class ClientHandler implements Runnable {
     private final Logger logger = Logger.getLogger(ClientHandler.class);
     private final Socket clientSocket;
     private final int clientId;
-    private final Converter converter;
+    private final JSONConverter converter;
     private final GameService gameService;
     private final UserService userService;
 
-    public ClientHandler(Socket socket, GameService gameService, UserService userService, Converter converter) {
+    public ClientHandler(Socket socket, GameService gameService, UserService userService, JSONConverter converter) {
         this.clientSocket = socket;
         this.clientId = clientIdCounter.getAndAdd(1);
         this.converter = converter;
@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
     }
 
     public ClientHandler(Socket socket) {
-        this(socket, new GameService(), new UserService(), new Converter());
+        this(socket, new GameService(), new UserService(), new JSONConverter());
     }
 
     @Override
