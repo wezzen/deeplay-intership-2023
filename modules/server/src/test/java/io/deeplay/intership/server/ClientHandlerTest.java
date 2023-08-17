@@ -6,6 +6,7 @@ import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.dto.request.BaseDto;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
+import io.deeplay.intership.json.JSONConverter;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;

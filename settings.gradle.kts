@@ -38,3 +38,7 @@ project(":server-exception").projectDir = file("modules/server-exception")
 
 include("dto-validator")
 project(":dto-validator").projectDir = file("modules/dto-validator")
+
+include("json-converter")
+project(":json-converter").projectDir = file("modules/json-converter")
+
