@@ -1,7 +1,5 @@
 package io.deeplay.intership.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.dto.request.BaseDto;
 import io.deeplay.intership.service.GameService;
@@ -17,7 +15,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ClientHandlerTest {
-    private final ObjectMapper mapper = new ObjectMapper();
     private final GameService gameService = mock(GameService.class);
     private final UserService userService = mock(UserService.class);
     private final JSONConverter converter = mock(JSONConverter.class);
@@ -34,12 +31,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand1() throws JsonProcessingException {
+    public void testDefineCommand1() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.CREATE_GAME;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -50,12 +47,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand2() throws JsonProcessingException {
+    public void testDefineCommand2() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -66,12 +63,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand3() throws JsonProcessingException {
+    public void testDefineCommand3() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.REGISTRATION;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -82,12 +79,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand4() throws JsonProcessingException {
+    public void testDefineCommand4() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGIN;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -98,12 +95,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand5() throws JsonProcessingException {
+    public void testDefineCommand5() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGOUT;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -114,12 +111,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand6() throws JsonProcessingException {
+    public void testDefineCommand6() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.JOIN_GAME;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -130,12 +127,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand7() throws JsonProcessingException {
+    public void testDefineCommand7() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.TURN;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -146,12 +143,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand8() throws JsonProcessingException {
+    public void testDefineCommand8() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.PASS;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -162,12 +159,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand9() throws JsonProcessingException {
+    public void testDefineCommand9() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.SURRENDER;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
@@ -178,12 +175,12 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand10() throws JsonProcessingException {
+    public void testDefineCommand10() {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
         final BaseDto createGame = new BaseDto(type);
-        final String request = mapper.writeValueAsString(createGame);
+        final String request = converter.getJsonFromObject(createGame);
         final BaseDto expected = new BaseDto(type);
 
         when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
