@@ -10,16 +10,14 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-public class ConverterTest {
+public class JSONConverterTest {
     private final ObjectMapper mapper = new ObjectMapper();
-    private final Converter converter = mock(Converter.class);
+    private final JSONConverter converter = new JSONConverter();
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(Converter::new);
+        assertDoesNotThrow(JSONConverter::new);
     }
 
     @Test
@@ -39,9 +37,8 @@ public class ConverterTest {
         );
 
         final String request = mapper.writeValueAsString(expected);
-        when(converter.getClassFromJson(request, CreateGameDtoRequest.class)).thenReturn(expected);
-
         final var result = converter.getClassFromJson(request, CreateGameDtoRequest.class);
+
         assertAll(
                 () -> assertEquals(expected.requestType(), result.requestType()),
                 () -> assertEquals(expected.withBot(), result.withBot()),
@@ -68,8 +65,7 @@ public class ConverterTest {
         );
 
         String expected = mapper.writeValueAsString(object);
-        when(converter.objectToJson(expected)).thenReturn(expected);
 
-        assertDoesNotThrow(() -> converter.objectToJson(object));
+        assertEquals(expected, converter.objectToJson(expected));
     }
 }

@@ -19,7 +19,7 @@ public class ClientHandlerTest {
     private final ObjectMapper mapper = new ObjectMapper();
     private final GameService gameService = mock(GameService.class);
     private final UserService userService = mock(UserService.class);
-    private final Converter converter = mock(Converter.class);
+    private final JSONConverter converter = mock(JSONConverter.class);
 
     @Test
     public void testConstructors() {
