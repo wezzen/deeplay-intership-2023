@@ -1,13 +1,12 @@
 package io.deeplay.intership.server;
 
+import io.deeplay.intership.dto.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
-import io.deeplay.intership.dto.response.ActionDtoResponse;
-import io.deeplay.intership.dto.response.FinishGameDtoResponse;
-import io.deeplay.intership.dto.response.InfoDtoResponse;
-import io.deeplay.intership.dto.response.LoginDtoResponse;
+import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
-import io.deeplay.intership.json.converter.JSONConverter;
 import org.apache.log4j.Logger;
 
 import java.io.DataInputStream;
@@ -81,27 +80,42 @@ public class ClientHandler implements Runnable {
         String message = String.format("Client %d send registration", clientId);
         logger.debug(message);
 
-        RegistrationDtoRequest dto = converter.getObjectFromJson(request, RegistrationDtoRequest.class);
-        InfoDtoResponse response = userService.register(dto);
-        return converter.getJsonFromObject(response);
+        try {
+            RegistrationDtoRequest dto = converter.getObjectFromJson(request, RegistrationDtoRequest.class);
+            InfoDtoResponse response = userService.register(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
+            return converter.getJsonFromObject(dtoResponse);
+        }
     }
 
     public String login(String request) {
         String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
-        LoginDtoRequest dto = converter.getObjectFromJson(request, LoginDtoRequest.class);
-        LoginDtoResponse response = userService.authorization(dto);
-        return converter.getJsonFromObject(response);
+        try {
+            LoginDtoRequest dto = converter.getObjectFromJson(request, LoginDtoRequest.class);
+            LoginDtoResponse response = userService.authorization(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
+            return converter.getJsonFromObject(dtoResponse);
+        }
     }
 
     public String logout(String request) {
         String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
-        LogoutDtoRequest dto = converter.getObjectFromJson(request, LogoutDtoRequest.class);
-        var response = userService.logout(dto);
-        return converter.getJsonFromObject(response);
+        try {
+            LogoutDtoRequest dto = converter.getObjectFromJson(request, LogoutDtoRequest.class);
+            InfoDtoResponse response = userService.logout(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
+            return converter.getJsonFromObject(dtoResponse);
+        }
     }
 
     public String createGame(String request) {

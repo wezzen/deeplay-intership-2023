@@ -5,6 +5,7 @@ public enum ErrorCode {
 
     INCORRECT_LOGIN("Incorrect login"),
     LOGIN_IS_EXIST("This login is already exists"),
+    NOT_FOUND_LOGIN("Cannot find this login"),
     PASSWORD_CANNOT_BE_EMPTY("Password can't be empty"),
 
     INVALID_AUTHORIZATION("Invalid login or password"),
