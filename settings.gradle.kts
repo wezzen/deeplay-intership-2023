@@ -32,3 +32,6 @@ project(":dto").projectDir = file("modules/dto")
 
 include("player-actions")
 project(":player-actions").projectDir = file("modules/player-actions")
+
+include("json-converter")
+project(":json-converter").projectDir = file("modules/json-converter")

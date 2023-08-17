@@ -1,6 +1,6 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.json;
 
-import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 
@@ -18,3 +18,4 @@ public class JSONConverter {
         return new JSONObject(object.toString()).toString();
     }
 }
+
