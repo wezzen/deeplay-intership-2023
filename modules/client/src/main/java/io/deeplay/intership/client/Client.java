@@ -6,18 +6,21 @@ import java.util.Properties;
 public class Client {
     private String host;
     private int port;
-    Client() throws IOException {
+    public Client() throws IOException {
         FileInputStream fis;
         Properties property = new Properties();
         fis = new FileInputStream("src/main/resources/config.properties");
         property.load(fis);
         this.host = property.getProperty("client.host");
         this.port = Integer.parseInt(property.getProperty("client.port"));
+        fis.close();
     }
-    Client(String host, int port){
+
+    public Client(String host, int port){
         this.host = host;
         this.port = port;
     }
+
     public void clientProcess() throws IOException{
             Socket socket = new Socket(host,port);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
