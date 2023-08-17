@@ -5,11 +5,12 @@ import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DtoTest {
     @Test
-    public void checkRegistrationRequest(){
+    public void checkRegistrationRequest() {
         String login = "Nick";
         String password_hash = "3454465";
         RegistrationDtoRequest registrationDTO = new RegistrationDtoRequest(RequestType.REGISTRATION, login, password_hash);
@@ -18,7 +19,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkRegistrationResponse(){
+    public void checkRegistrationResponse() {
         String message = "Registration was performed!";
         String status = "Success";
         InfoDtoResponse registrationLogoutJoinDTO = new InfoDtoResponse(message, status);
@@ -27,7 +28,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkLoginRequest(){
+    public void checkLoginRequest() {
         String login = "Nick";
         String password_hash = "3454465";
         LoginDtoRequest loginDtoRequest = new LoginDtoRequest(RequestType.LOGIN, login, password_hash);
@@ -36,7 +37,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkLoginResponse(){
+    public void checkLoginResponse() {
         String message = "You are authorized!";
         String status = "Success";
         String token = "89473795";
@@ -47,14 +48,14 @@ public class DtoTest {
     }
 
     @Test
-    public void checkLogoutRequest(){
+    public void checkLogoutRequest() {
         String token = "89473795";
         LogoutDtoRequest logoutDtoRequest = new LogoutDtoRequest(RequestType.LOGOUT, token);
         assertEquals(logoutDtoRequest.token(), "89473795");
     }
 
     @Test
-    public void checkLogoutResponse(){
+    public void checkLogoutResponse() {
         String message = "Log out!";
         String status = "Success";
         InfoDtoResponse infoDtoResponse = new InfoDtoResponse(message, status);
@@ -63,7 +64,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkCreateGameRequest(){
+    public void checkCreateGameRequest() {
         String color = "WHITE";
         int size = 9;
         String token = "89473795";
@@ -76,7 +77,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkCreateGameResponse(){
+    public void checkCreateGameResponse() {
         String message = "Created!";
         String status = "Success";
         String gameId = "101001930";
@@ -87,7 +88,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkJoinGameRequest(){
+    public void checkJoinGameRequest() {
         String gameId = "101001930";
         String token = "89473795";
         JoinGameDtoRequest joinGameDtoRequest = new JoinGameDtoRequest(RequestType.JOIN_GAME, gameId, token);
@@ -96,7 +97,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkJoinGameResponse(){
+    public void checkJoinGameResponse() {
         String message = "Joined!";
         String status = "Success";
         InfoDtoResponse infoDtoResponse = new InfoDtoResponse(message, status);
@@ -105,7 +106,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkTurnRequest(){
+    public void checkTurnRequest() {
         String color = "BLACK";
         int row = 5;
         int column = 4;
@@ -118,7 +119,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkTurnResponse(){
+    public void checkTurnResponse() {
         String message = "Moved!";
         String status = "Success";
         Stone[][] field = new Stone[9][9];
@@ -129,14 +130,14 @@ public class DtoTest {
     }
 
     @Test
-    public void checkPassRequest(){
+    public void checkPassRequest() {
         String token = "89473795";
         PassDtoRequest passDtoRequest = new PassDtoRequest(RequestType.PASS, token);
         assertEquals(passDtoRequest.token(), "89473795");
     }
 
     @Test
-    public void checkPassResponse(){
+    public void checkPassResponse() {
         String message = "Passed!";
         String status = "Success";
         Stone[][] field = new Stone[9][9];
@@ -147,14 +148,14 @@ public class DtoTest {
     }
 
     @Test
-    public void checkSurrenderRequest(){
+    public void checkSurrenderRequest() {
         String token = "89473795";
         SurrenderDtoRequest surrenderDtoRequest = new SurrenderDtoRequest(RequestType.SURRENDER, token);
         assertEquals(surrenderDtoRequest.token(), "89473795");
     }
 
     @Test
-    public void checkSurrenderResponse(){
+    public void checkSurrenderResponse() {
         String message = "Surrendered!";
         String status = "Success";
         Stone[][] field = new Stone[9][9];
@@ -165,14 +166,14 @@ public class DtoTest {
     }
 
     @Test
-    public void checkFinishGameRequest(){
+    public void checkFinishGameRequest() {
         String token = "89473795";
         SurrenderDtoRequest surrenderDtoRequest = new SurrenderDtoRequest(RequestType.SURRENDER, token);
         assertEquals(surrenderDtoRequest.token(), "89473795");
     }
 
     @Test
-    public void checkFinishGameResponse(){
+    public void checkFinishGameResponse() {
         String message = "Finished!";
         String status = "Success";
         int whiteScore = 10;
@@ -185,7 +186,7 @@ public class DtoTest {
     }
 
     @Test
-    public void checkFailureResponse(){
+    public void checkFailureResponse() {
         String message = "There are two players already!";
         String status = "Failure";
         FailureDtoResponse failureDtoResponse = new FailureDtoResponse(message, status);

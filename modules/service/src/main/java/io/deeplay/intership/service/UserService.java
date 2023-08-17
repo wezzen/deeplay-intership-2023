@@ -20,6 +20,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * Класс {@code UserService} предоставляет функциональные возможности для аутентификации, регистрации и управления
+ * пользователями.
+ */
 public class UserService {
     private static final String CREDENTIALS_FILE_NAME = "credentials.txt";
     private static final ConcurrentMap<String, User> authorizedUsers = new ConcurrentHashMap<>();
@@ -31,30 +35,52 @@ public class UserService {
         this.dtoValidator = new Validator();
     }
 
+    /**
+     * Проверяет, авторизован ли пользователь с данным токеном.
+     *
+     * @param token Маркер аутентификации пользователя.
+     * @return {@code true}, если авторизован, {@code false} в противном случае.
+     */
     public boolean isAuthorized(final String token) {
         return authorizedUsers.containsKey(token);
     }
 
+    /**
+     * Выполняет авторизацию пользователя на основе предоставленных учетных данных для входа.
+     *
+     * @param dtoRequest Объект {@link LoginDtoRequest}, содержащий информацию для входа.
+     * @return {@link LoginDtoResponse}, указывающий результат авторизации.
+     * @throws ServerException Если при авторизации возникает ошибка.
+     */
     public LoginDtoResponse authorization(final LoginDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationLoginDto(dtoRequest);
 
-        User user = findUserByLogin(dtoRequest.login())
+        User currentUser = findUserByLogin(dtoRequest.login())
                 .orElseThrow(() -> new ServerException(ErrorCode.NOT_FOUND_LOGIN));
-        if (!user.passwordHash().equals(dtoRequest.passwordHash())) {
+        if (!currentUser.passwordHash().equals(dtoRequest.passwordHash())) {
             logger.debug("Incorrect password");
             throw new ServerException(ErrorCode.INVALID_AUTHORIZATION);
         }
 
-        removeTokenIfExist(user);
+        removeTokenIfExist(currentUser);
         String newToken = UUID.randomUUID().toString();
+        User user = new User(currentUser.login(), currentUser.passwordHash(), newToken);
         authorizedUsers.put(newToken, user);
-        loginToUser.put(user.login(), user);
+        loginToUser.put(currentUser.login(), user);
+
         return new LoginDtoResponse(
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message,
                 ResponseStatus.SUCCESS.text,
                 newToken);
     }
 
+    /**
+     * Регистрирует нового пользователя с предоставленными регистрационными данными.
+     *
+     * @param dtoRequest {@link RegistrationDtoRequest}, содержащий регистрационную информацию.
+     * @return {@link InfoDtoResponse}, указывающий результат регистрации.
+     * @throws ServerException Если при регистрации возникает ошибка.
+     */
     public InfoDtoResponse register(final RegistrationDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationRegistrationDto(dtoRequest);
         if (findUserByLogin(dtoRequest.login()).isPresent()) {
@@ -76,6 +102,13 @@ public class UserService {
                 ResponseStatus.SUCCESS.text);
     }
 
+    /**
+     * Выполняет выход пользователя с предоставленным токеном.
+     *
+     * @param dtoRequest {@link LogoutDtoRequest}, содержащий токен для выхода из системы.
+     * @return {@link InfoDtoResponse}, указывающий результат выхода из системы.
+     * @throws ServerException Если во время выхода из системы возникает ошибка.
+     */
     public InfoDtoResponse logout(final LogoutDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationLogoutDto(dtoRequest);
         User user = findUserByToken(dtoRequest.token())
@@ -88,6 +121,13 @@ public class UserService {
         return new InfoDtoResponse(ResponseInfoMessage.SUCCESS_LOGOUT.message, ResponseStatus.SUCCESS.text);
     }
 
+    /**
+     * Находит пользователя по его логину в файле учетных данных.
+     *
+     * @param login логин пользователя.
+     * @return {@link Optional} содержащий пользователя {@link User}, если он найден, или пустой, если
+     * пользователь с таким логином не найден не найден.
+     */
     public Optional<User> findUserByLogin(final String login) {
         try (BufferedReader reader = new BufferedReader(new FileReader(CREDENTIALS_FILE_NAME))) {
             String line;
@@ -104,6 +144,13 @@ public class UserService {
         return Optional.empty();
     }
 
+    /**
+     * Находит пользователя по его токену аутентификации.
+     *
+     * @param token Маркер аутентификации пользователя.
+     * @return {@link Optional} содержащий пользователя {@link User}, если он найден, или пустой, если
+     * * пользователь с таким логином не найден не найден.
+     */
     public Optional<User> findUserByToken(final String token) {
         return Optional.ofNullable(authorizedUsers.get(token));
     }
