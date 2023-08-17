@@ -39,6 +39,10 @@ public class Validator {
         if (isNotCorrectToken(dtoRequest.token())) {
             throw new ServerException(ErrorCode.NOT_AUTHORIZED);
         }
+
+        if (!isExistColor(dtoRequest.color())) {
+            throw new ServerException(ErrorCode.INVALID_COLOR);
+        }
     }
 
     public void validationLoginDto(LoginDtoRequest dtoRequest) throws ServerException {

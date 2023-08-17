@@ -18,9 +18,11 @@ public enum ErrorCode {
     INVALID_MOVE("Invalid move"),
 
     CANNOT_FINISH_GAME("End of game haven't reached yet"),
+    GAME_NOT_FOUND("Can't found game by this id"),
 
     COLOR_DOES_NOT_EXIST("This color is not exist"),
     INVALID_GAME_ID("Invalid game id"),
+    INVALID_COLOR("Invalid color"),
     ;
     public final String message;
 
