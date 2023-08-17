@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable {
     }
 
     public String defineCommand(String request) {
-        BaseDto dto = converter.getClassFromJson(request, BaseDto.class);
+        BaseDto dto = converter.getObjectFromJson(request, BaseDto.class);
 
         return switch (dto.requestType()) {
             case REGISTRATION -> registerUser(request);
@@ -81,62 +81,62 @@ public class ClientHandler implements Runnable {
         String message = String.format("Client %d send registration", clientId);
         logger.debug(message);
 
-        RegistrationDtoRequest dto = converter.getClassFromJson(request, RegistrationDtoRequest.class);
+        RegistrationDtoRequest dto = converter.getObjectFromJson(request, RegistrationDtoRequest.class);
         InfoDtoResponse response = userService.register(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String login(String request) {
         String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
-        LoginDtoRequest dto = converter.getClassFromJson(request, LoginDtoRequest.class);
+        LoginDtoRequest dto = converter.getObjectFromJson(request, LoginDtoRequest.class);
         LoginDtoResponse response = userService.authorization(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String logout(String request) {
         String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
-        LogoutDtoRequest dto = converter.getClassFromJson(request, LogoutDtoRequest.class);
+        LogoutDtoRequest dto = converter.getObjectFromJson(request, LogoutDtoRequest.class);
         var response = userService.logout(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String createGame(String request) {
-        CreateGameDtoRequest dto = converter.getClassFromJson(request, CreateGameDtoRequest.class);
+        CreateGameDtoRequest dto = converter.getObjectFromJson(request, CreateGameDtoRequest.class);
         var response = gameService.createGame(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String joinGame(String request) {
-        JoinGameDtoRequest dto = converter.getClassFromJson(request, JoinGameDtoRequest.class);
+        JoinGameDtoRequest dto = converter.getObjectFromJson(request, JoinGameDtoRequest.class);
         InfoDtoResponse response = gameService.joinGame(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String surrenderGame(String request) {
-        SurrenderDtoRequest dto = converter.getClassFromJson(request, SurrenderDtoRequest.class);
+        SurrenderDtoRequest dto = converter.getObjectFromJson(request, SurrenderDtoRequest.class);
         InfoDtoResponse response = gameService.surrenderGame(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String endGame(String request) {
-        FinishGameDtoRequest dto = converter.getClassFromJson(request, FinishGameDtoRequest.class);
+        FinishGameDtoRequest dto = converter.getObjectFromJson(request, FinishGameDtoRequest.class);
         FinishGameDtoResponse response = gameService.endGame(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String turn(String request) {
-        TurnDtoRequest dto = converter.getClassFromJson(request, TurnDtoRequest.class);
+        TurnDtoRequest dto = converter.getObjectFromJson(request, TurnDtoRequest.class);
         ActionDtoResponse response = gameService.turn(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 
     public String pass(String request) {
-        PassDtoRequest dto = converter.getClassFromJson(request, PassDtoRequest.class);
+        PassDtoRequest dto = converter.getObjectFromJson(request, PassDtoRequest.class);
         ActionDtoResponse response = gameService.pass(dto);
-        return converter.objectToJson(response);
+        return converter.getJsonFromObject(response);
     }
 }
