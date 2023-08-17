@@ -42,7 +42,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -58,7 +58,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -74,7 +74,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -90,7 +90,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -106,7 +106,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -122,7 +122,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -138,7 +138,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -154,7 +154,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -170,7 +170,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -186,7 +186,7 @@ public class ClientHandlerTest {
         final String request = mapper.writeValueAsString(createGame);
         final BaseDto expected = new BaseDto(type);
 
-        when(converter.getClassFromJson(request, BaseDto.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))

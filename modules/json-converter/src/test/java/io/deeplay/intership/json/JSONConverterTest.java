@@ -37,7 +37,7 @@ public class JSONConverterTest {
         );
 
         final String request = mapper.writeValueAsString(expected);
-        final var result = converter.getClassFromJson(request, CreateGameDtoRequest.class);
+        final var result = converter.getObjectFromJson(request, CreateGameDtoRequest.class);
 
         assertAll(
                 () -> assertEquals(expected.requestType(), result.requestType()),
@@ -66,6 +66,6 @@ public class JSONConverterTest {
 
         String expected = mapper.writeValueAsString(object);
 
-        assertEquals(expected, converter.objectToJson(expected));
+        assertEquals(expected, converter.getJsonFromObject(object));
     }
 }
