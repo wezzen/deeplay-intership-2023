@@ -21,10 +21,10 @@ public class Client {
         this.port = port;
     }
 
-    public void clientProcess() throws IOException{
-            Socket socket = new Socket(host,port);
+    public void clientProcess(){
+        try(Socket socket = new Socket(host,port);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(),true);) {
             boolean isConnected = true;
             String fromServer, toServer = "request";
             while (isConnected){
@@ -34,8 +34,9 @@ public class Client {
                 // Код клиента - обработка
                 //
             }
-            in.close();
-            out.close();
-            socket.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }
