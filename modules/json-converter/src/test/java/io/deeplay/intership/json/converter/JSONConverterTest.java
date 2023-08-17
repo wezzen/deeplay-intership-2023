@@ -1,4 +1,4 @@
-package io.deeplay.intership.json;
+package io.deeplay.intership.json.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
