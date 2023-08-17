@@ -17,7 +17,6 @@ allprojects {
     dependencies {
         errorprone("com.google.errorprone:error_prone_core:2.20.0")
         implementation("log4j:log4j:1.2.17")
-        implementation("org.json:json:20180813")
         testImplementation(platform("org.junit:junit-bom:5.9.3"))
         testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.mockito:mockito-core:5.3.1")
