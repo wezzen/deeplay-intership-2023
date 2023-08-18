@@ -85,8 +85,7 @@ public class ClientHandler implements Runnable {
             InfoDtoResponse response = userService.register(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
-            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
-            return converter.getJsonFromObject(dtoResponse);
+            return getFailureResponse(ex);
         }
     }
 
@@ -99,8 +98,7 @@ public class ClientHandler implements Runnable {
             LoginDtoResponse response = userService.authorization(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
-            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
-            return converter.getJsonFromObject(dtoResponse);
+            return getFailureResponse(ex);
         }
     }
 
@@ -113,44 +111,74 @@ public class ClientHandler implements Runnable {
             InfoDtoResponse response = userService.logout(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
-            FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
-            return converter.getJsonFromObject(dtoResponse);
+            return getFailureResponse(ex);
         }
     }
 
     public String createGame(String request) {
-        CreateGameDtoRequest dto = converter.getObjectFromJson(request, CreateGameDtoRequest.class);
-        var response = gameService.createGame(dto);
-        return converter.getJsonFromObject(response);
+        String message = String.format("Client %d send create game", clientId);
+        logger.debug(message);
+
+        try {
+            CreateGameDtoRequest dto = converter.getObjectFromJson(request, CreateGameDtoRequest.class);
+            var response = gameService.createGame(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            return getFailureResponse(ex);
+        }
     }
 
     public String joinGame(String request) {
-        JoinGameDtoRequest dto = converter.getObjectFromJson(request, JoinGameDtoRequest.class);
-        InfoDtoResponse response = gameService.joinGame(dto);
-        return converter.getJsonFromObject(response);
+        String message = String.format("Client %d send join game", clientId);
+        logger.debug(message);
+
+        try {
+            JoinGameDtoRequest dto = converter.getObjectFromJson(request, JoinGameDtoRequest.class);
+            InfoDtoResponse response = gameService.joinGame(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            return getFailureResponse(ex);
+        }
     }
 
     public String surrenderGame(String request) {
+        String message = String.format("Client %d send surrender game", clientId);
+        logger.debug(message);
+
         SurrenderDtoRequest dto = converter.getObjectFromJson(request, SurrenderDtoRequest.class);
         InfoDtoResponse response = gameService.surrenderGame(dto);
         return converter.getJsonFromObject(response);
     }
 
     public String endGame(String request) {
+        String message = String.format("Client %d send finish game", clientId);
+        logger.debug(message);
+
         FinishGameDtoRequest dto = converter.getObjectFromJson(request, FinishGameDtoRequest.class);
-        FinishGameDtoResponse response = gameService.endGame(dto);
+        FinishGameDtoResponse response = gameService.finishGame(dto);
         return converter.getJsonFromObject(response);
     }
 
     public String turn(String request) {
+        String message = String.format("Client %d send make turn", clientId);
+        logger.debug(message);
+
         TurnDtoRequest dto = converter.getObjectFromJson(request, TurnDtoRequest.class);
         ActionDtoResponse response = gameService.turn(dto);
         return converter.getJsonFromObject(response);
     }
 
     public String pass(String request) {
+        String message = String.format("Client %d send pass turn", clientId);
+        logger.debug(message);
+
         PassDtoRequest dto = converter.getObjectFromJson(request, PassDtoRequest.class);
         ActionDtoResponse response = gameService.pass(dto);
         return converter.getJsonFromObject(response);
+    }
+
+    private String getFailureResponse(ServerException ex) {
+        FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
+        return converter.getJsonFromObject(dtoResponse);
     }
 }

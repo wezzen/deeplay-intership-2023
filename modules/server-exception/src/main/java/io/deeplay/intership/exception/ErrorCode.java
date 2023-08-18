@@ -23,6 +23,7 @@ public enum ErrorCode {
     COLOR_DOES_NOT_EXIST("This color is not exist"),
     INVALID_GAME_ID("Invalid game id"),
     INVALID_COLOR("Invalid color"),
+    REPEATED_PLAYER("You're already connected to this game"),
     ;
     public final String message;
 
