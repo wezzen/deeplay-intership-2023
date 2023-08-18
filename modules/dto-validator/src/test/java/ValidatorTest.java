@@ -361,10 +361,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertDoesNotThrow(() -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -374,10 +376,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertDoesNotThrow(() -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -387,10 +391,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = null;
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -400,10 +406,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = "";
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -413,10 +421,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = "     ";
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -426,10 +436,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString() + " ";
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -439,10 +451,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID() + "!@#$ %^&*";
         final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -452,10 +466,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = null;
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -465,10 +481,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = "          ";
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -478,10 +496,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString() + "  ";
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }
@@ -491,10 +511,12 @@ public class ValidatorTest {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID() + "!@#*&$# %";
+        final String color = Color.WHITE.name();
         final JoinGameDtoRequest dtoRequest = new JoinGameDtoRequest(
                 requestType,
                 gameId,
-                token);
+                token,
+                color);
 
         assertThrows(ServerException.class, () -> validator.validationJoinGameDto(dtoRequest));
     }

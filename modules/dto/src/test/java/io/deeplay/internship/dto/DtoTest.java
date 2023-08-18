@@ -3,6 +3,7 @@ package io.deeplay.internship.dto;
 import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
 
@@ -91,7 +92,8 @@ public class DtoTest {
     public void checkJoinGameRequest() {
         String gameId = "101001930";
         String token = "89473795";
-        JoinGameDtoRequest joinGameDtoRequest = new JoinGameDtoRequest(RequestType.JOIN_GAME, gameId, token);
+        String color = Color.WHITE.name();
+        JoinGameDtoRequest joinGameDtoRequest = new JoinGameDtoRequest(RequestType.JOIN_GAME, gameId, token, color);
         assertEquals(joinGameDtoRequest.token(), "89473795");
         assertEquals(joinGameDtoRequest.gameId(), "101001930");
     }

@@ -8,7 +8,7 @@ public class PlayerTest {
     @Test
     public void testConstructor() {
         final String login = "admin";
-        final Color color = Color.WHITE;
+        final String color = Color.WHITE.name();
         final Player player = new Player(login, color);
 
         assertAll(
