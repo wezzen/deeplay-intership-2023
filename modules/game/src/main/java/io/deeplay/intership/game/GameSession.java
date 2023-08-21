@@ -4,6 +4,7 @@ import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Player;
+import io.deeplay.intership.model.Stone;
 
 public class GameSession {
     private final String gameId;
@@ -15,6 +16,10 @@ public class GameSession {
     public GameSession(final String gameId) {
         this.gameId = gameId;
         this.game = new Game();
+    }
+
+    public String getGameId() {
+        return gameId;
     }
 
     public synchronized void addCreator(final Player player) {

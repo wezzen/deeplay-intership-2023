@@ -26,13 +26,14 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class UserService {
     private static final String CREDENTIALS_FILE_NAME = "credentials.txt";
-    private static final ConcurrentMap<String, User> authorizedUsers = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, User> loginToUser = new ConcurrentHashMap<>();
-    private final Logger logger = Logger.getLogger(UserService.class);
+    private static final ConcurrentMap<String, User> AUTHORIZED_USERS = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, User> LOGIN_TO_USER = new ConcurrentHashMap<>();
+    private final Logger logger;
     private final Validator dtoValidator;
 
     public UserService() {
-        this.dtoValidator = new Validator();
+        logger = Logger.getLogger(UserService.class);
+        dtoValidator = new Validator();
     }
 
     /**
@@ -42,7 +43,7 @@ public class UserService {
      * @return {@code true}, если авторизован, {@code false} в противном случае.
      */
     public boolean isAuthorized(final String token) {
-        return authorizedUsers.containsKey(token);
+        return AUTHORIZED_USERS.containsKey(token);
     }
 
     /**
@@ -65,8 +66,8 @@ public class UserService {
         removeTokenIfExist(currentUser);
         String newToken = UUID.randomUUID().toString();
         User user = new User(currentUser.login(), currentUser.passwordHash(), newToken);
-        authorizedUsers.put(newToken, user);
-        loginToUser.put(currentUser.login(), user);
+        AUTHORIZED_USERS.put(newToken, user);
+        LOGIN_TO_USER.put(currentUser.login(), user);
 
         return new LoginDtoResponse(
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message,
@@ -111,11 +112,10 @@ public class UserService {
      */
     public InfoDtoResponse logout(final LogoutDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationLogoutDto(dtoRequest);
-        User user = findUserByToken(dtoRequest.token())
-                .orElseThrow(() -> new ServerException(ErrorCode.NOT_AUTHORIZED));
+        User user = findUserByToken(dtoRequest.token());
 
-        loginToUser.remove(user.login());
-        authorizedUsers.remove(dtoRequest.token());
+        LOGIN_TO_USER.remove(user.login());
+        AUTHORIZED_USERS.remove(dtoRequest.token());
 
         logger.debug("User was successfully logout");
         return new InfoDtoResponse(ResponseInfoMessage.SUCCESS_LOGOUT.message, ResponseStatus.SUCCESS.text);
@@ -148,22 +148,26 @@ public class UserService {
      * Находит пользователя по его токену аутентификации.
      *
      * @param token Маркер аутентификации пользователя.
-     * @return {@link Optional} содержащий пользователя {@link User}, если он найден, или пустой, если
+     * @return {@link User}, если он найден, или пустой, если
      * * пользователь с таким логином не найден не найден.
      */
-    public Optional<User> findUserByToken(final String token) {
-        return Optional.ofNullable(authorizedUsers.get(token));
+    public User findUserByToken(final String token) throws ServerException {
+        User user = AUTHORIZED_USERS.get(token);
+        if (user == null) {
+            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
+        }
+        return user;
     }
 
-    private Optional<User> findUserByAuthorizedList(final User user) {
-        return Optional.ofNullable(loginToUser.get(user.login()));
+    private Optional<User> findUserIntoAuthorizedList(final String login) {
+        return Optional.ofNullable(LOGIN_TO_USER.get(login));
     }
 
     private void removeTokenIfExist(final User user) {
-        Optional<User> foundUser = findUserByAuthorizedList(user);
+        Optional<User> foundUser = findUserIntoAuthorizedList(user.login());
         if (foundUser.isPresent()) {
-            authorizedUsers.remove(foundUser.get().token());
-            loginToUser.remove(foundUser.get().login());
+            AUTHORIZED_USERS.remove(foundUser.get().token());
+            LOGIN_TO_USER.remove(foundUser.get().login());
         }
     }
 }
