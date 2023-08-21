@@ -12,114 +12,104 @@ public class Validator {
     private final int[] FIELD_SIZES = {9, 11, 13, 15, 17, 19};
 
     public void validationCreateGameDto(CreateGameDtoRequest dtoRequest) throws ServerException {
-        if (!isExistColor(dtoRequest.color())) {
-            throw new ServerException(ErrorCode.COLOR_DOES_NOT_EXIST);
-        }
-
-        if (!isCorrectSize(dtoRequest.size())) {
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
-        }
-
-        if (isNotCorrectToken(dtoRequest.token())) {
-            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
-        }
+        isExistColor(dtoRequest.color());
+        isNotCorrectToken(dtoRequest.token());
+        isCorrectSize(dtoRequest.size());
     }
 
     public void validationFinishGameDto(FinishGameDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectToken(dtoRequest.gameId())) {
-            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
-        }
+        isNotCorrectToken(dtoRequest.gameId());
     }
 
     public void validationJoinGameDto(JoinGameDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectToken(dtoRequest.gameId())) {
-            throw new ServerException(ErrorCode.INVALID_GAME_ID);
-        }
-
-        if (isNotCorrectToken(dtoRequest.token())) {
-            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
-        }
-
-        if (!isExistColor(dtoRequest.color())) {
-            throw new ServerException(ErrorCode.INVALID_COLOR);
-        }
+        isNotCorrectToken(dtoRequest.gameId());
+        isNotCorrectToken(dtoRequest.token());
+        isExistColor(dtoRequest.color());
     }
 
     public void validationLoginDto(LoginDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectLogin(dtoRequest.login())) {
-            throw new ServerException(ErrorCode.INCORRECT_LOGIN);
-        }
-
-        if (isNotCorrectPassword(dtoRequest.passwordHash())) {
-            throw new ServerException(ErrorCode.PASSWORD_CANNOT_BE_EMPTY);
-        }
-
+        isNotCorrectLogin(dtoRequest.login());
+        isNotCorrectPassword(dtoRequest.passwordHash());
     }
 
     public void validationLogoutDto(LogoutDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectToken(dtoRequest.token())) {
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+        isNotCorrectToken(dtoRequest.token());
+    }
+
+    public void validationTurnDto(TurnDtoRequest dtoRequest) throws ServerException {
+        isNotCorrectToken(dtoRequest.token());
+        isExistColor(dtoRequest.color());
+        if (isInvalidCoordinates(dtoRequest.row(), dtoRequest.column())) {
+            throw new ServerException(ErrorCode.TURN_HAS_INVALID_COORDINATES);
         }
     }
 
     public void validationPassDto(PassDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectToken(dtoRequest.token())) {
+        isNotCorrectToken(dtoRequest.token());
+    }
+
+    public void validationRegistrationDto(RegistrationDtoRequest dtoRequest) throws ServerException {
+        isNotCorrectLogin(dtoRequest.login());
+        isNotCorrectPassword(dtoRequest.passwordHash());
+    }
+
+    private void isExistColor(String color) throws ServerException {
+        if (color == null) {
+            throw new ServerException(ErrorCode.COLOR_DOES_NOT_EXIST);
+        }
+        try {
+            Color.valueOf(color);
+        } catch (IllegalArgumentException ex) {
+            throw new ServerException(ErrorCode.COLOR_DOES_NOT_EXIST);
+        }
+    }
+
+    private void isNotCorrectLogin(String login) throws ServerException {
+        if (login == null ||
+                login.isBlank() ||
+                login.contains(" ")) {
+            throw new ServerException(ErrorCode.INCORRECT_LOGIN);
+        }
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]");
+        Matcher matcher = pattern.matcher(login);
+        if (matcher.matches()) {
+            throw new ServerException(ErrorCode.INCORRECT_LOGIN);
+        }
+    }
+
+    private void isNotCorrectToken(String token) throws ServerException {
+        if (token == null ||
+                token.isBlank() ||
+                token.contains(" ")) {
+            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
+        }
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]");
+        Matcher matcher = pattern.matcher(token);
+        if (matcher.matches()) {
             throw new ServerException(ErrorCode.NOT_AUTHORIZED);
         }
     }
 
-    public void validationRegistrationDto(RegistrationDtoRequest dtoRequest) throws ServerException {
-        if (isNotCorrectLogin(dtoRequest.login())) {
-            throw new ServerException(ErrorCode.INCORRECT_LOGIN);
+    private void isCorrectSize(int size) throws ServerException {
+        for (var item : FIELD_SIZES) {
+            if (item == size) {
+                return;
+            }
         }
+        throw new ServerException(ErrorCode.INVALID_BOARD_SIZE);
+    }
 
-        if (isNotCorrectPassword(dtoRequest.passwordHash())) {
+    private void isNotCorrectPassword(final String password) throws ServerException {
+        if (password == null ||
+                password.isBlank()) {
             throw new ServerException(ErrorCode.PASSWORD_CANNOT_BE_EMPTY);
         }
     }
 
-    private boolean isExistColor(String color) {
-        if (color == null) {
-            return false;
-        }
-        return color.equals(Color.BLACK.name()) ||
-                color.equals(Color.WHITE.name()) ||
-                color.equals(Color.EMPTY.name());
-    }
-
-    private boolean isNotCorrectLogin(String login) {
-        if (login == null ||
-                login.isBlank() ||
-                login.contains(" ")) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]");
-        Matcher matcher = pattern.matcher(login);
-        return matcher.matches();
-    }
-
-    private boolean isNotCorrectToken(String token) {
-        if (token == null ||
-                token.isBlank() ||
-                token.contains(" ")) {
-            return true;
-        }
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9-]");
-        Matcher matcher = pattern.matcher(token);
-        return matcher.matches();
-    }
-
-    private boolean isCorrectSize(int size) {
-        for (var item : FIELD_SIZES) {
-            if (item == size) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isNotCorrectPassword(final String password) {
-        return password == null ||
-                password.isBlank();
+    private boolean isInvalidCoordinates(int x, int y) {
+        return x < 0 ||
+                y < 0 ||
+                y > FIELD_SIZES[FIELD_SIZES.length - 1] ||
+                x > FIELD_SIZES[FIELD_SIZES.length - 1];
     }
 }
