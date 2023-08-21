@@ -85,6 +85,7 @@ public class ClientHandler implements Runnable {
             InfoDtoResponse response = userService.register(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            logger.debug("Clients registration was failed");
             return getFailureResponse(ex);
         }
     }
@@ -98,6 +99,7 @@ public class ClientHandler implements Runnable {
             LoginDtoResponse response = userService.authorization(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            logger.debug("Clients login was failed");
             return getFailureResponse(ex);
         }
     }
@@ -111,6 +113,7 @@ public class ClientHandler implements Runnable {
             InfoDtoResponse response = userService.logout(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            logger.debug("Clients logout was failed");
             return getFailureResponse(ex);
         }
     }
@@ -124,6 +127,7 @@ public class ClientHandler implements Runnable {
             var response = gameService.createGame(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            logger.debug("Clients operation 'create game' was failed");
             return getFailureResponse(ex);
         }
     }
@@ -137,6 +141,7 @@ public class ClientHandler implements Runnable {
             InfoDtoResponse response = gameService.joinGame(dto);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            logger.debug("Clients operation 'join game' was failed");
             return getFailureResponse(ex);
         }
     }
@@ -163,9 +168,14 @@ public class ClientHandler implements Runnable {
         String message = String.format("Client %d send make turn", clientId);
         logger.debug(message);
 
-        TurnDtoRequest dto = converter.getObjectFromJson(request, TurnDtoRequest.class);
-        ActionDtoResponse response = gameService.turn(dto);
-        return converter.getJsonFromObject(response);
+        try {
+            TurnDtoRequest dto = converter.getObjectFromJson(request, TurnDtoRequest.class);
+            ActionDtoResponse response = gameService.turn(dto);
+            return converter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            logger.debug("Clients operation 'turn' was failed");
+            return getFailureResponse(ex);
+        }
     }
 
     public String pass(String request) {
