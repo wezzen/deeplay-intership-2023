@@ -41,11 +41,11 @@ public class Group {
         this.freeCells.addAll(freeCells);
     }
 
-    public int getCountOfFreeDames() {
+    public int getFreeDamesCount() {
         return freeCells.size();
     }
 
-    public int getCountOfStones() {
+    public int getStonesCount() {
         return stones.size();
     }
 

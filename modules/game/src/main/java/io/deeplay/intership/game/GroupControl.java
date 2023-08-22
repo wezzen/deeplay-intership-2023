@@ -50,8 +50,8 @@ public class GroupControl {
         int countOfRemovedStones = 0;
         for (Stone enemyStone : enemyStones) {
             Group enemyGroup = enemyStone.getGroup();
-            if (enemyGroup.getCountOfFreeDames() < 1) {
-                countOfRemovedStones += enemyGroup.getCountOfStones();
+            if (enemyGroup.getFreeDamesCount() < 1) {
+                countOfRemovedStones += enemyGroup.getStonesCount();
                 enemyGroup.getStones().stream().forEach((Stone eachStone) ->
                 {
                     returnFreeCell(eachStone);
@@ -86,8 +86,8 @@ public class GroupControl {
             Stone maxStone = friendStones.stream().max(new Comparator<Stone>() {
                 @Override
                 public int compare(Stone stone1, Stone stone2) {
-                    int countOfStones1 = stone1.getGroup().getCountOfStones();
-                    int countOfStones2 = stone2.getGroup().getCountOfStones();
+                    int countOfStones1 = stone1.getGroup().getStonesCount();
+                    int countOfStones2 = stone2.getGroup().getStonesCount();
                     return countOfStones1 - countOfStones2;
                 }
             }).get();
