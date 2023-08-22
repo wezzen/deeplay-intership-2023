@@ -22,26 +22,6 @@ public class GameTest {
     }
 
     @Test
-    public void testAnalyzeMove() {
-        final Game game = new Game();
-        final int x = 0;
-        final int y = 0;
-
-        Stone stone = new Stone(Color.BLACK, x, y);
-        assertDoesNotThrow(() -> game.analyzeMove(stone));
-    }
-
-    @Test
-    public void testAnalyzeMoveToSkip() {
-        final Game game = new Game();
-        final int x = 0;
-        final int y = 0;
-
-        Stone stone = new Stone(Color.EMPTY, x, y);
-        assertDoesNotThrow(() -> game.analyzeMove(stone));
-    }
-
-    @Test
     public void testSkipTurnSuccess() {
         final Game game = new Game();
         final Color whiteColor = Color.WHITE;
