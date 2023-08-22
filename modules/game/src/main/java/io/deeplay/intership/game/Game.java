@@ -3,32 +3,35 @@ package io.deeplay.intership.game;
 import io.deeplay.intership.logger.GameLog;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.validation.Validation;
 
 public class Game {
     private static int idGenerator = 1;
     private final int gameId;
-    private final Board gameField;
+    private final Board board;
     private final GameLog gameLog;
     private final CheckGameOver checkGameOver;
     private final GroupControl groupControl;
     private final Validation validation;
+    private final ScoreCalculator scoreCalculator;
     private boolean gameIsOver;
 
     public Game() {
         this.gameId = idGenerator++;
-        this.gameField = new Board();
+        this.board = new Board();
         this.gameLog = new GameLog();
         this.checkGameOver = new CheckGameOver();
-        this.groupControl = new GroupControl(gameField);
-        this.validation = new Validation(gameField);
+        this.groupControl = new GroupControl(board.getField());
+        this.validation = new Validation(board);
+        this.scoreCalculator = new ScoreCalculator(board.getField());
         this.gameIsOver = false;
     }
 
     public Board startGame() {
         gameLog.startGame(gameId);
-        return gameField;
+        return board;
     }
 
     public void analyzeMove(Stone stone) {
@@ -53,29 +56,39 @@ public class Game {
         }
 
         if (validation.isCorrectMove(stone.getColor(), stone.getRowNumber(), stone.getColumnNumber())) {
-            gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()].setColor(stone.getColor());
-            stone = gameField.getField()[stone.getRowNumber()][stone.getColumnNumber()];
+            board.getField()[stone.getRowNumber()][stone.getColumnNumber()].setColor(stone.getColor());
+            stone = board.getField()[stone.getRowNumber()][stone.getColumnNumber()];
             checkGameOver.resetSkipCount();
-            gameField.updateLastMoveState(stone);
+            board.updateLastMoveState(stone);
             groupControl.setGroup(stone);
             groupControl.removeFreeCellFromNeighborStones(stone);
-            groupControl.removeGroup(stone);
+            int removedStonesCount = groupControl.removeGroup(stone);
+            addPoints(removedStonesCount, stone.getColor());
 
             gameLog.move(stone);
         } else {
             gameLog.wrongMove(stone.getColor());
         }
 
-        return gameField;
+        return board;
     }
 
     public void endGame() {
-        ScoreCalculator scoreCalculator = new ScoreCalculator(gameField.getField());
-        gameLog.endGame(scoreCalculator.getTotalScore());
+        ScoreCalculator scoreCalculator = new ScoreCalculator(board.getField());
+        Score score = scoreCalculator.getTotalScore();
+        gameLog.endGame(score.whitePoints() - score.blackPoints());
         this.gameIsOver = true;
     }
 
     public boolean gameIsOver() {
         return gameIsOver;
+    }
+
+    private void addPoints(final int points, final Color color) {
+        if (color == Color.BLACK) {
+            scoreCalculator.addBlackPoints(points);
+        } else {
+            scoreCalculator.addWhitePoints(points);
+        }
     }
 }

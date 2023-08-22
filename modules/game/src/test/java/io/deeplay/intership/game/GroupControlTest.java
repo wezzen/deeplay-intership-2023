@@ -21,7 +21,7 @@ public class GroupControlTest {
         for (Stone stone : initialStones) {
             field[stone.getRowNumber()][stone.getColumnNumber()] = stone;
         }
-        groupControl = new GroupControl(board);
+        groupControl = new GroupControl(board.getField());
     }
 
     public boolean test1() {
