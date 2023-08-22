@@ -7,7 +7,7 @@ public enum ResponseInfoMessage {
     SUCCESS_CREATE_GAME("Have a good game!"),
     SUCCESS_JOIN_GAME("Have a good game!"),
     SUCCESS_TURN("You can move!"),
-
+    SUCCESS_PASS("You can pass!"),
     ;
 
     public final String message;

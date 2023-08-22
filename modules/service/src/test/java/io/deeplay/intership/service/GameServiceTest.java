@@ -4,6 +4,7 @@ import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.dto.ResponseInfoMessage;
 import io.deeplay.intership.dto.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.response.ActionDtoResponse;
 import io.deeplay.intership.dto.response.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.exception.ServerException;
@@ -64,7 +65,7 @@ public class GameServiceTest {
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(GameService::new);
+        assertDoesNotThrow(() -> new GameService());
     }
 
     @Test
@@ -286,28 +287,153 @@ public class GameServiceTest {
     }
 
     @Test
-    public void testTurn() {
-        final String color = Color.WHITE.name();
-        final int row = 0;
-        final int column = 0;
-        final String token = UUID.randomUUID().toString();
-        final TurnDtoRequest dto = new TurnDtoRequest(
-                RequestType.TURN,
-                color,
-                row,
-                column,
-                token);
+    public void testSuccessTurn() throws ServerException {
+        final String firstLogin = UUID.randomUUID().toString();
+        final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
+                RequestType.REGISTRATION,
+                firstLogin,
+                passwordHash);
+        userService.register(registerFirst);
+        final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
+                RequestType.LOGIN,
+                firstLogin,
+                passwordHash);
+        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+        String firstToken = responseFirst.token();
 
-        assertDoesNotThrow(() -> gameService.turn(dto));
+        final String secondLogin = UUID.randomUUID().toString();
+        final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
+                RequestType.REGISTRATION,
+                secondLogin,
+                passwordHash);
+        userService.register(registerSecond);
+        final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
+                RequestType.LOGIN,
+                secondLogin,
+                passwordHash);
+        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+        String secondToken = responseSecond.token();
+
+        final boolean withBot = false;
+        final String blackColor = Color.BLACK.name();
+        final int size = 9;
+        final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
+                RequestType.CREATE_GAME,
+                withBot,
+                blackColor,
+                size,
+                firstToken);
+
+
+        final var gameDto = gameService.createGame(createGameRequest);
+        assertAll(
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
+                () -> assertNotNull(gameDto.gameId())
+        );
+
+        final String color = Color.WHITE.name();
+        final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
+                RequestType.CREATE_GAME,
+                gameDto.gameId(),
+                secondToken,
+                color);
+
+        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
+        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        assertAll(
+                () -> assertEquals(expectedMessage, dtoResponse.message()),
+                () -> assertEquals(expectedStatus, dtoResponse.status())
+        );
+
+
+        final TurnDtoRequest turnDtoRequest = new TurnDtoRequest(
+                RequestType.TURN,
+                blackColor,
+                0,
+                0,
+                firstToken);
+
+        final ActionDtoResponse actionDtoResponse = gameService.turn(turnDtoRequest);
+        assertAll(
+                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status()),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, actionDtoResponse.message()),
+                () -> assertNotNull(actionDtoResponse.gameField())
+        );
     }
 
     @Test
-    public void testPass() {
-        final String token = UUID.randomUUID().toString();
-        final PassDtoRequest dto = new PassDtoRequest(
-                RequestType.CREATE_GAME,
-                token);
+    public void testPass() throws ServerException {
+        final String firstLogin = UUID.randomUUID().toString();
+        final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
+                RequestType.REGISTRATION,
+                firstLogin,
+                passwordHash);
+        userService.register(registerFirst);
+        final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
+                RequestType.LOGIN,
+                firstLogin,
+                passwordHash);
+        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+        String firstToken = responseFirst.token();
 
-        assertDoesNotThrow(() -> gameService.pass(dto));
+        final String secondLogin = UUID.randomUUID().toString();
+        final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
+                RequestType.REGISTRATION,
+                secondLogin,
+                passwordHash);
+        userService.register(registerSecond);
+        final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
+                RequestType.LOGIN,
+                secondLogin,
+                passwordHash);
+        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+        String secondToken = responseSecond.token();
+
+        final boolean withBot = false;
+        final String blackColor = Color.BLACK.name();
+        final int size = 9;
+        final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
+                RequestType.CREATE_GAME,
+                withBot,
+                blackColor,
+                size,
+                firstToken);
+
+
+        final var gameDto = gameService.createGame(createGameRequest);
+        assertAll(
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
+                () -> assertNotNull(gameDto.gameId())
+        );
+
+        final String color = Color.WHITE.name();
+        final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
+                RequestType.CREATE_GAME,
+                gameDto.gameId(),
+                secondToken,
+                color);
+
+        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
+        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        assertAll(
+                () -> assertEquals(expectedMessage, dtoResponse.message()),
+                () -> assertEquals(expectedStatus, dtoResponse.status())
+        );
+
+
+        final PassDtoRequest passDtoRequest = new PassDtoRequest(
+                RequestType.TURN,
+                firstToken);
+
+        final ActionDtoResponse actionDtoResponse = gameService.pass(passDtoRequest);
+        assertAll(
+                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status()),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, actionDtoResponse.message()),
+                () -> assertNotNull(actionDtoResponse.gameField())
+        );
     }
 }

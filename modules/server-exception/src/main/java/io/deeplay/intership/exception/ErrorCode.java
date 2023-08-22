@@ -25,8 +25,9 @@ public enum ErrorCode {
     INVALID_COLOR("Invalid color"),
     REPEATED_PLAYER("You're already connected to this game"),
     TURN_HAS_INVALID_COORDINATES("Current turn has invalid coordinates"),
-    CANNOT_FIND_GAME("Your game not found!"),
     INVALID_BOARD_SIZE("Invalid board size"),
+    INVALID_TURN_ORDER("Invalid turn order"),
+    GAME_NOT_STARTED("Game not started"),
     ;
     public final String message;
 
