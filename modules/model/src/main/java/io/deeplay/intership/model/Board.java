@@ -11,6 +11,7 @@ import java.util.Set;
 public class Board {
     public static final int DEFAULT_BOARD_SIZE = 9;
     private final Stone[][] field;
+    @Deprecated
     private final Set<Group> groups;
     private Stone lastBlackMove;
     private Stone lastWhiteMove;
@@ -33,14 +34,17 @@ public class Board {
         return field;
     }
 
+    @Deprecated
     public Set<Group> getGroups() {
         return groups;
     }
 
+    @Deprecated
     public void addGroup(Group group) {
         groups.add(group);
     }
 
+    @Deprecated
     public void removeGroup(Group group) {
         groups.remove(group);
     }

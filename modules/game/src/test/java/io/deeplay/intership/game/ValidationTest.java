@@ -38,7 +38,7 @@ public class ValidationTest {
         final Board board = new Board();
         final Validation validation = new Validation(board);
         final Color whiteColor = Color.WHITE;
-        GroupControl groupControl = new GroupControl(board);
+        GroupControl groupControl = new GroupControl(board.getField());
 
         board.getField()[0][0].setColor(whiteColor);
         groupControl.setGroup(board.getField()[0][0]);
@@ -81,7 +81,7 @@ public class ValidationTest {
         final Board board = new Board();
         final Validation validation = new Validation(board);
         final Color whiteColor = Color.BLACK;
-        GroupControl groupControl = new GroupControl(board);
+        GroupControl groupControl = new GroupControl(board.getField());
 
         board.getField()[0][0].setColor(whiteColor);
         groupControl.setGroup(board.getField()[0][0]);
