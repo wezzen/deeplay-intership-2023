@@ -6,8 +6,8 @@ import io.deeplay.intership.model.Stone;
 
 import java.util.*;
 
+@Deprecated
 public class CounterOfStones {
-    private Board board;
     private String[][] field;
     private final int MIN_FIELD_RANGE;
     private final int MAX_FIELD_RANGE;

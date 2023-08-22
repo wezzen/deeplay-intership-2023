@@ -62,14 +62,14 @@ public class Validation {
         Set<Stone> enemyStones = getNearStonesByColor(Color.invertColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
-                if (enemyStone.getGroup().getCountOfFreeDames() < 2) {
+                if (enemyStone.getGroup().getFreeDamesCount() < 2) {
                     return false;
                 }
             }
             return true;
         }
         for (Stone friendStone : friendStones) {
-            if (friendStone.getGroup().getCountOfFreeDames() > 1) {
+            if (friendStone.getGroup().getFreeDamesCount() > 1) {
                 return false;
             }
         }
@@ -109,7 +109,7 @@ public class Validation {
      */
     public boolean isKoSituation(Color color, int x, int y) {
         Group group = field[x][y].getGroup();
-        if (group == null || group.getCountOfStones() != 1) {
+        if (group == null || group.getStonesCount() != 1) {
             return false;
         }
         Stone previousMove = board.getLastMoveByColor(color);
@@ -119,7 +119,7 @@ public class Validation {
 
         Set<Stone> enemy = getNearStonesByColor(Color.invertColor(color), x, y);
         for (Stone stone : enemy) {
-            if (stone.getGroup().getCountOfFreeDames() == 1 &&
+            if (stone.getGroup().getFreeDamesCount() == 1 &&
                     stone.getGroup().getFreeCells().contains(field[x][y])) {
                 return true;
             }

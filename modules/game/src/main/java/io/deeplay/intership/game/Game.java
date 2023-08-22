@@ -1,9 +1,9 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.logger.GameLog;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
-import io.deeplay.intership.logger.GameLog;
 import io.deeplay.intership.validation.Validation;
 
 public class Game {
@@ -70,7 +70,7 @@ public class Game {
     }
 
     public void endGame() {
-        ScoreCalculator scoreCalculator = new ScoreCalculator();
+        ScoreCalculator scoreCalculator = new ScoreCalculator(gameField.getField());
         gameLog.endGame(scoreCalculator.getTotalScore());
         this.gameIsOver = true;
     }
