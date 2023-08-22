@@ -34,14 +34,6 @@ public class Game {
         return board;
     }
 
-    public Stone[][] analyzeMove(Stone stone) {
-        if (stone.getColor() == Color.EMPTY) {
-            return skipTurn(stone.getColor());
-        } else {
-            return makeMove(stone);
-        }
-    }
-
     public Stone[][] skipTurn(Color color) {
         if (!checkGameOver.canSkipTurn()) {
             endGame();
