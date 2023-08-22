@@ -47,3 +47,5 @@ project(":sandbox").projectDir = file("modules/sandbox")
 
 include("game-exception")
 project(":game-exception").projectDir = file("modules/game-exception")
+include("decision-maker")
+project(":decision-maker").projectDir = file("modules/decision-maker")
