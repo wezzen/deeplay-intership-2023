@@ -47,3 +47,7 @@ project(":sandbox").projectDir = file("modules/sandbox")
 
 include("game-exception")
 project(":game-exception").projectDir = file("modules/game-exception")
+
+include("gui")
+project(":gui").projectDir = file("modules/gui")
+
