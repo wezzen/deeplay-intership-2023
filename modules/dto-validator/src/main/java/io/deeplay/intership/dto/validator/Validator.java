@@ -13,44 +13,42 @@ public class Validator {
 
     public void validationCreateGameDto(CreateGameDtoRequest dtoRequest) throws ServerException {
         isExistColor(dtoRequest.color());
-        isNotCorrectToken(dtoRequest.token());
-        isCorrectSize(dtoRequest.size());
+        isValidToken(dtoRequest.token());
+        isValidSize(dtoRequest.size());
     }
 
     public void validationFinishGameDto(FinishGameDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectToken(dtoRequest.gameId());
+        isValidToken(dtoRequest.gameId());
     }
 
     public void validationJoinGameDto(JoinGameDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectToken(dtoRequest.gameId());
-        isNotCorrectToken(dtoRequest.token());
+        isValidToken(dtoRequest.gameId());
+        isValidToken(dtoRequest.token());
         isExistColor(dtoRequest.color());
     }
 
     public void validationLoginDto(LoginDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectLogin(dtoRequest.login());
-        isNotCorrectPassword(dtoRequest.passwordHash());
+        isValidLogin(dtoRequest.login());
+        isValidPassword(dtoRequest.passwordHash());
     }
 
     public void validationLogoutDto(LogoutDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectToken(dtoRequest.token());
+        isValidToken(dtoRequest.token());
     }
 
     public void validationTurnDto(TurnDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectToken(dtoRequest.token());
+        isValidToken(dtoRequest.token());
         isExistColor(dtoRequest.color());
-        if (isInvalidCoordinates(dtoRequest.row(), dtoRequest.column())) {
-            throw new ServerException(ErrorCode.TURN_HAS_INVALID_COORDINATES);
-        }
+        isValidCoordinates(dtoRequest.row(), dtoRequest.column());
     }
 
     public void validationPassDto(PassDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectToken(dtoRequest.token());
+        isValidToken(dtoRequest.token());
     }
 
     public void validationRegistrationDto(RegistrationDtoRequest dtoRequest) throws ServerException {
-        isNotCorrectLogin(dtoRequest.login());
-        isNotCorrectPassword(dtoRequest.passwordHash());
+        isValidLogin(dtoRequest.login());
+        isValidPassword(dtoRequest.passwordHash());
     }
 
     private void isExistColor(String color) throws ServerException {
@@ -64,7 +62,7 @@ public class Validator {
         }
     }
 
-    private void isNotCorrectLogin(String login) throws ServerException {
+    private void isValidLogin(String login) throws ServerException {
         if (login == null ||
                 login.isBlank() ||
                 login.contains(" ")) {
@@ -77,7 +75,7 @@ public class Validator {
         }
     }
 
-    private void isNotCorrectToken(String token) throws ServerException {
+    private void isValidToken(String token) throws ServerException {
         if (token == null ||
                 token.isBlank() ||
                 token.contains(" ")) {
@@ -90,7 +88,7 @@ public class Validator {
         }
     }
 
-    private void isCorrectSize(int size) throws ServerException {
+    private void isValidSize(int size) throws ServerException {
         for (var item : FIELD_SIZES) {
             if (item == size) {
                 return;
@@ -99,17 +97,19 @@ public class Validator {
         throw new ServerException(ErrorCode.INVALID_BOARD_SIZE);
     }
 
-    private void isNotCorrectPassword(final String password) throws ServerException {
+    private void isValidPassword(final String password) throws ServerException {
         if (password == null ||
                 password.isBlank()) {
             throw new ServerException(ErrorCode.PASSWORD_CANNOT_BE_EMPTY);
         }
     }
 
-    private boolean isInvalidCoordinates(int x, int y) {
-        return x < 0 ||
-                y < 0 ||
+    private void isValidCoordinates(int x, int y) throws ServerException {
+        if (x > FIELD_SIZES[FIELD_SIZES.length - 1] ||
                 y > FIELD_SIZES[FIELD_SIZES.length - 1] ||
-                x > FIELD_SIZES[FIELD_SIZES.length - 1];
+                x < 0 ||
+                y < 0) {
+            throw new ServerException(ErrorCode.TURN_HAS_INVALID_COORDINATES);
+        }
     }
 }
