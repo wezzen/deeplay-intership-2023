@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class JSONConverterTest {
     private final ObjectMapper mapper = new ObjectMapper();
@@ -17,7 +19,8 @@ public class JSONConverterTest {
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(JSONConverter::new);
+        assertDoesNotThrow(() -> new JSONConverter());
+        assertDoesNotThrow(() -> new JSONConverter(new ObjectMapper()));
     }
 
     @Test
@@ -49,6 +52,17 @@ public class JSONConverterTest {
     }
 
     @Test
+    public void testJsonToObject_Failure() throws JsonProcessingException {
+        final ObjectMapper objectMapper = mock(ObjectMapper.class);
+        final JSONConverter converter = new JSONConverter(objectMapper);
+
+        when(objectMapper.readValue("", CreateGameDtoRequest.class))
+                .thenThrow(new JsonProcessingException("") {
+                });
+        assertThrows(RuntimeException.class, () -> converter.getObjectFromJson("", CreateGameDtoRequest.class));
+    }
+
+    @Test
     public void testObjectToJson() throws JsonProcessingException {
         final RequestType requestType = RequestType.CREATE_GAME;
         final boolean withBot = false;
@@ -67,5 +81,31 @@ public class JSONConverterTest {
         String expected = mapper.writeValueAsString(object);
 
         assertEquals(expected, converter.getJsonFromObject(object));
+    }
+
+
+    @Test
+    public void testObjectToJson_Failure() throws JsonProcessingException {
+        final ObjectMapper objectMapper = mock(ObjectMapper.class);
+        final JSONConverter jsonConverter = new JSONConverter(objectMapper);
+
+        final RequestType requestType = RequestType.CREATE_GAME;
+        final boolean withBot = false;
+        final String color = Color.WHITE.name();
+        final int gameFieldSize = 9;
+        final String token = UUID.randomUUID().toString();
+        final CreateGameDtoRequest object = new CreateGameDtoRequest(
+                requestType,
+                withBot,
+                color,
+                gameFieldSize,
+                token
+        );
+
+        when(objectMapper.writeValueAsString(object))
+                .thenThrow(new JsonProcessingException("") {
+                });
+
+        assertThrows(RuntimeException.class, () -> jsonConverter.getJsonFromObject(object));
     }
 }

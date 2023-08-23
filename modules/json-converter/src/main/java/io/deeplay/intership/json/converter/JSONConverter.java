@@ -7,9 +7,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JSONConverter {
     private final ObjectMapper mapper;
 
-    public JSONConverter(){
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+    public JSONConverter(final ObjectMapper objectMapper) {
+        this.mapper = objectMapper;
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    public JSONConverter() {
+        this(new ObjectMapper());
     }
 
     public <T> T getObjectFromJson(String jsonString, Class<T> classOfT) {
