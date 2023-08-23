@@ -2,9 +2,13 @@ package io.deeplay.intership.client;
 
 import io.deeplay.intership.decision.maker.*;
 import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.dto.request.LoginDtoRequest;
+import io.deeplay.intership.dto.request.RegistrationDtoRequest;
+import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.model.*;
 import io.deeplay.intership.ui.terminal.Display;
 import io.deeplay.intership.ui.terminal.UserInterface;
+import io.deeplay.intership.json.converter.JSONConverter;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,7 +22,7 @@ public class Client {
     private static UserInterface display;
     private static DecisionMaker decisionMaker;
     private static String token;
-
+    private static JSONConverter converter;
     public static void main(String[] args) {
 
         try {
@@ -26,7 +30,7 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        while (true){
+        while (enterServer()){
 
         }
     }
@@ -43,6 +47,7 @@ public class Client {
         socket = new Socket(host,port);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(socket.getOutputStream(),true);
+        converter = new JSONConverter();
         if(isGUI){
             //конструктор для гуи и дм
         } else {
@@ -62,15 +67,32 @@ public class Client {
     public static void skipTurn(){
         //json отправить в writer
     }
-    public static void enterGame(RequestType requestType, String login, String pswd){
-        //выбрать json и отправить
+    public static boolean enterServer(){
+        display.showLoginActions();
+        display.showLogin();
+        display.showRegistration();
+        LoginPassword lp = decisionMaker.getLoginPassword();
+        String message = null;
+        switch (lp.type()){
+            case REGISTRATION -> message = converter.getJsonFromObject(new RegistrationDtoRequest(lp.type(), lp.login(), lp.password()));
+            case LOGIN -> message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
+        }
+        writer.println(message);
+        try {
+            LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readLine(), LoginDtoResponse.class);
+            if (loginAnswer.status() == "success") {
+                token = loginAnswer.token();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
     }
-    public void joinGame(int gameId){
+    public void joinGame(){
+
         //здесь надо отправить запрос на подключение к игре с gameId
-    }
-    public int createGame(){
-        //здесь надо отправить запрос на создание игры и вернуть gameId
-        int gameId = 1;
-        return gameId;
     }
 }
