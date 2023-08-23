@@ -742,6 +742,40 @@ public class ValidatorTest {
     }
 
     @Test
+    public void testSuccessValidationTurnDto() {
+        final RequestType requestType = RequestType.TURN;
+        final String color = Color.WHITE.name();
+        final int row = 1;
+        final int column = 1;
+        final String token = UUID.randomUUID().toString();
+        final TurnDtoRequest dtoRequest = new TurnDtoRequest(
+                RequestType.TURN,
+                color,
+                row,
+                column,
+                token);
+
+        assertDoesNotThrow(() -> validator.validationTurnDto(dtoRequest));
+    }
+
+    @Test
+    public void testFailureValidationTurnDto() {
+        final RequestType requestType = RequestType.TURN;
+        final String color = Color.WHITE.name();
+        final int row = 100;
+        final int column = -1;
+        final String token = UUID.randomUUID().toString();
+        final TurnDtoRequest dtoRequest = new TurnDtoRequest(
+                RequestType.TURN,
+                color,
+                row,
+                column,
+                token);
+
+        assertThrows(ServerException.class, () -> validator.validationTurnDto(dtoRequest));
+    }
+
+    @Test
     public void testSuccessValidationPassDto() {
         final RequestType requestType = RequestType.JOIN_GAME;
         final String token = UUID.randomUUID().toString();
