@@ -1,10 +1,14 @@
 package io.deeplay.intership.model;
 
 public enum Color {
-    BLACK,
-    WHITE,
-    EMPTY;
+    BLACK("B"),
+    WHITE("W"),
+    EMPTY("E");
+    public final String symbol;
 
+    Color(String symbol) {
+        this.symbol = symbol;
+    }
 
     /**
      * Получает цвет противника для данного цвета.

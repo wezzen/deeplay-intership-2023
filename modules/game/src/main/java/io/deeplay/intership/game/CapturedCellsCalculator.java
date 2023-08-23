@@ -3,6 +3,7 @@ package io.deeplay.intership.game;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Group;
 import io.deeplay.intership.model.Stone;
+import jdk.jfr.Experimental;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 /**
  * Этот класс вычисляет захваченные пустые группы {@link Group} на поле игры Го.
  */
+@Experimental
 public class CapturedCellsCalculator {
     private final Stone[][] gameField;
     private final GroupControl groupControl;

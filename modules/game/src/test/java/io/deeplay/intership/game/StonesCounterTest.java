@@ -7,7 +7,7 @@ import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
 
-public class CounterOfStonesTest {
+public class StonesCounterTest {
     public void setField(String s, Board board){
         Stone[][] field = board.getField();
         int sizeOfField = field.length;
@@ -30,9 +30,9 @@ public class CounterOfStonesTest {
         String s = "EEBEEEEWEEBEEEEWEEBBEEWWEWEEEEWEEWEWEEEEWEWEEBBEEEWEEBEBEEEEEBEEBBEEEBEEEBEEEEEEE";
         Board board = new Board();
         setField(s, board);
-        CounterOfStones counterOfStones = new CounterOfStones(board);
-        counterOfStones.countCapturedEmptyStones();
-        assertEquals(6, counterOfStones.getBlackPoints());
-        assertEquals(8, counterOfStones.getWhitePoints());
+        StonesCounter stonesCounter = new StonesCounter(board.getField());
+        stonesCounter.countCapturedEmptyStones();
+        assertEquals(6, stonesCounter.getBlackPoints());
+        assertEquals(8, stonesCounter.getWhitePoints());
     }
 }

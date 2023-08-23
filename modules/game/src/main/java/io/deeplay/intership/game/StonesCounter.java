@@ -1,51 +1,42 @@
 package io.deeplay.intership.game;
 
-import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Deprecated
-public class CounterOfStones {
-    private String[][] field;
+public class StonesCounter {
+    private final String[][] field;
     private final int MIN_FIELD_RANGE;
     private final int MAX_FIELD_RANGE;
+    private final List<Owner> owners;
     private int counterOfGroups;
     private int whitePoints;
     private int blackPoints;
-    private List<Owner> owners;
 
-    public CounterOfStones(Board board) {
+    public StonesCounter(final Stone[][] gameField) {
         this.owners = new ArrayList<>();
         this.MIN_FIELD_RANGE = 0;
-        this.MAX_FIELD_RANGE = board.getField().length - 1;
+        this.MAX_FIELD_RANGE = gameField.length - 1;
         counterOfGroups = blackPoints = whitePoints = 0;
-        this.field = createField(board);
+        this.field = createField(gameField);
     }
 
-    public String[][] createField(Board board) {
-        Stone[][] fieldBoard = board.getField();
-        String[][] field = new String[MAX_FIELD_RANGE + 1][MAX_FIELD_RANGE + 1];
+    private String[][] createField(final Stone[][] gameField) {
+        final String[][] field = new String[MAX_FIELD_RANGE + 1][MAX_FIELD_RANGE + 1];
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
             for (int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++) {
-                Color color = fieldBoard[i][j].getColor();
-                if (color == Color.WHITE) {
-                    field[i][j] = "W";
-                } else if (color == Color.BLACK) {
-                    field[i][j] = "B";
-                } else {
-                    field[i][j] = "E";
-                }
+                field[i][j] = gameField[i][j].getColor().symbol;
             }
         }
         return field;
     }
 
-    public void findGroupsOfEmptyStones() {
+    private void findGroupsOfEmptyStones() {
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
             for (int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++) {
-                if (field[i][j].equals("E")) {
+                if (field[i][j].equals(Color.EMPTY.symbol)) {
                     owners.add(Owner.NONE);
                     openGroup(i, j);
                     counterOfGroups++;
@@ -54,40 +45,40 @@ public class CounterOfStones {
         }
     }
 
-    public void openGroup(int i, int j) {
+    private void openGroup(int i, int j) {
         field[i][j] = String.valueOf(counterOfGroups);
         if (i > MIN_FIELD_RANGE) {
-            if (field[i - 1][j].equals("E")) {
+            if (field[i - 1][j].equals(Color.EMPTY.symbol)) {
                 openGroup(i - 1, j);
-            } else if (field[i - 1][j].equals("W") || field[i - 1][j].equals("B")) {
+            } else if (field[i - 1][j].equals(Color.WHITE.symbol) || field[i - 1][j].equals(Color.BLACK.symbol)) {
                 changeOwner(field[i - 1][j]);
             }
         }
         if (i < MAX_FIELD_RANGE) {
-            if (field[i + 1][j].equals("E")) {
+            if (field[i + 1][j].equals(Color.EMPTY.symbol)) {
                 openGroup(i + 1, j);
-            } else if (field[i + 1][j].equals("W") || field[i + 1][j].equals("B")) {
+            } else if (field[i + 1][j].equals(Color.WHITE.symbol) || field[i + 1][j].equals(Color.BLACK.symbol)) {
                 changeOwner(field[i + 1][j]);
             }
         }
         if (j > MIN_FIELD_RANGE) {
-            if (field[i][j - 1].equals("E")) {
+            if (field[i][j - 1].equals(Color.EMPTY.symbol)) {
                 openGroup(i, j - 1);
-            } else if (field[i][j - 1].equals("W") || field[i][j - 1].equals("B")) {
+            } else if (field[i][j - 1].equals(Color.WHITE.symbol) || field[i][j - 1].equals(Color.BLACK.symbol)) {
                 changeOwner(field[i][j - 1]);
             }
         }
         if (j < MAX_FIELD_RANGE) {
-            if (field[i][j + 1].equals("E")) {
+            if (field[i][j + 1].equals(Color.EMPTY.symbol)) {
                 openGroup(i, j + 1);
-            } else if (field[i][j + 1].equals("W") || field[i][j + 1].equals("B")) {
+            } else if (field[i][j + 1].equals(Color.WHITE.symbol) || field[i][j + 1].equals(Color.BLACK.symbol)) {
                 changeOwner(field[i][j + 1]);
             }
         }
     }
 
-    public void changeOwner(String color) {
-        if (color.equals("B")) {
+    private void changeOwner(final String color) {
+        if (color.equals(Color.BLACK.symbol)) {
             if (owners.get(counterOfGroups) == Owner.NONE) {
                 owners.set(counterOfGroups, Owner.BLACK);
             } else if (owners.get(counterOfGroups) == Owner.WHITE) {
@@ -107,13 +98,23 @@ public class CounterOfStones {
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
             for (int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++) {
                 if (!field[i][j].equals("B") && !field[i][j].equals("W")) {
-                    if (owners.get(Integer.valueOf(field[i][j])) == Owner.BLACK) {
+                    incrementPoints(owners.get(Integer.parseInt(field[i][j])));
+                    /*if (owners.get(Integer.parseInt(field[i][j])) == Owner.BLACK) {
                         blackPoints++;
-                    } else if (owners.get(Integer.valueOf(field[i][j])) == Owner.WHITE) {
+                    } else if (owners.get(Integer.parseInt(field[i][j])) == Owner.WHITE) {
                         whitePoints++;
-                    }
+                    }*/
                 }
             }
+        }
+    }
+
+    private void incrementPoints(final Owner owner) {
+        if (Owner.BLACK == owner) {
+            blackPoints++;
+        }
+        if (Owner.WHITE == owner) {
+            whitePoints++;
         }
     }
 
@@ -125,5 +126,3 @@ public class CounterOfStones {
         return blackPoints;
     }
 }
-
-
