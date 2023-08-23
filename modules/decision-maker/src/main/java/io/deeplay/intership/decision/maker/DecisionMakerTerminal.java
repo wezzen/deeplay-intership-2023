@@ -11,7 +11,7 @@ public class DecisionMakerTerminal implements DecisionMaker{
     public LoginPassword getLoginPassword() {
         return switch (scanner.nextInt()){
             case 1 -> registration();
-            case 2 -> autorization();
+            case 2 -> login();
             default -> throw new IllegalArgumentException();
         };
     }
@@ -20,6 +20,7 @@ public class DecisionMakerTerminal implements DecisionMaker{
         return switch (scanner.nextInt()){
             case 1 -> makeMove();
             case 2 -> skipTurn();
+            case 3 -> surrender();
             default -> throw new IllegalArgumentException();
         };
     }
@@ -46,12 +47,28 @@ public class DecisionMakerTerminal implements DecisionMaker{
             default -> Color.WHITE;
         };
     }
-
+    public LoginPassword endGame(){
+        return new LoginPassword(RequestType.FINISH_GAME, null, null);
+    }
+    public LoginPassword logout(){
+        return new LoginPassword(RequestType.LOGOUT, null, null);
+    }
+    private GameAction surrender(){
+        return new GameAction(RequestType.SURRENDER, 0 , 0);
+    }
     private GameId joinGame(){
-        return new GameId(RequestType.JOIN_GAME, scanner.nextInt());
+        Color color = getColor();
+        return new GameId(RequestType.JOIN_GAME, false, color, 0,scanner.nextInt());
     }
     private GameId createGame(){
-        return new GameId(RequestType.CREATE_GAME, 0);
+        boolean bot;
+        switch (scanner.nextInt()){
+            case 1 -> bot = true;
+            case 2 -> bot = false;
+            default -> bot = false;
+        }
+        Color color = getColor();
+        return new GameId(RequestType.CREATE_GAME, bot, color, scanner.nextInt(), 0);
     }
     private GameAction skipTurn(){
         return new GameAction(RequestType.PASS, 0, 0);
@@ -60,9 +77,9 @@ public class DecisionMakerTerminal implements DecisionMaker{
         return new GameAction(RequestType.TURN, scanner.nextInt(), scanner.nextInt());
     }
     private LoginPassword registration(){
-        return new LoginPassword(RequestType.REGISTRATION, scanner.next(),scanner.next());
+        return new LoginPassword(RequestType.REGISTRATION, scanner.next(), scanner.next());
     }
-    private LoginPassword autorization(){
-        return new LoginPassword(RequestType.LOGIN, scanner.next(),scanner.next());
+    private LoginPassword login(){
+        return new LoginPassword(RequestType.LOGIN, scanner.next(), scanner.next());
     }
 }
