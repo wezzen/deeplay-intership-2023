@@ -7,7 +7,7 @@ import io.deeplay.intership.model.Stone;
 /**
  * Класс {@code Display} отвечает за отображение игрового поля и различных сообщений пользователю.
  */
-public class Display {
+public class Display implements UserInterface{
 
     private static final int MIN_BORDER_VALUE = 1;
     private static final int DEFAULT_BORDER_MAX_VALUE = 9;
@@ -47,12 +47,12 @@ public class Display {
     }
     public void showRegistration(){
         showHorizontalLine();
-        System.out.print("Для регистрации введите новый логин и пароль:\n");
+        System.out.print("Для регистрации введите новый логин и пароль через пробел:\n");
         showHorizontalLine();
     }
     public void showLogin(){
         showHorizontalLine();
-        System.out.print("Для входа введите логин и пароль:\n");
+        System.out.print("Для входа введите логин и пароль через пробел:\n");
         showHorizontalLine();
     }
     public void showRoomActions(){
