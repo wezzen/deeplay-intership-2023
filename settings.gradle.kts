@@ -42,3 +42,5 @@ project(":dto-validator").projectDir = file("modules/dto-validator")
 include("json-converter")
 project(":json-converter").projectDir = file("modules/json-converter")
 
+include("game-lobby")
+project(":game-lobby").projectDir = file("modules/game-lobby")
