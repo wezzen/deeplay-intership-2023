@@ -41,6 +41,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         try (DataInputStream in = new DataInputStream(clientSocket.getInputStream());
              DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream())) {
+            //TODO: реализовать отключение клиента от сервера, после n секунд бездействия со стороны клиента
             while (true) {
                 String clientCommand = in.readUTF();
                 String response = defineCommand(clientCommand);
