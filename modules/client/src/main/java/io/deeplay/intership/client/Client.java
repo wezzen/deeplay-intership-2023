@@ -17,8 +17,8 @@ public class Client {
     private static String host;
     private static int port;
     private static Socket socket;
-    private static BufferedReader reader;
-    private static PrintWriter writer;
+    private static DataInputStream reader;
+    private static DataOutputStream writer;
     private static UserInterface display;
     private static DecisionMaker decisionMaker;
     private static String token;
@@ -27,11 +27,11 @@ public class Client {
 
         try {
             init();
+            while (enterServer()){
+
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        while (enterServer()){
-
         }
     }
     public static void init() throws IOException {
@@ -45,8 +45,8 @@ public class Client {
         isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
         fis.close();
         socket = new Socket(host,port);
-        reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        writer = new PrintWriter(socket.getOutputStream(),true);
+        reader = new DataInputStream(socket.getInputStream());
+        writer = new DataOutputStream(socket.getOutputStream());
         converter = new JSONConverter();
         if(isGUI){
             //конструктор для гуи и дм
@@ -67,7 +67,7 @@ public class Client {
     public static void skipTurn(){
         //json отправить в writer
     }
-    public static boolean enterServer(){
+    public static boolean enterServer() throws IOException {
         display.showLoginActions();
         display.showLogin();
         display.showRegistration();
@@ -77,10 +77,10 @@ public class Client {
             case REGISTRATION -> message = converter.getJsonFromObject(new RegistrationDtoRequest(lp.type(), lp.login(), lp.password()));
             case LOGIN -> message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
         }
-        writer.println(message);
+        writer.writeUTF(message);
         try {
-            LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readLine(), LoginDtoResponse.class);
-            if (loginAnswer.status() == "success") {
+            LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readUTF(), LoginDtoResponse.class);
+            if (loginAnswer.status().equals("success")) {
                 token = loginAnswer.token();
                 return true;
             } else {
