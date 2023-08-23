@@ -12,7 +12,6 @@ import io.deeplay.intership.model.Stone;
 public interface PlayerActions {
 
     Move chooseGameAction(final Stone[][] gameField);
-
     /**
      * Определяет действие игрока "сделать ход".
      */

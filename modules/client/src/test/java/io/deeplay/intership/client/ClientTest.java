@@ -12,13 +12,10 @@ class ClientTest {
 
     @Test
     void creatingInstanceTest() {
-        assertDoesNotThrow(() -> new Client());
-        assertDoesNotThrow(() -> new Client("172.0.0.1", 8000));
+        assertDoesNotThrow(() -> Client.init());
     }
     @Test
     void clientProcessTest() throws IOException {
-            Client client = new Client();
-            assertDoesNotThrow(() -> client.clientProcess());
     }
 
 

@@ -6,24 +6,19 @@ import io.deeplay.intership.model.Stone;
 
 /**
  * Класс {@code Display} отвечает за отображение игрового поля и различных сообщений пользователю.
- * Он использует {@link Converter} преобразования данных.
  */
 public class Display {
 
     private static final int MIN_BORDER_VALUE = 1;
     private static final int DEFAULT_BORDER_MAX_VALUE = 9;
-    private final Converter converter;
 
-    public Display() {
-        this.converter = new Converter();
-    }
 
     /**
      * Показывает сообщение заголовка для пользовательского ввода.
      */
     public void showMoveRules() {
         System.out.print("Введите координаты нового камня через пробел\n");
-        System.out.print("Формат записи: 1 d\n");
+        System.out.print("Формат записи: 1 6\n");
         String range = String.format("Диапазон допустимых значений для строки от %d до %d\n",
                 MIN_BORDER_VALUE,
                 DEFAULT_BORDER_MAX_VALUE);
@@ -38,11 +33,45 @@ public class Display {
     public void showGameActions() {
         showHorizontalLine();
         System.out.print("Выберите следущее действие:\n");
-        System.out.print("Чтобы сделать ход нажмите " + UserAction.MOVE.getActionCode() + "\n");
-        System.out.print("Чтобы пропустить ход нажмите " + UserAction.SKIP.getActionCode() + "\n");
+        System.out.print("Чтобы сделать ход нажмите " + 1 + "\n");
+        System.out.print("Чтобы пропустить ход нажмите " + 2 + "\n");
         showHorizontalLine();
     }
-
+    public void showLoginActions(){
+        showHorizontalLine();
+        System.out.print("Добро пожаловать на сервер ГО!\n");
+        System.out.print("Выберите следущее действие:\n");
+        System.out.print("Чтобы зарегестрироваться нажмите " + 1 + "\n");
+        System.out.print("Чтобы авторизоваться нажмите " + 2 + "\n");
+        showHorizontalLine();
+    }
+    public void showRegistration(){
+        showHorizontalLine();
+        System.out.print("Для регистрации введите новый логин и пароль:\n");
+        showHorizontalLine();
+    }
+    public void showLogin(){
+        showHorizontalLine();
+        System.out.print("Для входа введите логин и пароль:\n");
+        showHorizontalLine();
+    }
+    public void showRoomActions(){
+        showHorizontalLine();
+        System.out.print("Выберите игровую сессию\n");
+        System.out.print("Выберите следующее действие:\n");
+        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
+        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");
+        showHorizontalLine();
+    }
+    public void showJoin(){
+        System.out.print("Для входа в игру введите GameID:\n");
+        showHorizontalLine();
+    }
+    public void showCreating(int gameId){
+        showHorizontalLine();
+        System.out.print("Создана игровая сессия под номером: " + gameId + "\n");
+        showHorizontalLine();
+    }
     /**
      * Показывает сообщение о состоянии ожидания.
      */
@@ -69,7 +98,12 @@ public class Display {
             for (int j = 0; j < gameField[i].length; j++) {
                 stringBuilder
                         .append(" ")
-                        .append(converter.getStoneSymbol(gameField[i][j]))
+                        .append(switch (gameField[i][j].getColor()){
+                            case BLACK -> "-";
+                            case WHITE -> "+";
+                            case EMPTY -> "0";
+                            default -> "0";
+                        })
                         .append(" ");
             }
             stringBuilder.append("#");
@@ -92,7 +126,7 @@ public class Display {
         for (int i = MIN_BORDER_VALUE; i < gameField.length + MIN_BORDER_VALUE; i++) {
             stringBuilder
                     .append(" ")
-                    .append(converter.convertIntToChar(i))
+                    .append(i)
                     .append(" ");
         }
         System.out.println("  " + stringBuilder);
@@ -117,11 +151,11 @@ public class Display {
 
     public void showColorSelection() {
         System.out.print(
-                "Для выбора белого цвета введите " + UserAction.CHOOSE_WHITE_COLOR.getActionCode() + "\n");
+                "Для выбора белого цвета введите " + 1 + "\n");
         System.out.print(
-                "Для выбора черного цвета введите " + UserAction.CHOOSE_BLACK_COLOR.getActionCode() + "\n");
+                "Для выбора черного цвета введите " + 2 + "\n");
         System.out.print(
-                "Для выбора случайного цвета введите " + UserAction.CHOOSE_EMPTY_COLOR.getActionCode() + "\n");
+                "Для выбора случайного цвета введите " + 3 + "\n");
     }
 
     /**
