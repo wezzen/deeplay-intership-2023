@@ -12,7 +12,7 @@ class ClientTest {
 
     @Test
     void creatingInstanceTest() {
-        assertDoesNotThrow(() -> Client.init());
+        assertDoesNotThrow(Client::new);
     }
     @Test
     void clientProcessTest() throws IOException {
