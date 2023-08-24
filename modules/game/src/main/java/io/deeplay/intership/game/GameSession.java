@@ -2,6 +2,7 @@ package io.deeplay.intership.game;
 
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.exception.game.GameException;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Player;
 import io.deeplay.intership.model.Stone;
@@ -49,13 +50,22 @@ public class GameSession {
 
     public synchronized Stone[][] turn(final Player player, final Stone stone) throws ServerException {
         isNotStarted();
+        isFinishedGame();
         checkTurnOrder(player);
-        return game.makeMove(stone);
+        try {
+            Stone[][] gameField = game.makeMove(stone);
+            changePlayerTurn();
+            return gameField;
+        } catch (GameException ex) {
+            throw new ServerException(ErrorCode.INVALID_MOVE);
+        }
     }
 
     public synchronized Stone[][] pass(final Player player) throws ServerException {
         isNotStarted();
+        isFinishedGame();
         checkTurnOrder(player);
+        changePlayerTurn();
         return game.skipTurn(Color.valueOf(player.color()));
     }
 
@@ -83,6 +93,20 @@ public class GameSession {
     private synchronized void checkTurnOrder(final Player player) throws ServerException {
         if (!currentTurn.login().equals(player.login())) {
             throw new ServerException(ErrorCode.INVALID_TURN_ORDER);
+        }
+    }
+
+    private synchronized void changePlayerTurn() {
+        if (blackPlayer == currentTurn) {
+            currentTurn = whitePlayer;
+        } else {
+            currentTurn = blackPlayer;
+        }
+    }
+
+    private synchronized void isFinishedGame() throws ServerException {
+        if (game.gameIsOver()) {
+            throw new ServerException(ErrorCode.GAME_WAS_FINISHED);
         }
     }
 }

@@ -41,7 +41,7 @@ public class Group {
         this.freeCells.addAll(freeCells);
     }
 
-    public int getFreeDamesCount() {
+    public int getDamesCount() {
         return freeCells.size();
     }
 

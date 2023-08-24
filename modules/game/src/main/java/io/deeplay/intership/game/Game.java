@@ -1,5 +1,7 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.exception.game.GameCode;
+import io.deeplay.intership.exception.game.GameException;
 import io.deeplay.intership.logger.GameLog;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
@@ -42,7 +44,7 @@ public class Game {
         return board.getField();
     }
 
-    public Stone[][] makeMove(Stone stone) {
+    public Stone[][] makeMove(Stone stone) throws GameException {
         if (!checkGameOver.canMakeMove(stone.getColor())) {
             //если у игрока не осталось камней, то автоматически засчитывается пропуск хода
             skipTurn(stone.getColor());
@@ -60,17 +62,18 @@ public class Game {
 
             gameLog.move(stone);
         } else {
-            gameLog.wrongMove(stone.getColor());
+            gameLog.wrongMove(stone);
+            throw new GameException(GameCode.PASSED);
         }
 
         return board.getField();
     }
 
     public void endGame() {
+        this.gameIsOver = true;
         ScoreCalculator scoreCalculator = new ScoreCalculator(board.getField());
         Score score = scoreCalculator.getTotalScore();
         gameLog.endGame(score.whitePoints() - score.blackPoints());
-        this.gameIsOver = true;
     }
 
     public boolean gameIsOver() {

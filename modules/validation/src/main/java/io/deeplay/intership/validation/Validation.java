@@ -62,14 +62,14 @@ public class Validation {
         Set<Stone> enemyStones = getNearStonesByColor(Color.invertColor(color), x, y);
         if (friendStones.isEmpty()) {
             for (Stone enemyStone : enemyStones) {
-                if (enemyStone.getGroup().getFreeDamesCount() < 2) {
+                if (enemyStone.getGroup().getDamesCount() < 2) {
                     return false;
                 }
             }
             return true;
         }
         for (Stone friendStone : friendStones) {
-            if (friendStone.getGroup().getFreeDamesCount() > 1) {
+            if (friendStone.getGroup().getDamesCount() > 1) {
                 return false;
             }
         }
@@ -119,7 +119,7 @@ public class Validation {
 
         Set<Stone> enemy = getNearStonesByColor(Color.invertColor(color), x, y);
         for (Stone stone : enemy) {
-            if (stone.getGroup().getFreeDamesCount() == 1 &&
+            if (stone.getGroup().getDamesCount() == 1 &&
                     stone.getGroup().getFreeCells().contains(field[x][y])) {
                 return true;
             }

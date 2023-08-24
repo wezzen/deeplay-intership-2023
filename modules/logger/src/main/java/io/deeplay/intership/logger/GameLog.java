@@ -43,23 +43,25 @@ public class GameLog {
     }
 
     public void endGame(double totalScore) {
-        String message = "";
+        String message;
         if (totalScore > 0) {
-            message += "Белый игрок победил со счётом: ";
+            message = "Белый игрок победил со счётом: ";
         } else {
-            message += "Черный игрок победил со счётом: ";
+            message = "Черный игрок победил со счётом: ";
             totalScore = -1 * totalScore;
         }
-        message += totalScore;
-        logger.info(message);
+        logger.info(message + totalScore);
     }
 
     public void endSession() {
         logger.info("Сессия закончилась");
     }
 
-    public void wrongMove(Color playerColor) {
-        String message = String.format("%s игрок сделал неправильный ход", chooseColor(playerColor));
+    public void wrongMove(final Stone stone) {
+        String message = String.format("%s игрок сделал неправильный ход на клетку (%d, %d)",
+                chooseColor(stone.getColor()),
+                stone.getRowNumber(),
+                stone.getColumnNumber());
         logger.warn(message);
     }
 
@@ -74,12 +76,10 @@ public class GameLog {
     }
 
     private String chooseColor(Color color) {
-        String playersColor = "";
         if (color == Color.WHITE) {
-            playersColor += "Белый";
+            return "Белый";
         } else {
-            playersColor += "Черный";
+            return "Черный";
         }
-        return playersColor;
     }
 }
