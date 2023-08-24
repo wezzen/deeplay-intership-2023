@@ -13,6 +13,7 @@ import io.deeplay.intership.json.converter.JSONConverter;
 import java.io.*;
 import java.net.Socket;
 import java.util.Properties;
+
 public class Client {
     private static String host;
     private static int port;
@@ -23,32 +24,33 @@ public class Client {
     private static DecisionMaker decisionMaker;
     private static String token;
     private static JSONConverter converter;
+
     public static void main(String[] args) {
-
-        try {
-            init();
-            while (enterServer()){
-
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while (enterServer()) {
         }
     }
-    public static void init() throws IOException {
+
+    public static void init() {
         FileInputStream fis;
         Properties property = new Properties();
-        boolean isGUI;
-        fis = new FileInputStream("src/main/resources/config.properties");
-        property.load(fis);
-        host = property.getProperty("client.host");
-        port = Integer.parseInt(property.getProperty("client.port"));
-        isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
-        fis.close();
-        socket = new Socket(host,port);
-        reader = new DataInputStream(socket.getInputStream());
-        writer = new DataOutputStream(socket.getOutputStream());
+        boolean isGUI = false;
+        try {
+            fis = new FileInputStream("src/main/resources/config.properties");
+            property.load(fis);
+            host = property.getProperty("client.host");
+            port = Integer.parseInt(property.getProperty("client.port"));
+            isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
+            fis.close();
+
+            socket = new Socket(host, port);
+            reader = new DataInputStream(socket.getInputStream());
+            writer = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         converter = new JSONConverter();
-        if(isGUI){
+        if (isGUI) {
             //конструктор для гуи и дм
         } else {
             display = new Display();
@@ -56,44 +58,46 @@ public class Client {
         }
     }
 
-
-    public static void sendRequest(RequestType request){
+    public static void sendRequest() {
 
     }
-    public static void makeMove(Stone stone){
+
+    public static void makeMove() {
         //обработка валидатором
         //перевести в дто и в json и отправить в writer.println()
     }
-    public static void skipTurn(){
+
+    public static void skipTurn() {
         //json отправить в writer
     }
-    public static boolean enterServer() throws IOException {
+
+    public static boolean enterServer() {
         display.showLoginActions();
         display.showLogin();
         display.showRegistration();
-        LoginPassword lp = decisionMaker.getLoginPassword();
         String message = null;
-        switch (lp.type()){
-            case REGISTRATION -> message = converter.getJsonFromObject(new RegistrationDtoRequest(lp.type(), lp.login(), lp.password()));
-            case LOGIN -> message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
-        }
-        writer.writeUTF(message);
-        writer.flush();
         try {
+            LoginPassword lp = decisionMaker.getLoginPassword();
+            switch (lp.type()) {
+                case REGISTRATION ->
+                        message = converter.getJsonFromObject(new RegistrationDtoRequest(lp.type(), lp.login(), lp.password()));
+                case LOGIN ->
+                        message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
+            }
+            writer.writeUTF(message);
+            writer.flush();
             LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readUTF(), LoginDtoResponse.class);
             if (loginAnswer.status().equals("success")) {
                 token = loginAnswer.token();
                 return true;
-            } else {
-                return false;
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
     }
-    public void joinGame(){
 
+    public static void joinGame() {
         //здесь надо отправить запрос на подключение к игре с gameId
     }
 }
