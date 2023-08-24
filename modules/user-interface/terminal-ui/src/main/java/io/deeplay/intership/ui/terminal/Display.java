@@ -43,6 +43,7 @@ public class Display implements UserInterface{
         System.out.print("Выберите следущее действие:\n");
         System.out.print("Чтобы зарегестрироваться нажмите " + 1 + "\n");
         System.out.print("Чтобы авторизоваться нажмите " + 2 + "\n");
+        System.out.print("Введите логин и пароль через пробел " + "\n");
         showHorizontalLine();
     }
     public void showRegistration(){
