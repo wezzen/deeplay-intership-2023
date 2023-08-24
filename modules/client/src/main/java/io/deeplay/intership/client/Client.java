@@ -1,16 +1,19 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.decision.maker.*;
-import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.decision.maker.DecisionMaker;
+import io.deeplay.intership.decision.maker.DecisionMakerTerminal;
+import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.LoginDtoResponse;
-import io.deeplay.intership.model.*;
+import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.ui.terminal.Display;
 import io.deeplay.intership.ui.terminal.UserInterface;
-import io.deeplay.intership.json.converter.JSONConverter;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Properties;
 
@@ -26,8 +29,6 @@ public class Client {
     private static JSONConverter converter;
 
     public static void main(String[] args) {
-        while (enterServer()) {
-        }
     }
 
     public static void init() {
@@ -65,6 +66,7 @@ public class Client {
     public static void makeMove() {
         //обработка валидатором
         //перевести в дто и в json и отправить в writer.println()
+        display.showMoveRules();
     }
 
     public static void skipTurn() {
@@ -73,8 +75,6 @@ public class Client {
 
     public static boolean enterServer() {
         display.showLoginActions();
-        display.showLogin();
-        display.showRegistration();
         String message = null;
         try {
             LoginPassword lp = decisionMaker.getLoginPassword();
@@ -99,5 +99,6 @@ public class Client {
 
     public static void joinGame() {
         //здесь надо отправить запрос на подключение к игре с gameId
+        display.showRoomActions();
     }
 }
