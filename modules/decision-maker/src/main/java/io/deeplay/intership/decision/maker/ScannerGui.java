@@ -26,6 +26,18 @@ public class ScannerGui {
         turn = true;
     }
 
+    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId){
+        this.commandType = commandType;
+        this.password = password;
+        this.login = login;
+        this.color = color;
+        withBot = false;
+        this.rowNumber = rowNumber;
+        this.columnNumber = columnNumber;
+        this.gameId = gameId;
+        turn = true;
+    }
+
     public int getCommandType() {
         return commandType;
     }
