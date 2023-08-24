@@ -78,6 +78,7 @@ public class Client {
             case LOGIN -> message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
         }
         writer.writeUTF(message);
+        writer.flush();
         try {
             LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readUTF(), LoginDtoResponse.class);
             if (loginAnswer.status().equals("success")) {
