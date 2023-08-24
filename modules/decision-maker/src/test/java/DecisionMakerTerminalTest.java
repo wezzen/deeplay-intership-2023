@@ -18,7 +18,7 @@ public class DecisionMakerTerminalTest {
         Assertions.assertEquals(loginPassword, dmt.getLoginPassword());
     }
     @Test
-    public void getGameAction(){
+    public void getGameActionTest(){
         DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
         final GameAction gameAction = new GameAction(RequestType.TURN, 1, 4);
         when(dmt.getGameAction()).thenReturn(gameAction);
@@ -27,7 +27,7 @@ public class DecisionMakerTerminalTest {
         Assertions.assertEquals(5, ga.row());
         LoginPassword lp = new LoginPassword(RequestType.LOGIN,"sus","ses");
         Assertions.assertEquals("sus", lp.login());
-        GameId gi = new GameId(RequestType.CREATE_GAME, 123);
+        GameId gi = new GameId(RequestType.CREATE_GAME, false, Color.BLACK, 9,123);
         Assertions.assertEquals(123, gi.gameId());
     }
     @Test
@@ -39,7 +39,7 @@ public class DecisionMakerTerminalTest {
     @Test
     public void gameIdTest(){
         DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
-        final GameId gameId = new GameId(RequestType.JOIN_GAME,123);
+        final GameId gameId = new GameId(RequestType.JOIN_GAME, false, Color.BLACK, 9,123);
         when(dmt.getGameId()).thenReturn(gameId);
         Assertions.assertEquals(gameId, dmt.getGameId());
     }
