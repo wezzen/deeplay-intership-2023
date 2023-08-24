@@ -20,27 +20,40 @@ public class InitialPanel implements ActionListener {
         jDialog = new JDialog(drawGui.frame, "Initial");
         layout = new GridLayout(3, 1, 50, 10);
         jButtonRegister = new JButton("Register");
+        jButtonRegister.addActionListener(this);
         jButtonLogin = new JButton("Log in");
+        jButtonLogin.addActionListener(this);
         jButtonExit = new JButton("Exit");
+        jButtonExit.addActionListener(this);
+        setPanel();
     }
 
     public void showPanel() {
+        jDialog.setVisible(true);
+    }
+
+    public void hidePanel(){
+        jDialog.setVisible(false);
+    }
+
+    public void setPanel(){
         jPanel.setLayout(layout);
         jPanel.add(jButtonRegister);
         jPanel.add(jButtonLogin);
         jPanel.add(jButtonExit);
         jDialog.add(jPanel);
         jDialog.setSize(500, 300);
-        jDialog.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Register")) {
+            drawGui.initialPanel.hidePanel();
             drawGui.entrancePanel.showPanel();
         }
         else if(line.equals("Log in")) {
+            drawGui.initialPanel.hidePanel();
             drawGui.entrancePanel.showPanel();
         }
         else {

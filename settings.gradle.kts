@@ -51,3 +51,5 @@ project(":game-exception").projectDir = file("modules/game-exception")
 include("gui")
 project(":gui").projectDir = file("modules/gui")
 
+include("decision-maker")
+project(":decision-maker").projectDir = file("modules/decision-maker")
