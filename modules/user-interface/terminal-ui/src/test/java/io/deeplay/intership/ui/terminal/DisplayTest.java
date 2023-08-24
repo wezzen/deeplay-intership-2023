@@ -1,6 +1,7 @@
 package io.deeplay.intership.ui.terminal;
 
 import io.deeplay.intership.model.Board;
+import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -21,11 +22,18 @@ public class DisplayTest {
     @Test
     public void testShowAwaitState() {
         assertDoesNotThrow(display::showAwaitState);
+        assertDoesNotThrow(display::showLoginActions);
+        assertDoesNotThrow(display::showLogin);
+        assertDoesNotThrow(display::showRegistration);
+        assertDoesNotThrow(display::showRoomActions);
+        assertDoesNotThrow(display::showJoin);
     }
 
     @Test
     public void testShowBoard() {
         final Board board = new Board();
+        board.getField()[2][3].setColor(Color.BLACK);
+        board.getField()[3][2].setColor(Color.WHITE);
         assertDoesNotThrow(() -> display.showBoard(board.getField()));
     }
 

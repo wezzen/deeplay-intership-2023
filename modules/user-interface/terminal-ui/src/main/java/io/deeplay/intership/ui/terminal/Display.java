@@ -46,14 +46,10 @@ public class Display implements UserInterface{
         showHorizontalLine();
     }
     public void showRegistration(){
-        showHorizontalLine();
         System.out.print("Для регистрации введите новый логин и пароль через пробел:\n");
-        showHorizontalLine();
     }
     public void showLogin(){
-        showHorizontalLine();
         System.out.print("Для входа введите логин и пароль через пробел:\n");
-        showHorizontalLine();
     }
     public void showRoomActions(){
         showHorizontalLine();
