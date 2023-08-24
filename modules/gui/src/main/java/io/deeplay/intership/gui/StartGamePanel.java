@@ -21,13 +21,25 @@ public class StartGamePanel implements ActionListener {
         jDialog = new JDialog(drawGui.frame, "Start");
         layout = new GridLayout(4, 1, 50, 10);
         jButtonCreate = new JButton("Create game");
+        jButtonCreate.addActionListener(this);
         jButtonJoin = new JButton("Join game");
+        jButtonJoin.addActionListener(this);
         jButtonLogout = new JButton("Log out");
         jButtonLogout.addActionListener(this);
         jButtonExit = new JButton("Exit");
+        jButtonExit.addActionListener(this);
+        setPanel();
     }
 
     public void showPanel() {
+        jDialog.setVisible(true);
+    }
+
+    public void hidePanel(){
+        jDialog.setVisible(false);
+    }
+
+    public void setPanel(){
         jPanel.setLayout(layout);
         jPanel.add(jButtonCreate);
         jPanel.add(jButtonJoin);
@@ -35,17 +47,18 @@ public class StartGamePanel implements ActionListener {
         jPanel.add(jButtonExit);
         jDialog.add(jPanel);
         jDialog.setSize(500, 300);
-        jDialog.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Create game")) {
-
+            drawGui.startGamePanel.hidePanel();
+            drawGui.createGamePanel.showPanel();
         }
         else if(line.equals("Join game")) {
-
+            drawGui.startGamePanel.hidePanel();
+            drawGui.joinGamePanel.showPanel();
         }
         else if(line.equals("Log out")) {
             drawGui.entrancePanel.showPanel();
