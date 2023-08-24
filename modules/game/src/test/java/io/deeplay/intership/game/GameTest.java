@@ -1,5 +1,6 @@
 package io.deeplay.intership.game;
 
+import io.deeplay.intership.exception.game.GameException;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
@@ -64,7 +65,7 @@ public class GameTest {
     }
 
     @Test
-    public void testEndStones() {
+    public void testEndStones() throws GameException {
         final Game game = new Game();
         final Color color = Color.WHITE;
         final int x = 0;

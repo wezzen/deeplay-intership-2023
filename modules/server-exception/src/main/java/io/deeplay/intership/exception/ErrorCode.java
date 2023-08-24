@@ -28,6 +28,7 @@ public enum ErrorCode {
     INVALID_BOARD_SIZE("Invalid board size"),
     INVALID_TURN_ORDER("Invalid turn order"),
     GAME_NOT_STARTED("Game not started"),
+    GAME_WAS_FINISHED("This game was finished"),
     ;
     public final String message;
 

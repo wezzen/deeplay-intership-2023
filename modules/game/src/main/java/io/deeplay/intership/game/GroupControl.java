@@ -46,11 +46,11 @@ public class GroupControl {
         int countOfRemovedStones = 0;
         for (Stone enemyStone : enemyStones) {
             Group enemyGroup = enemyStone.getGroup();
-            if (enemyGroup.getFreeDamesCount() < 1) {
+            if (enemyGroup.getDamesCount() < 1) {
                 countOfRemovedStones += enemyGroup.getStonesCount();
                 enemyGroup.getStones().forEach((Stone eachStone) -> {
                     returnFreeCell(eachStone);
-                    eachStone.setGroup(null);
+                    eachStone.setGroup(new Group());
                     eachStone.setColor(Color.EMPTY);
                 });
             } else {

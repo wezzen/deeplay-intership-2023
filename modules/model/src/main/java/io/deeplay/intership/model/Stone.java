@@ -21,7 +21,7 @@ public class Stone {
     }
 
     public Stone(Color color, int rowNumber, int columnNumber) {
-        this(color, rowNumber, columnNumber, null);
+        this(color, rowNumber, columnNumber, new Group());
     }
 
     public Color getColor() {
