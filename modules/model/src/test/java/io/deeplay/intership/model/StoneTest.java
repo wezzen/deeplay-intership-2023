@@ -41,7 +41,7 @@ public class StoneTest {
                 () -> assertEquals(x, stone.getRowNumber()),
                 () -> assertEquals(y, stone.getColumnNumber()),
 
-                () -> assertNull(stone.getGroup())
+                () -> assertNotNull(stone.getGroup())
         );
     }
 

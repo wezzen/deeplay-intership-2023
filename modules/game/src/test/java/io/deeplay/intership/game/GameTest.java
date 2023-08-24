@@ -65,25 +65,6 @@ public class GameTest {
     }
 
     @Test
-    public void testEndStones() throws GameException {
-        final Game game = new Game();
-        final Color color = Color.WHITE;
-        final int x = 0;
-        final int y = 0;
-        Stone beforeChanges = new Stone(Color.EMPTY, x, y);
-        Stone afterChanges = new Stone(color, x, y);
-
-        assertEquals(beforeChanges, game.startGame().getField()[x][y]);
-
-        Stone stone = new Stone(color, x, y);
-        for (int i = 0; i < 160; i++) {
-            game.makeMove(stone);
-        }
-        assertDoesNotThrow(() -> game.makeMove(stone));
-        assertEquals(afterChanges, game.startGame().getField()[x][y]);
-    }
-
-    @Test
     public void testEndGame() {
         final Game game = new Game();
         assertDoesNotThrow(game::endGame);

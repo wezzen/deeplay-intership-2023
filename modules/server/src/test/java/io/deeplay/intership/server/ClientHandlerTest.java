@@ -36,11 +36,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.CREATE_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -52,11 +52,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.CREATE_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.createGame(mock(CreateGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -72,11 +72,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -88,11 +88,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -108,11 +108,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.REGISTRATION;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -124,11 +124,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.REGISTRATION;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(userService.register(mock(RegistrationDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -144,11 +144,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGIN;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -160,11 +160,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGIN;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(userService.authorization(mock(LoginDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -180,11 +180,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGOUT;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -196,11 +196,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.LOGOUT;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(userService.logout(mock(LogoutDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -216,11 +216,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.JOIN_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -232,11 +232,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.JOIN_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.joinGame(mock(JoinGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -252,11 +252,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.TURN;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -268,11 +268,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.TURN;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.turn(mock(TurnDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -288,11 +288,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.PASS;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -304,11 +304,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.PASS;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.pass(mock(PassDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -324,11 +324,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.SURRENDER;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -340,11 +340,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.SURRENDER;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.surrenderGame(mock(SurrenderDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
@@ -360,11 +360,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
@@ -376,11 +376,11 @@ public class ClientHandlerTest {
         final Socket socket = new Socket();
         final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
         final RequestType type = RequestType.FINISH_GAME;
-        final BaseDtoRequest createGame = new BaseDtoRequest(type);
+        final BaseDto createGame = new BaseDto(type);
         final String request = converter.getJsonFromObject(createGame);
-        final BaseDtoRequest expected = new BaseDtoRequest(type);
+        final BaseDto expected = new BaseDto(type);
 
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(expected);
+        when(converter.getObjectFromJson(request, BaseDto.class)).thenReturn(expected);
         when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
