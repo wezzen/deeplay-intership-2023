@@ -1,6 +1,7 @@
 package io.deeplay.intership.json.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JSONConverter {
@@ -8,6 +9,7 @@ public class JSONConverter {
 
     public JSONConverter(){
         mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
     }
 
     public <T> T getObjectFromJson(String jsonString, Class<T> classOfT) {
