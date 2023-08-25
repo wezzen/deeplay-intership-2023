@@ -1,10 +1,10 @@
-package io.deeplay.intership.sandbox.bots;
+package io.deeplay.intership.sandbox.bot;
 
 import io.deeplay.intership.bot.RandomBot;
 import io.deeplay.intership.dto.RequestType;
-import io.deeplay.intership.dto.ResponseInfoMessage;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.ActionDtoResponse;
+import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
@@ -36,15 +36,17 @@ public class Sandbox {
         final String gameId = createGame();
         joinGame(gameId);
         ActionDtoResponse response = new ActionDtoResponse("", "", new Board().getField());
-        while (runGame != 2) {
-            response = turn(blackBot, response.gameField());
-            wasSkipped(response.message());
 
-            if (runGame == 2) {
-                break;
+        while (runGame != 2) {
+            try {
+                response = turn(blackBot, response.gameField());
+                response = turn(whiteBot, response.gameField());
+            } catch (ServerException ex) {
+                if (ex.errorCode != ErrorCode.GAME_WAS_FINISHED) {
+                    throw ex;
+                }
+                runGame = 2;
             }
-            response = turn(whiteBot, response.gameField());
-            wasSkipped(response.message());
         }
     }
 
@@ -102,13 +104,5 @@ public class Sandbox {
             }
         }
         return gameService.pass(new PassDtoRequest(RequestType.PASS, move.token()));
-    }
-
-    private void wasSkipped(final String message) {
-        if (message.equals(ResponseInfoMessage.SUCCESS_PASS.message)) {
-            ++runGame;
-        } else {
-            runGame = 0;
-        }
     }
 }
