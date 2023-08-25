@@ -1,4 +1,4 @@
-package io.deeplay.intership.sandbox.bots;
+package io.deeplay.intership.sandbox.bot;
 
 import io.deeplay.intership.exception.ServerException;
 import org.apache.log4j.Logger;
