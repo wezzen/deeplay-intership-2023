@@ -32,12 +32,12 @@ public class Client {
     }
 
     public static void init() {
-        FileInputStream fis;
-        Properties property = new Properties();
         boolean isGUI = false;
         try {
-            fis = new FileInputStream("src/main/resources/config.properties");
+            Properties property = new Properties();
+            FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
             property.load(fis);
+
             host = property.getProperty("client.host");
             port = Integer.parseInt(property.getProperty("client.port"));
             isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
@@ -46,11 +46,11 @@ public class Client {
             socket = new Socket(host, port);
             reader = new DataInputStream(socket.getInputStream());
             writer = new DataOutputStream(socket.getOutputStream());
+            converter = new JSONConverter();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        converter = new JSONConverter();
         if (isGUI) {
             //конструктор для гуи и дм
         } else {
@@ -59,32 +59,13 @@ public class Client {
         }
     }
 
-    public static void sendRequest() {
-        System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");System.out.print("Выберите игровую сессию\n");
-        System.out.print("Выберите следующее действие:\n");
-        System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
-        System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");
+    public static void sendRequest(String request) {
+        try {
+            writer.writeUTF(request);
+            writer.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public static void makeMove() {
@@ -98,26 +79,6 @@ public class Client {
     }
 
     public static boolean enterServer() {
-        display.showLoginActions();
-        String message = null;
-        try {
-            LoginPassword lp = decisionMaker.getLoginPassword();
-            switch (lp.type()) {
-                case REGISTRATION ->
-                        message = converter.getJsonFromObject(new RegistrationDtoRequest(lp.type(), lp.login(), lp.password()));
-                case LOGIN ->
-                        message = converter.getJsonFromObject(new LoginDtoRequest(lp.type(), lp.login(), lp.password()));
-            }
-            writer.writeUTF(message);
-            writer.flush();
-            LoginDtoResponse loginAnswer = converter.getObjectFromJson(reader.readUTF(), LoginDtoResponse.class);
-            if (loginAnswer.status().equals("success")) {
-                token = loginAnswer.token();
-                return true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return false;
     }
 
