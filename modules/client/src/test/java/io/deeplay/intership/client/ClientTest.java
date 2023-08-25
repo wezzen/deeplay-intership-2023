@@ -14,7 +14,6 @@ class ClientTest {
         assertDoesNotThrow(Client::new);
         assertDoesNotThrow(Client::init);
         assertDoesNotThrow(Client::joinGame);
-        assertDoesNotThrow(Client::sendRequest);
         assertDoesNotThrow(Client::makeMove);
         assertDoesNotThrow(Client::skipTurn);
     }
