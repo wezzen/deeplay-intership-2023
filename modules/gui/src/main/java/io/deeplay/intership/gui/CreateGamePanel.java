@@ -3,21 +3,20 @@ package io.deeplay.intership.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import io.deeplay.intership.model.Color;
 
-public class CreateGamePanel implements ActionListener {
-    private final JDialog jDialog;
-    private final GridLayout layout;
-    private final DrawGui drawGui;
-    private final JLabel enemyLabel;
-    private final JLabel colorLabel;
-    private final JButton buttonSubmit;
-    private final JButton buttonBot;
-    private final JButton buttonHuman;
-    private final JButton buttonBlack;
-    private final JButton buttonWhite;
-    private final JPanel jPanel;
+public class CreateGamePanel implements Panel {
+    public final JDialog jDialog;
+    public final GridLayout layout;
+    public final DrawGui drawGui;
+    public final JLabel enemyLabel;
+    public final JLabel colorLabel;
+    public final JButton buttonSubmit;
+    public final JRadioButton buttonBot;
+    public final JRadioButton buttonHuman;
+    public final JRadioButton buttonBlack;
+    public final JRadioButton buttonWhite;
+    public final JPanel jPanel;
 
     public CreateGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -30,27 +29,31 @@ public class CreateGamePanel implements ActionListener {
         buttonSubmit = new JButton("Submit");
         buttonSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonSubmit.addActionListener(this);
-        buttonBot = new JButton("Bot");
+        buttonBot = new JRadioButton("Bot");
         buttonBot.addActionListener(this);
-        buttonHuman = new JButton("Human");
+        buttonHuman = new JRadioButton("Human");
         buttonHuman.addActionListener(this);
-        buttonBlack = new JButton("Black");
+        buttonBlack = new JRadioButton("Black");
         buttonBlack.addActionListener(this);
-        buttonWhite = new JButton("White");
+        buttonWhite = new JRadioButton("White");
         buttonWhite.addActionListener(this);
         setPanel();
     }
 
+    @Override
     public void showPanel() {
         jDialog.setVisible(true);
     }
 
+    @Override
     public void hidePanel(){
         jDialog.setVisible(false);
     }
 
+    @Override
     public void setPanel(){
         jPanel.setLayout(layout);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
         jPanel.add(enemyLabel);
         jPanel.add(buttonBot);
         jPanel.add(buttonHuman);
@@ -65,21 +68,17 @@ public class CreateGamePanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Bot")) {
-            drawGui.scannerGui.setWithBot(true);
-            System.out.println(drawGui.scannerGui.isWithBot());
-        }
-        else if(line.equals("Human")){
-            drawGui.scannerGui.setWithBot(false);
-        }
-        else if(line.equals("Black")){
-            drawGui.scannerGui.setColor(Color.BLACK);
-            System.out.println(drawGui.scannerGui.getColor());
-        }
-        else if(line.equals("White")){
-            drawGui.scannerGui.setColor(Color.WHITE);
-        }
-        else {
+        if(line.equals("Submit")) {
+            if (buttonBot.isSelected()) {
+                drawGui.scannerGui.setWithBot(true);
+            } else if (buttonHuman.isSelected()) {
+                drawGui.scannerGui.setWithBot(false);
+            }
+            if (buttonBlack.isSelected()) {
+                drawGui.scannerGui.setColor(Color.BLACK);
+            } else if (buttonWhite.isSelected()) {
+                drawGui.scannerGui.setColor(Color.WHITE);
+            }
             drawGui.createGamePanel.hidePanel();
             drawGui.gameFieldPanel.showPanel();
         }
