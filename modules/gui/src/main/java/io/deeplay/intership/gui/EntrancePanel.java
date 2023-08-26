@@ -3,22 +3,21 @@ package io.deeplay.intership.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class EntrancePanel implements ActionListener {
-    private final JDialog jDialog;
-    private final GridLayout layout;
-    private final DrawGui drawGui;
-    private final JTextField jTextPassword;
-    private final JTextField jTextLogin;
-    private final JButton jButtonSubmit;
-    private final JPanel jPanel;
+public class EntrancePanel implements Panel {
+    public final JDialog jDialog;
+    public final GridLayout layout;
+    public final DrawGui drawGui;
+    public final JTextField jTextPassword;
+    public final JTextField jTextLogin;
+    public final JButton jButtonSubmit;
+    public final JPanel jPanel;
 
     public EntrancePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
         jPanel = new JPanel();
         jDialog = new JDialog(drawGui.frame, "Entrance");
-        layout = new GridLayout(3, 1, 50, 10);
+        layout = new GridLayout(3, 1, 50, 30);
         jTextLogin = new JTextField( 64);
         jTextPassword = new JTextField( 64);
         jButtonSubmit = new JButton("Submit");
@@ -26,8 +25,13 @@ public class EntrancePanel implements ActionListener {
         setPanel();
     }
 
+    @Override
     public void setPanel(){
         jPanel.setLayout(layout);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(20, 100, 20, 100));
+        jTextLogin.setPreferredSize(new Dimension(120, 30));
+        jTextPassword.setPreferredSize(new Dimension(120, 30));
+        jButtonSubmit.setPreferredSize(new Dimension(80, 20));
         jPanel.add(jTextLogin);
         jPanel.add(jTextPassword);
         jPanel.add(jButtonSubmit);
@@ -35,10 +39,12 @@ public class EntrancePanel implements ActionListener {
         jDialog.setSize(500, 300);
     }
 
+    @Override
     public void showPanel(){
         jDialog.setVisible(true);
     }
 
+    @Override
     public void hidePanel(){
         jDialog.setVisible(false);
     }
@@ -49,8 +55,6 @@ public class EntrancePanel implements ActionListener {
         if(line.equals("Submit")) {
             drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
             drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
-            System.out.println(drawGui.scannerGui.getLogin());
-            System.out.println(drawGui.scannerGui.getPassword());
             drawGui.entrancePanel.hidePanel();
             drawGui.startGamePanel.showPanel();
         }
