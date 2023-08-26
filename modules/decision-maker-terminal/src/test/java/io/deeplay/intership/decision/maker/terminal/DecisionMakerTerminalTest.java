@@ -1,4 +1,5 @@
-import io.deeplay.intership.decision.maker.DecisionMakerTerminal;
+package io.deeplay.intership.decision.maker.terminal;
+
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameId;
 import io.deeplay.intership.decision.maker.LoginPassword;
@@ -6,11 +7,11 @@ import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class DecisionMakerTerminalTest {
     @Test
@@ -55,7 +56,7 @@ public class DecisionMakerTerminalTest {
     }
     @Test
     public void gameIdTest(){
-        DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
+        DecisionMakerTerminal dmt = Mockito.mock(DecisionMakerTerminal.class);
         final GameId gameId = new GameId(RequestType.JOIN_GAME, false, Color.BLACK, 9,123);
         try {
             when(dmt.getGameId()).thenReturn(gameId);

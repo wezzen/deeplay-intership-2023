@@ -2,13 +2,15 @@ package io.deeplay.intership.sandbox.bot;
 
 import io.deeplay.intership.bot.RandomBot;
 import io.deeplay.intership.dto.RequestType;
-import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.request.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.LoginDtoRequest;
+import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.ActionDtoResponse;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Move;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
@@ -90,7 +92,8 @@ public class Sandbox {
     }
 
     private ActionDtoResponse turn(final RandomBot bot, final Stone[][] gameField) throws ServerException {
-        Move move = bot.chooseGameAction(gameField);
+        /*
+        Move move = bot.getGameAction(gameField);
         if (move.color() != Color.EMPTY.name()) {
             try {
                 return gameService.turn(new TurnDtoRequest(
@@ -104,5 +107,8 @@ public class Sandbox {
             }
         }
         return gameService.pass(new PassDtoRequest(RequestType.PASS, move.token()));
+         */
+        return null;
     }
+
 }

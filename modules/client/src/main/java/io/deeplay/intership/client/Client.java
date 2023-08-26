@@ -2,7 +2,7 @@ package io.deeplay.intership.client;
 
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
-import io.deeplay.intership.decision.maker.DecisionMakerTerminal;
+import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.ui.terminal.Display;
 
