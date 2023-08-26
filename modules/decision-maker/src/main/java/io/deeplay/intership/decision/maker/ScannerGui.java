@@ -101,7 +101,7 @@ public class ScannerGui {
         this.color = color;
     }
 
-    public void setSize(){ this.size = size; }
+    public void setSize(int size){ this.size = size; }
 
     public boolean isTurn() {
         return turn;
