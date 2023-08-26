@@ -6,10 +6,10 @@ public class ScannerGui {
     private int commandType;
     private String password;
     private String login;
-    private int size;
     private int rowNumber;
     private int columnNumber;
     private int gameId;
+    private int size;
     private boolean withBot;
     private Color color;
     private boolean turn;
@@ -24,6 +24,7 @@ public class ScannerGui {
         columnNumber = -1;
         gameId = -1;
         turn = true;
+        size = 9;
     }
 
     public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId){
@@ -36,6 +37,7 @@ public class ScannerGui {
         this.columnNumber = columnNumber;
         this.gameId = gameId;
         turn = true;
+        size = 9;
     }
 
     public int getCommandType() {
@@ -66,20 +68,17 @@ public class ScannerGui {
         return rowNumber;
     }
 
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
-    }
 
     public int getColumnNumber() {
         return columnNumber;
     }
 
-    public void setColumnNumber(int columnNumber) {
-        this.columnNumber = columnNumber;
-    }
-
     public int getGameId() {
         return gameId;
+    }
+
+    public int getSize(){
+        return size;
     }
 
     public void setGameId(int gameId) {
@@ -102,13 +101,7 @@ public class ScannerGui {
         this.color = color;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
+    public void setSize(){ this.size = size; }
 
     public boolean isTurn() {
         return turn;
