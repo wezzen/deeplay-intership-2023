@@ -5,4 +5,5 @@ dependencies {
     implementation(project(":terminal-ui"))
     implementation(project(":json-converter"))
     implementation(project(":user-interface"))
+    implementation(project(":decision-maker-terminal"))
 }

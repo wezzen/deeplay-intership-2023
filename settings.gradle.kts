@@ -54,3 +54,5 @@ project(":decision-maker").projectDir = file("modules/decision-maker")
 include("user-interface")
 project(":user-interface").projectDir = file("modules/user-interface")
 
+include("decision-maker-terminal")
+project(":decision-maker-terminal").projectDir = file("modules/decision-maker-terminal")

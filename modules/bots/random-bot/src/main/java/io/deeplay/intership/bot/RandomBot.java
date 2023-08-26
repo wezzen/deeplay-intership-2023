@@ -1,24 +1,28 @@
 package io.deeplay.intership.bot;
 
-import io.deeplay.intership.model.Move;
-import io.deeplay.intership.action.PlayerActions;
+import io.deeplay.intership.decision.maker.DecisionMaker;
+import io.deeplay.intership.decision.maker.GameAction;
+import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.LoginPassword;
+import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomBot implements PlayerActions {
+public class RandomBot implements DecisionMaker {
     private final String token;
     private final Color color;
+    private final Stone[][] gameField = null;
 
     public RandomBot(String token, Color color) {
         this.token = token;
         this.color = color;
     }
 
-    @Override
-    public Move chooseGameAction(final Stone[][] gameField) {
+    public GameAction getGameAction() throws IOException {
         boolean canMove = false;
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length && !canMove; j++) {
@@ -35,8 +39,7 @@ public class RandomBot implements PlayerActions {
         }
     }
 
-    @Override
-    public Move makeMove(final Stone[][] gameField) {
+    public GameAction makeMove(final Stone[][] gameField) {
         List<Stone> emptyStones = new ArrayList<>();
         Stone[][] field = gameField;
         for (int i = 0; i < gameField.length; i++) {
@@ -48,27 +51,32 @@ public class RandomBot implements PlayerActions {
             }
         }
         Stone stone = emptyStones.get((int) (Math.random() * emptyStones.size()));
-        return new Move(
-                token,
-                color.name(),
+        return new GameAction(
+                RequestType.TURN,
                 stone.getRowNumber(),
                 stone.getColumnNumber()
         );
 
     }
 
-    @Override
-    public Move skipTurn() {
-        return new Move(token, Color.EMPTY.name(), 0, 0);
-    }
 
     @Override
-    public Color chooseColor() {
+    public LoginPassword getLoginPassword() throws IOException {
+        return null;
+    }
+
+
+    @Override
+    public GameId getGameId() throws IOException {
         return null;
     }
 
     @Override
-    public void endGame(String gameResult) {
+    public Color getColor() throws IOException {
+        return null;
+    }
 
+    private GameAction skipTurn() {
+        return new GameAction(RequestType.PASS, 0, 0);
     }
 }
