@@ -5,18 +5,17 @@ import io.deeplay.intership.model.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class JoinGamePanel implements ActionListener {
-    private final JDialog jDialog;
-    private final GridLayout layout;
-    private final DrawGui drawGui;
-    private final JLabel gameIdLabel;
-    private final JTextField gameId;
-    private final JButton buttonBlack;
-    private final JButton buttonWhite;
-    private final JButton buttonSubmit;
-    private final JPanel jPanel;
+public class JoinGamePanel implements Panel {
+    public final JDialog jDialog;
+    public final GridLayout layout;
+    public final DrawGui drawGui;
+    public final JLabel gameIdLabel;
+    public final JTextField gameId;
+    public final JRadioButton buttonBlack;
+    public final JRadioButton buttonWhite;
+    public final JButton buttonSubmit;
+    public final JPanel jPanel;
 
     public JoinGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -25,25 +24,29 @@ public class JoinGamePanel implements ActionListener {
         layout = new GridLayout(3, 1, 50, 10);
         gameIdLabel = new JLabel("Enter game id");
         gameId = new JTextField( 64);
-        buttonBlack = new JButton("Black");
+        buttonBlack = new JRadioButton("Black");
         buttonBlack.addActionListener(this);
-        buttonWhite = new JButton("White");
+        buttonWhite = new JRadioButton("White");
         buttonWhite.addActionListener(this);
         buttonSubmit = new JButton("Submit");
         buttonSubmit.addActionListener(this);
         setPanel();
     }
 
+    @Override
     public void showPanel() {
         jDialog.setVisible(true);
     }
 
+    @Override
     public void hidePanel(){
         jDialog.setVisible(false);
     }
 
+    @Override
     public void setPanel(){
         jPanel.setLayout(layout);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
         jPanel.add(gameIdLabel);
         jPanel.add(gameId);
         jPanel.add(buttonBlack);
@@ -57,14 +60,16 @@ public class JoinGamePanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Submit")) {
-            drawGui.scannerGui.setGameId(Integer.valueOf(line));
+            if (buttonWhite.isSelected()) {
+                drawGui.scannerGui.setColor(Color.WHITE);
+            } else if (buttonBlack.isSelected()) {
+                drawGui.scannerGui.setColor(Color.BLACK);
+            } else {
+                drawGui.scannerGui.setColor(Color.EMPTY);
+            }
+            drawGui.scannerGui.setGameId(Integer.valueOf(gameId.getText()));
             drawGui.joinGamePanel.hidePanel();
-        }
-        else if(line.equals("White")) {
-            drawGui.scannerGui.setColor(Color.WHITE);
-        }
-        else if(line.equals("Black")) {
-            drawGui.scannerGui.setColor(Color.BLACK);
+            drawGui.gameFieldPanel.showPanel();
         }
     }
 }
