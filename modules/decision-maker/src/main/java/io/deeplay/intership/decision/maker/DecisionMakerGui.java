@@ -79,4 +79,8 @@ public class DecisionMakerGui implements DecisionMaker {
     private LoginPassword login(){
         return new LoginPassword(RequestType.LOGIN, scannerGui.getLogin(), scannerGui.getPassword());
     }
+
+    public LoginPassword logout() {
+        return new LoginPassword(RequestType.LOGOUT, null, null);
+    }
 }
