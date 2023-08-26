@@ -1,14 +1,10 @@
 package io.deeplay.intership.client;
 
+import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.DecisionMakerTerminal;
-import io.deeplay.intership.decision.maker.LoginPassword;
-import io.deeplay.intership.dto.request.LoginDtoRequest;
-import io.deeplay.intership.dto.request.RegistrationDtoRequest;
-import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.ui.terminal.Display;
-import io.deeplay.intership.ui.terminal.UserInterface;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class Client {
     private static String host;
@@ -27,21 +24,20 @@ public class Client {
     private static DecisionMaker decisionMaker;
     private static String token;
     private static JSONConverter converter;
+    private static final String CONFIG_PATH = "src/main/resources/config.properties";
 
     public static void main(String[] args) {
     }
 
     public static void init() {
         boolean isGUI = false;
-        try {
+        try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
             Properties property = new Properties();
-            FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
             property.load(fis);
 
             host = property.getProperty("client.host");
             port = Integer.parseInt(property.getProperty("client.port"));
             isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
-            fis.close();
 
             socket = new Socket(host, port);
             reader = new DataInputStream(socket.getInputStream());
@@ -55,7 +51,7 @@ public class Client {
             //конструктор для гуи и дм
         } else {
             display = new Display();
-            decisionMaker = new DecisionMakerTerminal();
+            decisionMaker = new DecisionMakerTerminal(new Scanner(System.in));
         }
     }
 

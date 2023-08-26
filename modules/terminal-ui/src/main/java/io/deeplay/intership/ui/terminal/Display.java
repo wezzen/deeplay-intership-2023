@@ -1,13 +1,13 @@
 package io.deeplay.intership.ui.terminal;
 
-import io.deeplay.intership.model.Board;
+import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.logger.BoardLogger;
 import io.deeplay.intership.model.Stone;
 
 /**
  * Класс {@code Display} отвечает за отображение игрового поля и различных сообщений пользователю.
  */
-public class Display implements UserInterface{
+public class Display implements UserInterface {
 
     private static final int MIN_BORDER_VALUE = 1;
     private static final int DEFAULT_BORDER_MAX_VALUE = 9;
@@ -16,6 +16,7 @@ public class Display implements UserInterface{
     /**
      * Показывает сообщение заголовка для пользовательского ввода.
      */
+    @Override
     public void showMoveRules() {
         System.out.print("Введите координаты нового камня через пробел\n");
         System.out.print("Формат записи: 1 6\n");
@@ -30,29 +31,38 @@ public class Display implements UserInterface{
     /**
      * Показывает доступные действия для пользователя.
      */
+    @Override
     public void showGameActions() {
         showHorizontalLine();
-        System.out.print("Выберите следущее действие:\n");
+        System.out.print("Выберите следующее действие:\n");
         System.out.print("Чтобы сделать ход нажмите " + 1 + "\n");
         System.out.print("Чтобы пропустить ход нажмите " + 2 + "\n");
         showHorizontalLine();
     }
-    public void showLoginActions(){
+
+    @Override
+    public void showAuthorizationActions() {
         showHorizontalLine();
         System.out.print("Добро пожаловать на сервер ГО!\n");
-        System.out.print("Выберите следущее действие:\n");
-        System.out.print("Чтобы зарегестрироваться нажмите " + 1 + "\n");
+        System.out.print("Выберите следующее действие:\n");
+        System.out.print("Чтобы зарегистрироваться нажмите " + 1 + "\n");
         System.out.print("Чтобы авторизоваться нажмите " + 2 + "\n");
-        System.out.print("Введите логин и пароль через пробел " + "\n");
+        System.out.print("И отдельно введите логин и пароль через пробел " + "\n");
         showHorizontalLine();
     }
-    public void showRegistration(){
+
+    @Override
+    public void showRegistration() {
         System.out.print("Для регистрации введите новый логин и пароль через пробел:\n");
     }
-    public void showLogin(){
+
+    @Override
+    public void showLogin() {
         System.out.print("Для входа введите логин и пароль через пробел:\n");
     }
-    public void showRoomActions(){
+
+    @Override
+    public void showRoomActions() {
         showHorizontalLine();
         System.out.print("Выберите игровую сессию\n");
         System.out.print("Выберите следующее действие:\n");
@@ -60,15 +70,20 @@ public class Display implements UserInterface{
         System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");
         showHorizontalLine();
     }
-    public void showJoin(){
+
+    @Override
+    public void showJoin() {
         System.out.print("Для входа в игру введите GameID:\n");
         showHorizontalLine();
     }
-    public void showCreating(int gameId){
+
+    @Override
+    public void showCreating(int gameId) {
         showHorizontalLine();
         System.out.print("Создана игровая сессия под номером: " + gameId + "\n");
         showHorizontalLine();
     }
+
     /**
      * Показывает сообщение о состоянии ожидания.
      */
@@ -83,6 +98,8 @@ public class Display implements UserInterface{
      *
      * @param gameField игровое поле в виде массива{@link Stone}, которое нужно вывести на консоль
      */
+
+    @Override
     public void showBoard(final Stone[][] gameField) {
         showBoardNumeric(gameField);
         showHorizontalBorder(gameField);
@@ -95,10 +112,9 @@ public class Display implements UserInterface{
             for (int j = 0; j < gameField[i].length; j++) {
                 stringBuilder
                         .append(" ")
-                        .append(switch (gameField[i][j].getColor()){
+                        .append(switch (gameField[i][j].getColor()) {
                             case BLACK -> "-";
                             case WHITE -> "+";
-                            case EMPTY -> "0";
                             default -> "0";
                         })
                         .append(" ");
@@ -146,6 +162,7 @@ public class Display implements UserInterface{
         System.out.print("====================================================================\n");
     }
 
+    @Override
     public void showColorSelection() {
         System.out.print(
                 "Для выбора белого цвета введите " + 1 + "\n");
@@ -158,6 +175,7 @@ public class Display implements UserInterface{
     /**
      * Показывает результаты игры.
      */
+    @Override
     public void showGameResult(String result) {
         System.out.println("игра закончена.\n");
         System.out.println("Результаты игры:\n");
