@@ -3,17 +3,16 @@ package io.deeplay.intership.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class StartGamePanel implements ActionListener {
-    private final JDialog jDialog;
-    private final GridLayout layout;
-    private final DrawGui drawGui;
-    private final JButton jButtonCreate;
-    private final JButton jButtonJoin;
-    private final JButton jButtonLogout;
-    private final JButton jButtonExit;
-    private final JPanel jPanel;
+public class StartGamePanel implements Panel {
+    public final JDialog jDialog;
+    public final GridLayout layout;
+    public final DrawGui drawGui;
+    public final JButton jButtonCreate;
+    public final JButton jButtonJoin;
+    public final JButton jButtonLogout;
+    public final JButton jButtonExit;
+    public final JPanel jPanel;
 
     public StartGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -31,16 +30,20 @@ public class StartGamePanel implements ActionListener {
         setPanel();
     }
 
+    @Override
     public void showPanel() {
         jDialog.setVisible(true);
     }
 
+    @Override
     public void hidePanel(){
         jDialog.setVisible(false);
     }
 
+    @Override
     public void setPanel(){
         jPanel.setLayout(layout);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
         jPanel.add(jButtonCreate);
         jPanel.add(jButtonJoin);
         jPanel.add(jButtonLogout);
@@ -52,16 +55,15 @@ public class StartGamePanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Create game")) {
-            drawGui.startGamePanel.hidePanel();
-            drawGui.createGamePanel.showPanel();
-        }
-        else if(line.equals("Join game")) {
+        if(line.equals("Join game")) {
+            drawGui.scannerGui.setCommandType(1);
             drawGui.startGamePanel.hidePanel();
             drawGui.joinGamePanel.showPanel();
         }
-        else if(line.equals("Log out")) {
-            drawGui.entrancePanel.showPanel();
+        else if(line.equals("Create game")) {
+            drawGui.scannerGui.setCommandType(2);
+            drawGui.startGamePanel.hidePanel();
+            drawGui.createGamePanel.showPanel();
         }
         else {
 
