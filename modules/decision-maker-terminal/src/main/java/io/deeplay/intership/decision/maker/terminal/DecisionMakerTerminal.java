@@ -56,7 +56,7 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     private Color getRandomColor() {
-        if ((int) (Math.random() * 2 + 1.0) == 1) {
+        if (Math.random() > 0.5) {
             return Color.WHITE;
         } else {
             return Color.BLACK;
