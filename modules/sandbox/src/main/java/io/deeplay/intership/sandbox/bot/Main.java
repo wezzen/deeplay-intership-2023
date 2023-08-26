@@ -13,7 +13,7 @@ public class Main {
             String endMessage = String.format("Game %d was ended", i);
 
             log.info(startMessage);
-            new Sandbox().startGame();
+            //new Sandbox().startGame();
             log.info(endMessage);
         }
     }
