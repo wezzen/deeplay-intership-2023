@@ -47,6 +47,3 @@ project(":gui").projectDir = file("modules/gui")
 
 include("decision-maker")
 project(":decision-maker").projectDir = file("modules/decision-maker")
-include("gui")
-project(":gui").projectDir = file("modules/gui")
-include("decision-maker")
