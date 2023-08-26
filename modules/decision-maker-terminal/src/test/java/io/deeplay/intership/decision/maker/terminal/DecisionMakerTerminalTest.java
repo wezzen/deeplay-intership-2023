@@ -29,10 +29,12 @@ public class DecisionMakerTerminalTest {
     }
     @Test
     public void getGameActionTest(){
-        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("1 1 4"));
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("1 1 4 2 3"));
         final GameAction gameAction = new GameAction(RequestType.TURN, 1, 4);
         try {
             Assertions.assertEquals(gameAction, dmt.getGameAction());
+            Assertions.assertEquals(dmt.getGameAction().type(), RequestType.PASS);
+            Assertions.assertEquals(dmt.getGameAction().type(), RequestType.SURRENDER);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -68,9 +70,10 @@ public class DecisionMakerTerminalTest {
 
     @Test
     public void getGameIdTest() {
-        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("2 2 1 9"));
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("2 2 1 9 1 2 12"));
         try {
             Assertions.assertEquals(dmt.getGameId().type(), RequestType.CREATE_GAME);
+            Assertions.assertEquals(dmt.getGameId().type(), RequestType.JOIN_GAME);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
