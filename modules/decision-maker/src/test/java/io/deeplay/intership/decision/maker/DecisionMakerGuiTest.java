@@ -14,7 +14,14 @@ public class DecisionMakerGuiTest {
                 () -> assertNotNull(decisionMakerGui.getLoginPassword()),
                 () -> assertNotNull(decisionMakerGui.getColor()),
                 () -> assertNotNull(decisionMakerGui.getGameId()),
-                () -> assertNotNull(decisionMakerGui.getGameAction())
+                () -> assertNotNull(decisionMakerGui.getGameAction()),
+                () -> assertEquals(scannerGui.getCommandType(), 1),
+                () -> assertEquals(scannerGui.getLogin(), "Aboba"),
+                () -> assertEquals(scannerGui.getPassword(), "322"),
+                () -> assertEquals(scannerGui.getRowNumber(), 1),
+                () -> assertEquals(scannerGui.getColumnNumber(), 1),
+                () -> assertEquals(scannerGui.getColor(), Color.WHITE),
+                () -> assertEquals(scannerGui.getGameId(), 555)
         );
     }
 }
