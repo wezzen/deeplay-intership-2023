@@ -1,4 +1,3 @@
-
 import io.deeplay.intership.decision.maker.DecisionMakerTerminal;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameId;
@@ -7,24 +6,35 @@ import io.deeplay.intership.dto.RequestType;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.Scanner;
+
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 public class DecisionMakerTerminalTest {
     @Test
     public void getLoginPswdTest(){
-        DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
-        final LoginPassword loginPassword = new LoginPassword(RequestType.LOGIN, "sus", "sos");
-        when(dmt.getLoginPassword()).thenReturn(loginPassword);
-
-        Assertions.assertEquals(loginPassword, dmt.getLoginPassword());
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("1 asd dsa"));
+        LoginPassword lp = null;
+        try {
+            lp = dmt.getLoginPassword();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        Assertions.assertEquals(lp.type(), RequestType.REGISTRATION);
+        Assertions.assertEquals("asd", lp.login());
+        Assertions.assertEquals("dsa", lp.password());
     }
     @Test
     public void getGameActionTest(){
-        DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("1 1 4"));
         final GameAction gameAction = new GameAction(RequestType.TURN, 1, 4);
-        when(dmt.getGameAction()).thenReturn(gameAction);
-
-        Assertions.assertEquals(gameAction, dmt.getGameAction());
+        try {
+            Assertions.assertEquals(gameAction, dmt.getGameAction());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
         GameAction ga = new GameAction(RequestType.TURN, 2, 5);
 
         Assertions.assertEquals(5, ga.row());
@@ -36,15 +46,32 @@ public class DecisionMakerTerminalTest {
     }
     @Test
     public void getColorTest(){
-        DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
-        when(dmt.getColor()).thenReturn(Color.WHITE);
-        Assertions.assertEquals(Color.WHITE, dmt.getColor());
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("3 "));
+        try {
+            Assertions.assertNotEquals(Color.EMPTY, dmt.getColor());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
     @Test
     public void gameIdTest(){
         DecisionMakerTerminal dmt = mock(DecisionMakerTerminal.class);
         final GameId gameId = new GameId(RequestType.JOIN_GAME, false, Color.BLACK, 9,123);
-        when(dmt.getGameId()).thenReturn(gameId);
-        Assertions.assertEquals(gameId, dmt.getGameId());
+        try {
+            when(dmt.getGameId()).thenReturn(gameId);
+            Assertions.assertEquals(gameId, dmt.getGameId());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void getGameIdTest() {
+        DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("2 2 1 9"));
+        try {
+            Assertions.assertEquals(dmt.getGameId().type(), RequestType.CREATE_GAME);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

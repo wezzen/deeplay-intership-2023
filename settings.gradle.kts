@@ -10,7 +10,7 @@ include("game")
 project(":game").projectDir = file("modules/game")
 
 include("terminal-ui")
-project(":terminal-ui").projectDir = file("modules/user-interface/terminal-ui")
+project(":terminal-ui").projectDir = file("modules/terminal-ui")
 
 include("model")
 project(":model").projectDir = file("modules/model")
@@ -47,5 +47,10 @@ project(":sandbox").projectDir = file("modules/sandbox")
 
 include("game-exception")
 project(":game-exception").projectDir = file("modules/game-exception")
+
 include("decision-maker")
 project(":decision-maker").projectDir = file("modules/decision-maker")
+
+include("user-interface")
+project(":user-interface").projectDir = file("modules/user-interface")
+

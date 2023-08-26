@@ -22,7 +22,7 @@ public class DisplayTest {
     @Test
     public void testShowAwaitState() {
         assertDoesNotThrow(display::showAwaitState);
-        assertDoesNotThrow(display::showLoginActions);
+        assertDoesNotThrow(display::showAuthorizationActions);
         assertDoesNotThrow(display::showLogin);
         assertDoesNotThrow(display::showRegistration);
         assertDoesNotThrow(display::showRoomActions);
