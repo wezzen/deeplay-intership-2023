@@ -24,8 +24,8 @@ public class DtoTest {
         String message = "Registration was performed!";
         String status = "Success";
         InfoDtoResponse registrationLogoutJoinDTO = new InfoDtoResponse(message, status);
-        assertEquals(registrationLogoutJoinDTO.message(), "Registration was performed!");
-        assertEquals(registrationLogoutJoinDTO.status(), "Success");
+        assertEquals(registrationLogoutJoinDTO.message, "Registration was performed!");
+        assertEquals(registrationLogoutJoinDTO.status, "Success");
     }
 
     @Test
@@ -43,9 +43,9 @@ public class DtoTest {
         String status = "Success";
         String token = "89473795";
         LoginDtoResponse registrationLogoutJoinDTO = new LoginDtoResponse(message, status, token);
-        assertEquals(registrationLogoutJoinDTO.message(), "You are authorized!");
-        assertEquals(registrationLogoutJoinDTO.status(), "Success");
-        assertEquals(registrationLogoutJoinDTO.token(), "89473795");
+        assertEquals(registrationLogoutJoinDTO.message, "You are authorized!");
+        assertEquals(registrationLogoutJoinDTO.status, "Success");
+        assertEquals(registrationLogoutJoinDTO.token, "89473795");
     }
 
     @Test
@@ -60,8 +60,8 @@ public class DtoTest {
         String message = "Log out!";
         String status = "Success";
         InfoDtoResponse infoDtoResponse = new InfoDtoResponse(message, status);
-        assertEquals(infoDtoResponse.message(), "Log out!");
-        assertEquals(infoDtoResponse.status(), "Success");
+        assertEquals(infoDtoResponse.message, "Log out!");
+        assertEquals(infoDtoResponse.status, "Success");
     }
 
     @Test
@@ -83,9 +83,9 @@ public class DtoTest {
         String status = "Success";
         String gameId = "101001930";
         CreateGameDtoResponse infoDtoResponse = new CreateGameDtoResponse(message, status, gameId);
-        assertEquals(infoDtoResponse.message(), "Created!");
-        assertEquals(infoDtoResponse.status(), "Success");
-        assertEquals(infoDtoResponse.gameId(), "101001930");
+        assertEquals(infoDtoResponse.message, "Created!");
+        assertEquals(infoDtoResponse.status, "Success");
+        assertEquals(infoDtoResponse.gameId, "101001930");
     }
 
     @Test
@@ -103,8 +103,8 @@ public class DtoTest {
         String message = "Joined!";
         String status = "Success";
         InfoDtoResponse infoDtoResponse = new InfoDtoResponse(message, status);
-        assertEquals(infoDtoResponse.message(), "Joined!");
-        assertEquals(infoDtoResponse.status(), "Success");
+        assertEquals(infoDtoResponse.message, "Joined!");
+        assertEquals(infoDtoResponse.status, "Success");
     }
 
     @Test
@@ -126,9 +126,9 @@ public class DtoTest {
         String status = "Success";
         Stone[][] field = new Stone[9][9];
         ActionDtoResponse actionDtoResponse = new ActionDtoResponse(message, status, field);
-        assertEquals(actionDtoResponse.message(), "Moved!");
-        assertEquals(actionDtoResponse.status(), "Success");
-        assertEquals(actionDtoResponse.gameField(), field);
+        assertEquals(actionDtoResponse.message, "Moved!");
+        assertEquals(actionDtoResponse.status, "Success");
+        assertEquals(actionDtoResponse.gameField, field);
     }
 
     @Test
@@ -144,9 +144,9 @@ public class DtoTest {
         String status = "Success";
         Stone[][] field = new Stone[9][9];
         ActionDtoResponse actionDtoResponse = new ActionDtoResponse(message, status, field);
-        assertEquals(actionDtoResponse.message(), "Passed!");
-        assertEquals(actionDtoResponse.status(), "Success");
-        assertEquals(actionDtoResponse.gameField(), field);
+        assertEquals(actionDtoResponse.message, "Passed!");
+        assertEquals(actionDtoResponse.status, "Success");
+        assertEquals(actionDtoResponse.gameField, field);
     }
 
     @Test
@@ -162,9 +162,9 @@ public class DtoTest {
         String status = "Success";
         Stone[][] field = new Stone[9][9];
         ActionDtoResponse actionDtoResponse = new ActionDtoResponse(message, status, field);
-        assertEquals(actionDtoResponse.message(), "Surrendered!");
-        assertEquals(actionDtoResponse.status(), "Success");
-        assertEquals(actionDtoResponse.gameField(), field);
+        assertEquals(actionDtoResponse.message, "Surrendered!");
+        assertEquals(actionDtoResponse.status, "Success");
+        assertEquals(actionDtoResponse.gameField, field);
     }
 
     @Test
@@ -181,10 +181,10 @@ public class DtoTest {
         int whiteScore = 10;
         int blackScore = 15;
         FinishGameDtoResponse finishGameDtoResponse = new FinishGameDtoResponse(message, status, blackScore, whiteScore);
-        assertEquals(finishGameDtoResponse.message(), "Finished!");
-        assertEquals(finishGameDtoResponse.status(), "Success");
-        assertEquals(finishGameDtoResponse.whiteScore(), whiteScore);
-        assertEquals(finishGameDtoResponse.blackScore(), blackScore);
+        assertEquals(finishGameDtoResponse.message, "Finished!");
+        assertEquals(finishGameDtoResponse.status, "Success");
+        assertEquals(finishGameDtoResponse.whiteScore, whiteScore);
+        assertEquals(finishGameDtoResponse.blackScore, blackScore);
     }
 
     @Test
@@ -192,7 +192,7 @@ public class DtoTest {
         String message = "There are two players already!";
         String status = "Failure";
         FailureDtoResponse failureDtoResponse = new FailureDtoResponse(message, status);
-        assertEquals(failureDtoResponse.message(), "There are two players already!");
-        assertEquals(failureDtoResponse.status(), "Failure");
+        assertEquals(failureDtoResponse.message, "There are two players already!");
+        assertEquals(failureDtoResponse.status, "Failure");
     }
 }
