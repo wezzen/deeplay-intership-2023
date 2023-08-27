@@ -5,6 +5,8 @@ import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameId;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.exception.ClientErrorCode;
+import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 
 import java.io.IOException;
@@ -18,40 +20,40 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     @Override
-    public LoginPassword getLoginPassword() throws IOException {
+    public LoginPassword getLoginPassword() throws ClientException {
         return switch (getChooseNumber()) {
             case 1 -> registration();
             case 2 -> login();
-            default -> throw new IOException("THERE IS NO SUCH OPTION");
+            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
     @Override
-    public GameAction getGameAction() throws IOException {
+    public GameAction getGameAction() throws ClientException {
         return switch (getChooseNumber()) {
             case 1 -> makeMove();
             case 2 -> skipTurn();
             case 3 -> surrender();
-            default -> throw new IOException("THERE IS NO SUCH OPTION");
+            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
     @Override
-    public GameId getGameId() throws IOException {
+    public GameId getGameId() throws ClientException {
         return switch (getChooseNumber()) {
             case 1 -> joinGame();
             case 2 -> createGame();
-            default -> throw new IOException("THERE IS NO SUCH OPTION");
+            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
     @Override
-    public Color getColor() throws IOException {
+    public Color getColor() throws ClientException {
         return switch (getChooseNumber()) {
             case 1 -> Color.WHITE;
             case 2 -> Color.BLACK;
             case 3 -> getRandomColor();
-            default -> throw new IOException("THERE IS NO SUCH OPTION");
+            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
@@ -69,13 +71,13 @@ public class DecisionMakerTerminal implements DecisionMaker {
      * @return INT
      * @throws IOException и сообщение-причину
      */
-    private int getChooseNumber() throws IOException {
+    private int getChooseNumber() throws ClientException {
         String consoleMessage = scanner.next();
         char firstSymbol = consoleMessage.charAt(0);
         if (firstSymbol <= '9' && firstSymbol >= '1') {
             return Integer.parseInt("" + firstSymbol);
         } else {
-            throw new IOException("WRONG INPUT");
+            throw new ClientException(ClientErrorCode.WRONG_INPUT);
         }
     }
 
@@ -91,17 +93,17 @@ public class DecisionMakerTerminal implements DecisionMaker {
         return new GameAction(RequestType.SURRENDER, 0, 0);
     }
 
-    private GameId joinGame() throws IOException{
+    private GameId joinGame() throws ClientException {
         Color color = getColor();
         return new GameId(RequestType.JOIN_GAME, false, color, 0, scanner.nextInt());
     }
 
-    private GameId createGame() throws IOException{
+    private GameId createGame() throws ClientException {
         boolean bot;
         switch (getChooseNumber()) {
             case 1 -> bot = true;
             case 2 -> bot = false;
-            default -> throw new IOException("THERE IS NO SUCH OPTION");
+            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         }
         Color color = getColor();
         return new GameId(RequestType.CREATE_GAME, bot, color, scanner.nextInt(), 0);

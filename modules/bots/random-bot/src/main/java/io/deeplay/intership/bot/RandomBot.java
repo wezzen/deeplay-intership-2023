@@ -5,10 +5,10 @@ import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameId;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,9 @@ public class RandomBot implements DecisionMaker {
         this.color = color;
     }
 
-    public GameAction getGameAction() throws IOException {
+    @Override
+    public GameAction getGameAction() {
+        //TODO: прикрутить валидацию на бота
         boolean canMove = false;
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length && !canMove; j++) {
@@ -39,7 +41,23 @@ public class RandomBot implements DecisionMaker {
         }
     }
 
-    public GameAction makeMove(final Stone[][] gameField) {
+    @Override
+    public LoginPassword getLoginPassword() throws ClientException {
+        return null;
+    }
+
+
+    @Override
+    public GameId getGameId() throws ClientException {
+        return null;
+    }
+
+    @Override
+    public Color getColor() throws ClientException {
+        return null;
+    }
+
+    private GameAction makeMove(final Stone[][] gameField) {
         List<Stone> emptyStones = new ArrayList<>();
         Stone[][] field = gameField;
         for (int i = 0; i < gameField.length; i++) {
@@ -57,23 +75,6 @@ public class RandomBot implements DecisionMaker {
                 stone.getColumnNumber()
         );
 
-    }
-
-
-    @Override
-    public LoginPassword getLoginPassword() throws IOException {
-        return null;
-    }
-
-
-    @Override
-    public GameId getGameId() throws IOException {
-        return null;
-    }
-
-    @Override
-    public Color getColor() throws IOException {
-        return null;
     }
 
     private GameAction skipTurn() {
