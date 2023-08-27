@@ -21,8 +21,10 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final int paddingX = 50;
     public final int paddingY = 50;
     public final int sizeOfStone = 38;
+    public final int sizeOfField = 38;
     public final int buttonWidth = 150;
     public final int buttonHeight = 50;
+    public final int N;
     public final JButton buttonMove;
     public final JButton buttonPass;
     public final JButton buttonSurrender;
@@ -36,9 +38,10 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     private Color[][] field;
 
     public GameFieldPanel(DrawGui drawGui){
-        field = new Color[9][9];
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        N = drawGui.scannerGui.getSize();
+        field = new Color[N][N];
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
                 field[i][j] = Color.EMPTY;
             }
         }
@@ -46,7 +49,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         buttonPass = new JButton("Pass");
         buttonSurrender = new JButton("Give up");
         this.drawGui = drawGui;
-        this.square = new ObjectGui(50, 50, 500, new RgbColor(103,60,44), boardFileName);
+        this.square = new ObjectGui(paddingX, paddingY, sizeOfField, new RgbColor(103,60,44), boardFileName);
         //this.lineColor = new RgbColor(240, 142, 62);
         //this.lineColor = new RgbColor(255, 196, 77);
         this.lineColor = new RgbColor(235, 233, 230);
@@ -73,19 +76,19 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public void drawCustomSquare(){
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(square.fileName()));
-            BufferedImage image = bufferedImage.getSubimage(0, 0, 500, 500);
-            graphics2D.drawImage(image, 50, 50, null);
+            BufferedImage image = bufferedImage.getSubimage(0, 0, sizeOfField, sizeOfField);
+            graphics2D.drawImage(image, paddingX, paddingY, null);
         } catch (IOException e) {
             float[] hsb = getHsbColor(square.rgbColor().getRgbColor());
             graphics2D.setColor(new java.awt.Color(hsb[0], hsb[1], hsb[2]));
-            graphics2D.fillRect(50, 50, 500, 500);
+            graphics2D.fillRect(paddingX, paddingY, sizeOfField, sizeOfField);
         }
     }
 
     public void drawCustomStone(ObjectGui figure){
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(figure.fileName()));
-            BufferedImage newBufferedImage = resize(bufferedImage, 38, 38);
+            BufferedImage newBufferedImage = resize(bufferedImage, sizeOfStone, sizeOfStone);
             graphics2D.drawImage(newBufferedImage, figure.x() - sizeOfStone/2,
                     figure.y() - sizeOfStone/2, null);
         } catch (IOException e) {
@@ -99,16 +102,9 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         return java.awt.Color.RGBtoHSB(rgbColor[0], rgbColor[1], rgbColor[2], new float[3]);
     }
 
-    public JButton getActionButton(int numberOfName, int x, int y) {
-        JButton jButton = new JButton(actionNames[numberOfName]);
-        jButton.setLocation(x, y);
-        jButton.setSize(buttonWidth, buttonHeight);
-        return jButton;
-    }
-
     public void setStone(int x, int y) {
-        for(int i = 1; i < 10; i++) {
-            for(int j = 1; j < 10; j++) {
+        for(int i = 1; i < N + 1; i++) {
+            for(int j = 1; j < N + 1; j++) {
                 if (abs(x - i * paddingX - square.x()) <= paddingX / 2 &&
                         abs((y-30) - j * paddingY - square.y()) <= paddingY / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
@@ -173,14 +169,14 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics graphics) {
         graphics2D = (Graphics2D) graphics;
         drawCustomSquare();
-        for(int i = 1; i < 10; i++) {
+        for(int i = 1; i < N + 1; i++) {
             drawLine(new Line(paddingX + square.x(), i * paddingY+square.y(), square.size() + square.x() - paddingX, i * paddingY+square.y()));
         }
-        for(int i = 1; i < 10; i++) {
+        for(int i = 1; i < N + 1; i++) {
             drawLine(new Line(i * paddingX + square.x(), paddingY + square.y(), i * paddingX + square.x(), square.size() + square.y() - paddingY));
         }
-        for(int i = 1; i < 10; i++){
-            for(int j = 1; j < 10; j++){
+        for(int i = 1; i < N + 1; i++){
+            for(int j = 1; j < N + 1; j++){
                 if(field[i-1][j-1] == Color.WHITE) {
                     drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), 38, new RgbColor(0,0,0), whiteStoneFileName));
                 }
