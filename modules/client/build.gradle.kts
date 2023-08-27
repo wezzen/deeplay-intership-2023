@@ -6,4 +6,5 @@ dependencies {
     implementation(project(":json-converter"))
     implementation(project(":user-interface"))
     implementation(project(":decision-maker-terminal"))
+    implementation(project(":client-exception"))
 }
