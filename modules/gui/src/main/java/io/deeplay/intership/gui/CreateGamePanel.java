@@ -52,8 +52,22 @@ public class CreateGamePanel implements Panel {
 
     @Override
     public void setPanel(){
-        jPanel.setLayout(layout);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
+        //jPanel.setLayout(layout);
+        jPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
+        enemyLabel.setLocation(80, 50);
+        buttonBot.setLocation(150, 50);
+        buttonHuman.setLocation(220, 50);
+        colorLabel.setLocation(80, 100);
+        buttonBlack.setLocation(150, 100);
+        buttonWhite.setLocation(220, 100);
+        buttonSubmit.setLocation(150, 200);
+        enemyLabel.setPreferredSize(new Dimension(80, 35));
+        buttonBot.setPreferredSize(new Dimension(80, 35));
+        buttonHuman.setPreferredSize(new Dimension(80, 35));
+        colorLabel.setPreferredSize(new Dimension(80, 35));
+        buttonBlack.setPreferredSize(new Dimension(80, 35));
+        buttonWhite.setPreferredSize(new Dimension(80, 35));
+        buttonSubmit.setPreferredSize(new Dimension(80, 35));
         jPanel.add(enemyLabel);
         jPanel.add(buttonBot);
         jPanel.add(buttonHuman);
@@ -63,6 +77,11 @@ public class CreateGamePanel implements Panel {
         jPanel.add(buttonSubmit);
         jDialog.add(jPanel);
         jDialog.setSize(500, 300);
+    }
+
+    public void submit(){
+        drawGui.createGamePanel.hidePanel();
+        drawGui.gameFieldPanel.showPanel();
     }
 
     @Override
@@ -79,8 +98,7 @@ public class CreateGamePanel implements Panel {
             } else if (buttonWhite.isSelected()) {
                 drawGui.scannerGui.setColor(Color.WHITE);
             }
-            drawGui.createGamePanel.hidePanel();
-            drawGui.gameFieldPanel.showPanel();
+            submit();
         }
     }
 }

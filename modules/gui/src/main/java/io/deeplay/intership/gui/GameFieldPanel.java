@@ -21,13 +21,14 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final int paddingX = 50;
     public final int paddingY = 50;
     public final int sizeOfStone = 38;
-    public final int sizeOfField = 38;
+    public final int sizeOfField = 500;
     public final int buttonWidth = 150;
     public final int buttonHeight = 50;
     public final int N;
     public final JButton buttonMove;
     public final JButton buttonPass;
     public final JButton buttonSurrender;
+    public final JTextField gameId;
     public final String resourceDir = "modules\\gui\\src\\main\\resources\\";
     public final String[] actionNames = new String[]{"Move", "Pass", "Give up"};
     public final String boardFileName = resourceDir + "board\\board.jpg";
@@ -39,6 +40,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
 
     public GameFieldPanel(DrawGui drawGui){
         N = drawGui.scannerGui.getSize();
+        System.out.println(N);
         field = new Color[N][N];
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
@@ -48,6 +50,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         buttonMove = new JButton("Move");
         buttonPass = new JButton("Pass");
         buttonSurrender = new JButton("Give up");
+        gameId = new JTextField();
         this.drawGui = drawGui;
         this.square = new ObjectGui(paddingX, paddingY, sizeOfField, new RgbColor(103,60,44), boardFileName);
         //this.lineColor = new RgbColor(240, 142, 62);
@@ -132,10 +135,17 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         drawGui.frame.setVisible(false);
     }
 
+    public String getGameId(){
+        return String.valueOf(Math.random());
+    }
+
     public void setPanel(){
         JPanel controlPanel = new JPanel();
         drawGui.frame.add(controlPanel);
         drawGui.frame.add(this);
+        //gameId.setText(getGameId());
+        //gameId.setLocation(1000, 50);
+        //drawGui.frame.add(gameId);
         GridLayout layout = new GridLayout(3, 1, 0, 20);
         controlPanel.setLocation(700, 100);
         controlPanel.setSize(150, 210);
@@ -178,10 +188,10 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         for(int i = 1; i < N + 1; i++){
             for(int j = 1; j < N + 1; j++){
                 if(field[i-1][j-1] == Color.WHITE) {
-                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), 38, new RgbColor(0,0,0), whiteStoneFileName));
+                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), sizeOfStone, new RgbColor(0,0,0), whiteStoneFileName));
                 }
                 else if(field[i-1][j-1] == Color.BLACK){
-                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), 38, new RgbColor(255,255,255), blackStoneFileName));
+                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), sizeOfStone, new RgbColor(255,255,255), blackStoneFileName));
                 }
             }
         }
@@ -191,22 +201,34 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         return field;
     }
 
+    public void move(){
+        drawGui.scannerGui.setCommandType(1);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void pass(){
+        drawGui.scannerGui.setCommandType(2);
+    }
+
+    public void giveup(){
+        drawGui.scannerGui.setCommandType(3);
+        drawGui.gameFieldPanel.hidePanel();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Move")){
-            drawGui.scannerGui.setCommandType(1);
-            this.revalidate();
-            this.repaint();
+            move();
             // Realize move interaction with client
         }
         else if(line.equals("Pass")){
-            drawGui.scannerGui.setCommandType(2);
+            pass();
             // Realize pass interaction with client
         }
         else if(line.equals("Give up")){
-            drawGui.scannerGui.setCommandType(3);
-            drawGui.gameFieldPanel.hidePanel();
+            giveup();
             // Realize surrender interaction with client
         }
     }

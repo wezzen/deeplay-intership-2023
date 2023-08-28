@@ -1,9 +1,11 @@
 package io.deeplay.intership.gui;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LineTest {
+
     @Test
     public void lineTest(){
         Line line = new Line(1,2,3,4);

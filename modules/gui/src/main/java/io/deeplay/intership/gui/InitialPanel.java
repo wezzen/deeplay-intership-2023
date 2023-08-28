@@ -61,18 +61,26 @@ public class InitialPanel implements Panel {
         jDialog.setSize(500, 300);
     }
 
+    public void register(){
+        drawGui.scannerGui.setCommandType(1);
+        drawGui.initialPanel.hidePanel();
+        drawGui.entrancePanel.showPanel();
+    }
+
+    public void login(){
+        drawGui.scannerGui.setCommandType(2);
+        drawGui.initialPanel.hidePanel();
+        drawGui.entrancePanel.showPanel();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Register")) {
-            drawGui.scannerGui.setCommandType(1);
-            drawGui.initialPanel.hidePanel();
-            drawGui.entrancePanel.showPanel();
+            register();
         }
         else if(line.equals("Log in")) {
-            drawGui.scannerGui.setCommandType(2);
-            drawGui.initialPanel.hidePanel();
-            drawGui.entrancePanel.showPanel();
+            login();
         }
         else {
 
