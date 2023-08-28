@@ -1,5 +1,7 @@
 package io.deeplay.intership.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -16,5 +18,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = LoginDtoResponse.class, name = "LOGIN")
 })
 public class BaseDtoResponse {
+    public final String status;
+    public final String message;
 
+    @JsonCreator
+    public BaseDtoResponse(
+            @JsonProperty("status") String status,
+            @JsonProperty("message") String message) {
+        this.status = status;
+        this.message = message;
+    }
 }

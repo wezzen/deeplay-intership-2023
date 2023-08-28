@@ -1,18 +1,17 @@
 package io.deeplay.intership.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LoginDtoResponse extends BaseDtoResponse {
-    public final String status;
-    public final String message;
     public final String token;
 
-
-    public LoginDtoResponse(String status, String message, String token) {
-        this.status = status;
-        this.message = message;
+    @JsonCreator
+    public LoginDtoResponse(
+            @JsonProperty("status") String status,
+            @JsonProperty("message") String message,
+            @JsonProperty("token") String token) {
+        super(status, message);
         this.token = token;
-    }
-
-    public LoginDtoResponse() {
-        this(null, null, null);
     }
 }

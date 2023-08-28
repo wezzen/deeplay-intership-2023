@@ -1,19 +1,18 @@
 package io.deeplay.intership.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.deeplay.intership.model.Stone;
 
 public class ActionDtoResponse extends BaseDtoResponse {
-    public final String status;
-    public final String message;
     public final Stone[][] gameField;
 
-    public ActionDtoResponse(String status, String message, Stone[][] gameField) {
-        this.status = status;
-        this.message = message;
+    @JsonCreator
+    public ActionDtoResponse(
+            @JsonProperty("status") String status,
+            @JsonProperty("message") String message,
+            @JsonProperty("gameField") Stone[][] gameField) {
+        super(status, message);
         this.gameField = gameField;
-    }
-
-    public ActionDtoResponse() {
-        this(null, null, null);
     }
 }
