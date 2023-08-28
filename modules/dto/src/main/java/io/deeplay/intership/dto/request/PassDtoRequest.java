@@ -1,5 +1,14 @@
 package io.deeplay.intership.dto.request;
 
-public record PassDtoRequest(RequestType requestType, String token) {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class PassDtoRequest extends BaseDtoRequest {
+    public final String token;
+
+    @JsonCreator
+    public PassDtoRequest(@JsonProperty("token") String token) {
+        super(RequestType.PASS);
+        this.token = token;
+    }
 }

@@ -1,5 +1,18 @@
 package io.deeplay.intership.dto.request;
 
-public record RegistrationDtoRequest(RequestType requestType, String login, String passwordHash) {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class RegistrationDtoRequest extends BaseDtoRequest {
+    public final String login;
+    public final String passwordHash;
+
+    @JsonCreator
+    public RegistrationDtoRequest(
+            @JsonProperty("login") String login,
+            @JsonProperty("passwordHash") String passwordHash) {
+        super(RequestType.REGISTRATION);
+        this.login = login;
+        this.passwordHash = passwordHash;
+    }
 }
