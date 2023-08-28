@@ -1,7 +1,5 @@
 package io.deeplay.intership.dto.request;
 
-import io.deeplay.intership.dto.RequestType;
-
 public record SurrenderDtoRequest(RequestType requestType, String token) {
 
 }

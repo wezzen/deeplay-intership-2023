@@ -1,7 +1,7 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.ResponseInfoMessage;
-import io.deeplay.intership.dto.ResponseStatus;
+import io.deeplay.intership.dto.response.ResponseInfoMessage;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.ActionDtoResponse;
 import io.deeplay.intership.dto.response.CreateGameDtoResponse;

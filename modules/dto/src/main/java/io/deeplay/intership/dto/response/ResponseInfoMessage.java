@@ -1,4 +1,4 @@
-package io.deeplay.intership.dto;
+package io.deeplay.intership.dto.response;
 
 public enum ResponseInfoMessage {
     SUCCESS_REGISTRATION("You was successfully registered!"),

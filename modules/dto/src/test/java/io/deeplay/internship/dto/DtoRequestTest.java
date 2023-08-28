@@ -1,6 +1,6 @@
 package io.deeplay.internship.dto;
 
-import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;

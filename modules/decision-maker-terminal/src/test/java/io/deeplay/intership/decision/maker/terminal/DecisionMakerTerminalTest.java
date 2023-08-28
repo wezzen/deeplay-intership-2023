@@ -3,14 +3,13 @@ package io.deeplay.intership.decision.maker.terminal;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameId;
 import io.deeplay.intership.decision.maker.LoginPassword;
-import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import static org.mockito.Mockito.when;

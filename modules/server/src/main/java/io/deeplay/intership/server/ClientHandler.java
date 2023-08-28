@@ -1,6 +1,6 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.dto.ResponseStatus;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.exception.ServerException;

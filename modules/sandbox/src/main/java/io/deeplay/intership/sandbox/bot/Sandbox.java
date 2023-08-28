@@ -1,7 +1,7 @@
 package io.deeplay.intership.sandbox.bot;
 
 import io.deeplay.intership.bot.RandomBot;
-import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.request.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.JoinGameDtoRequest;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
