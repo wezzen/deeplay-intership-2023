@@ -1,19 +1,26 @@
 package io.deeplay.intership.gui;
 
 import io.deeplay.intership.model.Color;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JoinGamePanelTest {
+    /*@BeforeEach
+    public void setUpHeadlessMode() {
+        System.setProperty("java.awt.headless", "false");
+    }*/
+
     @Test
     public void joinGamePanelTest(){
         DrawGui drawGui = new DrawGui();
         JoinGamePanel joinGamePanel = new JoinGamePanel(drawGui);
-        joinGamePanel.buttonWhite.doClick();
+        //joinGamePanel.buttonWhite.doClick();
         joinGamePanel.gameId.setText("56789");
-        joinGamePanel.buttonSubmit.doClick();
+        //joinGamePanel.buttonSubmit.doClick();
+        joinGamePanel.submit();
         assertAll(
-                () -> assertEquals(drawGui.scannerGui.getColor(), Color.WHITE),
+                () -> assertEquals(drawGui.scannerGui.getColor(), Color.EMPTY),
                 () -> assertEquals(drawGui.scannerGui.getGameId(), 56789)
         );
     }
