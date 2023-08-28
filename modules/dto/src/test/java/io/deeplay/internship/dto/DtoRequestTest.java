@@ -4,89 +4,98 @@ import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DtoRequestTest {
     @Test
     public void checkRegistrationRequest() {
-        String login = "Nick";
-        String password_hash = "3454465";
-        RegistrationDtoRequest registrationDTO = new RegistrationDtoRequest(login, password_hash);
-        assertEquals(registrationDTO.login, "Nick");
-        assertEquals(registrationDTO.passwordHash, "3454465");
+        final String login = "Nick";
+        final String password_hash = "3454465";
+        final RegistrationDtoRequest registrationDTO = new RegistrationDtoRequest(login, password_hash);
+
+        assertEquals(registrationDTO.login, login);
+        assertEquals(registrationDTO.passwordHash, password_hash);
     }
 
     @Test
     public void checkLoginRequest() {
-        String login = "Nick";
-        String password_hash = "3454465";
-        LoginDtoRequest loginDtoRequest = new LoginDtoRequest(login, password_hash);
-        assertEquals(loginDtoRequest.login, "Nick");
-        assertEquals(loginDtoRequest.passwordHash, "3454465");
+        final String login = "Nick";
+        final String password_hash = "3454465";
+        final LoginDtoRequest loginDtoRequest = new LoginDtoRequest(login, password_hash);
+
+        assertEquals(loginDtoRequest.login, login);
+        assertEquals(loginDtoRequest.passwordHash, password_hash);
     }
 
     @Test
     public void checkLogoutRequest() {
-        String token = "89473795";
-        LogoutDtoRequest logoutDtoRequest = new LogoutDtoRequest(token);
-        assertEquals(logoutDtoRequest.token, "89473795");
+        final String token = UUID.randomUUID().toString();
+        final LogoutDtoRequest logoutDtoRequest = new LogoutDtoRequest(token);
+
+        assertEquals(logoutDtoRequest.token, token);
     }
 
     @Test
     public void checkCreateGameRequest() {
-        String color = "WHITE";
-        int size = 9;
-        String token = "89473795";
-        boolean withBot = true;
-        CreateGameDtoRequest createGameDtoRequest = new CreateGameDtoRequest(withBot, color, size, token);
-        assertEquals(createGameDtoRequest.token, "89473795");
-        assertEquals(createGameDtoRequest.size, 9);
-        assertEquals(createGameDtoRequest.color, "WHITE");
-        assertEquals(createGameDtoRequest.withBot, true);
+        final String color = "WHITE";
+        final int size = 9;
+        final String token = UUID.randomUUID().toString();
+        final boolean withBot = true;
+        final CreateGameDtoRequest createGameDtoRequest = new CreateGameDtoRequest(withBot, color, size, token);
+
+        assertEquals(createGameDtoRequest.token, token);
+        assertEquals(createGameDtoRequest.size, size);
+        assertEquals(createGameDtoRequest.color, color);
+        assertEquals(createGameDtoRequest.withBot, withBot);
     }
 
     @Test
     public void checkJoinGameRequest() {
-        String gameId = "101001930";
-        String token = "89473795";
-        String color = Color.WHITE.name();
-        JoinGameDtoRequest joinGameDtoRequest = new JoinGameDtoRequest(gameId, token, color);
-        assertEquals(joinGameDtoRequest.token, "89473795");
-        assertEquals(joinGameDtoRequest.gameId, "101001930");
+        final String gameId = UUID.randomUUID().toString();
+        final String token = UUID.randomUUID().toString();
+        final String color = Color.WHITE.name();
+        final JoinGameDtoRequest joinGameDtoRequest = new JoinGameDtoRequest(gameId, token, color);
+
+        assertEquals(joinGameDtoRequest.token, token);
+        assertEquals(joinGameDtoRequest.gameId, gameId);
     }
 
     @Test
     public void checkTurnRequest() {
-        String color = "BLACK";
-        int row = 5;
-        int column = 4;
-        String token = "89473795";
-        TurnDtoRequest joinGameDtoRequest = new TurnDtoRequest(color, row, column, token);
-        assertEquals(joinGameDtoRequest.token, "89473795");
-        assertEquals(joinGameDtoRequest.color, "BLACK");
-        assertEquals(joinGameDtoRequest.row, 5);
-        assertEquals(joinGameDtoRequest.column, 4);
+        final String color = "BLACK";
+        final int row = 5;
+        final int column = 4;
+        final String token = UUID.randomUUID().toString();
+        final TurnDtoRequest joinGameDtoRequest = new TurnDtoRequest(color, row, column, token);
+
+        assertEquals(joinGameDtoRequest.token, token);
+        assertEquals(joinGameDtoRequest.color, color);
+        assertEquals(joinGameDtoRequest.row, row);
+        assertEquals(joinGameDtoRequest.column, column);
     }
 
     @Test
     public void checkPassRequest() {
-        String token = "89473795";
-        PassDtoRequest passDtoRequest = new PassDtoRequest(token);
-        assertEquals(passDtoRequest.token, "89473795");
+        final String token = UUID.randomUUID().toString();
+        final PassDtoRequest passDtoRequest = new PassDtoRequest(token);
+
+        assertEquals(passDtoRequest.token, token);
     }
 
     @Test
     public void checkSurrenderRequest() {
-        String token = "89473795";
-        SurrenderDtoRequest surrenderDtoRequest = new SurrenderDtoRequest(token);
-        assertEquals(surrenderDtoRequest.token, "89473795");
+        final String token = UUID.randomUUID().toString();
+        final SurrenderDtoRequest surrenderDtoRequest = new SurrenderDtoRequest(token);
+        assertEquals(surrenderDtoRequest.token, token);
     }
 
     @Test
     public void checkFinishGameRequest() {
-        String token = "89473795";
-        SurrenderDtoRequest surrenderDtoRequest = new SurrenderDtoRequest(token);
-        assertEquals(surrenderDtoRequest.token, "89473795");
+        final String gameId = UUID.randomUUID().toString();
+        final FinishGameDtoRequest finishGameDtoRequest = new FinishGameDtoRequest(gameId);
+        assertEquals(gameId, finishGameDtoRequest.gameId);
     }
 
 }
