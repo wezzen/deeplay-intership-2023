@@ -28,7 +28,6 @@ public class GameServiceTest {
     @BeforeAll
     public static void initRegistration() {
         final RegistrationDtoRequest register = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 login,
                 passwordHash);
         try {
@@ -41,7 +40,6 @@ public class GameServiceTest {
     @BeforeEach
     public void initUserAuth() {
         final LoginDtoRequest loginRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 login,
                 passwordHash);
         LoginDtoResponse response = null;
@@ -55,7 +53,7 @@ public class GameServiceTest {
 
     @AfterEach
     public void initUserLogout() {
-        final LogoutDtoRequest logoutRequest = new LogoutDtoRequest(RequestType.LOGOUT, token);
+        final LogoutDtoRequest logoutRequest = new LogoutDtoRequest(token);
         try {
             userService.logout(logoutRequest);
         } catch (ServerException e) {
@@ -75,7 +73,6 @@ public class GameServiceTest {
         final int size = 9;
 
         final CreateGameDtoRequest dto = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 color,
                 size,
@@ -98,7 +95,6 @@ public class GameServiceTest {
         final int size = 9;
         final String token = UUID.randomUUID().toString();
         final CreateGameDtoRequest dto = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 color,
                 size,
@@ -111,12 +107,10 @@ public class GameServiceTest {
     public void testSuccessJoinGame() throws ServerException {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 firstLogin,
                 passwordHash);
         userService.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
@@ -124,12 +118,10 @@ public class GameServiceTest {
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 secondLogin,
                 passwordHash);
         userService.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
@@ -139,7 +131,6 @@ public class GameServiceTest {
         final String blackColor = Color.BLACK.name();
         final int size = 9;
         final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 blackColor,
                 size,
@@ -154,7 +145,6 @@ public class GameServiceTest {
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameDto.gameId,
                 secondToken,
                 color);
@@ -172,12 +162,10 @@ public class GameServiceTest {
     public void testSuccessJoinGame_withEmptyColor() throws ServerException {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 firstLogin,
                 passwordHash);
         userService.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
@@ -185,12 +173,10 @@ public class GameServiceTest {
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 secondLogin,
                 passwordHash);
         userService.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
@@ -200,7 +186,6 @@ public class GameServiceTest {
         final String blackColor = Color.EMPTY.name();
         final int size = 9;
         final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 blackColor,
                 size,
@@ -215,7 +200,6 @@ public class GameServiceTest {
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameDto.gameId,
                 secondToken,
                 color);
@@ -235,7 +219,6 @@ public class GameServiceTest {
         final String whiteColor = Color.WHITE.name();
         final int size = 9;
         final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 whiteColor,
                 size,
@@ -245,7 +228,6 @@ public class GameServiceTest {
         final String color = Color.BLACK.name();
         final String gameId = UUID.randomUUID().toString();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameId,
                 token,
                 color);
@@ -259,7 +241,6 @@ public class GameServiceTest {
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString();
         final JoinGameDtoRequest dto = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameId,
                 token,
                 color);
@@ -270,9 +251,7 @@ public class GameServiceTest {
     @Test
     public void testSurrenderGame() {
         final String token = UUID.randomUUID().toString();
-        final SurrenderDtoRequest dto = new SurrenderDtoRequest(
-                RequestType.SURRENDER,
-                token);
+        final SurrenderDtoRequest dto = new SurrenderDtoRequest(token);
 
         assertDoesNotThrow(() -> gameService.surrenderGame(dto));
     }
@@ -280,9 +259,7 @@ public class GameServiceTest {
     @Test
     public void testFinishGame() {
         final String gameId = UUID.randomUUID().toString();
-        final FinishGameDtoRequest dtoRequest = new FinishGameDtoRequest(
-                RequestType.FINISH_GAME,
-                gameId);
+        final FinishGameDtoRequest dtoRequest = new FinishGameDtoRequest(gameId);
         assertDoesNotThrow(() -> gameService.finishGame(dtoRequest));
     }
 
@@ -290,12 +267,10 @@ public class GameServiceTest {
     public void testSuccessTurn() throws ServerException {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 firstLogin,
                 passwordHash);
         userService.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
@@ -303,12 +278,10 @@ public class GameServiceTest {
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 secondLogin,
                 passwordHash);
         userService.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
@@ -318,7 +291,6 @@ public class GameServiceTest {
         final String blackColor = Color.BLACK.name();
         final int size = 9;
         final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 blackColor,
                 size,
@@ -334,7 +306,6 @@ public class GameServiceTest {
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameDto.gameId,
                 secondToken,
                 color);
@@ -349,7 +320,6 @@ public class GameServiceTest {
 
 
         final TurnDtoRequest turnDtoRequest = new TurnDtoRequest(
-                RequestType.TURN,
                 blackColor,
                 0,
                 0,
@@ -367,12 +337,10 @@ public class GameServiceTest {
     public void testPass() throws ServerException {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 firstLogin,
                 passwordHash);
         userService.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
@@ -380,12 +348,10 @@ public class GameServiceTest {
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 secondLogin,
                 passwordHash);
         userService.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
@@ -395,7 +361,6 @@ public class GameServiceTest {
         final String blackColor = Color.BLACK.name();
         final int size = 9;
         final CreateGameDtoRequest createGameRequest = new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 withBot,
                 blackColor,
                 size,
@@ -411,7 +376,6 @@ public class GameServiceTest {
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
-                RequestType.CREATE_GAME,
                 gameDto.gameId,
                 secondToken,
                 color);
@@ -425,9 +389,7 @@ public class GameServiceTest {
         );
 
 
-        final PassDtoRequest passDtoRequest = new PassDtoRequest(
-                RequestType.TURN,
-                firstToken);
+        final PassDtoRequest passDtoRequest = new PassDtoRequest(firstToken);
 
         final ActionDtoResponse actionDtoResponse = gameService.pass(passDtoRequest);
         assertAll(
