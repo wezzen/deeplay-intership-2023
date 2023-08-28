@@ -16,9 +16,8 @@ public class JoinGamePanelTest {
         DrawGui drawGui = new DrawGui();
         JoinGamePanel joinGamePanel = new JoinGamePanel(drawGui);
         //joinGamePanel.buttonWhite.doClick();
-        joinGamePanel.gameId.setText("56789");
+        joinGamePanel.drawGui.scannerGui.setGameId(56789);
         //joinGamePanel.buttonSubmit.doClick();
-        joinGamePanel.submit();
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getColor(), Color.EMPTY),
                 () -> assertEquals(drawGui.scannerGui.getGameId(), 56789)

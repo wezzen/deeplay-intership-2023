@@ -79,11 +79,6 @@ public class CreateGamePanel implements Panel {
         jDialog.setSize(500, 300);
     }
 
-    public void submit(){
-        drawGui.createGamePanel.hidePanel();
-        drawGui.gameFieldPanel.showPanel();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
@@ -98,7 +93,8 @@ public class CreateGamePanel implements Panel {
             } else if (buttonWhite.isSelected()) {
                 drawGui.scannerGui.setColor(Color.WHITE);
             }
-            submit();
+            drawGui.createGamePanel.hidePanel();
+            drawGui.gameFieldPanel.showPanel();
         }
     }
 }

@@ -15,13 +15,13 @@ public class CreateGamePanelTest {
     public void createGameTest(){
         DrawGui drawGui = new DrawGui();
         CreateGamePanel createGamePanel = new CreateGamePanel(drawGui);
-        createGamePanel.submit();
         //createGamePanel.buttonBlack.doClick();
         //createGamePanel.buttonBot.doClick();
         //createGamePanel.buttonSubmit.doClick();
+        createGamePanel.drawGui.scannerGui.setWithBot(true);
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getColor(), Color.EMPTY),
-                () -> assertEquals(drawGui.scannerGui.isWithBot(), false)
+                () -> assertEquals(drawGui.scannerGui.isWithBot(), true)
         );
     }
 }

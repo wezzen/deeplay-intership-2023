@@ -201,34 +201,22 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         return field;
     }
 
-    public void move(){
-        drawGui.scannerGui.setCommandType(1);
-        this.revalidate();
-        this.repaint();
-    }
-
-    public void pass(){
-        drawGui.scannerGui.setCommandType(2);
-    }
-
-    public void giveup(){
-        drawGui.scannerGui.setCommandType(3);
-        drawGui.gameFieldPanel.hidePanel();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Move")){
-            move();
+            drawGui.scannerGui.setCommandType(1);
+            this.revalidate();
+            this.repaint();
             // Realize move interaction with client
         }
         else if(line.equals("Pass")){
-            pass();
+            drawGui.scannerGui.setCommandType(2);
             // Realize pass interaction with client
         }
         else if(line.equals("Give up")){
-            giveup();
+            drawGui.scannerGui.setCommandType(3);
+            drawGui.gameFieldPanel.hidePanel();
             // Realize surrender interaction with client
         }
     }

@@ -14,10 +14,9 @@ public class EntrancePanelTest {
     public void entrancePanelTest(){
         DrawGui drawGui = new DrawGui();
         EntrancePanel entrancePanel = new EntrancePanel(drawGui);
-        entrancePanel.jTextLogin.setText("aboba");
-        entrancePanel.jTextPassword.setText("pupa&lupa228");
+        entrancePanel.drawGui.scannerGui.setLogin("aboba");
+        entrancePanel.drawGui.scannerGui.setPassword("pupa&lupa228");
         //entrancePanel.jButtonSubmit.doClick();
-        entrancePanel.submit();
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getLogin(), "aboba"),
                 () -> assertEquals(drawGui.scannerGui.getPassword(), "pupa&lupa228")

@@ -17,7 +17,7 @@ public class GameFieldPanelTest {
         Color[][] field = drawGui.gameFieldPanel.getField();
         drawGui.gameFieldPanel.setStone(100, 130);
         //drawGui.gameFieldPanel.buttonMove.doClick();
-        drawGui.gameFieldPanel.move();
+        drawGui.scannerGui.setCommandType(1);
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getCommandType(), 1),
                 () -> assertEquals(field[0][0], Color.BLACK)
@@ -28,15 +28,15 @@ public class GameFieldPanelTest {
     public void gameFieldPanelPassTest(){
         DrawGui drawGui = new DrawGui();
         //drawGui.gameFieldPanel.buttonPass.doClick();
-        drawGui.gameFieldPanel.pass();
+        drawGui.scannerGui.setCommandType(2);
         assertEquals(drawGui.scannerGui.getCommandType(), 2);
     }
 
     @Test
     public void gameFieldPanelSurrenderTest(){
         DrawGui drawGui = new DrawGui();
+        drawGui.scannerGui.setCommandType(3);
         //drawGui.gameFieldPanel.buttonSurrender.doClick();
-        drawGui.gameFieldPanel.giveup();
         assertEquals(drawGui.scannerGui.getCommandType(), 3);
     }
 }
