@@ -1,17 +1,17 @@
 package io.deeplay.intership.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreateGameDtoResponse extends BaseDtoResponse {
-    public final String status;
-    public final String message;
     public final String gameId;
 
-    public CreateGameDtoResponse(String status, String message, String gameId) {
-        this.status = status;
-        this.message = message;
+    @JsonCreator
+    public CreateGameDtoResponse(
+            @JsonProperty("status") String status,
+            @JsonProperty("message") String message,
+            @JsonProperty("gameId") String gameId) {
+        super(status, message);
         this.gameId = gameId;
-    }
-
-    public CreateGameDtoResponse() {
-        this(null, null, null);
     }
 }
