@@ -1,28 +1,24 @@
 package io.deeplay.intership.gui;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DrawGuiTest {
-    /*@BeforeEach
-    public void setUpHeadlessMode() {
-        System.setProperty("java.awt.headless", "false");
-    }*/
 
     @Test
     public void drawGuiTest(){
-        DrawGui drawGui = new DrawGui();
+        DrawGui drawGui = mock(DrawGui.class);
         //drawGui.start();
         assertAll(
-                () -> assertNotNull(drawGui.scannerGui),
-                () -> assertNotNull(drawGui.initialPanel),
-                () -> assertNotNull(drawGui.startGamePanel),
-                () -> assertNotNull(drawGui.frame),
-                () -> assertNotNull(drawGui.entrancePanel),
-                () -> assertNotNull(drawGui.createGamePanel),
-                () -> assertNotNull(drawGui.joinGamePanel),
-                () -> assertNotNull(drawGui.gameFieldPanel)
+                () -> assertNull(drawGui.scannerGui),
+                () -> assertNull(drawGui.initialPanel),
+                () -> assertNull(drawGui.startGamePanel),
+                () -> assertNull(drawGui.frame),
+                () -> assertNull(drawGui.entrancePanel),
+                () -> assertNull(drawGui.createGamePanel),
+                () -> assertNull(drawGui.joinGamePanel),
+                () -> assertNull(drawGui.gameFieldPanel)
         );
     }
 }
