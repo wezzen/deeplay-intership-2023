@@ -41,8 +41,8 @@ public class Sandbox {
 
         while (runGame != 2) {
             try {
-                response = turn(blackBot, response.gameField());
-                response = turn(whiteBot, response.gameField());
+                response = turn(blackBot, response.gameField);
+                response = turn(whiteBot, response.gameField);
             } catch (ServerException ex) {
                 if (ex.errorCode != ErrorCode.GAME_WAS_FINISHED) {
                     throw ex;
@@ -65,12 +65,12 @@ public class Sandbox {
                 password));
 
         if (color == Color.BLACK) {
-            blackBotToken = response.token();
+            blackBotToken = response.token;
         } else {
-            whiteBotToken = response.token();
+            whiteBotToken = response.token;
         }
 
-        return new RandomBot(response.token(), color);
+        return new RandomBot(response.token, color);
     }
 
     private String createGame() throws ServerException {
@@ -80,7 +80,7 @@ public class Sandbox {
                 Color.BLACK.name(),
                 9,
                 blackBotToken));
-        return response.gameId();
+        return response.gameId;
     }
 
     private void joinGame(final String gameId) throws ServerException {
