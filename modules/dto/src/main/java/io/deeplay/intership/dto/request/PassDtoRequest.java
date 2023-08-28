@@ -8,7 +8,6 @@ public class PassDtoRequest extends BaseDtoRequest {
 
     @JsonCreator
     public PassDtoRequest(@JsonProperty("token") String token) {
-        super(RequestType.PASS);
         this.token = token;
     }
 }

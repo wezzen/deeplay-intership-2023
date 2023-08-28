@@ -15,7 +15,6 @@ public class CreateGameDtoRequest extends BaseDtoRequest {
             @JsonProperty("color") String color,
             @JsonProperty("size") int size,
             @JsonProperty("token") String token) {
-        super(RequestType.CREATE_GAME);
         this.withBot = withBot;
         this.color = color;
         this.size = size;

@@ -8,7 +8,6 @@ public class FinishGameDtoRequest extends BaseDtoRequest {
 
     @JsonCreator
     public FinishGameDtoRequest(@JsonProperty("gameId") String gameId) {
-        super(RequestType.FINISH_GAME);
         this.gameId = gameId;
     }
 }
