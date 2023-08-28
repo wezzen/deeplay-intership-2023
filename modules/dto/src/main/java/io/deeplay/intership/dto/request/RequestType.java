@@ -1,4 +1,4 @@
-package io.deeplay.intership.dto;
+package io.deeplay.intership.dto.request;
 
 public enum RequestType {
     REGISTRATION,

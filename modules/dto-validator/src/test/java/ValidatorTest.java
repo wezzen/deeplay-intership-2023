@@ -1,4 +1,4 @@
-import io.deeplay.intership.dto.RequestType;
+import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerException;

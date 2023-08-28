@@ -1,8 +1,8 @@
 package io.deeplay.intership.service;
 
 
-import io.deeplay.intership.dto.ResponseInfoMessage;
-import io.deeplay.intership.dto.ResponseStatus;
+import io.deeplay.intership.dto.response.ResponseInfoMessage;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
