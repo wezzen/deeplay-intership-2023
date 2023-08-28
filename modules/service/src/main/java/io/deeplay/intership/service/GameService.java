@@ -52,14 +52,14 @@ public class GameService {
      */
     public CreateGameDtoResponse createGame(final CreateGameDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationCreateGameDto(dtoRequest);
-        final User user = userService.findUserByToken(dtoRequest.token());
+        final User user = userService.findUserByToken(dtoRequest.token);
 
-        final Player player = new Player(user.login(), dtoRequest.color());
+        final Player player = new Player(user.login(), dtoRequest.color);
 
         final String gameId = UUID.randomUUID().toString();
         final GameSession gameSession = new GameSession(gameId);
         gameSession.addCreator(player);
-        ACTIVE_PLAYERS.put(dtoRequest.token(), player);
+        ACTIVE_PLAYERS.put(dtoRequest.token, player);
         ID_TO_GAME_SESSION.put(gameId, gameSession);
         PLAYER_TO_GAME.put(player, gameId);
 
@@ -79,15 +79,15 @@ public class GameService {
      */
     public InfoDtoResponse joinGame(final JoinGameDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationJoinGameDto(dtoRequest);
-        final User user = userService.findUserByToken(dtoRequest.token());
-        final GameSession gameSession = findGameSessionById(dtoRequest.gameId());
+        final User user = userService.findUserByToken(dtoRequest.token);
+        final GameSession gameSession = findGameSessionById(dtoRequest.gameId);
 
         final Player player = new Player(user.login(), Color.WHITE.name());
         gameSession.addPlayer(player);
-        ACTIVE_PLAYERS.put(dtoRequest.token(), player);
-        PLAYER_TO_GAME.put(player, dtoRequest.gameId());
+        ACTIVE_PLAYERS.put(dtoRequest.token, player);
+        PLAYER_TO_GAME.put(player, dtoRequest.gameId);
 
-        logger.debug("Player was successfully joined to game " + dtoRequest.gameId());
+        logger.debug("Player was successfully joined to game " + dtoRequest.gameId);
         return new InfoDtoResponse(
                 ResponseStatus.SUCCESS.text,
                 ResponseInfoMessage.SUCCESS_JOIN_GAME.message);
@@ -102,14 +102,14 @@ public class GameService {
      */
     public ActionDtoResponse turn(final TurnDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationTurnDto(dtoRequest);
-        userService.findUserByToken(dtoRequest.token());
-        final Player player = findPlayerByToken(dtoRequest.token());
+        userService.findUserByToken(dtoRequest.token);
+        final Player player = findPlayerByToken(dtoRequest.token);
         final GameSession gameSession = findGameSessionById(PLAYER_TO_GAME.get(player));
 
         final Stone stone = new Stone(
-                Color.valueOf(dtoRequest.color()),
-                dtoRequest.row(),
-                dtoRequest.column());
+                Color.valueOf(dtoRequest.color),
+                dtoRequest.row,
+                dtoRequest.column);
         Stone[][] gameField = gameSession.turn(player, stone);
 
         logger.debug("Player was successfully make turn");
@@ -128,8 +128,8 @@ public class GameService {
      */
     public ActionDtoResponse pass(final PassDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationPassDto(dtoRequest);
-        userService.findUserByToken(dtoRequest.token());
-        final Player player = findPlayerByToken(dtoRequest.token());
+        userService.findUserByToken(dtoRequest.token);
+        final Player player = findPlayerByToken(dtoRequest.token);
         final GameSession gameSession = findGameSessionById(PLAYER_TO_GAME.get(player));
         final Stone[][] gameField = gameSession.pass(player);
         return new ActionDtoResponse(

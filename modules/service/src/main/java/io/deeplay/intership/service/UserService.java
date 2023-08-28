@@ -56,9 +56,9 @@ public class UserService {
     public LoginDtoResponse authorization(final LoginDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationLoginDto(dtoRequest);
 
-        User currentUser = findUserByLogin(dtoRequest.login())
+        User currentUser = findUserByLogin(dtoRequest.login)
                 .orElseThrow(() -> new ServerException(ErrorCode.NOT_FOUND_LOGIN));
-        if (!currentUser.passwordHash().equals(dtoRequest.passwordHash())) {
+        if (!currentUser.passwordHash().equals(dtoRequest.passwordHash)) {
             logger.debug("Incorrect password");
             throw new ServerException(ErrorCode.INVALID_AUTHORIZATION);
         }
@@ -84,12 +84,12 @@ public class UserService {
      */
     public InfoDtoResponse register(final RegistrationDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationRegistrationDto(dtoRequest);
-        if (findUserByLogin(dtoRequest.login()).isPresent()) {
+        if (findUserByLogin(dtoRequest.login).isPresent()) {
             throw new ServerException(ErrorCode.LOGIN_IS_EXIST);
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CREDENTIALS_FILE_NAME, true))) {
-            writer.write(dtoRequest.login() + ":" + dtoRequest.passwordHash());
+            writer.write(dtoRequest.login + ":" + dtoRequest.passwordHash);
             writer.newLine();
             logger.debug("Login and password have been successfully written to the file.");
         } catch (IOException ex) {
@@ -112,10 +112,10 @@ public class UserService {
      */
     public InfoDtoResponse logout(final LogoutDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationLogoutDto(dtoRequest);
-        User user = findUserByToken(dtoRequest.token());
+        User user = findUserByToken(dtoRequest.token);
 
         LOGIN_TO_USER.remove(user.login());
-        AUTHORIZED_USERS.remove(dtoRequest.token());
+        AUTHORIZED_USERS.remove(dtoRequest.token);
 
         logger.debug("User was successfully logout");
         return new InfoDtoResponse(ResponseStatus.SUCCESS.text, ResponseInfoMessage.SUCCESS_LOGOUT.message);

@@ -1,6 +1,5 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.exception.ServerException;
@@ -62,28 +61,27 @@ public class ClientHandler implements Runnable {
     }
 
     public String defineCommand(String request) {
-        final BaseDto dto = converter.getObjectFromJson(request, BaseDto.class);
+        final BaseDtoRequest dto = converter.getObjectFromJson(request, BaseDtoRequest.class);
 
-        return switch (dto.requestType()) {
-            case REGISTRATION -> registerUser(request);
-            case LOGIN -> login(request);
-            case LOGOUT -> logout(request);
-            case CREATE_GAME -> createGame(request);
-            case JOIN_GAME -> joinGame(request);
-            case SURRENDER -> surrenderGame(request);
-            case FINISH_GAME -> endGame(request);
-            case TURN -> turn(request);
-            case PASS -> pass(request);
+        return switch (dto.requestType) {
+            case REGISTRATION -> registerUser((RegistrationDtoRequest) dto);
+            case LOGIN -> login((LoginDtoRequest) dto);
+            case LOGOUT -> logout((LogoutDtoRequest) dto);
+            case CREATE_GAME -> createGame((CreateGameDtoRequest) dto);
+            case JOIN_GAME -> joinGame((JoinGameDtoRequest) dto);
+            case SURRENDER -> surrenderGame((SurrenderDtoRequest) dto);
+            case FINISH_GAME -> endGame((FinishGameDtoRequest) dto);
+            case TURN -> turn((TurnDtoRequest) dto);
+            case PASS -> pass((PassDtoRequest) dto);
         };
     }
 
-    public String registerUser(String request) {
+    public String registerUser(RegistrationDtoRequest dtoRequest) {
         final String message = String.format("Client %d send registration", clientId);
         logger.debug(message);
 
         try {
-            final RegistrationDtoRequest dto = converter.getObjectFromJson(request, RegistrationDtoRequest.class);
-            final InfoDtoResponse response = userService.register(dto);
+            final InfoDtoResponse response = userService.register(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients registration was failed");
@@ -91,13 +89,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String login(String request) {
+    public String login(LoginDtoRequest dtoRequest) {
         final String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
         try {
-            final LoginDtoRequest dto = converter.getObjectFromJson(request, LoginDtoRequest.class);
-            final LoginDtoResponse response = userService.authorization(dto);
+            final LoginDtoResponse response = userService.authorization(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients login was failed");
@@ -105,13 +102,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String logout(String request) {
+    public String logout(LogoutDtoRequest dtoRequest) {
         final String message = String.format("Client %d send authorization", clientId);
         logger.debug(message);
 
         try {
-            final LogoutDtoRequest dto = converter.getObjectFromJson(request, LogoutDtoRequest.class);
-            final InfoDtoResponse response = userService.logout(dto);
+            final InfoDtoResponse response = userService.logout(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients logout was failed");
@@ -119,13 +115,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String createGame(String request) {
+    public String createGame(CreateGameDtoRequest dtoRequest) {
         final String message = String.format("Client %d send create game", clientId);
         logger.debug(message);
 
         try {
-            final CreateGameDtoRequest dto = converter.getObjectFromJson(request, CreateGameDtoRequest.class);
-            final CreateGameDtoResponse response = gameService.createGame(dto);
+            final CreateGameDtoResponse response = gameService.createGame(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients operation 'create game' was failed");
@@ -133,13 +128,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String joinGame(String request) {
+    public String joinGame(JoinGameDtoRequest dtoRequest) {
         final String message = String.format("Client %d send join game", clientId);
         logger.debug(message);
 
         try {
-            final JoinGameDtoRequest dto = converter.getObjectFromJson(request, JoinGameDtoRequest.class);
-            final InfoDtoResponse response = gameService.joinGame(dto);
+            final InfoDtoResponse response = gameService.joinGame(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients operation 'join game' was failed");
@@ -147,31 +141,28 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String surrenderGame(String request) {
+    public String surrenderGame(SurrenderDtoRequest dtoRequest) {
         final String message = String.format("Client %d send surrender game", clientId);
         logger.debug(message);
 
-        final SurrenderDtoRequest dto = converter.getObjectFromJson(request, SurrenderDtoRequest.class);
-        final InfoDtoResponse response = gameService.surrenderGame(dto);
+        final InfoDtoResponse response = gameService.surrenderGame(dtoRequest);
         return converter.getJsonFromObject(response);
     }
 
-    public String endGame(String request) {
+    public String endGame(FinishGameDtoRequest dtoRequest) {
         final String message = String.format("Client %d send finish game", clientId);
         logger.debug(message);
 
-        final FinishGameDtoRequest dto = converter.getObjectFromJson(request, FinishGameDtoRequest.class);
-        final FinishGameDtoResponse response = gameService.finishGame(dto);
+        final FinishGameDtoResponse response = gameService.finishGame(dtoRequest);
         return converter.getJsonFromObject(response);
     }
 
-    public String turn(String request) {
+    public String turn(TurnDtoRequest dtoRequest) {
         final String message = String.format("Client %d send make turn", clientId);
         logger.debug(message);
 
         try {
-            final TurnDtoRequest dto = converter.getObjectFromJson(request, TurnDtoRequest.class);
-            final ActionDtoResponse response = gameService.turn(dto);
+            final ActionDtoResponse response = gameService.turn(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients operation 'turn' was failed");
@@ -179,13 +170,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String pass(String request) {
+    public String pass(PassDtoRequest dtoRequest) {
         final String message = String.format("Client %d send pass turn", clientId);
         logger.debug(message);
 
         try {
-            final PassDtoRequest dto = converter.getObjectFromJson(request, PassDtoRequest.class);
-            final ActionDtoResponse response = gameService.pass(dto);
+            final ActionDtoResponse response = gameService.pass(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients operation 'pass' was failed");

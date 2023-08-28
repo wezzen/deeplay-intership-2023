@@ -56,11 +56,9 @@ public class Sandbox {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
         userService.register(new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 login,
                 password));
         var response = userService.authorization(new LoginDtoRequest(
-                RequestType.LOGIN,
                 login,
                 password));
 
@@ -75,7 +73,6 @@ public class Sandbox {
 
     private String createGame() throws ServerException {
         var response = gameService.createGame(new CreateGameDtoRequest(
-                RequestType.CREATE_GAME,
                 true,
                 Color.BLACK.name(),
                 9,
@@ -85,7 +82,6 @@ public class Sandbox {
 
     private void joinGame(final String gameId) throws ServerException {
         gameService.joinGame(new JoinGameDtoRequest(
-                RequestType.JOIN_GAME,
                 gameId,
                 whiteBotToken,
                 Color.WHITE.name()));

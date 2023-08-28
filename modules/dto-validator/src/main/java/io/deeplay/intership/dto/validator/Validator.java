@@ -12,43 +12,43 @@ public class Validator {
     private final int[] FIELD_SIZES = {9, 11, 13, 15, 17, 19};
 
     public void validationCreateGameDto(CreateGameDtoRequest dtoRequest) throws ServerException {
-        isExistColor(dtoRequest.color());
-        isValidToken(dtoRequest.token());
-        isValidSize(dtoRequest.size());
+        isExistColor(dtoRequest.color);
+        isValidToken(dtoRequest.token);
+        isValidSize(dtoRequest.size);
     }
 
     public void validationFinishGameDto(FinishGameDtoRequest dtoRequest) throws ServerException {
-        isValidToken(dtoRequest.gameId());
+        isValidToken(dtoRequest.gameId);
     }
 
     public void validationJoinGameDto(JoinGameDtoRequest dtoRequest) throws ServerException {
-        isValidToken(dtoRequest.gameId());
-        isValidToken(dtoRequest.token());
-        isExistColor(dtoRequest.color());
+        isValidToken(dtoRequest.gameId);
+        isValidToken(dtoRequest.token);
+        isExistColor(dtoRequest.color);
     }
 
     public void validationLoginDto(LoginDtoRequest dtoRequest) throws ServerException {
-        isValidLogin(dtoRequest.login());
-        isValidPassword(dtoRequest.passwordHash());
+        isValidLogin(dtoRequest.login);
+        isValidPassword(dtoRequest.passwordHash);
     }
 
     public void validationLogoutDto(LogoutDtoRequest dtoRequest) throws ServerException {
-        isValidToken(dtoRequest.token());
+        isValidToken(dtoRequest.token);
     }
 
     public void validationTurnDto(TurnDtoRequest dtoRequest) throws ServerException {
-        isValidToken(dtoRequest.token());
-        isExistColor(dtoRequest.color());
-        isValidCoordinates(dtoRequest.row(), dtoRequest.column());
+        isValidToken(dtoRequest.token);
+        isExistColor(dtoRequest.color);
+        isValidCoordinates(dtoRequest.row, dtoRequest.column);
     }
 
     public void validationPassDto(PassDtoRequest dtoRequest) throws ServerException {
-        isValidToken(dtoRequest.token());
+        isValidToken(dtoRequest.token);
     }
 
     public void validationRegistrationDto(RegistrationDtoRequest dtoRequest) throws ServerException {
-        isValidLogin(dtoRequest.login());
-        isValidPassword(dtoRequest.passwordHash());
+        isValidLogin(dtoRequest.login);
+        isValidPassword(dtoRequest.passwordHash);
     }
 
     private void isExistColor(String color) throws ServerException {
