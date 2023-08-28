@@ -50,9 +50,9 @@ public class CastToDtoRequestTest {
         final FinishGameDtoRequest dtoResponse = new FinishGameDtoRequest(gameId);
         final String json = mapper.writeValueAsString(dtoResponse);
 
-        final CreateGameDtoRequest result = (CreateGameDtoRequest) mapper.readValue(json, BaseDtoRequest.class);
+        final FinishGameDtoRequest result = (FinishGameDtoRequest) mapper.readValue(json, BaseDtoRequest.class);
         assertAll(
-                () -> assertEquals(gameId, result.token)
+                () -> assertEquals(gameId, result.gameId)
         );
     }
 
