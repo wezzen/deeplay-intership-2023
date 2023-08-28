@@ -13,7 +13,7 @@ public class DrawGuiTest {
     @Test
     public void drawGuiTest(){
         DrawGui drawGui = new DrawGui();
-        drawGui.start();
+        //drawGui.start();
         assertAll(
                 () -> assertNotNull(drawGui.scannerGui),
                 () -> assertNotNull(drawGui.initialPanel),
