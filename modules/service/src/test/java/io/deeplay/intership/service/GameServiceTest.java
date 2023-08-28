@@ -50,7 +50,7 @@ public class GameServiceTest {
         } catch (ServerException e) {
             throw new RuntimeException(e);
         }
-        token = response.token();
+        token = response.token;
     }
 
     @AfterEach
@@ -85,9 +85,9 @@ public class GameServiceTest {
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         final CreateGameDtoResponse response = gameService.createGame(dto);
         assertAll(
-                () -> assertEquals(expectedMessage, response.message()),
-                () -> assertEquals(expectedStatus, response.status()),
-                () -> assertNotNull(response.gameId())
+                () -> assertEquals(expectedMessage, response.message),
+                () -> assertEquals(expectedStatus, response.status),
+                () -> assertNotNull(response.gameId)
         );
     }
 
@@ -120,7 +120,7 @@ public class GameServiceTest {
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
-        String firstToken = responseFirst.token();
+        String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
@@ -133,7 +133,7 @@ public class GameServiceTest {
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
-        String secondToken = responseSecond.token();
+        String secondToken = responseSecond.token;
 
         final boolean withBot = false;
         final String blackColor = Color.BLACK.name();
@@ -147,15 +147,15 @@ public class GameServiceTest {
 
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
-                () -> assertNotNull(gameDto.gameId())
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertNotNull(gameDto.gameId)
         );
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
                 RequestType.CREATE_GAME,
-                gameDto.gameId(),
+                gameDto.gameId,
                 secondToken,
                 color);
 
@@ -163,8 +163,8 @@ public class GameServiceTest {
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         assertAll(
-                () -> assertEquals(expectedMessage, dtoResponse.message()),
-                () -> assertEquals(expectedStatus, dtoResponse.status())
+                () -> assertEquals(expectedMessage, dtoResponse.message),
+                () -> assertEquals(expectedStatus, dtoResponse.status)
         );
     }
 
@@ -181,7 +181,7 @@ public class GameServiceTest {
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
-        String firstToken = responseFirst.token();
+        String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
@@ -194,7 +194,7 @@ public class GameServiceTest {
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
-        String secondToken = responseSecond.token();
+        String secondToken = responseSecond.token;
 
         final boolean withBot = false;
         final String blackColor = Color.EMPTY.name();
@@ -208,15 +208,15 @@ public class GameServiceTest {
 
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
-                () -> assertNotNull(gameDto.gameId())
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertNotNull(gameDto.gameId)
         );
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
                 RequestType.CREATE_GAME,
-                gameDto.gameId(),
+                gameDto.gameId,
                 secondToken,
                 color);
 
@@ -224,8 +224,8 @@ public class GameServiceTest {
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         assertAll(
-                () -> assertEquals(expectedMessage, dtoResponse.message()),
-                () -> assertEquals(expectedStatus, dtoResponse.status())
+                () -> assertEquals(expectedMessage, dtoResponse.message),
+                () -> assertEquals(expectedStatus, dtoResponse.status)
         );
     }
 
@@ -299,7 +299,7 @@ public class GameServiceTest {
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
-        String firstToken = responseFirst.token();
+        String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
@@ -312,7 +312,7 @@ public class GameServiceTest {
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
-        String secondToken = responseSecond.token();
+        String secondToken = responseSecond.token;
 
         final boolean withBot = false;
         final String blackColor = Color.BLACK.name();
@@ -327,15 +327,15 @@ public class GameServiceTest {
 
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
-                () -> assertNotNull(gameDto.gameId())
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertNotNull(gameDto.gameId)
         );
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
                 RequestType.CREATE_GAME,
-                gameDto.gameId(),
+                gameDto.gameId,
                 secondToken,
                 color);
 
@@ -343,8 +343,8 @@ public class GameServiceTest {
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         assertAll(
-                () -> assertEquals(expectedMessage, dtoResponse.message()),
-                () -> assertEquals(expectedStatus, dtoResponse.status())
+                () -> assertEquals(expectedMessage, dtoResponse.message),
+                () -> assertEquals(expectedStatus, dtoResponse.status)
         );
 
 
@@ -357,9 +357,9 @@ public class GameServiceTest {
 
         final ActionDtoResponse actionDtoResponse = gameService.turn(turnDtoRequest);
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status()),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, actionDtoResponse.message()),
-                () -> assertNotNull(actionDtoResponse.gameField())
+                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, actionDtoResponse.message),
+                () -> assertNotNull(actionDtoResponse.gameField)
         );
     }
 
@@ -376,7 +376,7 @@ public class GameServiceTest {
                 firstLogin,
                 passwordHash);
         LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
-        String firstToken = responseFirst.token();
+        String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
@@ -389,7 +389,7 @@ public class GameServiceTest {
                 secondLogin,
                 passwordHash);
         LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
-        String secondToken = responseSecond.token();
+        String secondToken = responseSecond.token;
 
         final boolean withBot = false;
         final String blackColor = Color.BLACK.name();
@@ -404,15 +404,15 @@ public class GameServiceTest {
 
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message()),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status()),
-                () -> assertNotNull(gameDto.gameId())
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertNotNull(gameDto.gameId)
         );
 
         final String color = Color.WHITE.name();
         final JoinGameDtoRequest joinGameRequest = new JoinGameDtoRequest(
                 RequestType.CREATE_GAME,
-                gameDto.gameId(),
+                gameDto.gameId,
                 secondToken,
                 color);
 
@@ -420,8 +420,8 @@ public class GameServiceTest {
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         assertAll(
-                () -> assertEquals(expectedMessage, dtoResponse.message()),
-                () -> assertEquals(expectedStatus, dtoResponse.status())
+                () -> assertEquals(expectedMessage, dtoResponse.message),
+                () -> assertEquals(expectedStatus, dtoResponse.status)
         );
 
 
@@ -431,9 +431,9 @@ public class GameServiceTest {
 
         final ActionDtoResponse actionDtoResponse = gameService.pass(passDtoRequest);
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status()),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, actionDtoResponse.message()),
-                () -> assertNotNull(actionDtoResponse.gameField())
+                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, actionDtoResponse.message),
+                () -> assertNotNull(actionDtoResponse.gameField)
         );
     }
 }

@@ -17,4 +17,8 @@ public class ActionDtoResponse extends BaseDtoResponse {
     public ActionDtoResponse(String status, String message, Stone[][] gameField) {
         this(ResponseType.ACTION, status, message, gameField);
     }
+
+    public ActionDtoResponse() {
+        this(null, null, null);
+    }
 }

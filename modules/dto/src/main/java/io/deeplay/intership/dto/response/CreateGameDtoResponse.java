@@ -15,4 +15,8 @@ public class CreateGameDtoResponse extends BaseDtoResponse {
     public CreateGameDtoResponse(String status, String message, String gameId) {
         this(ResponseType.CREATE_GAME, status, message, gameId);
     }
+
+    public CreateGameDtoResponse() {
+        this(null, null, null);
+    }
 }

@@ -13,4 +13,8 @@ public class FailureDtoResponse extends BaseDtoResponse {
     public FailureDtoResponse(String status, String message) {
         this(ResponseType.FAILURE, status, message);
     }
+
+    public FailureDtoResponse() {
+        this(null, null);
+    }
 }

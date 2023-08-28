@@ -13,4 +13,8 @@ public class InfoDtoResponse extends BaseDtoResponse {
     public InfoDtoResponse(String status, String message) {
         this(ResponseType.INFO, status, message);
     }
+
+    public InfoDtoResponse() {
+        this(null, null);
+    }
 }

@@ -61,9 +61,9 @@ public class UserServiceTest {
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
         assertAll(
-                () -> assertEquals(expectedStatus, loginResponse.status()),
-                () -> assertEquals(expectedMessage, loginResponse.message()),
-                () -> assertNotNull(loginResponse.token())
+                () -> assertEquals(expectedStatus, loginResponse.status),
+                () -> assertEquals(expectedMessage, loginResponse.message),
+                () -> assertNotNull(loginResponse.token)
         );
     }
 
@@ -82,13 +82,13 @@ public class UserServiceTest {
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
         assertAll(
-                () -> assertEquals(expectedStatus, firstResponse.status()),
-                () -> assertEquals(expectedStatus, secondResponse.status()),
+                () -> assertEquals(expectedStatus, firstResponse.status),
+                () -> assertEquals(expectedStatus, secondResponse.status),
 
-                () -> assertEquals(expectedMessage, firstResponse.message()),
-                () -> assertEquals(expectedMessage, secondResponse.message()),
+                () -> assertEquals(expectedMessage, firstResponse.message),
+                () -> assertEquals(expectedMessage, secondResponse.message),
 
-                () -> assertNotEquals(firstResponse.token(), secondResponse.token())
+                () -> assertNotEquals(firstResponse.token, secondResponse.token)
         );
     }
 
@@ -123,10 +123,10 @@ public class UserServiceTest {
         var result = userService.authorization(loginRequest);
 
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, info.status()),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_REGISTRATION.message, info.message()),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, result.status()),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_AUTHORIZATION.message, result.message())
+                () -> assertEquals(ResponseStatus.SUCCESS.text, info.status),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_REGISTRATION.message, info.message),
+                () -> assertEquals(ResponseStatus.SUCCESS.text, result.status),
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_AUTHORIZATION.message, result.message)
         );
     }
 
@@ -144,8 +144,8 @@ public class UserServiceTest {
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_REGISTRATION.message;
         assertAll(
-                () -> assertEquals(expectedStatus, response.status()),
-                () -> assertEquals(expectedMessage, response.message()),
+                () -> assertEquals(expectedStatus, response.status),
+                () -> assertEquals(expectedMessage, response.message),
                 () -> assertThrows(ServerException.class, () -> userService.register(registerRequest))
         );
     }
@@ -160,14 +160,14 @@ public class UserServiceTest {
 
         userService.register(registerRequest);
         final var loginDtoResponse = userService.authorization(loginRequest);
-        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(RequestType.LOGOUT, loginDtoResponse.token());
+        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(RequestType.LOGOUT, loginDtoResponse.token);
         final var result = userService.logout(logoutDto);
 
         final String expectedStatus = ResponseStatus.SUCCESS.text;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_LOGOUT.message;
         assertAll(
-                () -> assertEquals(expectedStatus, result.status()),
-                () -> assertEquals(expectedMessage, result.message())
+                () -> assertEquals(expectedStatus, result.status),
+                () -> assertEquals(expectedMessage, result.message)
         );
     }
 

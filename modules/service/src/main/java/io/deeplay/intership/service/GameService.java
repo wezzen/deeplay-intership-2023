@@ -65,8 +65,8 @@ public class GameService {
 
         logger.debug("Game was successfully created");
         return new CreateGameDtoResponse(
-                ResponseInfoMessage.SUCCESS_CREATE_GAME.message,
                 ResponseStatus.SUCCESS.text,
+                ResponseInfoMessage.SUCCESS_CREATE_GAME.message,
                 gameId);
     }
 
@@ -89,8 +89,8 @@ public class GameService {
 
         logger.debug("Player was successfully joined to game " + dtoRequest.gameId());
         return new InfoDtoResponse(
-                ResponseInfoMessage.SUCCESS_JOIN_GAME.message,
-                ResponseStatus.SUCCESS.text);
+                ResponseStatus.SUCCESS.text,
+                ResponseInfoMessage.SUCCESS_JOIN_GAME.message);
     }
 
     /**
@@ -114,8 +114,8 @@ public class GameService {
 
         logger.debug("Player was successfully make turn");
         return new ActionDtoResponse(
-                ResponseInfoMessage.SUCCESS_TURN.message,
                 ResponseStatus.SUCCESS.text,
+                ResponseInfoMessage.SUCCESS_TURN.message,
                 gameField);
     }
 
@@ -133,8 +133,8 @@ public class GameService {
         final GameSession gameSession = findGameSessionById(PLAYER_TO_GAME.get(player));
         final Stone[][] gameField = gameSession.pass(player);
         return new ActionDtoResponse(
-                ResponseInfoMessage.SUCCESS_PASS.message,
                 ResponseStatus.SUCCESS.text,
+                ResponseInfoMessage.SUCCESS_PASS.message,
                 gameField);
     }
 

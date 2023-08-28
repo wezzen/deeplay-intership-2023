@@ -17,4 +17,8 @@ public class FinishGameDtoResponse extends BaseDtoResponse {
     public FinishGameDtoResponse(String status, String message, int blackScore, int whiteScore) {
         this(ResponseType.FINISH_GAME, status, message, blackScore, whiteScore);
     }
+
+    public FinishGameDtoResponse() {
+        this(null, null, 0, 0);
+    }
 }

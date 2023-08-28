@@ -15,4 +15,8 @@ public class LoginDtoResponse extends BaseDtoResponse {
     public LoginDtoResponse(String status, String message, String token) {
         this(ResponseType.LOGIN, status, message, token);
     }
+
+    public LoginDtoResponse() {
+        this(null, null, null);
+    }
 }
