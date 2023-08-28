@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 
 public class EntrancePanel implements Panel {
     public final JDialog jDialog;
-    public final GridLayout layout;
     public final DrawGui drawGui;
     public final JTextField jTextPassword;
     public final JTextField jTextLogin;
@@ -17,9 +16,8 @@ public class EntrancePanel implements Panel {
         this.drawGui = drawGui;
         jPanel = new JPanel();
         jDialog = new JDialog(drawGui.frame, "Entrance");
-        layout = new GridLayout(3, 1, 50, 30);
-        jTextLogin = new JTextField( 64);
-        jTextPassword = new JTextField( 64);
+        jTextLogin = new JTextField( 32);
+        jTextPassword = new JTextField( 32);
         jButtonSubmit = new JButton("Submit");
         jButtonSubmit.addActionListener(this);
         setPanel();
@@ -27,11 +25,10 @@ public class EntrancePanel implements Panel {
 
     @Override
     public void setPanel(){
-        jPanel.setLayout(layout);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(20, 100, 20, 100));
-        jTextLogin.setPreferredSize(new Dimension(120, 30));
-        jTextPassword.setPreferredSize(new Dimension(120, 30));
-        jButtonSubmit.setPreferredSize(new Dimension(80, 20));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(40, 100, 10, 100));
+        jTextLogin.setPreferredSize(new Dimension(120, 35));
+        jTextPassword.setPreferredSize(new Dimension(120, 35));
+        jButtonSubmit.setPreferredSize(new Dimension(80, 35));
         jPanel.add(jTextLogin);
         jPanel.add(jTextPassword);
         jPanel.add(jButtonSubmit);
@@ -49,14 +46,18 @@ public class EntrancePanel implements Panel {
         jDialog.setVisible(false);
     }
 
+    public void submit(){
+        drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
+        drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
+        drawGui.entrancePanel.hidePanel();
+        drawGui.startGamePanel.showPanel();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Submit")) {
-            drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
-            drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
-            drawGui.entrancePanel.hidePanel();
-            drawGui.startGamePanel.showPanel();
+            submit();
         }
     }
 }
