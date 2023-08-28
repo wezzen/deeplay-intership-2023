@@ -46,18 +46,14 @@ public class EntrancePanel implements Panel {
         jDialog.setVisible(false);
     }
 
-    public void submit(){
-        drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
-        drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
-        drawGui.entrancePanel.hidePanel();
-        drawGui.startGamePanel.showPanel();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Submit")) {
-            submit();
+            drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
+            drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
+            drawGui.entrancePanel.hidePanel();
+            drawGui.startGamePanel.showPanel();
         }
     }
 }
