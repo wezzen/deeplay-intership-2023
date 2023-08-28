@@ -1,5 +1,24 @@
 package io.deeplay.intership.dto.request;
 
-public record CreateGameDtoRequest(RequestType requestType, boolean withBot, String color, int size, String token) {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class CreateGameDtoRequest extends BaseDtoRequest {
+    public final boolean withBot;
+    public final String color;
+    public final int size;
+    public final String token;
+
+    @JsonCreator
+    public CreateGameDtoRequest(
+            @JsonProperty("withBot") boolean withBot,
+            @JsonProperty("color") String color,
+            @JsonProperty("size") int size,
+            @JsonProperty("token") String token) {
+        super(RequestType.CREATE_GAME);
+        this.withBot = withBot;
+        this.color = color;
+        this.size = size;
+        this.token = token;
+    }
 }
