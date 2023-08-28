@@ -2,6 +2,7 @@ package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.service.GameService;
@@ -63,17 +64,34 @@ public class ClientHandler implements Runnable {
     public String defineCommand(String request) {
         final BaseDtoRequest dto = converter.getObjectFromJson(request, BaseDtoRequest.class);
 
-        return switch (dto.requestType) {
-            case REGISTRATION -> registerUser((RegistrationDtoRequest) dto);
-            case LOGIN -> login((LoginDtoRequest) dto);
-            case LOGOUT -> logout((LogoutDtoRequest) dto);
-            case CREATE_GAME -> createGame((CreateGameDtoRequest) dto);
-            case JOIN_GAME -> joinGame((JoinGameDtoRequest) dto);
-            case SURRENDER -> surrenderGame((SurrenderDtoRequest) dto);
-            case FINISH_GAME -> endGame((FinishGameDtoRequest) dto);
-            case TURN -> turn((TurnDtoRequest) dto);
-            case PASS -> pass((PassDtoRequest) dto);
-        };
+        if (dto instanceof RegistrationDtoRequest) {
+            return registerUser((RegistrationDtoRequest) dto);
+        }
+        if (dto instanceof LoginDtoRequest) {
+            return login((LoginDtoRequest) dto);
+        }
+        if (dto instanceof LogoutDtoRequest) {
+            return logout((LogoutDtoRequest) dto);
+        }
+        if (dto instanceof CreateGameDtoRequest) {
+            return createGame((CreateGameDtoRequest) dto);
+        }
+        if (dto instanceof JoinGameDtoRequest) {
+            return joinGame((JoinGameDtoRequest) dto);
+        }
+        if (dto instanceof SurrenderDtoRequest) {
+            return surrenderGame((SurrenderDtoRequest) dto);
+        }
+        if (dto instanceof FinishGameDtoRequest) {
+            return endGame((FinishGameDtoRequest) dto);
+        }
+        if (dto instanceof TurnDtoRequest) {
+            return turn((TurnDtoRequest) dto);
+        }
+        if (dto instanceof PassDtoRequest) {
+            return pass((PassDtoRequest) dto);
+        }
+        return getFailureResponse(new ServerException(ErrorCode.INVALID_REQUEST_TYPE));
     }
 
     public String registerUser(RegistrationDtoRequest dtoRequest) {

@@ -21,10 +21,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = TurnDtoRequest.class, name = "TURN"),
 })
 public class BaseDtoRequest {
-    public final RequestType requestType;
 
-    @JsonCreator
-    public BaseDtoRequest(@JsonProperty("requestType") RequestType requestType) {
-        this.requestType = requestType;
-    }
 }

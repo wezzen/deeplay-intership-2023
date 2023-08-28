@@ -9,7 +9,6 @@ public class LoginDtoRequest extends BaseDtoRequest {
     public LoginDtoRequest(
             @JsonProperty("login") String login,
             @JsonProperty("passwordHash") String passwordHash) {
-        super(RequestType.LOGIN);
         this.login = login;
         this.passwordHash = passwordHash;
     }

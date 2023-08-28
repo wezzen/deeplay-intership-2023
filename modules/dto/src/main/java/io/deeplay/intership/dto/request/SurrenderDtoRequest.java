@@ -9,7 +9,6 @@ public class SurrenderDtoRequest extends BaseDtoRequest {
     @JsonCreator
     public SurrenderDtoRequest(
             @JsonProperty("token") String token) {
-        super(RequestType.SURRENDER);
         this.token = token;
     }
 }

@@ -15,7 +15,6 @@ public class TurnDtoRequest extends BaseDtoRequest {
             @JsonProperty("row") int row,
             @JsonProperty("column") int column,
             @JsonProperty("token") String token) {
-        super(RequestType.TURN);
         this.color = color;
         this.row = row;
         this.column = column;

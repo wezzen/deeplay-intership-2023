@@ -8,7 +8,6 @@ public class LogoutDtoRequest extends BaseDtoRequest {
 
     @JsonCreator
     public LogoutDtoRequest(@JsonProperty("token") String token) {
-        super(RequestType.LOGOUT);
         this.token = token;
     }
 }

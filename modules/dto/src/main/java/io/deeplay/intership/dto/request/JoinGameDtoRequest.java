@@ -13,7 +13,6 @@ public class JoinGameDtoRequest extends BaseDtoRequest {
             @JsonProperty("gameId") String gameId,
             @JsonProperty("token") String token,
             @JsonProperty("color") String color) {
-        super(RequestType.JOIN_GAME);
         this.gameId = gameId;
         this.token = token;
         this.color = color;
