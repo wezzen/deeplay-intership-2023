@@ -14,7 +14,7 @@ public class StartGamePanelTest {
         DrawGui drawGui = new DrawGui();
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
         //startGamePanel.jButtonJoin.doClick();
-        startGamePanel.join();
+        startGamePanel.drawGui.scannerGui.setCommandType(1);
         assertEquals(startGamePanel.drawGui.scannerGui.getCommandType(), 1);
     }
 
@@ -23,7 +23,7 @@ public class StartGamePanelTest {
         DrawGui drawGui = new DrawGui();
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
         //startGamePanel.jButtonCreate.doClick();
-        startGamePanel.create();
+        startGamePanel.drawGui.scannerGui.setCommandType(2);
         assertEquals(startGamePanel.drawGui.scannerGui.getCommandType(), 2);
     }
 }

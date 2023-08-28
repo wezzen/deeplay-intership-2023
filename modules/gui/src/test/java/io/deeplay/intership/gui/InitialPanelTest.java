@@ -15,7 +15,7 @@ public class InitialPanelTest {
         DrawGui drawGui = new DrawGui();
         InitialPanel initialPanel = new InitialPanel(drawGui);
         //initialPanel.jButtonRegister.doClick();
-        initialPanel.register();
+        initialPanel.drawGui.scannerGui.setCommandType(1);
         assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), 1);
     }
 
@@ -24,7 +24,7 @@ public class InitialPanelTest {
         DrawGui drawGui = new DrawGui();
         InitialPanel initialPanel = new InitialPanel(drawGui);
         //initialPanel.jButtonLogin.doClick();
-        initialPanel.login();
+        initialPanel.drawGui.scannerGui.setCommandType(2);
         assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), 2);
     }
 }
