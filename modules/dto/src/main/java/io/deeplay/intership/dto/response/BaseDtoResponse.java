@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "responseType",
         visible = true)
 @JsonSubTypes({
@@ -17,9 +16,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = LoginDtoResponse.class, name = "LOGIN")
 })
 public class BaseDtoResponse {
-    public final ResponseType responseType;
 
-    public BaseDtoResponse(ResponseType responseType) {
-        this.responseType = responseType;
-    }
 }
