@@ -52,18 +52,26 @@ public class StartGamePanel implements Panel {
         jDialog.setSize(500, 300);
     }
 
+    public void join(){
+        drawGui.scannerGui.setCommandType(1);
+        drawGui.startGamePanel.hidePanel();
+        drawGui.joinGamePanel.showPanel();
+    }
+
+    public void create(){
+        drawGui.scannerGui.setCommandType(2);
+        drawGui.startGamePanel.hidePanel();
+        drawGui.createGamePanel.showPanel();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals("Join game")) {
-            drawGui.scannerGui.setCommandType(1);
-            drawGui.startGamePanel.hidePanel();
-            drawGui.joinGamePanel.showPanel();
+            join();
         }
         else if(line.equals("Create game")) {
-            drawGui.scannerGui.setCommandType(2);
-            drawGui.startGamePanel.hidePanel();
-            drawGui.createGamePanel.showPanel();
+            create();
         }
         else {
 

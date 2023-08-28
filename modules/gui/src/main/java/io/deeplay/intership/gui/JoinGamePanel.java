@@ -56,6 +56,12 @@ public class JoinGamePanel implements Panel {
         jDialog.setSize(500, 300);
     }
 
+    public void submit(){
+        drawGui.scannerGui.setGameId(Integer.valueOf(gameId.getText()));
+        drawGui.joinGamePanel.hidePanel();
+        drawGui.gameFieldPanel.showPanel();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
@@ -67,9 +73,7 @@ public class JoinGamePanel implements Panel {
             } else {
                 drawGui.scannerGui.setColor(Color.EMPTY);
             }
-            drawGui.scannerGui.setGameId(Integer.valueOf(gameId.getText()));
-            drawGui.joinGamePanel.hidePanel();
-            drawGui.gameFieldPanel.showPanel();
+            submit();
         }
     }
 }
