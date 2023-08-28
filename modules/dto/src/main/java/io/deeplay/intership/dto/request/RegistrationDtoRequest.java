@@ -11,7 +11,6 @@ public class RegistrationDtoRequest extends BaseDtoRequest {
     public RegistrationDtoRequest(
             @JsonProperty("login") String login,
             @JsonProperty("passwordHash") String passwordHash) {
-        super(RequestType.REGISTRATION);
         this.login = login;
         this.passwordHash = passwordHash;
     }
