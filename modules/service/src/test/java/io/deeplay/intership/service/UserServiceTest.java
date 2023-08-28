@@ -52,8 +52,8 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registrationRequest =
-                new RegistrationDtoRequest(RequestType.REGISTRATION, login, passwordHash);
-        final LoginDtoRequest loginRequest = new LoginDtoRequest(RequestType.LOGIN, login, passwordHash);
+                new RegistrationDtoRequest(login, passwordHash);
+        final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
 
         userService.register(registrationRequest);
         final var loginResponse = userService.authorization(loginRequest);
@@ -72,8 +72,8 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registrationRequest =
-                new RegistrationDtoRequest(RequestType.REGISTRATION, login, passwordHash);
-        final LoginDtoRequest loginRequest = new LoginDtoRequest(RequestType.LOGIN, login, passwordHash);
+                new RegistrationDtoRequest(login, passwordHash);
+        final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
 
         userService.register(registrationRequest);
         final var firstResponse = userService.authorization(loginRequest);
@@ -97,8 +97,8 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registrationRequest =
-                new RegistrationDtoRequest(RequestType.REGISTRATION, login, passwordHash);
-        final LoginDtoRequest dtoWithInvalidPasswd = new LoginDtoRequest(RequestType.LOGIN, login, "passwordHash");
+                new RegistrationDtoRequest(login, passwordHash);
+        final LoginDtoRequest dtoWithInvalidPasswd = new LoginDtoRequest(login, "passwordHash");
 
         userService.register(registrationRequest);
         assertThrows(ServerException.class, () -> userService.authorization(dtoWithInvalidPasswd));
@@ -109,13 +109,11 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registerRequest = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 login,
                 passwordHash
         );
 
         LoginDtoRequest loginRequest = new LoginDtoRequest(
-                RequestType.LOGIN,
                 login,
                 passwordHash);
 
@@ -135,7 +133,6 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registerRequest = new RegistrationDtoRequest(
-                RequestType.REGISTRATION,
                 login,
                 passwordHash
         );
@@ -155,12 +152,12 @@ public class UserServiceTest {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
         final RegistrationDtoRequest registerRequest =
-                new RegistrationDtoRequest(RequestType.REGISTRATION, login, passwordHash);
-        final LoginDtoRequest loginRequest = new LoginDtoRequest(RequestType.LOGIN, login, passwordHash);
+                new RegistrationDtoRequest(login, passwordHash);
+        final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
 
         userService.register(registerRequest);
         final var loginDtoResponse = userService.authorization(loginRequest);
-        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(RequestType.LOGOUT, loginDtoResponse.token);
+        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(loginDtoResponse.token);
         final var result = userService.logout(logoutDto);
 
         final String expectedStatus = ResponseStatus.SUCCESS.text;
@@ -174,9 +171,7 @@ public class UserServiceTest {
     @Test
     public void testFailureLogout() {
         final String token = UUID.randomUUID().toString();
-        final LogoutDtoRequest dto = new LogoutDtoRequest(
-                RequestType.REGISTRATION,
-                token);
+        final LogoutDtoRequest dto = new LogoutDtoRequest(token);
 
         assertThrows(ServerException.class, () -> userService.logout(dto));
     }
