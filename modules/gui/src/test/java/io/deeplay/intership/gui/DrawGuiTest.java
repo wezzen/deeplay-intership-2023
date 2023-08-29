@@ -8,17 +8,17 @@ public class DrawGuiTest {
 
     @Test
     public void drawGuiTest(){
-        DrawGui drawGui = mock(DrawGui.class);
+        DrawGui drawGui = new DrawGui();
         //drawGui.start();
         assertAll(
-                () -> assertNull(drawGui.scannerGui),
-                () -> assertNull(drawGui.initialPanel),
-                () -> assertNull(drawGui.startGamePanel),
-                () -> assertNull(drawGui.frame),
-                () -> assertNull(drawGui.entrancePanel),
-                () -> assertNull(drawGui.createGamePanel),
-                () -> assertNull(drawGui.joinGamePanel),
-                () -> assertNull(drawGui.gameFieldPanel)
+                () -> assertNotNull(drawGui.scannerGui),
+                () -> assertNotNull(drawGui.initialPanel),
+                () -> assertNotNull(drawGui.startGamePanel),
+                () -> assertNotNull(drawGui.frame),
+                () -> assertNotNull(drawGui.entrancePanel),
+                () -> assertNotNull(drawGui.createGamePanel),
+                () -> assertNotNull(drawGui.joinGamePanel),
+                () -> assertNotNull(drawGui.gameFieldPanel)
         );
     }
 }

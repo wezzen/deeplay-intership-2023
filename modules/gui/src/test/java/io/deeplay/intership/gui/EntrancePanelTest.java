@@ -8,15 +8,18 @@ public class EntrancePanelTest {
 
     @Test
     public void entrancePanelTest(){
-        DrawGui drawGui = mock(DrawGui.class);
-        assertNotNull(new EntrancePanel(drawGui));
+        DrawGui drawGui = new DrawGui();
+        EntrancePanel entrancePanel = new EntrancePanel(drawGui);
         //assertNotNull(new EntrancePanel(drawGui));
-        /*entrancePanel.drawGui.scannerGui.setLogin("aboba");
-        entrancePanel.drawGui.scannerGui.setPassword("pupa&lupa228");
+        //assertNotNull(new EntrancePanel(drawGui));
+        entrancePanel.jTextLogin.setText("aboba");
+        entrancePanel.jTextPassword.setText("pupa&lupa228");
         entrancePanel.jButtonSubmit.doClick();
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getLogin(), "aboba"),
-                () -> assertEquals(drawGui.scannerGui.getPassword(), "pupa&lupa228")
-        );*/
+                () -> assertEquals(drawGui.scannerGui.getPassword(), "pupa&lupa228"),
+                () -> assertFalse(entrancePanel.jDialog.isVisible()),
+                () -> assertTrue(drawGui.startGamePanel.jDialog.isVisible())
+        );
     }
 }

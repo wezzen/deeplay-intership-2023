@@ -11,19 +11,19 @@ public class InitialPanelTest {
         System.setProperty("java.awt.headless", "false");
     }*/
 
-    @Test
+    /*@Test
     public void initialPanelTest(){
         DrawGui drawGui = mock(DrawGui.class);
         assertNotNull(new InitialPanel(drawGui));
-    }
+    }*/
 
-    /*
     @Test
     public void initialPanelRegisterTest(){
         DrawGui drawGui = new DrawGui();
         InitialPanel initialPanel = new InitialPanel(drawGui);
-        //initialPanel.jButtonRegister.doClick();
-        initialPanel.drawGui.scannerGui.setCommandType(1);
+        initialPanel.jButtonRegister.doClick();
+        assertFalse(initialPanel.jDialog.isVisible());
+        assertTrue(drawGui.entrancePanel.jDialog.isVisible());
         assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), 1);
     }
 
@@ -31,9 +31,10 @@ public class InitialPanelTest {
     public void initialPanelLoginTest(){
         DrawGui drawGui = new DrawGui();
         InitialPanel initialPanel = new InitialPanel(drawGui);
-        //initialPanel.jButtonLogin.doClick();
+        initialPanel.jButtonLogin.doClick();
         initialPanel.drawGui.scannerGui.setCommandType(2);
-        assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), 2);
+        assertFalse(initialPanel.jDialog.isVisible());
+        assertTrue(drawGui.entrancePanel.jDialog.isVisible());
+        assertEquals(drawGui.scannerGui.getCommandType(), 2);
     }
-    */
 }

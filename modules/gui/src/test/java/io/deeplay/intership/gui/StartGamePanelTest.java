@@ -10,27 +10,33 @@ public class StartGamePanelTest {
         System.setProperty("java.awt.headless", "false");
     }*/
 
-    @Test
+    /*@Test
     public void startGamePanelTest(){
         DrawGui drawGui = mock(DrawGui.class);
         assertNotNull(new StartGamePanel(drawGui));
-    }
+    }*/
 
-    /*@Test
+    @Test
     public void startGamePanelJoinTest(){
         DrawGui drawGui = new DrawGui();
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
-        //startGamePanel.jButtonJoin.doClick();
-        startGamePanel.drawGui.scannerGui.setCommandType(1);
-        assertEquals(startGamePanel.drawGui.scannerGui.getCommandType(), 1);
+        startGamePanel.jButtonJoin.doClick();
+        assertAll(
+                () -> assertEquals(drawGui.scannerGui.getCommandType(), 1),
+                () -> assertFalse(startGamePanel.jDialog.isVisible()),
+                () -> assertTrue(drawGui.joinGamePanel.jDialog.isVisible())
+        );
     }
 
     @Test
     public void startGamePanelCreateTest(){
         DrawGui drawGui = new DrawGui();
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
-        //startGamePanel.jButtonCreate.doClick();
-        startGamePanel.drawGui.scannerGui.setCommandType(2);
-        assertEquals(startGamePanel.drawGui.scannerGui.getCommandType(), 2);
-    }*/
+        startGamePanel.jButtonCreate.doClick();
+        assertAll(
+                () -> assertEquals(drawGui.scannerGui.getCommandType(), 2),
+                () -> assertFalse(startGamePanel.jDialog.isVisible()),
+                () -> assertTrue(drawGui.createGamePanel.jDialog.isVisible())
+        );
+    }
 }
