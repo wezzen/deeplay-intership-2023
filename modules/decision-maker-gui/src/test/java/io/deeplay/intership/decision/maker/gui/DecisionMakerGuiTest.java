@@ -1,8 +1,7 @@
-package io.deeplay.intership.decision.maker;
+package io.deeplay.intership.decision.maker.gui;
 
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DecisionMakerGuiTest {
