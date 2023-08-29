@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import io.deeplay.intership.model.Color;
-
 import static java.lang.Math.abs;
 
 public class GameFieldPanel extends JPanel implements ActionListener {
@@ -29,13 +28,12 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final JButton buttonPass;
     public final JButton buttonSurrender;
     public final JTextField gameId;
-    public final String resourceDir = "modules\\gui\\src\\main\\resources\\";
+    public final String resourceDir = "modules/gui/src/main/resources/";
     public final String[] actionNames = new String[]{"Move", "Pass", "Give up"};
-    public final String boardFileName = resourceDir + "board\\board.jpg";
-    public final String whiteStoneFileName = resourceDir + "stone\\white_stone.png";
-    public final String blackStoneFileName = resourceDir + "stone\\black_stone.png";
+    public final String boardFileName = resourceDir + "board/board.jpg";
+    public final String whiteStoneFileName = resourceDir + "stone/white_stone.png";
+    public final String blackStoneFileName = resourceDir + "stone/black_stone.png";
     private Graphics2D graphics2D;
-    
     private Color[][] field;
 
     public GameFieldPanel(DrawGui drawGui){
@@ -52,8 +50,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         gameId = new JTextField();
         this.drawGui = drawGui;
         this.square = new ObjectGui(paddingX, paddingY, sizeOfField, new RgbColor(103,60,44), boardFileName);
-        //this.lineColor = new RgbColor(240, 142, 62);
-        //this.lineColor = new RgbColor(255, 196, 77);
         this.lineColor = new RgbColor(235, 233, 230);
         setPanel();
     }
@@ -143,9 +139,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         JPanel controlPanel = new JPanel();
         drawGui.frame.add(controlPanel);
         drawGui.frame.add(this);
-        //gameId.setText(getGameId());
-        //gameId.setLocation(1000, 50);
-        //drawGui.frame.add(gameId);
         GridLayout layout = new GridLayout(3, 1, 0, 20);
         controlPanel.setLocation(700, 100);
         controlPanel.setSize(150, 210);
@@ -156,7 +149,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                 setStone(e.getX(), e.getY());
             }
         });
-        //controlPanel.setBorder(BorderFactory.createEmptyBorder(150, 100, 150, 100));
         buttonMove.setLocation(1000, 100);
         buttonPass.setLocation(1000, 150);
         buttonSurrender.setLocation(1000, 200);
@@ -166,11 +158,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         controlPanel.add(buttonMove);
         controlPanel.add(buttonPass);
         controlPanel.add(buttonSurrender);
-        /*for(int i = 0; i < actionNames.length; i++){
-            JButton jButton = getActionButton(i, 1000, 100 + i * 50);
-            jButton.addActionListener(this);
-            controlPanel.add(jButton);
-        }*/
         drawGui.frame.setSize(1000, 650);
         drawGui.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

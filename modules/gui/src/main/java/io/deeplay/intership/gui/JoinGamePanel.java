@@ -1,7 +1,6 @@
 package io.deeplay.intership.gui;
 
 import io.deeplay.intership.model.Color;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

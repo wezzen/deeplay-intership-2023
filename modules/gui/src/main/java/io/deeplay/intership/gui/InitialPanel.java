@@ -41,22 +41,16 @@ public class InitialPanel implements Panel {
 
     @Override
     public void setPanel() {
-        //jPanel.setLayout(layout);
         jPanel.add(jButtonRegister);
         jPanel.add(jButtonLogin);
         jPanel.add(jButtonExit);
         jPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
-        //jButtonRegister.setMargin(new Insets(10, 30, 50, 10));
-        //jButtonLogin.setMargin(new Insets(10, 30, 50, 10));
-        //jButtonExit.setMargin(new Insets(10, 30, 30, 10));
         jButtonRegister.setLocation(30, 50);
         jButtonLogin.setLocation(130, 50);
         jButtonExit.setLocation(230, 50);
         jButtonRegister.setPreferredSize(new Dimension(120, 40));
         jButtonLogin.setPreferredSize(new Dimension(120, 40));
         jButtonExit.setPreferredSize(new Dimension(120, 40));
-        //jButtonLogin.setVerticalAlignment(30);
-        //jButtonExit.setVerticalAlignment(30);
         jDialog.add(jPanel);
         jDialog.setSize(500, 300);
     }
