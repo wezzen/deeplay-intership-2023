@@ -62,3 +62,6 @@ project(":client-exception").projectDir = file("modules/client-exception")
 
 include("gui")
 project(":gui").projectDir = file("modules/gui")
+
+include("decision-maker-gui")
+project(":decision-maker-gui").projectDir = file("modules/decision-maker-gui")

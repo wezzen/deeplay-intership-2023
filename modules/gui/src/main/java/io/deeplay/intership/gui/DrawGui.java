@@ -1,10 +1,12 @@
 package io.deeplay.intership.gui;
 
-import io.deeplay.intership.decision.maker.ScannerGui;
+import io.deeplay.intership.UserInterface;
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
+import io.deeplay.intership.model.Stone;
 
 import javax.swing.*;
 
-public class DrawGui {
+public class DrawGui implements UserInterface {
     public final JFrame frame;
     public final InitialPanel initialPanel;
     public final EntrancePanel entrancePanel;
@@ -27,5 +29,60 @@ public class DrawGui {
 
     public void start(){
         initialPanel.showPanel();
+    }
+
+    @Override
+    public void showAuthorizationActions() {
+
+    }
+
+    @Override
+    public void showRoomActions() {
+
+    }
+
+    @Override
+    public void showGameActions() {
+
+    }
+
+    @Override
+    public void showLogin() {
+
+    }
+
+    @Override
+    public void showRegistration() {
+
+    }
+
+    @Override
+    public void showColorSelection() {
+
+    }
+
+    @Override
+    public void showCreating(int gameId) {
+
+    }
+
+    @Override
+    public void showJoin() {
+
+    }
+
+    @Override
+    public void showMoveRules() {
+
+    }
+
+    @Override
+    public void showBoard(Stone[][] gameField) {
+
+    }
+
+    @Override
+    public void showGameResult(String result) {
+
     }
 }

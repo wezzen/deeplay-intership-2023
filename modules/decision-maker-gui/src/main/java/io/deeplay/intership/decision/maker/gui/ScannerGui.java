@@ -1,4 +1,4 @@
-package io.deeplay.intership.decision.maker;
+package io.deeplay.intership.decision.maker.gui;
 
 import io.deeplay.intership.model.Color;
 
