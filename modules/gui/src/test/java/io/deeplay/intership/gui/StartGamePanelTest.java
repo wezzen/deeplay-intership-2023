@@ -13,8 +13,7 @@ public class StartGamePanelTest {
     @Test
     public void startGamePanelTest(){
         DrawGui drawGui = mock(DrawGui.class);
-        StartGamePanel startGamePanel = new StartGamePanel(drawGui);
-        assertNotNull(startGamePanel);
+        assertNotNull(new StartGamePanel(drawGui));
     }
 
     /*@Test
