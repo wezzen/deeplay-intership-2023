@@ -9,10 +9,9 @@ public class CreateGamePanelTest {
     @Test
     public void createGameTest(){
         DrawGui drawGui = mock(DrawGui.class);
-        CreateGamePanel createGamePanel = new CreateGamePanel(drawGui);
         //createGamePanel.buttonBlack.doClick();
         //createGamePanel.buttonBot.doClick();
         //createGamePanel.buttonSubmit.doClick();
-        assertNotNull(createGamePanel);
+        assertNotNull(new CreateGamePanel(drawGui));
     }
 }
