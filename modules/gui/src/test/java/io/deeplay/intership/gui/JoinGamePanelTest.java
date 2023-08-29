@@ -1,9 +1,8 @@
 package io.deeplay.intership.gui;
 
-import io.deeplay.intership.model.Color;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class JoinGamePanelTest {
     /*@BeforeEach
@@ -13,9 +12,8 @@ public class JoinGamePanelTest {
 
     @Test
     public void joinGamePanelTest(){
-        DrawGui drawGui = new DrawGui();
-        JoinGamePanel joinGamePanel = new JoinGamePanel(drawGui);
-        assertNotNull(joinGamePanel);
+        DrawGui drawGui = mock(DrawGui.class);
+        assertNotNull(new JoinGamePanel(drawGui));
         //joinGamePanel.buttonWhite.doClick();
         /*joinGamePanel.drawGui.scannerGui.setGameId(56789);
         //joinGamePanel.buttonSubmit.doClick();

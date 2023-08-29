@@ -14,8 +14,7 @@ public class InitialPanelTest {
     @Test
     public void initialPanelTest(){
         DrawGui drawGui = mock(DrawGui.class);
-        InitialPanel initialPanel = new InitialPanel(drawGui);
-        assertNotNull(initialPanel);
+        assertNotNull(new InitialPanel(drawGui));
     }
 
     /*
