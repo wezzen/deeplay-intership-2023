@@ -3,22 +3,16 @@ package io.deeplay.intership.gui;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 public class GameFieldPanelTest {
-
-    /*@Test
-    public void gameFieldPanelTest(){
-        DrawGui drawGui = mock(DrawGui.class);
-        assertThrows(NullPointerException.class, () -> new GameFieldPanel(drawGui));
-    }*/
 
     @Test
     public void gameFieldPanelMoveTest(){
         DrawGui drawGui = new DrawGui();
-        Color[][] field = drawGui.gameFieldPanel.getField();
-        drawGui.gameFieldPanel.setStone(100, 130);
-        drawGui.gameFieldPanel.buttonMove.doClick();
+        GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
+        gameFieldPanel.setStone(100, 130);
+        Color[][] field = gameFieldPanel.getField();
+        gameFieldPanel.buttonMove.doClick();
         assertAll(
                 () -> assertEquals(drawGui.scannerGui.getCommandType(), 1),
                 () -> assertEquals(field[0][0], Color.BLACK)
@@ -28,14 +22,16 @@ public class GameFieldPanelTest {
     @Test
     public void gameFieldPanelPassTest(){
         DrawGui drawGui = new DrawGui();
-        drawGui.gameFieldPanel.buttonPass.doClick();
+        GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
+        gameFieldPanel.buttonPass.doClick();
         assertEquals(drawGui.scannerGui.getCommandType(), 2);
     }
 
     @Test
     public void gameFieldPanelSurrenderTest(){
         DrawGui drawGui = new DrawGui();
-        drawGui.gameFieldPanel.buttonSurrender.doClick();
+        GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
+        gameFieldPanel.buttonSurrender.doClick();
         assertEquals(drawGui.scannerGui.getCommandType(), 3);
     }
 }

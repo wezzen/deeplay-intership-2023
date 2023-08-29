@@ -40,7 +40,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
 
     public GameFieldPanel(DrawGui drawGui){
         N = drawGui.scannerGui.getSize();
-        System.out.println(N);
         field = new Color[N][N];
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
@@ -113,13 +112,14 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
                         boolean turn = drawGui.scannerGui.isTurn();
                         if (turn) {
+                            System.out.println("BLACK" + " " + i + " " + j);
                             field[i-1][j-1] = Color.BLACK;
                             drawGui.scannerGui.setTurn(false);
                         } else {
+                            System.out.println("WHITE");
                             field[i-1][j-1] = Color.WHITE;
                             drawGui.scannerGui.setTurn(true);
                         }
-                        System.out.println(x + " " + y);
                         return;
                     }
                 }
