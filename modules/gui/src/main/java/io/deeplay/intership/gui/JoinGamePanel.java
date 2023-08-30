@@ -39,6 +39,10 @@ public class JoinGamePanel implements Panel {
 
     @Override
     public void hidePanel(){
+        gameId.setText("");
+        buttonBlack.setSelected(false);
+        buttonWhite.setSelected(false);
+        buttonSubmit.setSelected(false);
         jDialog.setVisible(false);
     }
 
@@ -58,6 +62,12 @@ public class JoinGamePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
+        if(line.equals("Black")){
+            buttonWhite.setSelected(false);
+        }
+        if(line.equals("White")){
+            buttonBlack.setSelected(false);
+        }
         if(line.equals("Submit")) {
             if (buttonWhite.isSelected()) {
                 drawGui.scannerGui.setColor(Color.WHITE);

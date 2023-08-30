@@ -108,11 +108,9 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
                         boolean turn = drawGui.scannerGui.isTurn();
                         if (turn) {
-                            System.out.println("BLACK" + " " + i + " " + j);
                             field[i-1][j-1] = Color.BLACK;
                             drawGui.scannerGui.setTurn(false);
                         } else {
-                            System.out.println("WHITE");
                             field[i-1][j-1] = Color.WHITE;
                             drawGui.scannerGui.setTurn(true);
                         }
@@ -128,6 +126,14 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     public void hidePanel(){
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                field[i][j] = Color.EMPTY;
+            }
+        }
+        buttonMove.setSelected(false);
+        buttonPass.setSelected(false);
+        buttonSurrender.setSelected(false);
         drawGui.frame.setVisible(false);
     }
 
@@ -137,6 +143,8 @@ public class GameFieldPanel extends JPanel implements ActionListener {
 
     public void setPanel(){
         JPanel controlPanel = new JPanel();
+        gameId.setEnabled(false);
+        gameId.setText(String.valueOf(getGameId()));
         drawGui.frame.add(controlPanel);
         drawGui.frame.add(this);
         GridLayout layout = new GridLayout(3, 1, 0, 20);
@@ -149,9 +157,10 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                 setStone(e.getX(), e.getY());
             }
         });
-        buttonMove.setLocation(1000, 100);
-        buttonPass.setLocation(1000, 150);
-        buttonSurrender.setLocation(1000, 200);
+        gameId.setLocation(1000, 100);
+        buttonMove.setLocation(1000, 150);
+        buttonPass.setLocation(1000, 200);
+        buttonSurrender.setLocation(1000, 250);
         buttonMove.addActionListener(this);
         buttonPass.addActionListener(this);
         buttonSurrender.addActionListener(this);
@@ -204,6 +213,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         else if(line.equals("Give up")){
             drawGui.scannerGui.setCommandType(3);
             drawGui.gameFieldPanel.hidePanel();
+            drawGui.startGamePanel.showPanel();
             // Realize surrender interaction with client
         }
     }

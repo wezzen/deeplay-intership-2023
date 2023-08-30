@@ -36,6 +36,9 @@ public class InitialPanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jButtonRegister.setSelected(false);
+        jButtonLogin.setSelected(false);
+        jButtonExit.setSelected(false);
         jDialog.setVisible(false);
     }
 

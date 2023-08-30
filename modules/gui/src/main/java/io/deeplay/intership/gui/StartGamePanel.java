@@ -37,6 +37,10 @@ public class StartGamePanel implements Panel {
 
     @Override
     public void hidePanel(){
+        jButtonCreate.setSelected(false);
+        jButtonJoin.setSelected(false);
+        jButtonLogout.setSelected(false);
+        jButtonExit.setSelected(false);
         jDialog.setVisible(false);
     }
 

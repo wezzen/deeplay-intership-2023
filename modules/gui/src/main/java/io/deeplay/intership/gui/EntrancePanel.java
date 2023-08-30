@@ -43,6 +43,9 @@ public class EntrancePanel implements Panel {
 
     @Override
     public void hidePanel(){
+        jTextLogin.setText("");
+        jTextPassword.setText("");
+        jButtonSubmit.setSelected(false);
         jDialog.setVisible(false);
     }
 

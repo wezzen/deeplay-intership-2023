@@ -47,6 +47,11 @@ public class CreateGamePanel implements Panel {
 
     @Override
     public void hidePanel(){
+        buttonBot.setSelected(false);
+        buttonHuman.setSelected(false);
+        buttonBlack.setSelected(false);
+        buttonWhite.setSelected(false);
+        buttonSubmit.setSelected(false);
         jDialog.setVisible(false);
     }
 
@@ -82,6 +87,18 @@ public class CreateGamePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
+        if(line.equals("Black")){
+            buttonWhite.setSelected(false);
+        }
+        if(line.equals("White")){
+            buttonBlack.setSelected(false);
+        }
+        if(line.equals("Bot")){
+            buttonHuman.setSelected(false);
+        }
+        if(line.equals("Human")){
+            buttonBot.setSelected(false);
+        }
         if(line.equals("Submit")) {
             if (buttonBot.isSelected()) {
                 drawGui.scannerGui.setWithBot(true);
