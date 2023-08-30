@@ -100,12 +100,12 @@ public class DecisionMakerTerminal implements DecisionMaker {
 
     private GameId createGame() throws ClientException {
         boolean bot;
+        Color color = getColor();
         switch (getChooseNumber()) {
             case 1 -> bot = true;
             case 2 -> bot = false;
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         }
-        Color color = getColor();
         return new GameId(RequestType.CREATE_GAME, bot, color, scanner.nextInt(), 0);
     }
 

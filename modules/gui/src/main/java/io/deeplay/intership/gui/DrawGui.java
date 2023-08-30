@@ -61,7 +61,7 @@ public class DrawGui implements UserInterface {
     }
 
     @Override
-    public void showCreating(int gameId) {
+    public void showCreating(String gameId) {
 
     }
 
