@@ -58,7 +58,7 @@ public class Display implements UserInterface {
 
     @Override
     public void showLogin() {
-        System.out.print("Для входа введите логин и пароль через пробел:\n");
+        System.out.print("Добро пожаловать на сервер!\n");
     }
 
     @Override
@@ -68,17 +68,20 @@ public class Display implements UserInterface {
         System.out.print("Выберите следующее действие:\n");
         System.out.print("Чтобы подключиться к существующей сессии нажмите " + 1 + "\n");
         System.out.print("Чтобы создать сессию нажмите " + 2 + "\n");
+        showColorSelection();
+        System.out.print("Для создания игры, введите через пробел (с ботом или без, 1 и 2 соответственно)\n");
+        System.out.print("Потом выберите размер поля\n");
         showHorizontalLine();
     }
 
     @Override
     public void showJoin() {
-        System.out.print("Для входа в игру введите GameID:\n");
+        System.out.print("Вы присоединились к игре! \n");
         showHorizontalLine();
     }
 
     @Override
-    public void showCreating(int gameId) {
+    public void showCreating(String gameId) {
         showHorizontalLine();
         System.out.print("Создана игровая сессия под номером: " + gameId + "\n");
         showHorizontalLine();
