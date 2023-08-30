@@ -15,7 +15,7 @@ public interface UserInterface {
 
     void showColorSelection();
 
-    void showCreating(int gameId);
+    void showCreating(String gameId);
 
     void showJoin();
 
