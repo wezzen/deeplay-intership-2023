@@ -56,6 +56,7 @@ public class Client {
             try {
                 display.showBoard(field);
                 display.showMoveRules();
+
                 action = decisionMaker.getGameAction();
                 switch (action.type()) {
                     case TURN ->
@@ -185,7 +186,9 @@ public class Client {
         while (isException) {
             try {
                 display.showRoomActions(); // Не все данные запрашиваются, надо точно дать цвет. При создании надо с ботом или без, и размер.
+
                 GameConfig ID = decisionMaker.getGameConfig();
+
                 clientColor = ID.color();
                 switch (ID.type()) {
                     case CREATE_GAME ->
