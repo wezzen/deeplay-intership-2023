@@ -55,7 +55,9 @@ public class Client {
         while (true) {
             try {
                 display.showBoard(field);
+
                 display.showMoveRules();
+
                 action = decisionMaker.getGameAction();
                 switch (action.type()) {
                     case TURN ->
