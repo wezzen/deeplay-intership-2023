@@ -55,7 +55,7 @@ public class GameSession {
         try {
             Stone[][] gameField = game.makeMove(stone);
             changePlayerTurn();
-            return gameField;
+            return getFieldCopy(gameField);
         } catch (GameException ex) {
             throw new ServerException(ErrorCode.INVALID_MOVE);
         }
@@ -65,8 +65,10 @@ public class GameSession {
         isNotStarted();
         isFinishedGame();
         checkTurnOrder(player);
+
+        Stone[][] gameField = game.skipTurn(Color.valueOf(player.color()));
         changePlayerTurn();
-        return game.skipTurn(Color.valueOf(player.color()));
+        return getFieldCopy(gameField);
     }
 
     private void checkEnemyColor(final Player player) throws ServerException {
@@ -108,5 +110,19 @@ public class GameSession {
         if (game.gameIsOver()) {
             throw new ServerException(ErrorCode.GAME_WAS_FINISHED);
         }
+    }
+
+    private Stone[][] getFieldCopy(final Stone[][] gameField) {
+        Stone[][] newField = new Stone[gameField.length][gameField.length];
+        for (int i = 0; i < newField.length; i++) {
+            for (int j = 0; j < newField[i].length; j++) {
+                newField[i][j] = new Stone(
+                        gameField[i][j].getColor(),
+                        gameField[i][j].getRowNumber(),
+                        gameField[i][j].getColumnNumber(),
+                        null);
+            }
+        }
+        return newField;
     }
 }
