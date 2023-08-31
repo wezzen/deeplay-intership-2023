@@ -186,7 +186,6 @@ public class Client {
                 display.showRoomActions(); // Не все данные запрашиваются, надо точно дать цвет. При создании надо с ботом или без, и размер.
 
                 GameConfig ID = decisionMaker.getGameConfig();
-
                 clientColor = ID.color();
                 switch (ID.type()) {
                     case CREATE_GAME ->
