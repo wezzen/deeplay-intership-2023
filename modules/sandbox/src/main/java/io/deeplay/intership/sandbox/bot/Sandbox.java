@@ -15,10 +15,12 @@ import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.service.UserService;
+import org.apache.log4j.Logger;
 
 import java.util.UUID;
 
 public class Sandbox {
+    private static final Logger log = Logger.getLogger(Sandbox.class);
     private final RandomBot blackBot;
     private String blackBotToken;
     private final RandomBot whiteBot;
@@ -26,6 +28,18 @@ public class Sandbox {
     private final GameService gameService;
     private final UserService userService;
     private int runGame;
+
+    public static void main(String[] args) throws ServerException {
+        int gamesCount = 100;
+        for (int i = 0; i < gamesCount; i++) {
+            String startMessage = String.format("Game %d was started", i);
+            String endMessage = String.format("Game %d was ended", i);
+
+            log.info(startMessage);
+            new Sandbox().startGame();
+            log.info(endMessage);
+        }
+    }
 
     public Sandbox() throws ServerException {
         this.gameService = new GameService();

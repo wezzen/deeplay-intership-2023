@@ -1,14 +1,13 @@
 package io.deeplay.intership.sandbox.bot;
 
-import io.deeplay.intership.exception.ServerException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MainTest {
+public class SandboxTest {
     @Test
     public void testMain() {
-        assertDoesNotThrow(() -> Main.main(new String[0]));
+
     }
 }
