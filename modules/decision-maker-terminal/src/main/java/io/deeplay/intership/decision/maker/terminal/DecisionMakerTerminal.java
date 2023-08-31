@@ -2,7 +2,7 @@ package io.deeplay.intership.decision.maker.terminal;
 
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.exception.ClientErrorCode;
@@ -39,7 +39,7 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     @Override
-    public GameId getGameId() throws ClientException {
+    public GameConfig getGameConfig() throws ClientException {
         return switch (getChooseNumber()) {
             case 1 -> joinGame();
             case 2 -> createGame();
@@ -93,12 +93,12 @@ public class DecisionMakerTerminal implements DecisionMaker {
         return new GameAction(RequestType.SURRENDER, 0, 0);
     }
 
-    private GameId joinGame() throws ClientException {
+    private GameConfig joinGame() throws ClientException {
         Color color = getColor();
-        return new GameId(RequestType.JOIN_GAME, false, color, 0, scanner.nextInt());
+        return new GameConfig(RequestType.JOIN_GAME, false, color, 0, scanner.next());
     }
 
-    private GameId createGame() throws ClientException {
+    private GameConfig createGame() throws ClientException {
         boolean bot;
         Color color = getColor();
         switch (getChooseNumber()) {
@@ -106,7 +106,7 @@ public class DecisionMakerTerminal implements DecisionMaker {
             case 2 -> bot = false;
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         }
-        return new GameId(RequestType.CREATE_GAME, bot, color, scanner.nextInt(), 0);
+        return new GameConfig(RequestType.CREATE_GAME, bot, color, scanner.nextInt(), "");
     }
 
     private GameAction skipTurn() {

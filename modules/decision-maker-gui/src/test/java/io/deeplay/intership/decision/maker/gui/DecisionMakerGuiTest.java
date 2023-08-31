@@ -2,6 +2,7 @@ package io.deeplay.intership.decision.maker.gui;
 
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DecisionMakerGuiTest {
@@ -12,7 +13,7 @@ public class DecisionMakerGuiTest {
         assertAll(
                 () -> assertNotNull(decisionMakerGui.getLoginPassword()),
                 () -> assertNotNull(decisionMakerGui.getColor()),
-                () -> assertNotNull(decisionMakerGui.getGameId()),
+                () -> assertNotNull(decisionMakerGui.getGameConfig()),
                 () -> assertNotNull(decisionMakerGui.getGameAction()),
                 () -> assertEquals(scannerGui.getCommandType(), 1),
                 () -> assertEquals(scannerGui.getLogin(), "Aboba"),
