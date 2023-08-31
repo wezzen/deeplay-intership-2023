@@ -96,7 +96,7 @@ public class Sandbox {
                 return gameService.turn(new TurnDtoRequest(
                         RequestType.TURN,
                         move.color(),
-                        move.row(),
+                        move.column(),
                         move.column(),
                         move.token()));
             } catch (ServerException ex) {
