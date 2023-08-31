@@ -2,7 +2,7 @@ package io.deeplay.intership.bot;
 
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.exception.ClientException;
@@ -48,7 +48,7 @@ public class RandomBot implements DecisionMaker {
 
 
     @Override
-    public GameId getGameId() throws ClientException {
+    public GameConfig getGameConfig() throws ClientException {
         return null;
     }
 
