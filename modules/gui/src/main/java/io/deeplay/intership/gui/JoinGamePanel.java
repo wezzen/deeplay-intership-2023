@@ -38,7 +38,7 @@ public class JoinGamePanel implements Panel {
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
         gameId.setText("");
         buttonBlack.setSelected(false);
         buttonWhite.setSelected(false);
@@ -47,7 +47,7 @@ public class JoinGamePanel implements Panel {
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         jPanel.setLayout(layout);
         jPanel.setBorder(BorderFactory.createEmptyBorder(30, 70, 30, 70));
         jPanel.add(gameIdLabel);
@@ -62,10 +62,10 @@ public class JoinGamePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Black")){
+        if(line.equals("Black")) {
             buttonWhite.setSelected(false);
         }
-        if(line.equals("White")){
+        if(line.equals("White")) {
             buttonBlack.setSelected(false);
         }
         if(line.equals("Submit")) {

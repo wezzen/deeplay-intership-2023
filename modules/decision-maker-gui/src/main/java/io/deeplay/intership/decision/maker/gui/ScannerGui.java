@@ -13,6 +13,7 @@ public class ScannerGui {
     private boolean withBot;
     private Color color;
     private boolean turn;
+    private boolean backStyle;
 
     public ScannerGui(){
         commandType = 0;
@@ -24,10 +25,11 @@ public class ScannerGui {
         columnNumber = -1;
         gameId = -1;
         turn = true;
+        this.backStyle = true;
         size = 9;
     }
 
-    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId){
+    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, boolean backStyle){
         this.commandType = commandType;
         this.password = password;
         this.login = login;
@@ -37,6 +39,7 @@ public class ScannerGui {
         this.columnNumber = columnNumber;
         this.gameId = gameId;
         turn = true;
+        this.backStyle = backStyle;
         size = 9;
     }
 
@@ -109,5 +112,13 @@ public class ScannerGui {
 
     public void setTurn(boolean turn) {
         this.turn = turn;
+    }
+
+    public boolean isBackStyle() {
+        return backStyle;
+    }
+
+    public void setBackStyle(boolean backStyle) {
+        this.backStyle = backStyle;
     }
 }

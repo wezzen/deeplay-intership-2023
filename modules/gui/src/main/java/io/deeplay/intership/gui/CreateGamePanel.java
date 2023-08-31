@@ -46,7 +46,7 @@ public class CreateGamePanel implements Panel {
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
         buttonBot.setSelected(false);
         buttonHuman.setSelected(false);
         buttonBlack.setSelected(false);
@@ -56,7 +56,7 @@ public class CreateGamePanel implements Panel {
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         //jPanel.setLayout(layout);
         jPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
         enemyLabel.setLocation(80, 50);
@@ -87,16 +87,16 @@ public class CreateGamePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Black")){
+        if(line.equals("Black")) {
             buttonWhite.setSelected(false);
         }
-        if(line.equals("White")){
+        if(line.equals("White")) {
             buttonBlack.setSelected(false);
         }
-        if(line.equals("Bot")){
+        if(line.equals("Bot")) {
             buttonHuman.setSelected(false);
         }
-        if(line.equals("Human")){
+        if(line.equals("Human")) {
             buttonBot.setSelected(false);
         }
         if(line.equals("Submit")) {

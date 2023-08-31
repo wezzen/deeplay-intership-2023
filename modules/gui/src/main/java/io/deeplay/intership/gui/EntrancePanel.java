@@ -24,7 +24,7 @@ public class EntrancePanel implements Panel {
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         jPanel.setBorder(BorderFactory.createEmptyBorder(40, 100, 10, 100));
         jTextLogin.setPreferredSize(new Dimension(120, 35));
         jTextPassword.setPreferredSize(new Dimension(120, 35));
@@ -37,12 +37,12 @@ public class EntrancePanel implements Panel {
     }
 
     @Override
-    public void showPanel(){
+    public void showPanel() {
         jDialog.setVisible(true);
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
         jTextLogin.setText("");
         jTextPassword.setText("");
         jButtonSubmit.setSelected(false);

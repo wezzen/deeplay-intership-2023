@@ -3,7 +3,6 @@ package io.deeplay.intership.gui;
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.model.Stone;
-
 import javax.swing.*;
 
 public class DrawGui implements UserInterface {
@@ -16,7 +15,7 @@ public class DrawGui implements UserInterface {
     public final GameFieldPanel gameFieldPanel;
     public final ScannerGui scannerGui;
 
-    public DrawGui(){
+    public DrawGui() {
         frame = new JFrame("GO");
         scannerGui = new ScannerGui();
         gameFieldPanel = new GameFieldPanel(this);
@@ -27,7 +26,7 @@ public class DrawGui implements UserInterface {
         joinGamePanel = new JoinGamePanel(this);
     }
 
-    public void start(){
+    public void start() {
         initialPanel.showPanel();
     }
 
