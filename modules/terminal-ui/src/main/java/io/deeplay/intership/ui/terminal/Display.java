@@ -18,6 +18,11 @@ public class Display implements UserInterface {
      */
     @Override
     public void showMoveRules() {
+        showHorizontalLine();
+        System.out.print("Выберите следующее действие:\n");
+        System.out.print("Чтобы сделать ход нажмите " + 1 + "\n");
+        System.out.print("Чтобы пропустить ход нажмите " + 2 + "\n");
+        showHorizontalLine();
         System.out.print("Введите координаты нового камня через пробел\n");
         System.out.print("Формат записи: 1 6\n");
         String range = String.format("Диапазон допустимых значений для строки от %d до %d\n",
@@ -167,12 +172,14 @@ public class Display implements UserInterface {
 
     @Override
     public void showColorSelection() {
+        showHorizontalLine();
         System.out.print(
                 "Для выбора белого цвета введите " + 1 + "\n");
         System.out.print(
                 "Для выбора черного цвета введите " + 2 + "\n");
         System.out.print(
                 "Для выбора случайного цвета введите " + 3 + "\n");
+        showHorizontalLine();
     }
 
     /**
