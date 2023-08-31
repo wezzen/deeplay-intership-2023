@@ -1,5 +1,8 @@
 package io.deeplay.intership.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 /**
@@ -20,7 +23,8 @@ public class Stone {
         this.group = group;
     }
 
-    public Stone(Color color, int rowNumber, int columnNumber) {
+    @JsonCreator
+    public Stone(@JsonProperty("color") Color color, @JsonProperty("rowNumber") int rowNumber, @JsonProperty("columnNumber") int columnNumber) {
         this(color, rowNumber, columnNumber, new Group());
     }
 

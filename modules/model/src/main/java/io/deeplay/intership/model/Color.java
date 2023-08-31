@@ -1,12 +1,16 @@
 package io.deeplay.intership.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Color {
     BLACK("B"),
     WHITE("W"),
     EMPTY("E");
     public final String symbol;
 
-    Color(String symbol) {
+    @JsonCreator
+    Color(@JsonProperty("symbol") String symbol) {
         this.symbol = symbol;
     }
 
