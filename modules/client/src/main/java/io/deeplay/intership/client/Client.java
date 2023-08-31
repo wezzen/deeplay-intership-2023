@@ -66,8 +66,6 @@ public class Client {
 
                 sendRequest(toServer);
                 field = getField();
-                display.showBoard(field);
-                field = getField();
             } catch (ClientException e) {
                 e.printStackTrace();
             }
