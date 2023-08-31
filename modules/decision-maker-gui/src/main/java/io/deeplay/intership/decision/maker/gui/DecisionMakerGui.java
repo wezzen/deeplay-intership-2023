@@ -2,11 +2,11 @@ package io.deeplay.intership.decision.maker.gui;
 
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.exception.ClientErrorCode;
+import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 
 public class DecisionMakerGui implements DecisionMaker {
@@ -36,7 +36,7 @@ public class DecisionMakerGui implements DecisionMaker {
     }
 
     @Override
-    public GameId getGameId() throws ClientException {
+    public GameConfig getGameConfig() throws ClientException {
         return switch (scannerGui.getCommandType()){
             case 1 -> joinGame();
             case 2 -> createGame();
@@ -66,12 +66,12 @@ public class DecisionMakerGui implements DecisionMaker {
         return new GameAction(RequestType.SURRENDER, 0 , 0);
     }
 
-    private GameId joinGame() throws ClientException {
+    private GameConfig joinGame() throws ClientException {
         Color color = getColor();
-        return new GameId(RequestType.JOIN_GAME, false, color, 0, scannerGui.getGameId());
+        return new GameConfig(RequestType.JOIN_GAME, false, color, 0, scannerGui.getGameId() + "");
     }
 
-    private GameId createGame() throws ClientException {
+    private GameConfig createGame() throws ClientException {
         boolean bot;
         switch (scannerGui.getCommandType()){
             case 1 -> bot = true;
@@ -79,7 +79,7 @@ public class DecisionMakerGui implements DecisionMaker {
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         }
         Color color = getColor();
-        return new GameId(RequestType.CREATE_GAME, bot, color, scannerGui.getSize(), 0);
+        return new GameConfig(RequestType.CREATE_GAME, bot, color, scannerGui.getSize(), "");
     }
 
     private GameAction skipTurn(){
