@@ -60,7 +60,7 @@ public class Client {
                 action = decisionMaker.getGameAction();
                 switch (action.type()) {
                     case TURN ->
-                            toServer = converter.getJsonFromObject(new TurnDtoRequest(clientColor.toString(), action.row(), action.col(), token));
+                            toServer = converter.getJsonFromObject(new TurnDtoRequest(clientColor.toString(), action.row() - 1, action.column() - 1, token));
                     case PASS -> toServer = converter.getJsonFromObject(new PassDtoRequest(token));
                 }
 
@@ -85,6 +85,7 @@ public class Client {
         }
         return field;
     }
+
     public static void init() {
         boolean isGUI = false;
         try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
@@ -115,7 +116,7 @@ public class Client {
         try {
             writer.writeUTF(request);
             writer.flush();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -136,7 +137,6 @@ public class Client {
             }
         }
     }
-
 
 
     public static boolean enterServer() {

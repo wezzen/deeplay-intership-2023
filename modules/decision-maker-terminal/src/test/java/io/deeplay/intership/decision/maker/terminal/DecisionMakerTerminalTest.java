@@ -40,7 +40,7 @@ public class DecisionMakerTerminalTest {
         }
         GameAction ga = new GameAction(RequestType.TURN, 2, 5);
 
-        Assertions.assertEquals(5, ga.row());
+        Assertions.assertEquals(5, ga.column());
         LoginPassword lp = new LoginPassword(RequestType.LOGIN,"sus","ses");
         Assertions.assertEquals("sus", lp.login());
 
