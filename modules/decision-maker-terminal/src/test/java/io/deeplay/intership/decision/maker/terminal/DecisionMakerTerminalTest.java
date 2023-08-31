@@ -1,7 +1,7 @@
 package io.deeplay.intership.decision.maker.terminal;
 
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.exception.ClientException;
@@ -44,8 +44,8 @@ public class DecisionMakerTerminalTest {
         LoginPassword lp = new LoginPassword(RequestType.LOGIN,"sus","ses");
         Assertions.assertEquals("sus", lp.login());
 
-        GameId gi = new GameId(RequestType.CREATE_GAME, false, Color.BLACK, 9,123);
-        Assertions.assertEquals(123, gi.gameId());
+        GameConfig gi = new GameConfig(RequestType.CREATE_GAME, false, Color.BLACK, 9, "123");
+        Assertions.assertEquals("123", gi.gameId());
     }
     @Test
     public void getColorTest(){
@@ -59,10 +59,10 @@ public class DecisionMakerTerminalTest {
     @Test
     public void gameIdTest(){
         DecisionMakerTerminal dmt = Mockito.mock(DecisionMakerTerminal.class);
-        final GameId gameId = new GameId(RequestType.JOIN_GAME, false, Color.BLACK, 9,123);
+        final GameConfig gameConfig = new GameConfig(RequestType.JOIN_GAME, false, Color.BLACK, 9, "123");
         try {
-            when(dmt.getGameId()).thenReturn(gameId);
-            Assertions.assertEquals(gameId, dmt.getGameId());
+            when(dmt.getGameConfig()).thenReturn(gameConfig);
+            Assertions.assertEquals(gameConfig, dmt.getGameConfig());
         } catch (ClientException e) {
             System.err.println(e.getMessage());
         }
@@ -72,8 +72,8 @@ public class DecisionMakerTerminalTest {
     public void getGameIdTest() {
         DecisionMakerTerminal dmt = new DecisionMakerTerminal(new Scanner("2 2 1 9 1 2 12"));
         try {
-            Assertions.assertEquals(dmt.getGameId().type(), RequestType.CREATE_GAME);
-            Assertions.assertEquals(dmt.getGameId().type(), RequestType.JOIN_GAME);
+            Assertions.assertEquals(dmt.getGameConfig().type(), RequestType.CREATE_GAME);
+            Assertions.assertEquals(dmt.getGameConfig().type(), RequestType.JOIN_GAME);
         } catch (ClientException e) {
             System.err.println(e.getMessage());
         }

@@ -3,7 +3,7 @@ package io.deeplay.intership.client;
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameId;
+import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.dto.request.*;
@@ -55,7 +55,7 @@ public class Client {
         while (true) {
             try {
                 display.showBoard(field);
-
+                display.showMoveRules();
                 action = decisionMaker.getGameAction();
                 switch (action.type()) {
                     case TURN ->
@@ -185,13 +185,13 @@ public class Client {
         while (isException) {
             try {
                 display.showRoomActions(); // Не все данные запрашиваются, надо точно дать цвет. При создании надо с ботом или без, и размер.
-                GameId ID = decisionMaker.getGameId();
+                GameConfig ID = decisionMaker.getGameConfig();
                 clientColor = ID.color();
                 switch (ID.type()) {
                     case CREATE_GAME ->
                             toServer = converter.getJsonFromObject(new CreateGameDtoRequest(ID.withBot(), ID.color().toString(), ID.size(), token));
                     case JOIN_GAME ->
-                            toServer = converter.getJsonFromObject(new JoinGameDtoRequest(ID.gameId() + "", token, color.toString()));
+                            toServer = converter.getJsonFromObject(new JoinGameDtoRequest(ID.gameId(), token, color.toString()));
                 }
 
                 sendRequest(toServer);
