@@ -10,9 +10,8 @@ import java.util.UUID;
 public class RandomBotTest {
     @Test
     public void RandomMoveTest() {
-        final String token = UUID.randomUUID().toString();
         final Color color = Color.BLACK;
-        final RandomBot testBot = new RandomBot(token, color);
+        final RandomBot testBot = new RandomBot(color);
         final Board board = new Board();
 
         //assertAll(

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class ClientTest {
     @Test
     void creatingInstanceTest() {
-        assertDoesNotThrow(Client::new);
+        assertDoesNotThrow(()->new Client());
+
     }
 }
