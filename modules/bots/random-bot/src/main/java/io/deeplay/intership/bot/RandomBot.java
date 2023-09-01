@@ -11,14 +11,16 @@ import io.deeplay.intership.model.Stone;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class RandomBot implements DecisionMaker {
-    private final String token;
+    private final String login = "Bot" + UUID.randomUUID();
+    private final String password = UUID.randomUUID().toString();
     private final Color color;
     private final Stone[][] gameField = null;
+    private int enterCount = 0;
 
-    public RandomBot(String token, Color color) {
-        this.token = token;
+    public RandomBot(Color color) {
         this.color = color;
     }
 
@@ -43,7 +45,11 @@ public class RandomBot implements DecisionMaker {
 
     @Override
     public LoginPassword getLoginPassword() throws ClientException {
-        return null;
+        if (enterCount == 0) {
+            return new LoginPassword(RequestType.REGISTRATION, login, password);
+        } else {
+            return new LoginPassword(RequestType.LOGIN, login, password);
+        }
     }
 
 

@@ -30,8 +30,15 @@ public class Client {
     private static AuthorizationController authorizationController;
     private static String token;
 
-    public static void main(String[] args) {
+    public Client(UserInterface ui, DecisionMaker maker, String host, int port) {
+        init(ui, maker, host, port);
+    }
+
+    public Client() {
         init();
+    }
+
+    public static void main(String[] args) {
         token = authorizationController.authorizeClient();
         while (true) {
             try {
@@ -45,6 +52,22 @@ public class Client {
         }
     }
 
+    public static void init(UserInterface ui, DecisionMaker maker, String host, int port) {
+        userInterface = ui;
+        decisionMaker = maker;
+
+        try {
+            socket = new Socket(InetAddress.getByName(host), port);
+            reader = new DataInputStream(socket.getInputStream());
+            writer = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        streamConnector = new StreamConnector(writer, reader);
+        gameController = new GameController(streamConnector, userInterface, decisionMaker);
+        authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
+    }
+
     public static void init() {
         boolean isGUI = false;
         try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
@@ -54,11 +77,6 @@ public class Client {
             host = property.getProperty("client.host");
             port = Integer.parseInt(property.getProperty("client.port"));
             isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
-
-            socket = new Socket(InetAddress.getByName(host), port);
-            reader = new DataInputStream(socket.getInputStream());
-            writer = new DataOutputStream(socket.getOutputStream());
-            streamConnector = new StreamConnector(writer, reader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,10 +84,7 @@ public class Client {
         if (isGUI) {
             // ГУИ + ДМ
         } else {
-            userInterface = new Display();
-            decisionMaker = new DecisionMakerTerminal(new Scanner(System.in));
+            init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
         }
-        gameController = new GameController(streamConnector, userInterface, decisionMaker);
-        authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
     }
 }
