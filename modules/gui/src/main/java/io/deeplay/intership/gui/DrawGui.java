@@ -4,8 +4,6 @@ import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.model.Stone;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DrawGui implements UserInterface {
     public final JFrame frame;
