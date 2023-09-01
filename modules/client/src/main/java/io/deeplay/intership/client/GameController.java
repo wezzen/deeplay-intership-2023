@@ -60,7 +60,7 @@ public class GameController {
         }
     }
 
-    public void processingGame() throws ClientException {
+    public FinishGameDtoResponse processingGame() throws ClientException {
         BaseDtoResponse response = new BaseDtoResponse("", "");
         Stone[][] field = new Board().getField();
 
@@ -76,11 +76,11 @@ public class GameController {
                 //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
             }
             if (response instanceof FinishGameDtoResponse) {
-                userInterface.showGameResult(response.message +
-                        ((FinishGameDtoResponse) response).blackScore +
-                        ((FinishGameDtoResponse) response).whiteScore);
+                userInterface.showGameResult("Черные " + ((FinishGameDtoResponse) response).blackScore + "\n" +
+                        "Белые " + ((FinishGameDtoResponse) response).whiteScore);
             }
         }
+        return (FinishGameDtoResponse) response;
     }
 
     public BaseDtoResponse createGame(final GameConfig gameConfig) throws ClientException {
@@ -132,7 +132,7 @@ public class GameController {
         streamConnector.sendRequest(request);
     }
 
-    public  <T extends BaseDtoResponse> boolean isFinish(final T dtoResponse) {
+    public <T extends BaseDtoResponse> boolean isFinish(final T dtoResponse) {
         return dtoResponse instanceof FinishGameDtoResponse;
     }
 }

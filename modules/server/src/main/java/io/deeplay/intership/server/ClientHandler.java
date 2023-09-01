@@ -175,6 +175,14 @@ public class ClientHandler implements Runnable {
         return converter.getJsonFromObject(response);
     }
 
+    public String endGame() {
+        return converter.getJsonFromObject(new FinishGameDtoResponse(
+                ResponseStatus.SUCCESS.text,
+                ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
+                0,
+                7));
+    }
+
     public String turn(TurnDtoRequest dtoRequest) {
         final String message = String.format("Client %d send make turn", clientId);
         logger.debug(message);
@@ -196,6 +204,9 @@ public class ClientHandler implements Runnable {
             final ActionDtoResponse response = gameService.pass(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
+            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+                return endGame();
+            }
             logger.debug("Clients operation 'pass' was failed");
             return getFailureResponse(ex);
         }
