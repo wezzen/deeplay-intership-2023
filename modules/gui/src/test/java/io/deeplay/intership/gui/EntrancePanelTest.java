@@ -1,5 +1,6 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +8,8 @@ public class EntrancePanelTest {
 
     @Test
     public void entrancePanelTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         EntrancePanel entrancePanel = new EntrancePanel(drawGui);
         entrancePanel.jTextLogin.setText("aboba");
         entrancePanel.jTextPassword.setText("pupa&lupa228");

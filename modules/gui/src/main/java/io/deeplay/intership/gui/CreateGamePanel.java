@@ -113,6 +113,12 @@ public class CreateGamePanel implements Panel {
             }
 
             if (buttonBot.isSelected() || buttonHuman.isSelected()) {
+                if(buttonBot.isSelected()){
+                    drawGui.scannerGui.setCommandType(1);
+                }
+                else {
+                    drawGui.scannerGui.setCommandType(2);
+                }
                 drawGui.createGamePanel.hidePanel();
                 drawGui.gameFieldPanel.showPanel();
             }

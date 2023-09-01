@@ -46,7 +46,7 @@ public class DecisionMakerGui implements DecisionMaker {
 
     @Override
     public Color getColor() throws ClientException {
-        return switch (scannerGui.getCommandType()) {
+        return switch (scannerGui.getColor()) {
             case 1 -> Color.WHITE;
             case 2 -> Color.BLACK;
             case 3 -> getRandomColor();

@@ -15,9 +15,9 @@ public class DrawGui implements UserInterface {
     public final GameFieldPanel gameFieldPanel;
     public final ScannerGui scannerGui;
 
-    public DrawGui() {
+    public DrawGui(ScannerGui scannerGui) {
         frame = new JFrame("GO");
-        scannerGui = new ScannerGui();
+        this.scannerGui = scannerGui;
         gameFieldPanel = new GameFieldPanel(this);
         initialPanel = new InitialPanel(this);
         entrancePanel = new EntrancePanel(this);
@@ -30,9 +30,16 @@ public class DrawGui implements UserInterface {
         initialPanel.showPanel();
     }
 
+    public ScannerGui getScannerGui() {
+        return scannerGui;
+    }
+
     @Override
     public void showAuthorizationActions() {
-        initialPanel.showPanel();
+        if(scannerGui.getCommandType() != 1) {
+            initialPanel.showPanel();
+            scannerGui.setCommandType(1);
+        }
     }
 
     @Override

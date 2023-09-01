@@ -111,15 +111,16 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public void setStone(int x, int y) {
         for(int i = 1; i < N + 1; i++) {
             for(int j = 1; j < N + 1; j++) {
-                if (abs(x - i * paddingX - square.x()) <= paddingX / 2 &&
+                if (abs(x - 10 - i * paddingX - square.x()) <= paddingX / 2 &&
                         abs((y-30) - j * paddingY - square.y()) <= paddingY / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
                         boolean turn = drawGui.scannerGui.isTurn();
                         if (turn) {
-                            field[i-1][j-1] = Color.BLACK;
+                            System.out.println(x + " " + y);
+                            field[i - 1][j - 1] = Color.BLACK;
                             drawGui.scannerGui.setTurn(false);
                         } else {
-                            field[i-1][j-1] = Color.WHITE;
+                            field[i - 1][j - 1] = Color.WHITE;
                             drawGui.scannerGui.setTurn(true);
                         }
                         return;

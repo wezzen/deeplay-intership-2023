@@ -2,9 +2,12 @@ package io.deeplay.intership.client;
 
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
+import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
+import io.deeplay.intership.gui.DrawGui;
 import io.deeplay.intership.ui.terminal.Display;
 
 import java.io.DataInputStream;
@@ -17,7 +20,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class Client {
-    private static final String CONFIG_PATH = "src/main/resources/config.properties";
+    private static final String CONFIG_PATH = "modules/client/src/main/resources/config.properties";
     private static String host;
     private static int port;
     private static Socket socket;
@@ -63,8 +66,12 @@ public class Client {
             e.printStackTrace();
         }
 
+        System.out.println(isGUI);
         if (isGUI) {
             // ГУИ + ДМ
+            ScannerGui scannerGui = new ScannerGui();
+            userInterface = new DrawGui(scannerGui);
+            decisionMaker = new DecisionMakerGui(scannerGui);
         } else {
             userInterface = new Display();
             decisionMaker = new DecisionMakerTerminal(new Scanner(System.in));

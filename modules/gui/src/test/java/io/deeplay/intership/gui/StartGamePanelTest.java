@@ -1,12 +1,14 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StartGamePanelTest {
     @Test
     public void startGamePanelJoinTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
         startGamePanel.jButtonJoin.doClick();
         assertAll(
@@ -18,7 +20,8 @@ public class StartGamePanelTest {
 
     @Test
     public void startGamePanelCreateTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         StartGamePanel startGamePanel = new StartGamePanel(drawGui);
         startGamePanel.jButtonCreate.doClick();
         assertAll(

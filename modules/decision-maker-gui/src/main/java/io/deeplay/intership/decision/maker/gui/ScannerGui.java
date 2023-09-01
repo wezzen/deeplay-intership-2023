@@ -15,7 +15,7 @@ public class ScannerGui {
     private boolean backStyle;
 
     public ScannerGui() {
-        commandType = 0;
+        commandType = -1;
         password = "";
         login = "";
         color = 3;

@@ -1,5 +1,6 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,9 +9,10 @@ public class GameFieldPanelTest {
 
     @Test
     public void gameFieldPanelMoveTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
-        gameFieldPanel.setStone(100, 130);
+        gameFieldPanel.setStone(70, 190);
         Color[][] field = gameFieldPanel.getField();
         gameFieldPanel.buttonMove.doClick();
         assertAll(
@@ -21,7 +23,8 @@ public class GameFieldPanelTest {
 
     @Test
     public void gameFieldPanelPassTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
         gameFieldPanel.buttonPass.doClick();
         assertEquals(drawGui.scannerGui.getCommandType(), 2);
@@ -29,7 +32,8 @@ public class GameFieldPanelTest {
 
     @Test
     public void gameFieldPanelSurrenderTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
         gameFieldPanel.buttonSurrender.doClick();
         assertEquals(drawGui.scannerGui.getCommandType(), 3);
