@@ -1,6 +1,5 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
@@ -58,7 +57,7 @@ public class UserServiceTest {
         userService.register(registrationRequest);
         final var loginResponse = userService.authorization(loginRequest);
 
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
         assertAll(
                 () -> assertEquals(expectedStatus, loginResponse.status),
@@ -79,7 +78,7 @@ public class UserServiceTest {
         final var firstResponse = userService.authorization(loginRequest);
         final var secondResponse = userService.authorization(loginRequest);
 
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
         assertAll(
                 () -> assertEquals(expectedStatus, firstResponse.status),
@@ -121,9 +120,9 @@ public class UserServiceTest {
         var result = userService.authorization(loginRequest);
 
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, info.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, info.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_REGISTRATION.message, info.message),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, result.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_AUTHORIZATION.message, result.message)
         );
     }
@@ -138,7 +137,7 @@ public class UserServiceTest {
         );
 
         final var response = userService.register(registerRequest);
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_REGISTRATION.message;
         assertAll(
                 () -> assertEquals(expectedStatus, response.status),
@@ -160,7 +159,7 @@ public class UserServiceTest {
         final LogoutDtoRequest logoutDto = new LogoutDtoRequest(loginDtoResponse.token);
         final var result = userService.logout(logoutDto);
 
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_LOGOUT.message;
         assertAll(
                 () -> assertEquals(expectedStatus, result.status),

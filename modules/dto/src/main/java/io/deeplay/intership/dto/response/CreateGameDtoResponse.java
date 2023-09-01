@@ -8,7 +8,7 @@ public class CreateGameDtoResponse extends BaseDtoResponse {
 
     @JsonCreator
     public CreateGameDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message,
             @JsonProperty("gameId") String gameId) {
         super(status, message);

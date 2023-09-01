@@ -79,7 +79,7 @@ public class GameServiceTest {
                 token);
 
         final String expectedMessage = ResponseInfoMessage.SUCCESS_CREATE_GAME.message;
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final CreateGameDtoResponse response = gameService.createGame(dto);
         assertAll(
                 () -> assertEquals(expectedMessage, response.message),
@@ -139,7 +139,7 @@ public class GameServiceTest {
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
                 () -> assertNotNull(gameDto.gameId)
         );
 
@@ -151,7 +151,7 @@ public class GameServiceTest {
 
         final var dtoResponse = gameService.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
                 () -> assertEquals(expectedMessage, dtoResponse.message),
                 () -> assertEquals(expectedStatus, dtoResponse.status)
@@ -194,7 +194,7 @@ public class GameServiceTest {
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
                 () -> assertNotNull(gameDto.gameId)
         );
 
@@ -206,7 +206,7 @@ public class GameServiceTest {
 
         final var dtoResponse = gameService.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
                 () -> assertEquals(expectedMessage, dtoResponse.message),
                 () -> assertEquals(expectedStatus, dtoResponse.status)
@@ -300,7 +300,7 @@ public class GameServiceTest {
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
                 () -> assertNotNull(gameDto.gameId)
         );
 
@@ -312,7 +312,7 @@ public class GameServiceTest {
 
         final var dtoResponse = gameService.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
                 () -> assertEquals(expectedMessage, dtoResponse.message),
                 () -> assertEquals(expectedStatus, dtoResponse.status)
@@ -327,7 +327,7 @@ public class GameServiceTest {
 
         final ActionDtoResponse actionDtoResponse = gameService.turn(turnDtoRequest);
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, actionDtoResponse.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, actionDtoResponse.message),
                 () -> assertNotNull(actionDtoResponse.gameField)
         );
@@ -370,7 +370,7 @@ public class GameServiceTest {
         final var gameDto = gameService.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, gameDto.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
                 () -> assertNotNull(gameDto.gameId)
         );
 
@@ -382,7 +382,7 @@ public class GameServiceTest {
 
         final var dtoResponse = gameService.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
-        final String expectedStatus = ResponseStatus.SUCCESS.text;
+        final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
                 () -> assertEquals(expectedMessage, dtoResponse.message),
                 () -> assertEquals(expectedStatus, dtoResponse.status)
@@ -393,7 +393,7 @@ public class GameServiceTest {
 
         final ActionDtoResponse actionDtoResponse = gameService.pass(passDtoRequest);
         assertAll(
-                () -> assertEquals(ResponseStatus.SUCCESS.text, actionDtoResponse.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, actionDtoResponse.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, actionDtoResponse.message),
                 () -> assertNotNull(actionDtoResponse.gameField)
         );

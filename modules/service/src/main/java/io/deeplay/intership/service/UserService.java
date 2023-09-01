@@ -70,7 +70,7 @@ public class UserService {
         LOGIN_TO_USER.put(currentUser.login(), user);
 
         return new LoginDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message,
                 newToken);
     }
@@ -99,7 +99,7 @@ public class UserService {
 
         logger.debug("User was successfully registered");
         return new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_REGISTRATION.message);
     }
 
@@ -118,7 +118,7 @@ public class UserService {
         AUTHORIZED_USERS.remove(dtoRequest.token);
 
         logger.debug("User was successfully logout");
-        return new InfoDtoResponse(ResponseStatus.SUCCESS.text, ResponseInfoMessage.SUCCESS_LOGOUT.message);
+        return new InfoDtoResponse(ResponseStatus.SUCCESS, ResponseInfoMessage.SUCCESS_LOGOUT.message);
     }
 
     /**

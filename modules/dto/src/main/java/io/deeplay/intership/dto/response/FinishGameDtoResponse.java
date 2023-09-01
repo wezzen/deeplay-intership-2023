@@ -9,7 +9,7 @@ public class FinishGameDtoResponse extends BaseDtoResponse {
 
     @JsonCreator
     public FinishGameDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message,
             @JsonProperty("blackScore") int blackScore,
             @JsonProperty("whiteScore") int whiteScore) {
