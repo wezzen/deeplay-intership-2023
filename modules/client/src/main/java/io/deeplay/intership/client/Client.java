@@ -32,14 +32,14 @@ public class Client {
 
     public static void main(String[] args) {
         init();
-        authorization();
+        token = authorizationController.authorizeClient();
         while (true) {
             try {
                 gameController.joinToGame(token);
                 gameController.processingGame();
             } catch (ClientException ex) {
                 if (ex.errorCode == ClientErrorCode.NOT_AUTHORIZED_CLIENT) {
-                    authorization();
+                    token = authorizationController.authorizeClient();
                 }
             }
         }
@@ -71,14 +71,5 @@ public class Client {
         }
         gameController = new GameController(streamConnector, userInterface, decisionMaker);
         authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
-    }
-
-
-    public static void authorization() {
-        try {
-            token = authorizationController.authorizeClient();
-        } catch (ClientException ex) {
-
-        }
     }
 }
