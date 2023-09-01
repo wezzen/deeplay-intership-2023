@@ -36,7 +36,7 @@ public class Client {
     private static DecisionMaker decisionMaker;
     private static String token;
     private static JSONConverter converter;
-    private static final String CONFIG_PATH = "src/main/resources/config.properties";
+    private static final String CONFIG_PATH = "modules/client/src/main/resources/config.properties";
     private static Color clientColor;
 
     public static void main(String[] args) {

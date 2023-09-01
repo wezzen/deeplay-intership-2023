@@ -12,7 +12,7 @@ import io.deeplay.intership.model.Color;
 public class DecisionMakerGui implements DecisionMaker {
     private final ScannerGui scannerGui;
 
-    public DecisionMakerGui(ScannerGui scannerGui){
+    public DecisionMakerGui(ScannerGui scannerGui) {
         this.scannerGui = scannerGui;
     }
 
@@ -46,7 +46,7 @@ public class DecisionMakerGui implements DecisionMaker {
 
     @Override
     public Color getColor() throws ClientException {
-        return switch (scannerGui.getCommandType()){
+        return switch (scannerGui.getCommandType()) {
             case 1 -> Color.WHITE;
             case 2 -> Color.BLACK;
             case 3 -> getRandomColor();
@@ -62,7 +62,7 @@ public class DecisionMakerGui implements DecisionMaker {
         }
     }
 
-    private GameAction surrender(){
+    private GameAction surrender() {
         return new GameAction(RequestType.SURRENDER, 0 , 0);
     }
 
@@ -73,7 +73,7 @@ public class DecisionMakerGui implements DecisionMaker {
 
     private GameConfig createGame() throws ClientException {
         boolean bot;
-        switch (scannerGui.getCommandType()){
+        switch (scannerGui.getCommandType()) {
             case 1 -> bot = true;
             case 2 -> bot = false;
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
@@ -82,19 +82,19 @@ public class DecisionMakerGui implements DecisionMaker {
         return new GameConfig(RequestType.CREATE_GAME, bot, color, scannerGui.getSize(), "");
     }
 
-    private GameAction skipTurn(){
+    private GameAction skipTurn() {
         return new GameAction(RequestType.PASS, 0, 0);
     }
 
-    private GameAction makeMove(){
+    private GameAction makeMove() {
         return new GameAction(RequestType.TURN, scannerGui.getRowNumber(), scannerGui.getColumnNumber());
     }
 
-    private LoginPassword registration(){
+    private LoginPassword registration() {
         return new LoginPassword(RequestType.REGISTRATION, scannerGui.getLogin(), scannerGui.getPassword());
     }
 
-    private LoginPassword login(){
+    private LoginPassword login() {
         return new LoginPassword(RequestType.LOGIN, scannerGui.getLogin(), scannerGui.getPassword());
     }
 

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import io.deeplay.intership.model.Color;
 import static java.lang.Math.abs;
+import java.util.Random;
 
 public class GameFieldPanel extends JPanel implements ActionListener {
     public final DrawGui drawGui;
@@ -84,7 +85,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
 
     public void drawStandardSquare(){
         int[] rgb = square.rgbColor().getRgbColor();
-        float[] hsb = getHsbColor(square.rgbColor().getRgbColor());
         this.lineColor = new RgbColor(0, 0, 0);
         //graphics2D.setColor(new java.awt.Color(hsb[0], hsb[1], hsb[2]));
         graphics2D.setColor(new java.awt.Color(rgb[0], rgb[1], rgb[2]));
@@ -146,7 +146,9 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     public String getGameId() {
-        return String.valueOf(Math.random());
+        //return String.valueOf(Math.random());
+        int max = 100000, min = 10000;
+        return String.valueOf(new Random().nextInt((max - min) + 1) + min);
     }
 
     public void setPanel() {
@@ -156,7 +158,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         gameId.setText("Номер игры: " + String.valueOf(getGameId()));
         gameId.setSize(600, 50);
         gameId.setForeground(java.awt.Color.BLACK);
-        gameId.setBorder(new EmptyBorder(10,150,10,0));
+        gameId.setBorder(new EmptyBorder(10,210,10,0));
 
         GridLayout gameIdLayout = new GridLayout(1,1);
         JPanel gameIdPanel = new JPanel();

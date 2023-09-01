@@ -4,6 +4,8 @@ import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.model.Stone;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DrawGui implements UserInterface {
     public final JFrame frame;
@@ -32,12 +34,12 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showAuthorizationActions() {
-
+        initialPanel.showPanel();
     }
 
     @Override
     public void showRoomActions() {
-
+        startGamePanel.showPanel();
     }
 
     @Override
@@ -47,12 +49,12 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showLogin() {
-
+        showMessage("Вход", "Добро пожаловать на сервер!");
     }
 
     @Override
     public void showRegistration() {
-
+        showMessage("Вход", "Вы зарегистрировались на сервере!");
     }
 
     @Override
@@ -62,26 +64,36 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showCreating(String gameId) {
-
+        showMessage("Вход", "Создана игровая сессия под номером: " + gameId);
     }
 
     @Override
     public void showJoin() {
-
+        showMessage("Вход", "Вы присоединились к игре!");
     }
 
     @Override
     public void showMoveRules() {
-
+        gameFieldPanel.showPanel();
     }
 
     @Override
     public void showBoard(Stone[][] gameField) {
-
+        gameFieldPanel.showPanel();
     }
 
     @Override
     public void showGameResult(String result) {
 
+    }
+
+    public void showMessage(String title, String message){
+        JOptionPane pane = new JOptionPane(message,
+                JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = pane.createDialog(null, title);
+        dialog.setModal(false);
+        dialog.setVisible(true);
+
+        new Timer(2000, e -> dialog.setVisible(false)).start();
     }
 }
