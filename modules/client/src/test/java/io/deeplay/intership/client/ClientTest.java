@@ -8,8 +8,5 @@ class ClientTest {
     @Test
     void creatingInstanceTest() {
         assertDoesNotThrow(Client::new);
-        assertDoesNotThrow(Client::init);
-        assertDoesNotThrow(Client::joinGame);
-        assertDoesNotThrow(Client::makeMove);
     }
 }

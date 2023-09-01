@@ -26,24 +26,27 @@ public class AuthorizationController {
         this.decisionMaker = decisionMaker;
     }
 
-    public String authorizeClient() throws ClientException {
+    public String authorizeClient() {
         BaseDtoResponse response;
         String token = null;
 
         while (token == null) {
-            userInterface.showAuthorizationActions();
-            LoginPassword loginPassword = decisionMaker.getLoginPassword();
+            try {
+                userInterface.showAuthorizationActions();
+                LoginPassword loginPassword = decisionMaker.getLoginPassword();
+                response = switch (loginPassword.type()) {
+                    case REGISTRATION -> registration(loginPassword);
+                    case LOGIN -> login(loginPassword);
+                    default -> throw new ClientException(ClientErrorCode.WRONG_INPUT);
+                };
 
-            response = switch (loginPassword.type()) {
-                case REGISTRATION -> registration(loginPassword);
-                case LOGIN -> login(loginPassword);
-                default -> throw new ClientException(ClientErrorCode.WRONG_INPUT);
-            };
-
-            logger.debug(response.message);
-            if (response instanceof LoginDtoResponse) {
-                token = ((LoginDtoResponse) response).token;
-                userInterface.showLogin();
+                logger.debug(response.message);
+                if (response instanceof LoginDtoResponse) {
+                    token = ((LoginDtoResponse) response).token;
+                    userInterface.showLogin();
+                }
+            } catch (ClientException ex) {
+                logger.debug(ex.errorMessage);
             }
         }
         return token;
