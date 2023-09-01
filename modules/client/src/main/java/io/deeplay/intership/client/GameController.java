@@ -60,7 +60,30 @@ public class GameController {
         }
     }
 
-    private BaseDtoResponse createGame(final GameConfig gameConfig) throws ClientException {
+    public void processingGame() throws ClientException {
+        BaseDtoResponse response = new BaseDtoResponse("", "");
+        Stone[][] field = new Board().getField();
+
+        while (!isFinish(response)) {
+            userInterface.showBoard(field);
+            response = defineGameAction();
+            if (response instanceof ActionDtoResponse) {
+                field = ((ActionDtoResponse) response).gameField;
+            }
+
+            if (response instanceof FailureDtoResponse) {
+                logger.debug(response.status + " " + response.message);
+                //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
+            }
+            if (response instanceof FinishGameDtoResponse) {
+                userInterface.showGameResult(response.message +
+                        ((FinishGameDtoResponse) response).blackScore +
+                        ((FinishGameDtoResponse) response).whiteScore);
+            }
+        }
+    }
+
+    public BaseDtoResponse createGame(final GameConfig gameConfig) throws ClientException {
         String requestString = jsonConverter.getJsonFromObject(new CreateGameDtoRequest(
                 gameConfig.withBot(),
                 gameConfig.color().name(),
@@ -70,7 +93,7 @@ public class GameController {
         return streamConnector.getResponse();
     }
 
-    private BaseDtoResponse joinGameById(final GameConfig gameConfig, final Color color) throws ClientException {
+    public BaseDtoResponse joinGameById(final GameConfig gameConfig, final Color color) throws ClientException {
         String requestString = jsonConverter.getJsonFromObject(new JoinGameDtoRequest(
                 gameConfig.gameId(),
                 token,
@@ -79,26 +102,19 @@ public class GameController {
         return streamConnector.getResponse();
     }
 
-    public void defineGameAction() throws ClientException {
-        BaseDtoResponse response = new BaseDtoResponse("", "");
-        Stone[][] field = new Board().getField();
+    public BaseDtoResponse defineGameAction() throws ClientException {
         GameAction action;
-
-        while (!isFinish(response)) {
-            try {
-                userInterface.showBoard(field);
-                userInterface.showMoveRules();
-                action = decisionMaker.getGameAction();
-                switch (action.type()) {
-                    case TURN -> turn(clientColor, action);
-                    case PASS -> pass(token);
-                }
-                response = streamConnector.getResponse();
-                response = processingResponse(response, field);
-            } catch (ClientException ex) {
-                logger.debug(ex.errorMessage);
-                throw ex;
+        try {
+            userInterface.showMoveRules();
+            action = decisionMaker.getGameAction();
+            switch (action.type()) {
+                case TURN -> turn(clientColor, action);
+                case PASS -> pass(token);
             }
+            return streamConnector.getResponse();
+        } catch (ClientException ex) {
+            logger.debug(ex.errorMessage);
+            throw ex;
         }
     }
 
@@ -116,23 +132,7 @@ public class GameController {
         streamConnector.sendRequest(request);
     }
 
-    private <T extends BaseDtoResponse> T processingResponse(final T dtoResponse, Stone[][] field) {
-        if (dtoResponse instanceof ActionDtoResponse) {
-            field = ((ActionDtoResponse) dtoResponse).gameField;
-        }
-        if (dtoResponse instanceof FailureDtoResponse) {
-            logger.debug(dtoResponse.status + " " + dtoResponse.message);
-            //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
-        }
-        if (dtoResponse instanceof FinishGameDtoResponse) {
-            userInterface.showGameResult(dtoResponse.message +
-                    ((FinishGameDtoResponse) dtoResponse).blackScore +
-                    ((FinishGameDtoResponse) dtoResponse).whiteScore);
-        }
-        return dtoResponse;
-    }
-
-    private <T extends BaseDtoResponse> boolean isFinish(final T dtoResponse) {
+    public  <T extends BaseDtoResponse> boolean isFinish(final T dtoResponse) {
         return dtoResponse instanceof FinishGameDtoResponse;
     }
 }
