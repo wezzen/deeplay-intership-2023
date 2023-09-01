@@ -61,35 +61,35 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String defineCommand(String request) {
-        final BaseDtoRequest dto = converter.getObjectFromJson(request, BaseDtoRequest.class);
+    public String defineCommand(final String json) {
+        final BaseDtoRequest dto = converter.getObjectFromJson(json, BaseDtoRequest.class);
 
-        if (dto instanceof RegistrationDtoRequest) {
-            return registerUser((RegistrationDtoRequest) dto);
+        if (dto instanceof final RegistrationDtoRequest request) {
+            return registerUser(request);
         }
-        if (dto instanceof LoginDtoRequest) {
-            return login((LoginDtoRequest) dto);
+        if (dto instanceof final LoginDtoRequest request) {
+            return login(request);
         }
-        if (dto instanceof LogoutDtoRequest) {
-            return logout((LogoutDtoRequest) dto);
+        if (dto instanceof final LogoutDtoRequest request) {
+            return logout(request);
         }
-        if (dto instanceof CreateGameDtoRequest) {
-            return createGame((CreateGameDtoRequest) dto);
+        if (dto instanceof final CreateGameDtoRequest request) {
+            return createGame(request);
         }
-        if (dto instanceof JoinGameDtoRequest) {
-            return joinGame((JoinGameDtoRequest) dto);
+        if (dto instanceof final JoinGameDtoRequest request) {
+            return joinGame(request);
         }
-        if (dto instanceof SurrenderDtoRequest) {
-            return surrenderGame((SurrenderDtoRequest) dto);
+        if (dto instanceof final SurrenderDtoRequest request) {
+            return surrenderGame(request);
         }
-        if (dto instanceof FinishGameDtoRequest) {
-            return endGame((FinishGameDtoRequest) dto);
+        if (dto instanceof final FinishGameDtoRequest request) {
+            return endGame(request);
         }
-        if (dto instanceof TurnDtoRequest) {
-            return turn((TurnDtoRequest) dto);
+        if (dto instanceof final TurnDtoRequest request) {
+            return turn(request);
         }
-        if (dto instanceof PassDtoRequest) {
-            return pass((PassDtoRequest) dto);
+        if (dto instanceof final PassDtoRequest request) {
+            return pass(request);
         }
         return getFailureResponse(new ServerException(ErrorCode.INVALID_REQUEST_TYPE));
     }
