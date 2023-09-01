@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable {
         try (DataInputStream in = new DataInputStream(clientSocket.getInputStream());
              DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream())) {
             //TODO: реализовать отключение клиента от сервера, после n секунд бездействия со стороны клиента
-            while (true) {
+            while (!clientSocket.isClosed()) {
                 String clientCommand = in.readUTF();
                 String response = defineCommand(clientCommand);
                 out.writeUTF(response);
@@ -202,7 +202,7 @@ public class ClientHandler implements Runnable {
     }
 
     private String getFailureResponse(ServerException ex) {
-        final FailureDtoResponse dtoResponse = new FailureDtoResponse(ex.message, ResponseStatus.FAILURE.text);
+        final FailureDtoResponse dtoResponse = new FailureDtoResponse(ResponseStatus.FAILURE, ex.message);
         return converter.getJsonFromObject(dtoResponse);
     }
 }

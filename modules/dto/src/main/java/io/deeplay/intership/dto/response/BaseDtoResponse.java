@@ -18,12 +18,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = LoginDtoResponse.class, name = "LOGIN")
 })
 public class BaseDtoResponse {
-    public final String status;
+    public final ResponseStatus status;
     public final String message;
 
     @JsonCreator
     public BaseDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message) {
         this.status = status;
         this.message = message;

@@ -7,6 +7,7 @@ import io.deeplay.intership.dto.request.JoinGameDtoRequest;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.ActionDtoResponse;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Board;
@@ -37,7 +38,7 @@ public class Sandbox {
     public void startGame() throws ServerException {
         final String gameId = createGame();
         joinGame(gameId);
-        ActionDtoResponse response = new ActionDtoResponse("", "", new Board().getField());
+        ActionDtoResponse response = new ActionDtoResponse(ResponseStatus.SUCCESS, "Game successfully started", new Board().getField());
 
         while (runGame != 2) {
             try {

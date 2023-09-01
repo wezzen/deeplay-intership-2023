@@ -8,7 +8,7 @@ public class LoginDtoResponse extends BaseDtoResponse {
 
     @JsonCreator
     public LoginDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message,
             @JsonProperty("token") String token) {
         super(status, message);

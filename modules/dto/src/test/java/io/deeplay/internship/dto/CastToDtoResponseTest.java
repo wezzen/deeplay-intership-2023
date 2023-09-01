@@ -24,7 +24,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToActionDtoResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.SUCCESS.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = ResponseInfoMessage.SUCCESS_TURN.message;
         final ActionDtoResponse dtoResponse = new ActionDtoResponse(
                 status,
@@ -41,7 +41,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToCreateGameDtoResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.SUCCESS.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = "Good game";
         final String gameId = UUID.randomUUID().toString();
 
@@ -62,7 +62,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToFinishDtoResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.SUCCESS.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = "Good game";
         final int blackScore = 10;
         final int whiteScore = 20;
@@ -85,7 +85,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToFailureResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.FAILURE.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = "Bad request";
 
         final FailureDtoResponse dtoResponse = new FailureDtoResponse(
@@ -103,7 +103,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToInfoDtoResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.SUCCESS.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = "Bad request";
 
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
@@ -121,7 +121,7 @@ public class CastToDtoResponseTest {
 
     @Test
     public void testCastToLoginDtoResponse() throws JsonProcessingException {
-        final String status = ResponseStatus.SUCCESS.text;
+        final ResponseStatus status = ResponseStatus.SUCCESS;
         final String message = "Good request";
         final String token = UUID.randomUUID().toString();
 

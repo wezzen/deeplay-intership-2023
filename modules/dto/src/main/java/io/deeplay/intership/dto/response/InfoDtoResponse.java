@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class InfoDtoResponse extends BaseDtoResponse {
     @JsonCreator
     public InfoDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message) {
         super(status, message);
     }

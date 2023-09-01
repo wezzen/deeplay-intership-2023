@@ -9,7 +9,7 @@ public class ActionDtoResponse extends BaseDtoResponse {
 
     @JsonCreator
     public ActionDtoResponse(
-            @JsonProperty("status") String status,
+            @JsonProperty("status") ResponseStatus status,
             @JsonProperty("message") String message,
             @JsonProperty("gameField") Stone[][] gameField) {
         super(status, message);
