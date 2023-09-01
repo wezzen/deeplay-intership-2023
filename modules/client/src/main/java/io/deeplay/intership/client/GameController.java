@@ -44,11 +44,12 @@ public class GameController {
 
             response = switch (gameConfig.type()) {
                 case CREATE_GAME -> createGame(gameConfig);
-                case JOIN_GAME -> joinGameById(gameConfig, clientColor);
+                case JOIN_GAME -> joinGameById(gameConfig);
                 default -> throw new ClientException(ClientErrorCode.WRONG_INPUT);
             };
 
             if (response instanceof CreateGameDtoResponse) {
+
                 userInterface.showCreating(((CreateGameDtoResponse) response).gameId);
                 userInterface.showJoin();
                 isNoCreated = false;
@@ -70,7 +71,6 @@ public class GameController {
             if (response instanceof ActionDtoResponse) {
                 field = ((ActionDtoResponse) response).gameField;
             }
-
             if (response instanceof FailureDtoResponse) {
                 logger.debug(response.status + " " + response.message);
                 //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
@@ -93,7 +93,7 @@ public class GameController {
         return streamConnector.getResponse();
     }
 
-    public BaseDtoResponse joinGameById(final GameConfig gameConfig, final Color color) throws ClientException {
+    public BaseDtoResponse joinGameById(final GameConfig gameConfig) throws ClientException {
         String requestString = jsonConverter.getJsonFromObject(new JoinGameDtoRequest(
                 gameConfig.gameId(),
                 token,
@@ -134,5 +134,13 @@ public class GameController {
 
     public <T extends BaseDtoResponse> boolean isFinish(final T dtoResponse) {
         return dtoResponse instanceof FinishGameDtoResponse;
+    }
+
+    public void setToken(final String token) {
+        this.token = token;
+    }
+
+    public void setColor(final Color color) {
+        this.clientColor = color;
     }
 }
