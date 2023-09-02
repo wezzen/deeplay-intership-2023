@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOError;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class StreamConnectorTest {
     private final DataInputStream dataInputStream = mock(DataInputStream.class);
@@ -34,12 +36,29 @@ public class StreamConnectorTest {
     }
 
     @Test
+    public void testSendRequestFailure() throws ClientException, IOException {
+        doThrow(new IOException()).when(dataOutputStream).writeUTF(anyString());
+
+        assertThrows(ClientException.class, () -> streamConnector.sendRequest(""));
+    }
+
+    @Test
     public void testGetResponse() throws IOException {
         final InfoDtoResponse infoDtoResponse = new InfoDtoResponse(
                 ResponseStatus.SUCCESS.text,
                 ResponseInfoMessage.SUCCESS_LOGOUT.message);
         final String string = jsonConverter.getJsonFromObject(infoDtoResponse);
+
         when(dataInputStream.readUTF()).thenReturn(string);
+
         assertDoesNotThrow(() -> streamConnector.sendRequest(string));
+    }
+
+
+    @Test
+    public void testGetResponseFailure() throws IOException {
+        when(dataInputStream.readUTF()).thenThrow(IOException.class);
+
+        assertThrows(ClientException.class, streamConnector::getResponse);
     }
 }

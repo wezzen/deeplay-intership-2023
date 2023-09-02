@@ -110,6 +110,7 @@ public class GameController {
             switch (action.type()) {
                 case TURN -> turn(clientColor, action);
                 case PASS -> pass(token);
+                default -> throw new ClientException(ClientErrorCode.WRONG_INPUT);
             }
             return streamConnector.getResponse();
         } catch (ClientException ex) {
