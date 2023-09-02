@@ -62,7 +62,7 @@ public class GameController {
     }
 
     public FinishGameDtoResponse processingGame() throws ClientException {
-        BaseDtoResponse response = new BaseDtoResponse("", "");
+        BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
         Stone[][] field = new Board().getField();
 
         while (!isFinish(response)) {

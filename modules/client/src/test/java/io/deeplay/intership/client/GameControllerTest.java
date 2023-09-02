@@ -41,7 +41,7 @@ public class GameControllerTest {
                 size,
                 gameId);
         final CreateGameDtoResponse dtoResponse = new CreateGameDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_CREATE_GAME.message,
                 gameId);
 
@@ -64,7 +64,7 @@ public class GameControllerTest {
                 size,
                 gameId);
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_CREATE_GAME.message);
 
         when(decisionMaker.getGameConfig()).thenReturn(gameConfig);
@@ -104,7 +104,7 @@ public class GameControllerTest {
                 size,
                 gameId);
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_CREATE_GAME.message);
 
         when(decisionMaker.getGameConfig()).thenReturn(gameConfig);
@@ -123,7 +123,7 @@ public class GameControllerTest {
                 row,
                 column);
         final ActionDtoResponse dtoResponse = new ActionDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_TURN.message,
                 new Stone[fieldSize][fieldSize]);
         gameController.setColor(Color.BLACK);
@@ -134,7 +134,7 @@ public class GameControllerTest {
         var result = gameController.defineGameAction();
         assertAll(
                 () -> assertDoesNotThrow(gameController::defineGameAction),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, result.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, result.message)
         );
     }
@@ -149,7 +149,7 @@ public class GameControllerTest {
                 row,
                 column);
         final ActionDtoResponse dtoResponse = new ActionDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_PASS.message,
                 new Stone[fieldSize][fieldSize]);
         gameController.setColor(Color.BLACK);
@@ -160,7 +160,7 @@ public class GameControllerTest {
         var result = gameController.defineGameAction();
         assertAll(
                 () -> assertDoesNotThrow(gameController::defineGameAction),
-                () -> assertEquals(ResponseStatus.SUCCESS.text, result.status),
+                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, result.message)
         );
     }
@@ -182,7 +182,7 @@ public class GameControllerTest {
     @Test
     public void testIsFinishSuccess() {
         final FinishGameDtoResponse dtoResponse = new FinishGameDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
                 10,
                 20);
@@ -192,7 +192,7 @@ public class GameControllerTest {
     @Test
     public void testIsFinishFailure() {
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message);
         assertFalse(gameController.isFinish(dtoResponse));
     }

@@ -177,7 +177,7 @@ public class ClientHandler implements Runnable {
 
     public String endGame() {
         return converter.getJsonFromObject(new FinishGameDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
                 0,
                 7));
