@@ -45,7 +45,7 @@ public class StreamConnectorTest {
     @Test
     public void testGetResponse() throws IOException {
         final InfoDtoResponse infoDtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_LOGOUT.message);
         final String string = jsonConverter.getJsonFromObject(infoDtoResponse);
 

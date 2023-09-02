@@ -36,7 +36,7 @@ public class AuthorizationControllerTest {
         final String password = UUID.randomUUID().toString();
         final LoginPassword loginPassword = new LoginPassword(RequestType.REGISTRATION, login, password);
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message);
 
         when(streamConnector.getResponse()).thenReturn(dtoResponse);
@@ -55,7 +55,7 @@ public class AuthorizationControllerTest {
         final String token = UUID.randomUUID().toString();
         final LoginPassword loginPassword = new LoginPassword(RequestType.LOGIN, login, password);
         final LoginDtoResponse dtoResponse = new LoginDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message,
                 token);
 
@@ -72,7 +72,7 @@ public class AuthorizationControllerTest {
                 decisionMaker);
         final String token = UUID.randomUUID().toString();
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_LOGOUT.message);
 
         when(streamConnector.getResponse()).thenReturn(dtoResponse);
@@ -94,7 +94,7 @@ public class AuthorizationControllerTest {
                 login,
                 password);
         final LoginDtoResponse loginDtoResponse = new LoginDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_AUTHORIZATION.message,
                 token);
 
@@ -125,7 +125,7 @@ public class AuthorizationControllerTest {
                 login,
                 password);
         final InfoDtoResponse registrationDtoResponse = new InfoDtoResponse(
-                ResponseStatus.SUCCESS.text,
+                ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_REGISTRATION.message);
 
         //Проверка, что за несколько итераций нельзя выйти из цикла авторизации
