@@ -141,7 +141,7 @@ public class GameService {
         }
     }
 
-    public InfoDtoResponse surrenderGame(final SurrenderDtoRequest dtoRequest) {
+    public InfoDtoResponse surrenderGame(final SurrenderDtoRequest dtoRequest) throws ServerException{
         return null;
     }
 
@@ -152,11 +152,6 @@ public class GameService {
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
                 score.blackPoints(),
                 score.whitePoints());
-    }
-
-    public GameSession getSessionByUserToken(final String token) throws ServerException {
-        final Player player = findPlayerByToken(token);
-        return findGameSessionById(PLAYER_TO_GAME.get(player));
     }
 
     private GameSession findGameSessionById(final String gameId) throws ServerException {
