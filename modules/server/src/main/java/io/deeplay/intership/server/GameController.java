@@ -57,8 +57,13 @@ public class GameController {
         final String message = String.format("Client %d send surrender game", clientId);
         logger.debug(message);
 
-        final InfoDtoResponse response = gameService.surrenderGame(dtoRequest);
-        return jsonConverter.getJsonFromObject(response);
+        try {
+            final InfoDtoResponse response = gameService.surrenderGame(dtoRequest);
+            return jsonConverter.getJsonFromObject(response);
+        } catch (ServerException ex) {
+            logger.debug("Clients operation 'surrender' was failed");
+            return getFailureResponse(ex);
+        }
     }
 
     public String turn(TurnDtoRequest dtoRequest) {
@@ -70,9 +75,6 @@ public class GameController {
             return jsonConverter.getJsonFromObject(response);
         } catch (ServerException ex) {
             logger.debug("Clients operation 'turn' was failed");
-            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
-
-            }
             return getFailureResponse(ex);
         }
     }
@@ -93,11 +95,5 @@ public class GameController {
     private String getFailureResponse(ServerException ex) {
         final FailureDtoResponse dtoResponse = new FailureDtoResponse(ResponseStatus.FAILURE, ex.message);
         return jsonConverter.getJsonFromObject(dtoResponse);
-    }
-
-    private void notifyOpponent(final String token) throws ServerException{
-//        var res = gameService.getSessionByUserToken(token);
-//        res.getBlackPlayer().login();
-
     }
 }
