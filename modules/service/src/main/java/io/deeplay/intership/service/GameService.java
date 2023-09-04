@@ -6,10 +6,7 @@ import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
-import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Player;
-import io.deeplay.intership.model.Stone;
-import io.deeplay.intership.model.User;
+import io.deeplay.intership.model.*;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
@@ -21,17 +18,18 @@ import java.util.concurrent.ConcurrentMap;
  * и управление игровыми сессиями.
  */
 public class GameService {
+    private final Logger logger = Logger.getLogger(GameService.class);
     private static final ConcurrentMap<String, GameSession> ID_TO_GAME_SESSION = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Player> ACTIVE_PLAYERS = new ConcurrentHashMap<>();
     private static final ConcurrentMap<Player, String> PLAYER_TO_GAME = new ConcurrentHashMap<>();
     private final UserService userService;
     private final Validator dtoValidator;
-    private final Logger logger;
+    private final EntityConverter entityConverter;
 
     public GameService(UserService userService, Validator dtoValidator) {
-        this.logger = Logger.getLogger(GameService.class);
         this.userService = userService;
         this.dtoValidator = dtoValidator;
+        this.entityConverter = new EntityConverter();
     }
 
     public GameService() {
@@ -100,18 +98,21 @@ public class GameService {
         userService.findUserByToken(dtoRequest.token);
         final Player player = findPlayerByToken(dtoRequest.token);
         final GameSession gameSession = findGameSessionById(PLAYER_TO_GAME.get(player));
+        final Stone stone = entityConverter.turnDtoToModel(dtoRequest);
 
-        final Stone stone = new Stone(
-                Color.valueOf(dtoRequest.color),
-                dtoRequest.row,
-                dtoRequest.column);
-        Stone[][] gameField = gameSession.turn(player, stone);
-
-        logger.debug("Player was successfully make turn");
-        return new ActionDtoResponse(
-                ResponseStatus.SUCCESS,
-                ResponseInfoMessage.SUCCESS_TURN.message,
-                gameField);
+        try {
+            Stone[][] gameField = gameSession.turn(player, stone);
+            logger.debug("Player was successfully make turn");
+            return new ActionDtoResponse(
+                    ResponseStatus.SUCCESS,
+                    ResponseInfoMessage.SUCCESS_TURN.message,
+                    gameField);
+        } catch (ServerException ex) {
+            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+                finishGame(gameSession);
+            }
+            throw ex;
+        }
     }
 
     /**
@@ -121,24 +122,41 @@ public class GameService {
      * @return {@link ActionDtoResponse}, указывающий на успешное прохождение поворота.
      * @throws ServerException Если есть проблема с сервером.
      */
-    public ActionDtoResponse pass(final PassDtoRequest dtoRequest) throws ServerException {
+    public <T extends BaseDtoResponse> T pass(final PassDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationPassDto(dtoRequest);
         userService.findUserByToken(dtoRequest.token);
         final Player player = findPlayerByToken(dtoRequest.token);
         final GameSession gameSession = findGameSessionById(PLAYER_TO_GAME.get(player));
-        final Stone[][] gameField = gameSession.pass(player);
-        return new ActionDtoResponse(
-                ResponseStatus.SUCCESS,
-                ResponseInfoMessage.SUCCESS_PASS.message,
-                gameField);
+        try {
+            final Stone[][] gameField = gameSession.pass(player);
+            return (T) new ActionDtoResponse(
+                    ResponseStatus.SUCCESS,
+                    ResponseInfoMessage.SUCCESS_PASS.message,
+                    gameField);
+        } catch (ServerException ex) {
+            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+                return (T) finishGame(gameSession);
+            }
+            throw ex;
+        }
     }
 
     public InfoDtoResponse surrenderGame(final SurrenderDtoRequest dtoRequest) {
         return null;
     }
 
-    public FinishGameDtoResponse finishGame(final FinishGameDtoRequest dtoRequest) {
-        return null;
+    public FinishGameDtoResponse finishGame(final GameSession gameSession) {
+        final Score score = gameSession.getGameScore();
+        return new FinishGameDtoResponse(
+                ResponseStatus.SUCCESS,
+                ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
+                score.blackPoints(),
+                score.whitePoints());
+    }
+
+    public GameSession getSessionByUserToken(final String token) throws ServerException {
+        final Player player = findPlayerByToken(token);
+        return findGameSessionById(PLAYER_TO_GAME.get(player));
     }
 
     private GameSession findGameSessionById(final String gameId) throws ServerException {

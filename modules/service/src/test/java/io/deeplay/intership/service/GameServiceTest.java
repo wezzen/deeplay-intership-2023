@@ -1,13 +1,9 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.dto.response.ResponseInfoMessage;
-import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.*;
-import io.deeplay.intership.dto.response.ActionDtoResponse;
-import io.deeplay.intership.dto.response.CreateGameDtoResponse;
-import io.deeplay.intership.dto.response.LoginDtoResponse;
+import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -259,8 +255,8 @@ public class GameServiceTest {
     @Test
     public void testFinishGame() {
         final String gameId = UUID.randomUUID().toString();
-        final FinishGameDtoRequest dtoRequest = new FinishGameDtoRequest(gameId);
-        assertDoesNotThrow(() -> gameService.finishGame(dtoRequest));
+        final GameSession gameSession = new GameSession(gameId);
+        assertDoesNotThrow(() -> gameService.finishGame(gameSession));
     }
 
     @Test
