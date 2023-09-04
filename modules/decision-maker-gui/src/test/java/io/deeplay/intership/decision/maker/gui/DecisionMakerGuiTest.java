@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DecisionMakerGuiTest {
     @Test
     public void decisionMakerTest(){
-        ScannerGui scannerGui = new ScannerGui(1, "Aboba", "322", 1, 1, Color.WHITE, 555);
+        ScannerGui scannerGui = new ScannerGui(1, "Aboba", "322", 1, 1, Color.WHITE, 555, true);
         DecisionMakerGui decisionMakerGui = new DecisionMakerGui(scannerGui);
         assertAll(
                 () -> assertNotNull(decisionMakerGui.getLoginPassword()),

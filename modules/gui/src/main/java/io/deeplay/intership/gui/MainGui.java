@@ -1,8 +1,11 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
+
 public class MainGui  {
     public static void main(String[] args) {
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         drawGui.start();
     }
 }

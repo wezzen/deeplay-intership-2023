@@ -36,12 +36,16 @@ public class StartGamePanel implements Panel {
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
+        jButtonCreate.setSelected(false);
+        jButtonJoin.setSelected(false);
+        jButtonLogout.setSelected(false);
+        jButtonExit.setSelected(false);
         jDialog.setVisible(false);
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         jPanel.setLayout(layout);
         jPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
         jPanel.add(jButtonCreate);

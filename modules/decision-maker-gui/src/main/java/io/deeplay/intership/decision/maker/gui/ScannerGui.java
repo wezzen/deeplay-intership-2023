@@ -10,33 +10,33 @@ public class ScannerGui {
     private int columnNumber;
     private int gameId;
     private int size;
-    private boolean withBot;
-    private Color color;
+    private int color;
     private boolean turn;
+    private boolean backStyle;
 
-    public ScannerGui(){
-        commandType = 0;
+    public ScannerGui() {
+        commandType = -1;
         password = "";
         login = "";
-        color = Color.EMPTY;
-        withBot = false;
+        color = 3;
         rowNumber = -1;
         columnNumber = -1;
         gameId = -1;
         turn = true;
+        this.backStyle = true;
         size = 9;
     }
 
-    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId){
+    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, boolean backStyle) {
         this.commandType = commandType;
         this.password = password;
         this.login = login;
-        this.color = color;
-        withBot = false;
+        this.color = 3;
         this.rowNumber = rowNumber;
         this.columnNumber = columnNumber;
         this.gameId = gameId;
         turn = true;
+        this.backStyle = backStyle;
         size = 9;
     }
 
@@ -77,7 +77,7 @@ public class ScannerGui {
         return gameId;
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
@@ -85,23 +85,15 @@ public class ScannerGui {
         this.gameId = gameId;
     }
 
-    public boolean isWithBot() {
-        return withBot;
-    }
-
-    public void setWithBot(boolean withBot) {
-        this.withBot = withBot;
-    }
-
-    public Color getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public void setSize(int size){ this.size = size; }
+    public void setSize(int size) { this.size = size; }
 
     public boolean isTurn() {
         return turn;
@@ -109,5 +101,13 @@ public class ScannerGui {
 
     public void setTurn(boolean turn) {
         this.turn = turn;
+    }
+
+    public boolean isBackStyle() {
+        return backStyle;
+    }
+
+    public void setBackStyle(boolean backStyle) {
+        this.backStyle = backStyle;
     }
 }

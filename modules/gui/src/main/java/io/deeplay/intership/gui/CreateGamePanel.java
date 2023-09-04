@@ -46,14 +46,20 @@ public class CreateGamePanel implements Panel {
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
+        buttonBot.setSelected(false);
+        buttonHuman.setSelected(false);
+        buttonBlack.setSelected(false);
+        buttonWhite.setSelected(false);
+        buttonSubmit.setSelected(false);
         jDialog.setVisible(false);
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         //jPanel.setLayout(layout);
-        jPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(40, 50, 60, 100));
+
         enemyLabel.setLocation(80, 50);
         buttonBot.setLocation(150, 50);
         buttonHuman.setLocation(220, 50);
@@ -61,13 +67,15 @@ public class CreateGamePanel implements Panel {
         buttonBlack.setLocation(150, 100);
         buttonWhite.setLocation(220, 100);
         buttonSubmit.setLocation(150, 200);
-        enemyLabel.setPreferredSize(new Dimension(80, 35));
+
+        enemyLabel.setPreferredSize(new Dimension(100, 35));
         buttonBot.setPreferredSize(new Dimension(80, 35));
         buttonHuman.setPreferredSize(new Dimension(80, 35));
-        colorLabel.setPreferredSize(new Dimension(80, 35));
+        colorLabel.setPreferredSize(new Dimension(100, 35));
         buttonBlack.setPreferredSize(new Dimension(80, 35));
         buttonWhite.setPreferredSize(new Dimension(80, 35));
         buttonSubmit.setPreferredSize(new Dimension(80, 35));
+
         jPanel.add(enemyLabel);
         jPanel.add(buttonBot);
         jPanel.add(buttonHuman);
@@ -82,19 +90,41 @@ public class CreateGamePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
+        if(line.equals("Black")) {
+            buttonWhite.setSelected(false);
+        }
+        if(line.equals("White")) {
+            buttonBlack.setSelected(false);
+        }
+        if(line.equals("Bot")) {
+            buttonHuman.setSelected(false);
+        }
+        if(line.equals("Human")) {
+            buttonBot.setSelected(false);
+        }
+
         if(line.equals("Submit")) {
-            if (buttonBot.isSelected()) {
-                drawGui.scannerGui.setWithBot(true);
-            } else if (buttonHuman.isSelected()) {
-                drawGui.scannerGui.setWithBot(false);
-            }
             if (buttonBlack.isSelected()) {
-                drawGui.scannerGui.setColor(Color.BLACK);
+                drawGui.scannerGui.setColor(2);
             } else if (buttonWhite.isSelected()) {
-                drawGui.scannerGui.setColor(Color.WHITE);
+                drawGui.scannerGui.setColor(1);
+            } else {
+                drawGui.scannerGui.setColor(3);
             }
-            drawGui.createGamePanel.hidePanel();
-            drawGui.gameFieldPanel.showPanel();
+
+            if (buttonBot.isSelected() || buttonHuman.isSelected()) {
+                if(buttonBot.isSelected()){
+                    drawGui.scannerGui.setCommandType(1);
+                }
+                else {
+                    drawGui.scannerGui.setCommandType(2);
+                }
+                drawGui.createGamePanel.hidePanel();
+                drawGui.gameFieldPanel.showPanel();
+            }
+            else {
+                drawGui.showMessage("Ошибка", "Выберите с кем играть!");
+            }
         }
     }
 }
