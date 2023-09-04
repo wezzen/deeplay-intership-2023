@@ -4,5 +4,6 @@ public enum GameCode {
     TURNED,
     PASSED,
     FINISHED,
+    INVALID_MOVE,
     ;
 }

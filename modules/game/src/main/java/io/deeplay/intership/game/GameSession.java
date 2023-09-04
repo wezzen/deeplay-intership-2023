@@ -5,6 +5,7 @@ import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.exception.game.GameException;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Player;
+import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 
 /**
@@ -123,9 +124,26 @@ public class GameSession {
         isFinishedGame();
         checkTurnOrder(player);
 
-        Stone[][] gameField = game.skipTurn(Color.valueOf(player.color()));
-        changePlayerTurn();
-        return getFieldCopy(gameField);
+        try {
+            Stone[][] gameField = game.skipTurn(Color.valueOf(player.color()));
+            changePlayerTurn();
+            return getFieldCopy(gameField);
+        } catch (GameException e) {
+            throw new ServerException(ErrorCode.GAME_WAS_FINISHED);
+        }
+
+    }
+
+    public Score getGameScore() {
+        return game.getGameScore();
+    }
+
+    public Player getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public Player getWhitePlayer() {
+        return whitePlayer;
     }
 
     /**
