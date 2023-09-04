@@ -38,6 +38,7 @@ public class Game {
 
     /**
      * Начинает игру, запускает логгер.
+     *
      * @return {@link Stone} массив изначального состояния доски
      */
     public Board startGame() {
@@ -47,12 +48,14 @@ public class Game {
 
     /**
      * Реализует пропуск хода, через цвет понимаем, кто именно пропускает ход.
+     *
      * @param color цвет игрока, который пропускает ход
      * @return {@link Stone} возвращаем массив нового состояния доски
      */
-    public Stone[][] skipTurn(Color color) {
-        if (!checkGameOver.canSkipTurn()) {
-            endGame();
+    public Stone[][] skipTurn(Color color) throws GameException {
+        if (!checkGameOver.canSkipTurn() || gameIsOver) {
+            gameIsOver = true;
+            throw new GameException(GameCode.FINISHED);
         }
         gameLog.skipMove(color);
         return board.getField();
@@ -61,11 +64,16 @@ public class Game {
     /**
      * Позволяет клиенту сделать ход в той позиции, в которой находится
      * поданный на вход Stone. Также здесь происходят групповые преобразования.
+     *
      * @param stone позиция, в которую делаем ход
      * @return {@link Stone} массив измененного состояния доски
      * @throws GameException при возникновении проблемы игрового процесса
      */
     public Stone[][] makeMove(Stone stone) throws GameException {
+        if (gameIsOver) {
+            throw new GameException(GameCode.FINISHED);
+        }
+
         if (!checkGameOver.canMakeMove(stone.getColor())) {
             //если у игрока не осталось камней, то автоматически засчитывается пропуск хода
             skipTurn(stone.getColor());
@@ -95,11 +103,11 @@ public class Game {
      * проверяем при ходах, не закончилась ли игра.
      * Также подсчитываем очки, передавая доску классу ScoreCalculator.
      */
-    public void endGame() {
+    public Score getGameScore() {
         this.gameIsOver = true;
-        ScoreCalculator scoreCalculator = new ScoreCalculator(board.getField());
-        Score score = scoreCalculator.getTotalScore();
+        final Score score = new ScoreCalculator(board.getField()).getTotalScore();
         gameLog.endGame(score.whitePoints() - score.blackPoints());
+        return score;
     }
 
     public boolean gameIsOver() {
@@ -108,8 +116,9 @@ public class Game {
 
     /**
      * Реализует прибавление конкретному игроку заработанных очков.
+     *
      * @param points очки, которые нужно прибавить к имеющимся
-     * @param color цвет игрока, который их заработал
+     * @param color  цвет игрока, который их заработал
      */
     private void addPoints(final int points, final Color color) {
         if (color == Color.BLACK) {

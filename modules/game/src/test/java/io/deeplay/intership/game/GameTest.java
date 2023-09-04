@@ -29,7 +29,7 @@ public class GameTest {
         final Color blackColor = Color.BLACK;
 
         assertDoesNotThrow(() -> game.skipTurn(whiteColor));
-        assertDoesNotThrow(() -> game.skipTurn(blackColor));
+        assertThrows(GameException.class, () -> game.skipTurn(blackColor));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class GameTest {
     @Test
     public void testEndGame() {
         final Game game = new Game();
-        assertDoesNotThrow(game::endGame);
+        assertDoesNotThrow(game::getGameScore);
     }
 
     @Test
@@ -78,13 +78,17 @@ public class GameTest {
     }
 
     @Test
-    public void testGameIsOverTrue() {
+    public void testGameIsOverTrue() throws GameException {
         final Game game = new Game();
         final Color whiteColor = Color.WHITE;
         final Color blackColor = Color.BLACK;
 
         game.skipTurn(whiteColor);
-        game.skipTurn(blackColor);
+        try {
+            game.skipTurn(blackColor);
+        } catch (GameException ex) {
+
+        }
 
         assertDoesNotThrow(game::gameIsOver);
         assertTrue(game::gameIsOver);
