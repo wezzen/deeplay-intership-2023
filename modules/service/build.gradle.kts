@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":dao"))
     implementation(project(":dto"))
     implementation(project(":model"))
     implementation(project(":game"))
