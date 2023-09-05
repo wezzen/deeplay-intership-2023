@@ -30,7 +30,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final JButton buttonPass;
     public final JButton buttonSurrender;
     public final JLabel gameId;
-    public final String resourceDir = "modules/gui/src/main/resources/";
+    public final String resourceDir = "gui/src/main/resources/";
     public final String[] actionNames = new String[]{"Move", "Pass", "Give up"};
     public final String boardFileName = resourceDir + "board/board.jpg";
     public final String whiteStoneFileName = resourceDir + "stone/white_stone.png";
@@ -71,8 +71,8 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     private void drawLine(Line line) {
-        float[] hsb = getHsbColor(lineColor.getRgbColor());
-        graphics2D.setColor(java.awt.Color.getHSBColor(hsb[0], hsb[1], hsb[2]));
+        int[] rgb = lineColor.getRgbColor();
+        graphics2D.setColor(java.awt.Color.getHSBColor(rgb[0], rgb[1], rgb[2]));
         graphics2D.drawLine(line.x1(), line.y1(), line.x2(), line.y2());
     }
 
@@ -103,21 +103,23 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             int[] rgb = figure.rgbColor().getRgbColor();
             graphics2D.setColor(new java.awt.Color(rgb[0], rgb[1], rgb[2]));
-            graphics2D.fillOval(figure.x(), figure.y(), figure.size(),  figure.size());
+            graphics2D.fillOval(figure.x() - sizeOfStone / 2,
+                    figure.y() - sizeOfStone / 2,
+                    figure.size(),  figure.size());
         }
     }
 
-    private float[] getHsbColor(int[] rgbColor) {
+    /*private float[] getHsbColor(int[] rgbColor) {
         return java.awt.Color.RGBtoHSB(rgbColor[0], rgbColor[1], rgbColor[2], new float[3]);
-    }
+    }*/
 
-    public Color getColor(){
+    public Color getColor() {
         System.out.println("Color = " + drawGui.scannerGui.getColor());
         if(drawGui.scannerGui.getColor() == 1){
-            return Color.WHITE;
+            return Color.BLACK;
         }
         else if(drawGui.scannerGui.getColor() == 2){
-            return Color.BLACK;
+            return Color.WHITE;
         }
         else {
             return Color.EMPTY;

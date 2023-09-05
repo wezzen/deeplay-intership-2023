@@ -94,22 +94,26 @@ public class CreateGamePanel implements Panel {
         String line = e.getActionCommand();
         if(line.equals("Black")) {
             buttonWhite.setSelected(false);
+            buttonBlack.setSelected(true);
         }
         if(line.equals("White")) {
+            buttonWhite.setSelected(true);
             buttonBlack.setSelected(false);
         }
         if(line.equals("Bot")) {
             buttonHuman.setSelected(false);
+            buttonBot.setSelected(true);
         }
         if(line.equals("Human")) {
+            buttonHuman.setSelected(true);
             buttonBot.setSelected(false);
         }
 
         if(line.equals("Submit")) {
-            if (buttonBlack.isSelected()) {
-                drawGui.scannerGui.setColor(2);
-            } else if (buttonWhite.isSelected()) {
+            if (buttonWhite.isSelected()) {
                 drawGui.scannerGui.setColor(1);
+            } else if (buttonBlack.isSelected()) {
+                drawGui.scannerGui.setColor(2);
             } else {
                 drawGui.scannerGui.setColor(3);
             }

@@ -84,8 +84,10 @@ public class JoinGamePanel implements Panel {
         String line = e.getActionCommand();
         if(line.equals("Black")) {
             buttonWhite.setSelected(false);
+            buttonBlack.setSelected(true);
         }
         if(line.equals("White")) {
+            buttonWhite.setSelected(true);
             buttonBlack.setSelected(false);
         }
         if(line.equals("Submit")) {

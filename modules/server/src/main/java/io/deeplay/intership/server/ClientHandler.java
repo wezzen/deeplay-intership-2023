@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 public class ClientHandler implements Runnable {
     private static final AtomicInteger clientIdCounter = new AtomicInteger(1);
     private final Logger logger = Logger.getLogger(ClientHandler.class);

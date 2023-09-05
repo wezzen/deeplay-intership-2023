@@ -13,6 +13,7 @@ public class DrawGui implements UserInterface {
     public final CreateGamePanel createGamePanel;
     public final JoinGamePanel joinGamePanel;
     public final GameFieldPanel gameFieldPanel;
+    private Panel currentPanel;
     public final ScannerGui scannerGui;
 
     public DrawGui(ScannerGui scannerGui) {
@@ -24,6 +25,7 @@ public class DrawGui implements UserInterface {
         startGamePanel = new StartGamePanel(this);
         createGamePanel = new CreateGamePanel(this);
         joinGamePanel = new JoinGamePanel(this);
+        currentPanel = initialPanel;
     }
 
     public void start() {
@@ -48,7 +50,7 @@ public class DrawGui implements UserInterface {
             startGamePanel.showPanel();
             startGamePanel.isVisible = true;
             initialPanel.isVisible = false;
-            gameFieldPanel.isVisible = false;
+            gameFieldPanel.isVisible = true;
         }
     }
 
@@ -84,10 +86,10 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showMoveRules() {
-        if(!gameFieldPanel.isVisible) {
+        /*if(!gameFieldPanel.isVisible) {
             gameFieldPanel.showPanel();
             gameFieldPanel.isVisible = true;
-        }
+        }*/
     }
 
     @Override
