@@ -10,31 +10,27 @@ import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
-import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.User;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Класс {@code UserService} предоставляет функциональные возможности для аутентификации, регистрации и управления
  * пользователями.
  */
 public class UserService {
-    private static final String CREDENTIALS_FILE_NAME = "credentials.txt";
-    private static final ConcurrentMap<String, User> AUTHORIZED_USERS = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, User> LOGIN_TO_USER = new ConcurrentHashMap<>();
     private final Logger logger = Logger.getLogger(UserService.class);
-    private final Validator dtoValidator;
     private final UserDao userDao;
 
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     public UserService() {
-        dtoValidator = new Validator();
-        userDao = new UserDaoImpl();
+        this(new UserDaoImpl());
     }
 
     /**
@@ -55,8 +51,6 @@ public class UserService {
      * @throws ServerException Если при авторизации возникает ошибка.
      */
     public LoginDtoResponse authorization(final LoginDtoRequest dtoRequest) throws ServerException {
-        dtoValidator.validationLoginDto(dtoRequest);
-
         User currentUser = userDao.getUserByLogin(dtoRequest.login)
                 .orElseThrow(() -> new ServerException(ServerErrorCode.NOT_FOUND_LOGIN));
         if (!currentUser.passwordHash().equals(dtoRequest.passwordHash)) {
@@ -82,8 +76,6 @@ public class UserService {
      * @throws ServerException Если при регистрации возникает ошибка.
      */
     public InfoDtoResponse register(final RegistrationDtoRequest dtoRequest) throws ServerException {
-        dtoValidator.validationRegistrationDto(dtoRequest);
-
         if (userDao.getUserByLogin(dtoRequest.login).isPresent()) {
             throw new ServerException(ServerErrorCode.LOGIN_IS_EXIST);
         }
@@ -103,27 +95,10 @@ public class UserService {
      * @throws ServerException Если во время выхода из системы возникает ошибка.
      */
     public InfoDtoResponse logout(final LogoutDtoRequest dtoRequest) throws ServerException {
-        dtoValidator.validationLogoutDto(dtoRequest);
-
         userDao.getUserByToken(dtoRequest.token);
         userDao.removeAuth(dtoRequest.token);
 
         logger.debug("User was successfully logout");
         return new InfoDtoResponse(ResponseStatus.SUCCESS, ResponseInfoMessage.SUCCESS_LOGOUT.message);
-    }
-
-    /**
-     * Находит пользователя по его токену аутентификации.
-     *
-     * @param token Маркер аутентификации пользователя.
-     * @return {@link User}, если он найден, или пустой, если
-     * * пользователь с таким логином не найден не найден.
-     */
-    public User findUserByToken(final String token) throws ServerException {
-        User user = AUTHORIZED_USERS.get(token);
-        if (user == null) {
-            throw new ServerException(ServerErrorCode.NOT_AUTHORIZED);
-        }
-        return user;
     }
 }

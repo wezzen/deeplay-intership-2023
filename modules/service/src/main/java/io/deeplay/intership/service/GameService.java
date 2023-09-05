@@ -31,11 +31,14 @@ public class GameService {
     private final UserDao userDao;
     private final GameDao gameDao;
 
+    public GameService(ConcurrentMap<String, GameSession> idToGameSession, UserDao userDao, GameDao gameDao) {
+        this.idToGameSession = idToGameSession;
+        this.userDao = userDao;
+        this.gameDao = gameDao;
+    }
 
     public GameService(ConcurrentMap<String, GameSession> idToGameSession) {
-        this.idToGameSession = idToGameSession;
-        this.userDao = new UserDaoImpl();
-        this.gameDao = new GameDaoImpl();
+        this(idToGameSession, new UserDaoImpl(), new GameDaoImpl());
     }
 
     /**
