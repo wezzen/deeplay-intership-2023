@@ -21,12 +21,11 @@ public class Server {
         logger.info("Port number " + PORT);
         final ExecutorService executorService = Executors.newCachedThreadPool();
         final ConcurrentMap<String, GameSession> idToGameSession = new ConcurrentHashMap<>();
-        final ConcurrentMap<Player, String> playerToGame = new ConcurrentHashMap<>();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
+            while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
-                executorService.execute(new ClientHandler(clientSocket, idToGameSession, playerToGame));
+                executorService.execute(new ClientHandler(clientSocket, idToGameSession));
             }
         } catch (IOException ex) {
             logger.debug(ex.getMessage());
