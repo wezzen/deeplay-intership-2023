@@ -3,12 +3,15 @@ package io.deeplay.intership.server;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -18,15 +21,17 @@ import static org.mockito.Mockito.when;
 public class ClientHandlerTest {
     private final UserController userController = mock(UserController.class);
     private final GameController gameController = mock(GameController.class);
+    private final GameplayController gameplayController = mock(GameplayController.class);
     private final JSONConverter converter = mock(JSONConverter.class);
 
     @Test
     public void testConstructors() {
         final Socket socket = new Socket();
+        final ConcurrentMap<String, GameSession> map = new ConcurrentHashMap<>();
 
         assertAll(
-                () -> assertDoesNotThrow(() -> new ClientHandler(socket)),
-                () -> assertDoesNotThrow(() -> new ClientHandler(socket, userController, gameController, converter))
+                () -> assertDoesNotThrow(() -> new ClientHandler(socket, map)),
+                () -> assertDoesNotThrow(() -> new ClientHandler(socket, userController, gameController, gameplayController, converter))
         );
     }
 
@@ -36,7 +41,7 @@ public class ClientHandlerTest {
         final int size = 9;
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final CreateGameDtoRequest createGame = new CreateGameDtoRequest(
                 true,
                 color,
@@ -56,7 +61,7 @@ public class ClientHandlerTest {
         final int size = 9;
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final CreateGameDtoRequest createGame = new CreateGameDtoRequest(
                 true,
                 color,
@@ -79,7 +84,7 @@ public class ClientHandlerTest {
     public void testDefineCommand2() {
         final String gameId = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
         final String request = converter.getJsonFromObject(finishGame);
 
@@ -95,7 +100,7 @@ public class ClientHandlerTest {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final RegistrationDtoRequest registration = new RegistrationDtoRequest(login, password);
         final String request = converter.getJsonFromObject(registration);
 
@@ -111,7 +116,7 @@ public class ClientHandlerTest {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final RegistrationDtoRequest registration = new RegistrationDtoRequest(login, password);
         final String request = converter.getJsonFromObject(registration);
 
@@ -131,7 +136,7 @@ public class ClientHandlerTest {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final LoginDtoRequest loginDto = new LoginDtoRequest(login, password);
         final String request = converter.getJsonFromObject(loginDto);
 
@@ -147,7 +152,7 @@ public class ClientHandlerTest {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final LoginDtoRequest loginDto = new LoginDtoRequest(login, password);
         final String request = converter.getJsonFromObject(loginDto);
 
@@ -166,7 +171,7 @@ public class ClientHandlerTest {
     public void testDefineCommand5() {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final LogoutDtoRequest logout = new LogoutDtoRequest(token);
         final String request = converter.getJsonFromObject(logout);
 
@@ -181,7 +186,7 @@ public class ClientHandlerTest {
     public void testDefineCommand5_Failure() throws ServerException {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
         final LogoutDtoRequest logout = new LogoutDtoRequest(token);
         final String request = converter.getJsonFromObject(logout);
 
@@ -202,7 +207,7 @@ public class ClientHandlerTest {
         final String token = UUID.randomUUID().toString();
         final String color = Color.WHITE.name();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final JoinGameDtoRequest joinGame = new JoinGameDtoRequest(gameId, token, color);
         final String request = converter.getJsonFromObject(joinGame);
@@ -220,7 +225,7 @@ public class ClientHandlerTest {
         final String token = UUID.randomUUID().toString();
         final String color = Color.WHITE.name();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final JoinGameDtoRequest joinGame = new JoinGameDtoRequest(gameId, token, color);
         final String request = converter.getJsonFromObject(joinGame);
@@ -243,7 +248,7 @@ public class ClientHandlerTest {
         final int row = 1;
         final int column = 3;
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final TurnDtoRequest turn = new TurnDtoRequest(color, row, column, token);
         final String request = converter.getJsonFromObject(turn);
@@ -262,13 +267,13 @@ public class ClientHandlerTest {
         final int row = 1;
         final int column = 3;
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final TurnDtoRequest turn = new TurnDtoRequest(color, row, column, token);
         final String request = converter.getJsonFromObject(turn);
 
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(turn);
-        when(gameController.turn(mock(TurnDtoRequest.class)))
+        when(gameplayController.turn(mock(TurnDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
                 });
@@ -282,7 +287,7 @@ public class ClientHandlerTest {
     public void testDefineCommand8() {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final PassDtoRequest passGame = new PassDtoRequest(token);
         final String request = converter.getJsonFromObject(passGame);
@@ -298,13 +303,13 @@ public class ClientHandlerTest {
     public void testDefineCommand8_Failure() throws ServerException {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final PassDtoRequest passGame = new PassDtoRequest(token);
         final String request = converter.getJsonFromObject(passGame);
 
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(passGame);
-        when(gameController.pass(mock(PassDtoRequest.class)))
+        when(gameplayController.pass(mock(PassDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
                 });
@@ -318,7 +323,7 @@ public class ClientHandlerTest {
     public void testDefineCommand9() {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final SurrenderDtoRequest surrender = new SurrenderDtoRequest(token);
         final String request = converter.getJsonFromObject(surrender);
@@ -334,13 +339,13 @@ public class ClientHandlerTest {
     public void testDefineCommand9_Failure() {
         final String token = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final SurrenderDtoRequest surrender = new SurrenderDtoRequest(token);
         final String request = converter.getJsonFromObject(surrender);
 
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(surrender);
-        when(gameController.surrenderGame(mock(SurrenderDtoRequest.class)))
+        when(gameplayController.surrenderGame(mock(SurrenderDtoRequest.class)))
                 .thenAnswer(invocation -> {
                     throw new ServerException(ErrorCode.SERVER_EXCEPTION);
                 });
@@ -354,7 +359,7 @@ public class ClientHandlerTest {
     public void testDefineCommand10() {
         final String gameId = UUID.randomUUID().toString();
         final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, converter);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController, converter);
 
         final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
         final String request = converter.getJsonFromObject(finishGame);
