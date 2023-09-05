@@ -39,7 +39,6 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        new Client();
         token = authorizationController.authorizeClient();
         while (true) {
             try {
