@@ -25,11 +25,15 @@ public class GameplayService {
     private final UserDao userDao;
     private final GameDao gameDao;
 
-    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession) {
+    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession, UserDao userDao, GameDao gameDao) {
         this.idToGameSession = idToGameSession;
         this.entityConverter = new EntityConverter();
-        this.userDao = new UserDaoImpl();
-        this.gameDao = new GameDaoImpl();
+        this.userDao = userDao;
+        this.gameDao = gameDao;
+    }
+
+    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession) {
+        this(idToGameSession, new UserDaoImpl(), new GameDaoImpl());
     }
 
     /**
