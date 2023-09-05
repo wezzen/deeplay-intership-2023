@@ -20,7 +20,7 @@ public class DecisionMakerGuiTest {
                 () -> assertEquals(scannerGui.getPassword(), "322"),
                 () -> assertEquals(scannerGui.getRowNumber(), 1),
                 () -> assertEquals(scannerGui.getColumnNumber(), 1),
-                () -> assertEquals(scannerGui.getColor(), Color.WHITE),
+                () -> assertEquals(scannerGui.getColor(), 3),
                 () -> assertEquals(scannerGui.getGameId(), 555)
         );
     }
