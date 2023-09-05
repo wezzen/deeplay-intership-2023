@@ -12,6 +12,7 @@ public class EntrancePanel implements Panel {
     public final JTextField jTextLogin;
     public final JButton jButtonSubmit;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public EntrancePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -21,6 +22,7 @@ public class EntrancePanel implements Panel {
         jTextPassword = new JTextField( 32);
         jButtonSubmit = new JButton("Submit");
         jButtonSubmit.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 

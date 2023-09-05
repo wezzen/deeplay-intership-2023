@@ -17,6 +17,7 @@ public class CreateGamePanel implements Panel {
     public final JRadioButton buttonBlack;
     public final JRadioButton buttonWhite;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public CreateGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -37,6 +38,7 @@ public class CreateGamePanel implements Panel {
         buttonBlack.addActionListener(this);
         buttonWhite = new JRadioButton("White");
         buttonWhite.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 

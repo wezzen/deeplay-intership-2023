@@ -36,15 +36,20 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showAuthorizationActions() {
-        if(scannerGui.getCommandType() != 1) {
+        if(!initialPanel.isVisible) {
             initialPanel.showPanel();
-            scannerGui.setCommandType(1);
+            initialPanel.isVisible = true;
         }
     }
 
     @Override
     public void showRoomActions() {
-        startGamePanel.showPanel();
+        if(!startGamePanel.isVisible) {
+            startGamePanel.showPanel();
+            startGamePanel.isVisible = true;
+            initialPanel.isVisible = false;
+            gameFieldPanel.isVisible = false;
+        }
     }
 
     @Override
@@ -79,12 +84,18 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showMoveRules() {
-        gameFieldPanel.showPanel();
+        if(!gameFieldPanel.isVisible) {
+            gameFieldPanel.showPanel();
+            gameFieldPanel.isVisible = true;
+        }
     }
 
     @Override
     public void showBoard(Stone[][] gameField) {
-        gameFieldPanel.showPanel();
+        if(!gameFieldPanel.isVisible) {
+            gameFieldPanel.showPanel();
+            gameFieldPanel.isVisible = true;
+        }
     }
 
     @Override

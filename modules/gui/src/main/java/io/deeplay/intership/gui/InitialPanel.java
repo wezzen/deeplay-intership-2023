@@ -13,6 +13,7 @@ public class InitialPanel implements Panel {
     public final JButton jButtonLogin;
     public final JButton jButtonExit;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public InitialPanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -26,6 +27,7 @@ public class InitialPanel implements Panel {
         jButtonLogin.addActionListener(this);
         jButtonExit = new JButton("Exit");
         jButtonExit.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 

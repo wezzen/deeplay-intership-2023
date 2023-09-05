@@ -16,6 +16,7 @@ public class JoinGamePanel implements Panel {
     public final JRadioButton buttonWhite;
     public final JButton buttonSubmit;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public JoinGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -31,6 +32,7 @@ public class JoinGamePanel implements Panel {
         buttonWhite.addActionListener(this);
         buttonSubmit = new JButton("Submit");
         buttonSubmit.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 

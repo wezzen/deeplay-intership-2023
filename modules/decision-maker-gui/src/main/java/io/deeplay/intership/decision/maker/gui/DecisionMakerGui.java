@@ -10,7 +10,7 @@ import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 
 public class DecisionMakerGui implements DecisionMaker {
-    private final ScannerGui scannerGui;
+    public final ScannerGui scannerGui;
 
     public DecisionMakerGui(ScannerGui scannerGui) {
         this.scannerGui = scannerGui;

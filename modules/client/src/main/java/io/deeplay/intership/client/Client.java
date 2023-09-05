@@ -2,9 +2,12 @@ package io.deeplay.intership.client;
 
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
+import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
+import io.deeplay.intership.gui.DrawGui;
 import io.deeplay.intership.ui.terminal.Display;
 
 import java.io.DataInputStream;
@@ -17,7 +20,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class Client {
-    private static final String CONFIG_PATH = "src/main/resources/config.properties";
+    private static final String CONFIG_PATH = "modules/client/src/main/resources/config.properties";
     private static String host;
     private static int port;
     private static Socket socket;
@@ -39,6 +42,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
+        new Client();
         token = authorizationController.authorizeClient();
         while (true) {
             try {
@@ -63,6 +67,7 @@ public class Client {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         streamConnector = new StreamConnector(writer, reader);
         gameController = new GameController(streamConnector, userInterface, decisionMaker);
         authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
@@ -82,7 +87,8 @@ public class Client {
         }
 
         if (isGUI) {
-            // ГУИ + ДМ
+            ScannerGui scannerGui = new ScannerGui();
+            init(new DrawGui(scannerGui), new DecisionMakerGui(scannerGui), host, port);
         } else {
             init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
         }

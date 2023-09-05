@@ -37,6 +37,8 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final String blackStoneFileName = resourceDir + "stone/black_stone.png";
     private Graphics2D graphics2D;
     private Color[][] field;
+    public boolean isVisible;
+    private Color color;
 
     public GameFieldPanel(DrawGui drawGui) {
         N = drawGui.scannerGui.getSize();
@@ -53,6 +55,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         this.drawGui = drawGui;
         this.square = new ObjectGui(0, 100, sizeOfField, new RgbColor(242,176,109), boardFileName);
         this.lineColor = new RgbColor(235, 233, 230);
+        isVisible = false;
         setPanel();
     }
 
@@ -98,8 +101,8 @@ public class GameFieldPanel extends JPanel implements ActionListener {
             graphics2D.drawImage(newBufferedImage, figure.x() - sizeOfStone/2,
                     figure.y() - sizeOfStone/2, null);
         } catch (IOException e) {
-            float[] hsb = getHsbColor(figure.rgbColor().getRgbColor());
-            graphics2D.setColor(new java.awt.Color(hsb[0], hsb[1], hsb[2]));
+            int[] rgb = figure.rgbColor().getRgbColor();
+            graphics2D.setColor(new java.awt.Color(rgb[0], rgb[1], rgb[2]));
             graphics2D.fillOval(figure.x(), figure.y(), figure.size(),  figure.size());
         }
     }
@@ -108,21 +111,26 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         return java.awt.Color.RGBtoHSB(rgbColor[0], rgbColor[1], rgbColor[2], new float[3]);
     }
 
+    public Color getColor(){
+        System.out.println("Color = " + drawGui.scannerGui.getColor());
+        if(drawGui.scannerGui.getColor() == 1){
+            return Color.WHITE;
+        }
+        else if(drawGui.scannerGui.getColor() == 2){
+            return Color.BLACK;
+        }
+        else {
+            return Color.EMPTY;
+        }
+    }
+
     public void setStone(int x, int y) {
         for(int i = 1; i < N + 1; i++) {
             for(int j = 1; j < N + 1; j++) {
                 if (abs(x - 10 - i * paddingX - square.x()) <= paddingX / 2 &&
                         abs((y-30) - j * paddingY - square.y()) <= paddingY / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
-                        boolean turn = drawGui.scannerGui.isTurn();
-                        if (turn) {
-                            System.out.println(x + " " + y);
-                            field[i - 1][j - 1] = Color.BLACK;
-                            drawGui.scannerGui.setTurn(false);
-                        } else {
-                            field[i - 1][j - 1] = Color.WHITE;
-                            drawGui.scannerGui.setTurn(true);
-                        }
+                        field[i - 1][j - 1] = this.color;
                         return;
                     }
                 }
@@ -131,6 +139,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     public void showPanel() {
+        color = getColor();
         drawGui.frame.setVisible(true);
     }
 
