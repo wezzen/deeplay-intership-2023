@@ -65,3 +65,6 @@ project(":gui").projectDir = file("modules/gui")
 
 include("decision-maker-gui")
 project(":decision-maker-gui").projectDir = file("modules/decision-maker-gui")
+
+include("dao")
+project(":dao").projectDir = file("modules/dao")

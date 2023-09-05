@@ -35,6 +35,7 @@ public class GameSession {
     /**
      * Добавляем создателя игры, чтобы понимать, кто является творцом.
      * Это позволит контролировать ситуации с подключеним к игре.
+     *
      * @param player {@link Player} один из игроков
      */
     public void addCreator(final Player player) {
@@ -45,6 +46,7 @@ public class GameSession {
      * Доавляем присоединившегося игрока в игру, а также назначаем цвета
      * создателю игры и второму игроку.
      * Проверяем, что логины разные у игроков, чтобы нельзя было с самим собой.
+     *
      * @param player {@link Player} второй игрок
      * @throws ServerException если игрок пытается сам с собой сыграть
      */
@@ -63,26 +65,23 @@ public class GameSession {
      * получает тот цвет, какой выбрал, если же хозяин выбрал цвет, то тогда
      * второй игрок получает оставшийся цвет.
      * Если оба не выбрали, то хозяин черный, а холоп белый.
+     *
      * @param player {@link Player} второй игрок, creator уже определен
      */
     public void setColor(final Player player) {
-        if(Color.EMPTY.name().equals(creator.color())) {
-            if(Color.BLACK.name().equals(player.color())) {
+        if (Color.EMPTY.name().equals(creator.color())) {
+            if (Color.BLACK.name().equals(player.color())) {
                 blackPlayer = player;
-            }
-            else if(Color.WHITE.name().equals(player.color())){
+            } else if (Color.WHITE.name().equals(player.color())) {
                 whitePlayer = player;
-            }
-            else {
+            } else {
                 blackPlayer = creator;
                 whitePlayer = player;
             }
-        }
-        else if(Color.BLACK.name().equals(creator.color())) {
+        } else if (Color.BLACK.name().equals(creator.color())) {
             blackPlayer = creator;
             whitePlayer = player;
-        }
-        else {
+        } else {
             blackPlayer = player;
             whitePlayer = creator;
         }
@@ -92,15 +91,16 @@ public class GameSession {
      * Позволяет сделать ход игрока в GameService, осуществляет проверку,
      * что игра уже начата, но еще не закончена, также следит за очередностью
      * хода и меняет очередность при успешной попытке.
-     * @param player {@link Player} определяет какой игрок сейчас делает ход
+     *
+     * @param login логин игрока, который сейчас делает ход
      * @param stone {@link Stone} определяет куда ходит игрок, на какую позицию
      * @return {@link Stone} массив-копия доски для безопасного изменения состояния
      * @throws ServerException при некорректной попытке сделать ход
      */
-    public synchronized Stone[][] turn(final Player player, final Stone stone) throws ServerException {
+    public synchronized Stone[][] turn(final String login, final Stone stone) throws ServerException {
         isNotStarted();
         isFinishedGame();
-        checkTurnOrder(player);
+        checkTurnOrder(login);
         try {
             Stone[][] gameField = game.makeMove(stone);
             changePlayerTurn();
@@ -115,14 +115,15 @@ public class GameSession {
      * не окончена. Пропускается ход в Game, проверяется и изменяется
      * очередность хода. Данный метод также предназначен для управления
      * процессом в GameService.
-     * @param player {@link Player} игрок пропускающий ход
+     *
+     * @param login игрок пропускающий ход
      * @return {@link Stone} массив-копия состояния доски после пропуска
      * @throws {@link ServerException} любые ошибки с сервером
      */
-    public synchronized Stone[][] pass(final Player player) throws ServerException {
+    public synchronized Stone[][] pass(final String login) throws ServerException {
         isNotStarted();
         isFinishedGame();
-        checkTurnOrder(player);
+        final Player player = checkTurnOrder(login);
 
         try {
             Stone[][] gameField = game.skipTurn(Color.valueOf(player.color()));
@@ -146,9 +147,25 @@ public class GameSession {
         return whitePlayer;
     }
 
+    private void checkEnemyColor(final Player player) throws ServerException {
+        Color color = Color.valueOf(player.color());
+        if (color == Color.EMPTY || color == Color.valueOf(creator.color())) {
+            throw new ServerException(ErrorCode.INVALID_COLOR);
+        }
+    }
+
+    private void chooseColor(final Player player) {
+        if (Color.BLACK.name().equals(player.color())) {
+            blackPlayer = player;
+        } else {
+            whitePlayer = player;
+        }
+    }
+
     /**
      * Используем для корректного выполнения игровых действий, можем делать
      * ходы, пасовать только при условии, что игра начата.
+     *
      * @throws ServerException если игра еще не началась
      */
     private synchronized void isNotStarted() throws ServerException {
@@ -160,13 +177,15 @@ public class GameSession {
     /**
      * Используем для контроля очередности ходов игроков во время выполнения
      * очередного хода в функции turn.
-     * @param player {@link Player} игрок, желающий сделать ход
+     *
+     * @param login логин игрока, желающего сделать ход
      * @throws ServerException при попытке сходить не в свою очередь
      */
-    private synchronized void checkTurnOrder(final Player player) throws ServerException {
-        if (!currentTurn.login().equals(player.login())) {
+    private synchronized Player checkTurnOrder(final String login) throws ServerException {
+        if (!currentTurn.login().equals(login)) {
             throw new ServerException(ErrorCode.INVALID_TURN_ORDER);
         }
+        return currentTurn;
     }
 
     /**
@@ -183,6 +202,7 @@ public class GameSession {
     /**
      * Используем для контроля конца игры, когда делаем очередной ход нужно
      * убедиться, что игра еще не закончена.
+     *
      * @throws ServerException если игра уже закончена
      */
     private synchronized void isFinishedGame() throws ServerException {
@@ -194,6 +214,7 @@ public class GameSession {
     /**
      * Берем копию доски, чтобы в дальнейшем не менялось состояние например, если
      * неправильно походили, то это не отразится на доске.
+     *
      * @param gameField {@link Stone} массив текущего состояние доски
      * @return {@link Stone} массив-копия текущего состояния доски
      */

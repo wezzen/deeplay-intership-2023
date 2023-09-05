@@ -1,40 +1,57 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.FailureDtoResponse;
+import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
-import io.deeplay.intership.exception.ErrorCode;
-import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.json.converter.JSONConverter;
+import io.deeplay.intership.model.Player;
 import org.apache.log4j.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ClientHandler implements Runnable {
     private static final AtomicInteger clientIdCounter = new AtomicInteger(1);
     private final Logger logger = Logger.getLogger(ClientHandler.class);
+    private final Socket clientSocket;
     private final UserController userController;
     private final GameController gameController;
-    private final Socket clientSocket;
+    private final GameplayController gameplayController;
     private final JSONConverter converter;
-    private final int clientId;
 
 
-    public ClientHandler(Socket clientSocket, UserController userController, GameController gameController, JSONConverter converter) {
+    public ClientHandler(
+            Socket clientSocket,
+            UserController userController,
+            GameController gameController,
+            GameplayController gameplayController,
+            JSONConverter converter) {
+        this.clientSocket = clientSocket;
         this.userController = userController;
         this.gameController = gameController;
-        this.clientSocket = clientSocket;
+        this.gameplayController = gameplayController;
         this.converter = converter;
-        this.clientId = clientIdCounter.getAndAdd(1);
+        clientIdCounter.getAndAdd(1);
     }
 
-    public ClientHandler(Socket socket) {
-        this(socket, new UserController(clientIdCounter.get()), new GameController(clientIdCounter.get()), new JSONConverter());
+    public ClientHandler(
+            Socket socket,
+            ConcurrentMap<String, GameSession> idToGameSession,
+            ConcurrentMap<Player, String> playerToGame) {
+        this(
+                socket,
+                new UserController(clientIdCounter.get()),
+                new GameController(idToGameSession, playerToGame, clientIdCounter.get()),
+                new GameplayController(idToGameSession, playerToGame, clientIdCounter.get()),
+                new JSONConverter());
     }
 
     @Override
@@ -44,8 +61,8 @@ public class ClientHandler implements Runnable {
             //TODO: реализовать отключение клиента от сервера, после n секунд бездействия со стороны клиента
             while (!clientSocket.isClosed()) {
                 String clientCommand = in.readUTF();
-                String response = defineCommand(clientCommand);
-                out.writeUTF(response);
+                BaseDtoResponse dtoResponse = defineCommand(clientCommand);
+                out.writeUTF(converter.getJsonFromObject(dtoResponse));
                 out.flush();
             }
         } catch (IOException e) {
@@ -61,7 +78,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public String defineCommand(final String json) {
+    public BaseDtoResponse defineCommand(final String json) {
         final BaseDtoRequest dto = converter.getObjectFromJson(json, BaseDtoRequest.class);
 
         if (dto instanceof final RegistrationDtoRequest request) {
@@ -80,19 +97,15 @@ public class ClientHandler implements Runnable {
             return gameController.joinGame(request);
         }
         if (dto instanceof final SurrenderDtoRequest request) {
-            return gameController.surrenderGame(request);
+            return gameplayController.surrenderGame(request);
         }
         if (dto instanceof final TurnDtoRequest request) {
-            return gameController.turn(request);
+            return gameplayController.turn(request);
         }
         if (dto instanceof final PassDtoRequest request) {
-            return gameController.pass(request);
+            return gameplayController.pass(request);
         }
-        return getFailureResponse(new ServerException(ErrorCode.INVALID_REQUEST_TYPE));
+        return new FailureDtoResponse(ResponseStatus.FAILURE, ResponseInfoMessage.SUCCESS_FINISH_GAME.message);
     }
 
-    private String getFailureResponse(ServerException ex) {
-        final FailureDtoResponse dtoResponse = new FailureDtoResponse(ResponseStatus.FAILURE, ex.message);
-        return converter.getJsonFromObject(dtoResponse);
-    }
 }
