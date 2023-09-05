@@ -28,16 +28,12 @@ import java.util.concurrent.ConcurrentMap;
 public class GameService {
     private final Logger logger = Logger.getLogger(GameService.class);
     private final ConcurrentMap<String, GameSession> idToGameSession;
-    private final ConcurrentMap<Player, String> playerToGame;
     private final UserDao userDao;
     private final GameDao gameDao;
 
 
-    public GameService(
-            ConcurrentMap<String, GameSession> idToGameSession,
-            ConcurrentMap<Player, String> playerToGame) {
+    public GameService(ConcurrentMap<String, GameSession> idToGameSession) {
         this.idToGameSession = idToGameSession;
-        this.playerToGame = playerToGame;
         this.userDao = new UserDaoImpl();
         this.gameDao = new GameDaoImpl();
     }
@@ -60,7 +56,6 @@ public class GameService {
 
         gameDao.addActiveUser(dtoRequest.token, gameId);
         idToGameSession.put(gameId, gameSession);
-        playerToGame.put(player, gameId);
 
         logger.debug("Game was successfully created");
         return new CreateGameDtoResponse(
@@ -83,7 +78,6 @@ public class GameService {
         final Player player = new Player(user.login(), Color.WHITE.name());
         gameSession.addPlayer(player);
         gameDao.addActiveUser(dtoRequest.token, gameSession.getGameId());
-        playerToGame.put(player, dtoRequest.gameId);
 
         logger.debug("Player was successfully joined to game " + dtoRequest.gameId);
         return new InfoDtoResponse(

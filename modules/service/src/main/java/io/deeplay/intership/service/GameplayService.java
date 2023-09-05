@@ -11,7 +11,6 @@ import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
-import io.deeplay.intership.model.Player;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.model.User;
@@ -22,14 +21,12 @@ import java.util.concurrent.ConcurrentMap;
 public class GameplayService {
     private final Logger logger = Logger.getLogger(GameplayService.class);
     private final ConcurrentMap<String, GameSession> idToGameSession;
-    private final ConcurrentMap<Player, String> playerToGame;
     private final EntityConverter entityConverter;
     private final UserDao userDao;
     private final GameDao gameDao;
 
-    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession, ConcurrentMap<Player, String> playerToGame) {
+    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession) {
         this.idToGameSession = idToGameSession;
-        this.playerToGame = playerToGame;
         this.entityConverter = new EntityConverter();
         this.userDao = new UserDaoImpl();
         this.gameDao = new GameDaoImpl();
