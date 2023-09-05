@@ -17,7 +17,7 @@ public class UserServiceTest {
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(UserService::new);
+        assertDoesNotThrow(() -> new UserService());
     }
 
     @Test

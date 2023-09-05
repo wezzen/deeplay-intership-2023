@@ -1,7 +1,6 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.game.GameSession;
-import io.deeplay.intership.model.Player;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
