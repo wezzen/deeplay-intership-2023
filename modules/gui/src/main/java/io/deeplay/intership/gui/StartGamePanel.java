@@ -64,13 +64,11 @@ public class StartGamePanel implements Panel {
         if(line.equals("Join game")) {
             drawGui.scannerGui.setCommandType(1);
             drawGui.startGamePanel.hidePanel();
-            drawGui.startGamePanel.isVisible = false;
             drawGui.joinGamePanel.showPanel();
         }
         else if(line.equals("Create game")) {
             drawGui.scannerGui.setCommandType(2);
             drawGui.startGamePanel.hidePanel();
-            drawGui.startGamePanel.isVisible = false;
             drawGui.createGamePanel.showPanel();
         }
         else {

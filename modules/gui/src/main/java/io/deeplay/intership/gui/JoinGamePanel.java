@@ -1,6 +1,5 @@
 package io.deeplay.intership.gui;
 
-import io.deeplay.intership.model.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,6 +47,7 @@ public class JoinGamePanel implements Panel {
         buttonWhite.setSelected(false);
         buttonSubmit.setSelected(false);
         jDialog.setVisible(false);
+        isVisible = false;
     }
 
     @Override

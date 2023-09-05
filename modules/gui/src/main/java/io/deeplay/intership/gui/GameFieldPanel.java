@@ -56,6 +56,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         this.square = new ObjectGui(0, 100, sizeOfField, new RgbColor(242,176,109), boardFileName);
         this.lineColor = new RgbColor(235, 233, 230);
         isVisible = false;
+        color = Color.BLACK;
         setPanel();
     }
 
@@ -114,7 +115,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }*/
 
     public Color getColor() {
-        System.out.println("Color = " + drawGui.scannerGui.getColor());
         if(drawGui.scannerGui.getColor() == 1){
             return Color.BLACK;
         }
@@ -158,7 +158,6 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     public String getGameId() {
-        //return String.valueOf(Math.random());
         int max = 100000, min = 10000;
         return String.valueOf(new Random().nextInt((max - min) + 1) + min);
     }
@@ -248,18 +247,19 @@ public class GameFieldPanel extends JPanel implements ActionListener {
             drawGui.scannerGui.setCommandType(1);
             drawGui.frame.revalidate();
             drawGui.frame.repaint();
-            //this.revalidate();
-            //this.repaint();
+
             // Realize move interaction with client
         }
         else if(line.equals("Pass")) {
             drawGui.scannerGui.setCommandType(2);
+
             // Realize pass interaction with client
         }
         else if(line.equals("Give up")) {
             drawGui.scannerGui.setCommandType(3);
             drawGui.gameFieldPanel.hidePanel();
             drawGui.startGamePanel.showPanel();
+
             // Realize surrender interaction with client
         }
     }

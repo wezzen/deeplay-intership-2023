@@ -50,6 +50,7 @@ public class EntrancePanel implements Panel {
         jTextPassword.setText("");
         jButtonSubmit.setSelected(false);
         jDialog.setVisible(false);
+        isVisible = false;
     }
 
     @Override
