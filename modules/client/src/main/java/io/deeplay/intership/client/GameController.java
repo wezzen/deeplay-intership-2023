@@ -12,9 +12,7 @@ import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.json.converter.JSONConverter;
-import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Stone;
 import org.apache.log4j.Logger;
 
 public class GameController {
@@ -63,22 +61,10 @@ public class GameController {
 
     public FinishGameDtoResponse processingGame() throws ClientException {
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
-        Stone[][] field = new Board().getField();
 
         while (!isFinish(response)) {
-            userInterface.showBoard(field);
-            response = defineGameAction();
-            if (response instanceof ActionDtoResponse) {
-                field = ((ActionDtoResponse) response).gameField;
-            }
-            if (response instanceof FailureDtoResponse) {
-                logger.debug(response.status + " " + response.message);
-                //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
-            }
-            if (response instanceof FinishGameDtoResponse) {
-                userInterface.showGameResult("Черные " + ((FinishGameDtoResponse) response).blackScore + "\n" +
-                        "Белые " + ((FinishGameDtoResponse) response).whiteScore);
-            }
+            response = streamConnector.getResponse();
+            defineGameAction(response);
         }
         return (FinishGameDtoResponse) response;
     }
@@ -102,7 +88,17 @@ public class GameController {
         return streamConnector.getResponse();
     }
 
-    public BaseDtoResponse defineGameAction() throws ClientException {
+    public <T extends BaseDtoResponse> void defineGameAction(T dtoResponse) throws ClientException {
+        if (dtoResponse instanceof InfoDtoResponse){
+
+        }
+        if (dtoResponse instanceof ActionDtoResponse){
+
+        }
+        if (dtoResponse instanceof FinishGameDtoResponse){
+
+        }
+
         GameAction action;
         try {
             userInterface.showMoveRules();

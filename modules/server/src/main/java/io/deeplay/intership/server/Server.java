@@ -1,10 +1,14 @@
 package io.deeplay.intership.server;
 
+import io.deeplay.intership.game.GameSession;
+import io.deeplay.intership.model.Player;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,14 +17,16 @@ public class Server {
     private static final int PORT = 5000;
 
     public static void main(final String[] args) {
-        ExecutorService executorService = Executors.newCachedThreadPool();
         logger.info("Server was started...");
         logger.info("Port number " + PORT);
+        final ExecutorService executorService = Executors.newCachedThreadPool();
+        final ConcurrentMap<String, GameSession> idToGameSession = new ConcurrentHashMap<>();
+        final ConcurrentMap<Player, String> playerToGame = new ConcurrentHashMap<>();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                executorService.execute(new ClientHandler(clientSocket));
+                executorService.execute(new ClientHandler(clientSocket, idToGameSession, playerToGame));
             }
         } catch (IOException ex) {
             logger.debug(ex.getMessage());
