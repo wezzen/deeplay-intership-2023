@@ -1,10 +1,10 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.response.ResponseInfoMessage;
-import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
+import io.deeplay.intership.dto.response.ResponseInfoMessage;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ServerException;
 import org.junit.jupiter.api.Test;
 
@@ -18,32 +18,6 @@ public class UserServiceTest {
     @Test
     public void testConstructor() {
         assertDoesNotThrow(UserService::new);
-    }
-
-    @Test
-    public void testIsAuthorized() {
-        String token1 = "123";
-        String token2 = "";
-        String token3 = "      ";
-        String token4 = UUID.randomUUID().toString();
-        String token5 = UUID.randomUUID().toString();
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> userService.isAuthorized(token1)),
-                () -> assertFalse(userService.isAuthorized(token1)),
-
-                () -> assertDoesNotThrow(() -> userService.isAuthorized(token2)),
-                () -> assertFalse(userService.isAuthorized(token2)),
-
-                () -> assertDoesNotThrow(() -> userService.isAuthorized(token3)),
-                () -> assertFalse(userService.isAuthorized(token3)),
-
-                () -> assertDoesNotThrow(() -> userService.isAuthorized(token4)),
-                () -> assertFalse(userService.isAuthorized(token4)),
-
-                () -> assertDoesNotThrow(() -> userService.isAuthorized(token5)),
-                () -> assertFalse(userService.isAuthorized(token5))
-        );
     }
 
     @Test

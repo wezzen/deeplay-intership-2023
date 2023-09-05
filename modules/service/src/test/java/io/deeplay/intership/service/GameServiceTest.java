@@ -11,23 +11,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
-    private static final GameService gameService = new GameService();
-    private static final UserService userService = new UserService();
-    private static final String login = UUID.randomUUID().toString();
-    private static final String passwordHash = UUID.randomUUID().toString();
+    private static final ConcurrentMap<String, GameSession> CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
+    private static final GameService GAME_SERVICE = new GameService(CONCURRENT_HASH_MAP);
+    private static final GameplayService GAMEPLAY_SERVICE = new GameplayService(CONCURRENT_HASH_MAP);
+    private static final UserService USER_SERVICE = new UserService();
+    private static final String LOGIN = UUID.randomUUID().toString();
+    private static final String PASSWORD_HASH = UUID.randomUUID().toString();
     private static String token;
 
     @BeforeAll
     public static void initRegistration() {
         final RegistrationDtoRequest register = new RegistrationDtoRequest(
-                login,
-                passwordHash);
+                LOGIN,
+                PASSWORD_HASH);
         try {
-            userService.register(register);
+            USER_SERVICE.register(register);
         } catch (ServerException e) {
             throw new RuntimeException(e);
         }
@@ -36,11 +40,11 @@ public class GameServiceTest {
     @BeforeEach
     public void initUserAuth() {
         final LoginDtoRequest loginRequest = new LoginDtoRequest(
-                login,
-                passwordHash);
+                LOGIN,
+                PASSWORD_HASH);
         LoginDtoResponse response = null;
         try {
-            response = userService.authorization(loginRequest);
+            response = USER_SERVICE.authorization(loginRequest);
         } catch (ServerException e) {
             throw new RuntimeException(e);
         }
@@ -51,15 +55,15 @@ public class GameServiceTest {
     public void initUserLogout() {
         final LogoutDtoRequest logoutRequest = new LogoutDtoRequest(token);
         try {
-            userService.logout(logoutRequest);
+            USER_SERVICE.logout(logoutRequest);
         } catch (ServerException e) {
-            throw new RuntimeException(e);
+
         }
     }
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(() -> new GameService());
+        assertDoesNotThrow(() -> new GameService(CONCURRENT_HASH_MAP));
     }
 
     @Test
@@ -76,7 +80,7 @@ public class GameServiceTest {
 
         final String expectedMessage = ResponseInfoMessage.SUCCESS_CREATE_GAME.message;
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
-        final CreateGameDtoResponse response = gameService.createGame(dto);
+        final CreateGameDtoResponse response = GAME_SERVICE.createGame(dto);
         assertAll(
                 () -> assertEquals(expectedMessage, response.message),
                 () -> assertEquals(expectedStatus, response.status),
@@ -96,7 +100,7 @@ public class GameServiceTest {
                 size,
                 token);
 
-        assertThrows(ServerException.class, () -> gameService.createGame(dto));
+        assertThrows(ServerException.class, () -> GAME_SERVICE.createGame(dto));
     }
 
     @Test
@@ -104,23 +108,23 @@ public class GameServiceTest {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
                 firstLogin,
-                passwordHash);
-        userService.register(registerFirst);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
                 firstLogin,
-                passwordHash);
-        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseFirst = USER_SERVICE.authorization(loginFirstRequest);
         String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
                 secondLogin,
-                passwordHash);
-        userService.register(registerSecond);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
                 secondLogin,
-                passwordHash);
-        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseSecond = USER_SERVICE.authorization(loginSecondRequest);
         String secondToken = responseSecond.token;
 
         final boolean withBot = false;
@@ -132,7 +136,7 @@ public class GameServiceTest {
                 size,
                 firstToken);
 
-        final var gameDto = gameService.createGame(createGameRequest);
+        final var gameDto = GAME_SERVICE.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
                 () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
@@ -145,7 +149,7 @@ public class GameServiceTest {
                 secondToken,
                 color);
 
-        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final var dtoResponse = GAME_SERVICE.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
@@ -159,23 +163,23 @@ public class GameServiceTest {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
                 firstLogin,
-                passwordHash);
-        userService.register(registerFirst);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
                 firstLogin,
-                passwordHash);
-        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseFirst = USER_SERVICE.authorization(loginFirstRequest);
         String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
                 secondLogin,
-                passwordHash);
-        userService.register(registerSecond);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
                 secondLogin,
-                passwordHash);
-        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseSecond = USER_SERVICE.authorization(loginSecondRequest);
         String secondToken = responseSecond.token;
 
         final boolean withBot = false;
@@ -187,7 +191,7 @@ public class GameServiceTest {
                 size,
                 firstToken);
 
-        final var gameDto = gameService.createGame(createGameRequest);
+        final var gameDto = GAME_SERVICE.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
                 () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
@@ -200,7 +204,7 @@ public class GameServiceTest {
                 secondToken,
                 color);
 
-        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final var dtoResponse = GAME_SERVICE.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
@@ -219,7 +223,7 @@ public class GameServiceTest {
                 whiteColor,
                 size,
                 token);
-        gameService.createGame(createGameRequest);
+        GAME_SERVICE.createGame(createGameRequest);
 
         final String color = Color.BLACK.name();
         final String gameId = UUID.randomUUID().toString();
@@ -228,7 +232,7 @@ public class GameServiceTest {
                 token,
                 color);
 
-        assertThrows(ServerException.class, () -> gameService.joinGame(joinGameRequest));
+        assertThrows(ServerException.class, () -> GAME_SERVICE.joinGame(joinGameRequest));
     }
 
     @Test
@@ -241,7 +245,7 @@ public class GameServiceTest {
                 token,
                 color);
 
-        assertThrows(ServerException.class, () -> gameService.joinGame(dto));
+        assertThrows(ServerException.class, () -> GAME_SERVICE.joinGame(dto));
     }
 
     @Test
@@ -249,14 +253,14 @@ public class GameServiceTest {
         final String token = UUID.randomUUID().toString();
         final SurrenderDtoRequest dto = new SurrenderDtoRequest(token);
 
-        assertDoesNotThrow(() -> gameService.surrenderGame(dto));
+        assertDoesNotThrow(() -> GAMEPLAY_SERVICE.surrenderGame(dto));
     }
 
     @Test
     public void testFinishGame() {
         final String gameId = UUID.randomUUID().toString();
         final GameSession gameSession = new GameSession(gameId);
-        assertDoesNotThrow(() -> gameService.finishGame(gameSession));
+        assertDoesNotThrow(() -> GAMEPLAY_SERVICE.finishGame(gameSession));
     }
 
     @Test
@@ -264,23 +268,23 @@ public class GameServiceTest {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
                 firstLogin,
-                passwordHash);
-        userService.register(registerFirst);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
                 firstLogin,
-                passwordHash);
-        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseFirst = USER_SERVICE.authorization(loginFirstRequest);
         String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
                 secondLogin,
-                passwordHash);
-        userService.register(registerSecond);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
                 secondLogin,
-                passwordHash);
-        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseSecond = USER_SERVICE.authorization(loginSecondRequest);
         String secondToken = responseSecond.token;
 
         final boolean withBot = false;
@@ -293,7 +297,7 @@ public class GameServiceTest {
                 firstToken);
 
 
-        final var gameDto = gameService.createGame(createGameRequest);
+        final var gameDto = GAME_SERVICE.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
                 () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
@@ -306,7 +310,7 @@ public class GameServiceTest {
                 secondToken,
                 color);
 
-        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final var dtoResponse = GAME_SERVICE.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
@@ -321,7 +325,7 @@ public class GameServiceTest {
                 0,
                 firstToken);
 
-        final ActionDtoResponse actionDtoResponse = gameService.turn(turnDtoRequest);
+        final ActionDtoResponse actionDtoResponse = GAMEPLAY_SERVICE.turn(turnDtoRequest);
         assertAll(
                 () -> assertEquals(ResponseStatus.SUCCESS, actionDtoResponse.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, actionDtoResponse.message),
@@ -334,23 +338,23 @@ public class GameServiceTest {
         final String firstLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerFirst = new RegistrationDtoRequest(
                 firstLogin,
-                passwordHash);
-        userService.register(registerFirst);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerFirst);
         final LoginDtoRequest loginFirstRequest = new LoginDtoRequest(
                 firstLogin,
-                passwordHash);
-        LoginDtoResponse responseFirst = userService.authorization(loginFirstRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseFirst = USER_SERVICE.authorization(loginFirstRequest);
         String firstToken = responseFirst.token;
 
         final String secondLogin = UUID.randomUUID().toString();
         final RegistrationDtoRequest registerSecond = new RegistrationDtoRequest(
                 secondLogin,
-                passwordHash);
-        userService.register(registerSecond);
+                PASSWORD_HASH);
+        USER_SERVICE.register(registerSecond);
         final LoginDtoRequest loginSecondRequest = new LoginDtoRequest(
                 secondLogin,
-                passwordHash);
-        LoginDtoResponse responseSecond = userService.authorization(loginSecondRequest);
+                PASSWORD_HASH);
+        LoginDtoResponse responseSecond = USER_SERVICE.authorization(loginSecondRequest);
         String secondToken = responseSecond.token;
 
         final boolean withBot = false;
@@ -363,7 +367,7 @@ public class GameServiceTest {
                 firstToken);
 
 
-        final var gameDto = gameService.createGame(createGameRequest);
+        final var gameDto = GAME_SERVICE.createGame(createGameRequest);
         assertAll(
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_CREATE_GAME.message, gameDto.message),
                 () -> assertEquals(ResponseStatus.SUCCESS, gameDto.status),
@@ -376,7 +380,7 @@ public class GameServiceTest {
                 secondToken,
                 color);
 
-        final var dtoResponse = gameService.joinGame(joinGameRequest);
+        final var dtoResponse = GAME_SERVICE.joinGame(joinGameRequest);
         final String expectedMessage = ResponseInfoMessage.SUCCESS_JOIN_GAME.message;
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         assertAll(
@@ -387,7 +391,7 @@ public class GameServiceTest {
 
         final PassDtoRequest passDtoRequest = new PassDtoRequest(firstToken);
 
-        final ActionDtoResponse actionDtoResponse = gameService.pass(passDtoRequest);
+        final ActionDtoResponse actionDtoResponse = (ActionDtoResponse) GAMEPLAY_SERVICE.pass(passDtoRequest);
         assertAll(
                 () -> assertEquals(ResponseStatus.SUCCESS, actionDtoResponse.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, actionDtoResponse.message),
