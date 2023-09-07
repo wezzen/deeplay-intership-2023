@@ -69,22 +69,20 @@ public class Client {
     }
 
     public static void init() {
-        boolean isGUI = false;
+        GuiType guiType = GuiType.TERMINAL;
         try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
             Properties property = new Properties();
             property.load(fis);
 
             host = property.getProperty("client.host");
             port = Integer.parseInt(property.getProperty("client.port"));
-            isGUI = Boolean.parseBoolean(property.getProperty("client.GUI"));
+            guiType = GuiType.valueOf(property.getProperty("client.GUI").toUpperCase());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (isGUI) {
-            // ГУИ + ДМ
-        } else {
-            init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
+        switch (guiType) {
+            default -> init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
         }
     }
 }
