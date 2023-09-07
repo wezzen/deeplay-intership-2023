@@ -7,6 +7,7 @@ import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.service.UserService;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class UserControllerTest {
+    private final DataCollectionsAggregator collectionsAggregator = mock(DataCollectionsAggregator.class);
     private final UserService userService = mock(UserService.class);
     private final Validator validator = mock(Validator.class);
     private final int id = 1;
@@ -25,7 +27,7 @@ public class UserControllerTest {
     @Test
     public void testConstructor() {
         assertAll(
-                () -> assertDoesNotThrow(() -> new UserController(id)),
+                () -> assertDoesNotThrow(() -> new UserController(collectionsAggregator, id)),
                 () -> assertDoesNotThrow(() -> new UserController(userService, validator, id))
         );
     }
@@ -76,7 +78,7 @@ public class UserControllerTest {
                 password);
         final String response = dtoRequest.toString();
 
-        when(userService.authorization(dtoRequest)).thenThrow(new ServerException(ErrorCode.NOT_FOUND_LOGIN));
+        when(userService.login(dtoRequest)).thenThrow(new ServerException(ErrorCode.NOT_FOUND_LOGIN));
 
         assertDoesNotThrow(() -> userController.login(dtoRequest));
     }

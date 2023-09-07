@@ -7,6 +7,7 @@ import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.service.UserService;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
 
 
@@ -19,8 +20,8 @@ public class UserController extends Controller {
         this.userService = userService;
     }
 
-    public UserController(int clientId) {
-        this(new UserService(), new Validator(), clientId);
+    public UserController(DataCollectionsAggregator collectionsAggregator, int clientId) {
+        this(new UserService(collectionsAggregator), new Validator(), clientId);
     }
 
     public BaseDtoResponse registerUser(RegistrationDtoRequest dtoRequest) {
@@ -42,7 +43,7 @@ public class UserController extends Controller {
 
         try {
             dtoValidator.validationLoginDto(dtoRequest);
-            return userService.authorization(dtoRequest);
+            return userService.login(dtoRequest);
         } catch (ServerException ex) {
             logger.debug("Clients login was failed");
             return getFailureResponse(ex);

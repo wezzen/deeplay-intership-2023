@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":aggregator"))
     implementation(project(":dto"))
     implementation(project(":dto-validator"))
     implementation(project(":game"))
