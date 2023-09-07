@@ -2,10 +2,14 @@ package io.deeplay.intership.client;
 
 import io.deeplay.intership.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
+import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
+import io.deeplay.intership.gui.DrawGui;
 import io.deeplay.intership.ui.terminal.Display;
+import org.apache.log4j.DailyRollingFileAppender;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -39,6 +43,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
+        new Client();
         token = authorizationController.authorizeClient();
         while (true) {
             try {
