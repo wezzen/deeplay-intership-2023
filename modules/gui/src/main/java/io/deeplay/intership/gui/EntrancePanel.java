@@ -3,6 +3,7 @@ package io.deeplay.intership.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EntrancePanel implements Panel {
     public final JDialog jDialog;
@@ -11,6 +12,7 @@ public class EntrancePanel implements Panel {
     public final JTextField jTextLogin;
     public final JButton jButtonSubmit;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public EntrancePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -20,11 +22,12 @@ public class EntrancePanel implements Panel {
         jTextPassword = new JTextField( 32);
         jButtonSubmit = new JButton("Submit");
         jButtonSubmit.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         jPanel.setBorder(BorderFactory.createEmptyBorder(40, 100, 10, 100));
         jTextLogin.setPreferredSize(new Dimension(120, 35));
         jTextPassword.setPreferredSize(new Dimension(120, 35));
@@ -37,13 +40,17 @@ public class EntrancePanel implements Panel {
     }
 
     @Override
-    public void showPanel(){
+    public void showPanel() {
         jDialog.setVisible(true);
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
+        jTextLogin.setText("");
+        jTextPassword.setText("");
+        jButtonSubmit.setSelected(false);
         jDialog.setVisible(false);
+        isVisible = false;
     }
 
     @Override
@@ -53,6 +60,20 @@ public class EntrancePanel implements Panel {
             drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
             drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
             drawGui.entrancePanel.hidePanel();
+
+            JOptionPane pane = new JOptionPane("Вы вошли на сервер!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            JDialog dialog = pane.createDialog(null, "Вход");
+            dialog.setModal(false);
+            dialog.setVisible(true);
+
+            new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.setVisible(false);
+                }
+            }).start();
+
             drawGui.startGamePanel.showPanel();
         }
     }

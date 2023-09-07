@@ -13,6 +13,7 @@ public class StartGamePanel implements Panel {
     public final JButton jButtonLogout;
     public final JButton jButtonExit;
     public final JPanel jPanel;
+    public boolean isVisible;
 
     public StartGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
@@ -27,6 +28,7 @@ public class StartGamePanel implements Panel {
         jButtonLogout.addActionListener(this);
         jButtonExit = new JButton("Exit");
         jButtonExit.addActionListener(this);
+        isVisible = false;
         setPanel();
     }
 
@@ -36,12 +38,16 @@ public class StartGamePanel implements Panel {
     }
 
     @Override
-    public void hidePanel(){
+    public void hidePanel() {
+        jButtonCreate.setSelected(false);
+        jButtonJoin.setSelected(false);
+        jButtonLogout.setSelected(false);
+        jButtonExit.setSelected(false);
         jDialog.setVisible(false);
     }
 
     @Override
-    public void setPanel(){
+    public void setPanel() {
         jPanel.setLayout(layout);
         jPanel.setBorder(BorderFactory.createEmptyBorder(40, 150, 40, 150));
         jPanel.add(jButtonCreate);

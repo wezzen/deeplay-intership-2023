@@ -1,5 +1,6 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +8,8 @@ public class InitialPanelTest {
 
     @Test
     public void initialPanelRegisterTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         InitialPanel initialPanel = new InitialPanel(drawGui);
         initialPanel.jButtonRegister.doClick();
         assertAll(
@@ -19,7 +21,8 @@ public class InitialPanelTest {
 
     @Test
     public void initialPanelLoginTest(){
-        DrawGui drawGui = new DrawGui();
+        ScannerGui scannerGui = new ScannerGui();
+        DrawGui drawGui = new DrawGui(scannerGui);
         InitialPanel initialPanel = new InitialPanel(drawGui);
         initialPanel.jButtonLogin.doClick();
         initialPanel.drawGui.scannerGui.setCommandType(2);
