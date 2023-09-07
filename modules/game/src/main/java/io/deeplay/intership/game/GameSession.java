@@ -139,13 +139,6 @@ public class GameSession {
         return game.getGameScore();
     }
 
-    public Player getBlackPlayer() {
-        return blackPlayer;
-    }
-
-    public Player getWhitePlayer() {
-        return whitePlayer;
-    }
 
     private void checkEnemyColor(final Player player) throws ServerException {
         Color color = Color.valueOf(player.color());

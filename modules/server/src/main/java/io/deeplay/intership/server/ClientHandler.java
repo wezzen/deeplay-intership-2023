@@ -5,15 +5,14 @@ import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.FailureDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
-import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.json.converter.JSONConverter;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -41,12 +40,12 @@ public class ClientHandler implements Runnable {
         clientIdCounter.getAndAdd(1);
     }
 
-    public ClientHandler(Socket socket, ConcurrentMap<String, GameSession> idToGameSession) {
+    public ClientHandler(Socket socket, DataCollectionsAggregator collectionsAggregator) {
         this(
                 socket,
-                new UserController(clientIdCounter.get()),
-                new GameController(idToGameSession, clientIdCounter.get()),
-                new GameplayController(idToGameSession, clientIdCounter.get()),
+                new UserController(collectionsAggregator,clientIdCounter.get()),
+                new GameController(collectionsAggregator, clientIdCounter.get()),
+                new GameplayController(collectionsAggregator, clientIdCounter.get()),
                 new JSONConverter());
     }
 

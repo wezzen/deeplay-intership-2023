@@ -3,15 +3,13 @@ package io.deeplay.intership.server;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
-import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -27,10 +25,10 @@ public class ClientHandlerTest {
     @Test
     public void testConstructors() {
         final Socket socket = new Socket();
-        final ConcurrentMap<String, GameSession> map = new ConcurrentHashMap<>();
+        DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
 
         assertAll(
-                () -> assertDoesNotThrow(() -> new ClientHandler(socket, map)),
+                () -> assertDoesNotThrow(() -> new ClientHandler(socket, collectionsAggregator)),
                 () -> assertDoesNotThrow(() -> new ClientHandler(socket, userController, gameController, gameplayController, converter))
         );
     }

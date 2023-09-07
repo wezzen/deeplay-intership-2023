@@ -11,6 +11,7 @@ import io.deeplay.intership.exception.ErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.service.GameService;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -30,9 +31,10 @@ public class GameControllerTest {
 
     @Test
     public void testConstructor() {
+        DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
         final ConcurrentMap<String, GameSession> map = new ConcurrentHashMap<>();
         assertAll(
-                () -> assertDoesNotThrow(() -> new GameController(map, id)),
+                () -> assertDoesNotThrow(() -> new GameController(collectionsAggregator, id)),
                 () -> assertDoesNotThrow(() -> new GameController(gameService, validator, id))
         );
     }

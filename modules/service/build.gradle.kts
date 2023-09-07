@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":aggregator"))
     implementation(project(":dao"))
     implementation(project(":dto"))
     implementation(project(":model"))

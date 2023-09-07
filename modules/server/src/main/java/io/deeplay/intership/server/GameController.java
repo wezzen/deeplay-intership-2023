@@ -5,11 +5,9 @@ import io.deeplay.intership.dto.request.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerException;
-import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.service.GameService;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
-
-import java.util.concurrent.ConcurrentMap;
 
 public class GameController extends Controller {
     private final Logger logger = Logger.getLogger(GameController.class);
@@ -20,8 +18,8 @@ public class GameController extends Controller {
         this.gameService = gameService;
     }
 
-    public GameController(ConcurrentMap<String, GameSession> idToGameSession, int clientId) {
-        this(new GameService(idToGameSession), new Validator(), clientId);
+    public GameController(DataCollectionsAggregator collectionsAggregator, int clientId) {
+        this(new GameService(collectionsAggregator), new Validator(), clientId);
     }
 
     public BaseDtoResponse createGame(CreateGameDtoRequest dtoRequest) {
