@@ -69,19 +69,20 @@ public class Client {
     }
 
     public static void init() {
-        GuiType guiType = GuiType.TERMINAL;
+        UserInterfaceType userInterfaceType = UserInterfaceType.TERMINAL;
         try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
             Properties property = new Properties();
             property.load(fis);
 
             host = property.getProperty("client.host");
             port = Integer.parseInt(property.getProperty("client.port"));
-            guiType = GuiType.valueOf(property.getProperty("client.GUI").toUpperCase());
+            userInterfaceType = UserInterfaceType.valueOf(property.getProperty("client.GUI").toUpperCase());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        switch (guiType) {
+        switch (userInterfaceType) {
+            case SWING -> init();
             default -> init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
         }
     }

@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-public enum GuiType {
-    JAVAFX,
+public enum UserInterfaceType {
+    SWING,
     TERMINAL
 }
