@@ -1,6 +1,7 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.game.GameSession;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -19,12 +20,12 @@ public class Server {
         logger.info("Server was started...");
         logger.info("Port number " + PORT);
         final ExecutorService executorService = Executors.newCachedThreadPool();
-        final ConcurrentMap<String, GameSession> idToGameSession = new ConcurrentHashMap<>();
+        final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
-                executorService.execute(new ClientHandler(clientSocket, idToGameSession));
+                executorService.execute(new ClientHandler(clientSocket, collectionsAggregator));
             }
         } catch (IOException ex) {
             logger.debug(ex.getMessage());

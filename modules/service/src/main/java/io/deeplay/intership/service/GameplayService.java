@@ -1,9 +1,5 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dao.GameDao;
-import io.deeplay.intership.dao.UserDao;
-import io.deeplay.intership.dao.file.GameDaoImpl;
-import io.deeplay.intership.dao.file.UserDaoImpl;
 import io.deeplay.intership.dto.request.PassDtoRequest;
 import io.deeplay.intership.dto.request.SurrenderDtoRequest;
 import io.deeplay.intership.dto.request.TurnDtoRequest;
@@ -14,26 +10,18 @@ import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.model.User;
+import io.deeplay.intership.util.aggregator.AggregatorUtil;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
-
-import java.util.concurrent.ConcurrentMap;
 
 public class GameplayService {
     private final Logger logger = Logger.getLogger(GameplayService.class);
-    private final ConcurrentMap<String, GameSession> idToGameSession;
+    private final AggregatorUtil aggregatorUtil;
     private final EntityConverter entityConverter;
-    private final UserDao userDao;
-    private final GameDao gameDao;
 
-    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession, UserDao userDao, GameDao gameDao) {
-        this.idToGameSession = idToGameSession;
+    public GameplayService(DataCollectionsAggregator collectionsAggregator) {
+        this.aggregatorUtil = new AggregatorUtil(collectionsAggregator);
         this.entityConverter = new EntityConverter();
-        this.userDao = userDao;
-        this.gameDao = gameDao;
-    }
-
-    public GameplayService(ConcurrentMap<String, GameSession> idToGameSession) {
-        this(idToGameSession, new UserDaoImpl(), new GameDaoImpl());
     }
 
     /**
@@ -44,8 +32,8 @@ public class GameplayService {
      * @throws ServerException Если есть проблема с сервером.
      */
     public ActionDtoResponse turn(final TurnDtoRequest dtoRequest) throws ServerException {
-        final User user = userDao.getUserByToken(dtoRequest.token);
-        final GameSession gameSession = findGameSessionById(gameDao.getGameIdByPlayerLogin(dtoRequest.token));
+        final User user = aggregatorUtil.getUserByToken(dtoRequest.token);
+        final GameSession gameSession = aggregatorUtil.getGameByUserToken(dtoRequest.token);
         final Stone stone = entityConverter.turnDtoToModel(dtoRequest);
 
         try {
@@ -71,8 +59,8 @@ public class GameplayService {
      * @throws ServerException Если есть проблема с сервером.
      */
     public BaseDtoResponse pass(final PassDtoRequest dtoRequest) throws ServerException {
-        final User user = userDao.getUserByToken(dtoRequest.token);
-        final GameSession gameSession = findGameSessionById(gameDao.getGameIdByPlayerLogin(dtoRequest.token));
+        final User user = aggregatorUtil.getUserByToken(dtoRequest.token);
+        final GameSession gameSession = aggregatorUtil.getGameByUserToken(dtoRequest.token);
         try {
             final Stone[][] gameField = gameSession.pass(user.login());
             return new ActionDtoResponse(
@@ -98,13 +86,5 @@ public class GameplayService {
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
                 score.blackPoints(),
                 score.whitePoints());
-    }
-
-    private GameSession findGameSessionById(final String gameId) throws ServerException {
-        GameSession gameSession = idToGameSession.get(gameId);
-        if (gameSession == null) {
-            throw new ServerException(ErrorCode.GAME_NOT_FOUND);
-        }
-        return gameSession;
     }
 }

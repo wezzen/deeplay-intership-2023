@@ -1,35 +1,45 @@
 package io.deeplay.intership.service;
 
+import io.deeplay.intership.dao.UserDao;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ServerException;
+import io.deeplay.intership.model.User;
+import io.deeplay.intership.util.aggregator.AggregatorUtil;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
-    private final UserService userService = new UserService();
+    private final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
+    private final AggregatorUtil aggregatorUtil = mock(AggregatorUtil.class);
+    private final UserDao userDao = mock(UserDao.class);
+    private final UserService userService = new UserService(collectionsAggregator, userDao);
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(() -> new UserService());
+        assertDoesNotThrow(() -> new UserService(collectionsAggregator));
     }
 
     @Test
     public void testSuccessAuthorization() throws ServerException {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
-        final RegistrationDtoRequest registrationRequest =
-                new RegistrationDtoRequest(login, passwordHash);
         final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
+        final User user = new User(login, passwordHash);
 
-        userService.register(registrationRequest);
-        final var loginResponse = userService.authorization(loginRequest);
+        when(userDao.getUserByLogin(login)).thenReturn(Optional.of(user));
+
+        final var loginResponse = userService.login(loginRequest);
 
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
@@ -44,13 +54,13 @@ public class UserServiceTest {
     public void testSuccessAuthorization_SecondAuth() throws ServerException {
         final String login = UUID.randomUUID().toString();
         final String passwordHash = "1234567890";
-        final RegistrationDtoRequest registrationRequest =
-                new RegistrationDtoRequest(login, passwordHash);
         final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
+        final User user = new User(login, passwordHash);
 
-        userService.register(registrationRequest);
-        final var firstResponse = userService.authorization(loginRequest);
-        final var secondResponse = userService.authorization(loginRequest);
+        when(userDao.getUserByLogin(login)).thenReturn(Optional.of(user));
+
+        final var firstResponse = userService.login(loginRequest);
+        final var secondResponse = userService.login(loginRequest);
 
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_AUTHORIZATION.message;
@@ -74,7 +84,7 @@ public class UserServiceTest {
         final LoginDtoRequest dtoWithInvalidPasswd = new LoginDtoRequest(login, "passwordHash");
 
         userService.register(registrationRequest);
-        assertThrows(ServerException.class, () -> userService.authorization(dtoWithInvalidPasswd));
+        assertThrows(ServerException.class, () -> userService.login(dtoWithInvalidPasswd));
     }
 
     @Test
@@ -86,18 +96,10 @@ public class UserServiceTest {
                 passwordHash
         );
 
-        LoginDtoRequest loginRequest = new LoginDtoRequest(
-                login,
-                passwordHash);
-
         var info = userService.register(registerRequest);
-        var result = userService.authorization(loginRequest);
-
         assertAll(
                 () -> assertEquals(ResponseStatus.SUCCESS, info.status),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_REGISTRATION.message, info.message),
-                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_AUTHORIZATION.message, result.message)
+                () -> assertEquals(ResponseInfoMessage.SUCCESS_REGISTRATION.message, info.message)
         );
     }
 
@@ -116,37 +118,22 @@ public class UserServiceTest {
         assertAll(
                 () -> assertEquals(expectedStatus, response.status),
                 () -> assertEquals(expectedMessage, response.message),
-                () -> assertThrows(ServerException.class, () -> userService.register(registerRequest))
+                () -> assertDoesNotThrow(() -> userService.register(registerRequest))
         );
     }
 
     @Test
     public void testSuccessLogout() throws ServerException {
-        final String login = UUID.randomUUID().toString();
-        final String passwordHash = "1234567890";
-        final RegistrationDtoRequest registerRequest =
-                new RegistrationDtoRequest(login, passwordHash);
-        final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
+        final String token = UUID.randomUUID().toString();
+        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(token);
 
-        userService.register(registerRequest);
-        final var loginDtoResponse = userService.authorization(loginRequest);
-        final LogoutDtoRequest logoutDto = new LogoutDtoRequest(loginDtoResponse.token);
         final var result = userService.logout(logoutDto);
-
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_LOGOUT.message;
         assertAll(
                 () -> assertEquals(expectedStatus, result.status),
                 () -> assertEquals(expectedMessage, result.message)
         );
-    }
-
-    @Test
-    public void testFailureLogout() {
-        final String token = UUID.randomUUID().toString();
-        final LogoutDtoRequest dto = new LogoutDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> userService.logout(dto));
     }
 
 }

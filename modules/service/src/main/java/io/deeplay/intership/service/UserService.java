@@ -13,6 +13,8 @@ import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.User;
+import io.deeplay.intership.util.aggregator.AggregatorUtil;
+import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
 
 import java.util.UUID;
@@ -23,24 +25,16 @@ import java.util.UUID;
  */
 public class UserService {
     private final Logger logger = Logger.getLogger(UserService.class);
+    private final AggregatorUtil aggregatorUtil;
     private final UserDao userDao;
 
-    public UserService(UserDao userDao) {
+    public UserService(DataCollectionsAggregator collectionsAggregator, UserDao userDao) {
+        this.aggregatorUtil = new AggregatorUtil(collectionsAggregator);
         this.userDao = userDao;
     }
 
-    public UserService() {
-        this(new UserDaoImpl());
-    }
-
-    /**
-     * Проверяет, авторизован ли пользователь с данным токеном.
-     *
-     * @param token Маркер аутентификации пользователя.
-     * @return {@code true}, если авторизован, {@code false} в противном случае.
-     */
-    public boolean isAuthorized(final String token) throws ServerException {
-        return userDao.getUserByToken(token) != null;
+    public UserService(DataCollectionsAggregator collectionsAggregator) {
+        this(collectionsAggregator, new UserDaoImpl());
     }
 
     /**
@@ -50,7 +44,7 @@ public class UserService {
      * @return {@link LoginDtoResponse}, указывающий результат авторизации.
      * @throws ServerException Если при авторизации возникает ошибка.
      */
-    public LoginDtoResponse authorization(final LoginDtoRequest dtoRequest) throws ServerException {
+    public LoginDtoResponse login(final LoginDtoRequest dtoRequest) throws ServerException {
         User currentUser = userDao.getUserByLogin(dtoRequest.login)
                 .orElseThrow(() -> new ServerException(ServerErrorCode.NOT_FOUND_LOGIN));
         if (!currentUser.passwordHash().equals(dtoRequest.passwordHash)) {
@@ -60,7 +54,7 @@ public class UserService {
 
         String newToken = UUID.randomUUID().toString();
         User user = new User(currentUser.login(), currentUser.passwordHash(), newToken);
-        userDao.authorizeUser(user, newToken);
+        aggregatorUtil.addUsersToken(newToken, user);
 
         return new LoginDtoResponse(
                 ResponseStatus.SUCCESS,
@@ -95,8 +89,7 @@ public class UserService {
      * @throws ServerException Если во время выхода из системы возникает ошибка.
      */
     public InfoDtoResponse logout(final LogoutDtoRequest dtoRequest) throws ServerException {
-        userDao.getUserByToken(dtoRequest.token);
-        userDao.removeAuth(dtoRequest.token);
+        aggregatorUtil.removeUsersToken(dtoRequest.token);
 
         logger.debug("User was successfully logout");
         return new InfoDtoResponse(ResponseStatus.SUCCESS, ResponseInfoMessage.SUCCESS_LOGOUT.message);

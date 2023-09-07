@@ -10,9 +10,12 @@ public interface UserDao {
 
     Optional<User> getUserByLogin(String login) throws ServerException;
 
+    @Deprecated
     void authorizeUser(User user, String token) throws ServerException;
 
+    @Deprecated
     User getUserByToken(String token) throws ServerException;
 
+    @Deprecated
     void removeAuth(String token) throws ServerException;
 }

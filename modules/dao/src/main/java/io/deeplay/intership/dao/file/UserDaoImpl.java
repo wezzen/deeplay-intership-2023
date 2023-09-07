@@ -44,6 +44,7 @@ public class UserDaoImpl implements UserDao {
         return Optional.empty();
     }
 
+    @Deprecated
     @Override
     public void authorizeUser(User user, String token) throws ServerException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(AUTHORIZED_FILE_NAME, true))) {
@@ -56,6 +57,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Deprecated
     @Override
     public User getUserByToken(String token) throws ServerException {
         try (BufferedReader reader = new BufferedReader(new FileReader(AUTHORIZED_FILE_NAME))) {
@@ -74,6 +76,7 @@ public class UserDaoImpl implements UserDao {
         throw new ServerException(ErrorCode.NOT_AUTHORIZED);
     }
 
+    @Deprecated
     @Override
     public void removeAuth(String token) throws ServerException {
         final String stub = "temp.txt";
