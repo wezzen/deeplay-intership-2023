@@ -17,20 +17,21 @@ public class ScannerGui {
     private boolean backStyle;
 
     public ScannerGui() {
-        this(Command.NONE, "", "", -1, -1, Color.EMPTY, -1, 9, true);
+        this(Command.NONE, Action.NONE, "", "", -1, -1, Color.EMPTY, -1, 9, true);
     }
 
-    public ScannerGui(Command commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, int sizeOfField, boolean backStyle) {
+    public ScannerGui(Command commandType, Action actionType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, int sizeOfField, boolean backStyle) {
         this.commandType = commandType;
+        this.actionType = actionType;
         this.password = password;
         this.login = login;
-        this.color = Color.EMPTY;
+        this.color = color;
         this.rowNumber = rowNumber;
         this.columnNumber = columnNumber;
         this.gameId = gameId;
         turn = true;
         this.backStyle = backStyle;
-        size = 9;
+        size = sizeOfField;
     }
 
     public Command getCommandType() {
