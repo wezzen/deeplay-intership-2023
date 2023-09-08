@@ -1,5 +1,7 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.Command;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,6 @@ import java.awt.event.ActionEvent;
 public class InitialPanel implements Panel {
     public final JDialog jDialog;
     public final GridLayout layout;
-    //private final FlowLayout layout;
     public final DrawGui drawGui;
     public final JButton jButtonRegister;
     public final JButton jButtonLogin;
@@ -18,14 +19,13 @@ public class InitialPanel implements Panel {
     public InitialPanel(DrawGui drawGui) {
         this.drawGui = drawGui;
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, "Initial");
+        jDialog = new JDialog(drawGui.frame, Settings.INITIAL);
         layout = new GridLayout(3, 1);
-        //layout = new FlowLayout();
-        jButtonRegister = new JButton("Register");
+        jButtonRegister = new JButton(Settings.REGISTER);
         jButtonRegister.addActionListener(this);
-        jButtonLogin = new JButton("Log in");
+        jButtonLogin = new JButton(Settings.LOGIN);
         jButtonLogin.addActionListener(this);
-        jButtonExit = new JButton("Exit");
+        jButtonExit = new JButton(Settings.EXIT);
         jButtonExit.addActionListener(this);
         isVisible = false;
         setPanel();
@@ -57,19 +57,19 @@ public class InitialPanel implements Panel {
         jButtonLogin.setPreferredSize(new Dimension(120, 40));
         jButtonExit.setPreferredSize(new Dimension(120, 40));
         jDialog.add(jPanel);
-        jDialog.setSize(500, 300);
+        jDialog.setSize(Settings.PANEL_WIDTH, Settings.PANEL_HEIGHT);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Register")) {
-            drawGui.scannerGui.setCommandType(1);
+        if(line.equals(Settings.REGISTER)) {
+            drawGui.scannerGui.setCommandType(Command.REGISTRATION_OR_JOIN);
             drawGui.initialPanel.hidePanel();
             drawGui.entrancePanel.showPanel();
         }
-        else if(line.equals("Log in")) {
-            drawGui.scannerGui.setCommandType(2);
+        else if(line.equals(Settings.LOGIN)) {
+            drawGui.scannerGui.setCommandType(Command.LOGIN_OR_CREATE);
             drawGui.initialPanel.hidePanel();
             drawGui.entrancePanel.showPanel();
         }

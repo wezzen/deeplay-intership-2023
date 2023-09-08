@@ -16,7 +16,7 @@ public class JoinGamePanelTest {
         joinGamePanel.gameId.setText("56789");
         joinGamePanel.buttonSubmit.doClick();
         assertAll(
-                () -> assertEquals(drawGui.scannerGui.getColor(), 1),
+                () -> assertEquals(drawGui.scannerGui.getColor(), Color.WHITE),
                 () -> assertEquals(drawGui.scannerGui.getGameId(), 56789)
         );
     }

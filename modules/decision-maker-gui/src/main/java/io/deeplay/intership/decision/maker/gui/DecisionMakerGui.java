@@ -19,18 +19,18 @@ public class DecisionMakerGui implements DecisionMaker {
     @Override
     public LoginPassword getLoginPassword() throws ClientException {
         return switch (scannerGui.getCommandType()){
-            case 1 -> registration();
-            case 2 -> login();
+            case REGISTRATION_OR_JOIN -> registration();
+            case LOGIN_OR_CREATE -> login();
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
     @Override
     public GameAction getGameAction() throws ClientException {
-        return switch (scannerGui.getCommandType()){
-            case 1 -> makeMove();
-            case 2 -> skipTurn();
-            case 3 -> surrender();
+        return switch (scannerGui.getActionType()){
+            case MOVE -> makeMove();
+            case SKIP -> skipTurn();
+            case SURRENDER -> surrender();
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
@@ -38,20 +38,16 @@ public class DecisionMakerGui implements DecisionMaker {
     @Override
     public GameConfig getGameConfig() throws ClientException {
         return switch (scannerGui.getCommandType()){
-            case 1 -> joinGame();
-            case 2 -> createGame();
+            case REGISTRATION_OR_JOIN -> joinGame();
+            case LOGIN_OR_CREATE -> createGame();
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         };
     }
 
     @Override
     public Color getColor() throws ClientException {
-        return switch (scannerGui.getCommandType()){
-            case 1 -> Color.WHITE;
-            case 2 -> Color.BLACK;
-            case 3 -> getRandomColor();
-            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
-        };
+        Color color = scannerGui.getColor();
+        return color == Color.EMPTY ? getRandomColor() : color;
     }
 
     private Color getRandomColor() {
@@ -73,9 +69,9 @@ public class DecisionMakerGui implements DecisionMaker {
 
     private GameConfig createGame() throws ClientException {
         boolean bot;
-        switch (scannerGui.getCommandType()){
+        switch (scannerGui.isWithBot() ? 1 : 0){
+            case 0 -> bot = false;
             case 1 -> bot = true;
-            case 2 -> bot = false;
             default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
         }
         Color color = getColor();

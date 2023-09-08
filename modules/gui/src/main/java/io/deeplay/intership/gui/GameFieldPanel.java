@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import io.deeplay.intership.decision.maker.gui.Action;
 import io.deeplay.intership.model.Color;
 import static java.lang.Math.abs;
 import java.util.Random;
@@ -19,22 +21,11 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public final DrawGui drawGui;
     public final ObjectGui square;
     private RgbColor lineColor;
-    public final int paddingX = 60;
-    public final int paddingY = 60;
-    public final int sizeOfStone = 40;
-    public final int sizeOfField = 600;
-    public final int buttonWidth = 150;
-    public final int buttonHeight = 50;
     public final int N;
     public final JButton buttonMove;
     public final JButton buttonPass;
     public final JButton buttonSurrender;
     public final JLabel gameId;
-    public final String resourceDir = "gui/src/main/resources/";
-    public final String[] actionNames = new String[]{"Move", "Pass", "Give up"};
-    public final String boardFileName = resourceDir + "board/board.jpg";
-    public final String whiteStoneFileName = resourceDir + "stone/white_stone.png";
-    public final String blackStoneFileName = resourceDir + "stone/black_stone.png";
     private Graphics2D graphics2D;
     private Color[][] field;
     public boolean isVisible;
@@ -48,13 +39,13 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                 field[i][j] = Color.EMPTY;
             }
         }
-        buttonMove = new JButton("Move");
-        buttonPass = new JButton("Pass");
-        buttonSurrender = new JButton("Give up");
+        buttonMove = new JButton(Settings.MOVE);
+        buttonPass = new JButton(Settings.PASS);
+        buttonSurrender = new JButton(Settings.GIVE_UP);
         gameId = new JLabel();
         this.drawGui = drawGui;
-        this.square = new ObjectGui(0, 100, sizeOfField, new RgbColor(242,176,109), boardFileName);
-        this.lineColor = new RgbColor(235, 233, 230);
+        this.square = new ObjectGui(0, 100, Settings.SIZE_OF_FIELD, new RgbColor(242,176,109), Settings.BOARD_FILE_NAME);
+        this.lineColor = new RgbColor(Settings.LINE_RED, Settings.LINE_GREEN, Settings.LINE_BLUE);
         isVisible = false;
         color = Color.BLACK;
         setPanel();
@@ -80,7 +71,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public void drawCustomSquare() {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(square.fileName()));
-            BufferedImage image = bufferedImage.getSubimage(0, 0, sizeOfField, sizeOfField);
+            BufferedImage image = bufferedImage.getSubimage(0, 0, Settings.SIZE_OF_FIELD, Settings.SIZE_OF_FIELD);
             graphics2D.drawImage(image, square.x(), square.y(), null);
         } catch (IOException e) {
             drawStandardSquare();
@@ -90,47 +81,30 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     public void drawStandardSquare(){
         int[] rgb = square.rgbColor().getRgbColor();
         this.lineColor = new RgbColor(0, 0, 0);
-        //graphics2D.setColor(new java.awt.Color(hsb[0], hsb[1], hsb[2]));
         graphics2D.setColor(new java.awt.Color(rgb[0], rgb[1], rgb[2]));
-        graphics2D.fillRect(square.x(), square.y(), sizeOfField, sizeOfField);
+        graphics2D.fillRect(square.x(), square.y(), Settings.SIZE_OF_FIELD, Settings.SIZE_OF_FIELD);
     }
 
     public void drawCustomStone(ObjectGui figure) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(figure.fileName()));
-            BufferedImage newBufferedImage = resize(bufferedImage, sizeOfStone, sizeOfStone);
-            graphics2D.drawImage(newBufferedImage, figure.x() - sizeOfStone/2,
-                    figure.y() - sizeOfStone/2, null);
+            BufferedImage newBufferedImage = resize(bufferedImage, Settings.SIZE_OF_STONE, Settings.SIZE_OF_STONE);
+            graphics2D.drawImage(newBufferedImage, figure.x() - Settings.SIZE_OF_STONE /2,
+                    figure.y() - Settings.SIZE_OF_STONE /2, null);
         } catch (IOException e) {
             int[] rgb = figure.rgbColor().getRgbColor();
             graphics2D.setColor(new java.awt.Color(rgb[0], rgb[1], rgb[2]));
-            graphics2D.fillOval(figure.x() - sizeOfStone / 2,
-                    figure.y() - sizeOfStone / 2,
+            graphics2D.fillOval(figure.x() - Settings.SIZE_OF_STONE / 2,
+                    figure.y() - Settings.SIZE_OF_STONE / 2,
                     figure.size(),  figure.size());
-        }
-    }
-
-    /*private float[] getHsbColor(int[] rgbColor) {
-        return java.awt.Color.RGBtoHSB(rgbColor[0], rgbColor[1], rgbColor[2], new float[3]);
-    }*/
-
-    public Color getColor() {
-        if(drawGui.scannerGui.getColor() == 1){
-            return Color.BLACK;
-        }
-        else if(drawGui.scannerGui.getColor() == 2){
-            return Color.WHITE;
-        }
-        else {
-            return Color.EMPTY;
         }
     }
 
     public void setStone(int x, int y) {
         for(int i = 1; i < N + 1; i++) {
             for(int j = 1; j < N + 1; j++) {
-                if (abs(x - 10 - i * paddingX - square.x()) <= paddingX / 2 &&
-                        abs((y-30) - j * paddingY - square.y()) <= paddingY / 2) {
+                if (abs(x - 10 - i * Settings.PADDING_X - square.x()) <= Settings.PADDING_X / 2 &&
+                        abs((y-30) - j * Settings.PADDING_Y - square.y()) <= Settings.PADDING_Y / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
                         field[i - 1][j - 1] = this.color;
                         return;
@@ -141,7 +115,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     }
 
     public void showPanel() {
-        color = getColor();
+        color = drawGui.scannerGui.getColor();
         drawGui.frame.setVisible(true);
     }
 
@@ -205,7 +179,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         controlPanel.add(buttonMove);
         controlPanel.add(buttonPass);
         controlPanel.add(buttonSurrender);
-        drawGui.frame.setSize(616, 738);
+        drawGui.frame.setSize(Settings.GAME_PANEL_WIDTH, Settings.GAME_PANEL_HEIGHT);
         drawGui.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -219,18 +193,18 @@ public class GameFieldPanel extends JPanel implements ActionListener {
             drawCustomSquare();
         }
         for(int i = 1; i < N + 1; i++) {
-            drawLine(new Line(paddingX + square.x(), i * paddingY+square.y(), square.size() + square.x() - paddingX, i * paddingY+square.y()));
+            drawLine(new Line(Settings.PADDING_X + square.x(), i * Settings.PADDING_Y +square.y(), square.size() + square.x() - Settings.PADDING_X, i * Settings.PADDING_Y +square.y()));
         }
         for(int i = 1; i < N + 1; i++) {
-            drawLine(new Line(i * paddingX + square.x(), paddingY + square.y(), i * paddingX + square.x(), square.size() + square.y() - paddingY));
+            drawLine(new Line(i * Settings.PADDING_X + square.x(), Settings.PADDING_Y + square.y(), i * Settings.PADDING_X + square.x(), square.size() + square.y() - Settings.PADDING_Y));
         }
         for(int i = 1; i < N + 1; i++) {
             for(int j = 1; j < N + 1; j++) {
                 if(field[i-1][j-1] == Color.WHITE) {
-                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), sizeOfStone, new RgbColor(0,0,0), whiteStoneFileName));
+                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(0,0,0), Settings.WHITE_STONE_FILE_NAME));
                 }
                 else if(field[i-1][j-1] == Color.BLACK) {
-                    drawCustomStone(new ObjectGui(i * paddingX + square.x(), j * paddingY + square.y(), sizeOfStone, new RgbColor(255,255,255), blackStoneFileName));
+                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(255,255,255), Settings.BLACK_STONE_FILE_NAME));
                 }
             }
         }
@@ -243,20 +217,20 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Move")) {
-            drawGui.scannerGui.setCommandType(1);
+        if(line.equals(Settings.MOVE)) {
+            drawGui.scannerGui.setActionType(Action.MOVE);
             drawGui.frame.revalidate();
             drawGui.frame.repaint();
 
             // Realize move interaction with client
         }
-        else if(line.equals("Pass")) {
-            drawGui.scannerGui.setCommandType(2);
+        else if(line.equals(Settings.PASS)) {
+            drawGui.scannerGui.setActionType(Action.SKIP);
 
             // Realize pass interaction with client
         }
-        else if(line.equals("Give up")) {
-            drawGui.scannerGui.setCommandType(3);
+        else if(line.equals(Settings.GIVE_UP)) {
+            drawGui.scannerGui.setActionType(Action.SURRENDER);
             drawGui.gameFieldPanel.hidePanel();
             drawGui.startGamePanel.showPanel();
 
