@@ -31,11 +31,20 @@ public class Game {
         this.gameIsOver = false;
     }
 
+    /**
+     * Начинает игру, запускает логгер.
+     * @return {@link Stone[][]} изначальное состояние доски
+     */
     public Board startGame() {
         gameLog.startGame(gameId);
         return board;
     }
 
+    /**
+     * Реализует пропуск хода, через цвет понимаем, кто именно пропускает ход.
+     * @param color
+     * @return {@link Stone[][]} возвращаем новое состояние доски
+     */
     public Stone[][] skipTurn(Color color) {
         if (!checkGameOver.canSkipTurn()) {
             endGame();
@@ -44,6 +53,13 @@ public class Game {
         return board.getField();
     }
 
+    /**
+     * Позволяет клиенту сделать ход в той позиции, в которой находится
+     * поданный на вход Stone. Также здесь происходят групповые преобразования.
+     * @param stone позиция, в которую делаем ход
+     * @return {@link Stone[][]} измененное состояние доски
+     * @throws GameException при возникновении проблемы игрового процесса
+     */
     public Stone[][] makeMove(Stone stone) throws GameException {
         if (!checkGameOver.canMakeMove(stone.getColor())) {
             //если у игрока не осталось камней, то автоматически засчитывается пропуск хода
@@ -69,6 +85,11 @@ public class Game {
         return board.getField();
     }
 
+    /**
+     * Реализует окончание игры, с помощью флага gameIsOver в дальнейшем
+     * проверяем при ходах, не закончилась ли игра.
+     * Также подсчитываем очки, передавая доску классу ScoreCalculator.
+     */
     public void endGame() {
         this.gameIsOver = true;
         ScoreCalculator scoreCalculator = new ScoreCalculator(board.getField());
@@ -80,6 +101,11 @@ public class Game {
         return gameIsOver;
     }
 
+    /**
+     * Реализует прибавление конкретному игроку заработанных очков.
+     * @param points очки, которые нужно прибавить к имеющимся
+     * @param color цвет игрока, который их заработал
+     */
     private void addPoints(final int points, final Color color) {
         if (color == Color.BLACK) {
             scoreCalculator.addBlackPoints(points);

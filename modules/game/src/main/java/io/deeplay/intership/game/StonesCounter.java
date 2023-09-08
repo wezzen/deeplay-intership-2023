@@ -23,6 +23,12 @@ public class StonesCounter {
         this.field = createField(gameField);
     }
 
+    /**
+     * Создаем символьное представление нашего поля, на котором уже к этому
+     * моменту расставлены все камни, игра окончена.
+     * @param gameField
+     * @return
+     */
     private String[][] createField(final Stone[][] gameField) {
         final String[][] field = new String[MAX_FIELD_RANGE + 1][MAX_FIELD_RANGE + 1];
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
@@ -33,6 +39,10 @@ public class StonesCounter {
         return field;
     }
 
+    /**
+     * Открываем группы пустых камней, стартуем из некоторого камня и постепенно
+     * открываем всех его соседей, таким образом полуаются острова.
+     */
     private void findGroupsOfEmptyStones() {
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
             for (int j = MIN_FIELD_RANGE; j <= MAX_FIELD_RANGE; j++) {
@@ -45,6 +55,12 @@ public class StonesCounter {
         }
     }
 
+    /**
+     * Здесь мы рекурсивно открываем каждую из групп, ходим по всем соседним
+     * камням и объединяем их в одну группу.
+     * @param i
+     * @param j
+     */
     private void openGroup(int i, int j) {
         field[i][j] = String.valueOf(counterOfGroups);
         if (i > MIN_FIELD_RANGE) {
@@ -77,6 +93,12 @@ public class StonesCounter {
         }
     }
 
+    /**
+     * Меняем владельца камней, если камни были ничьи, то назначаем хозяина
+     * в зависимости от цвета непустого соседа. Если по соселству были как
+     * белые, так и черные, значит они общие, в счет не пойдут никому.
+     * @param color
+     */
     private void changeOwner(final String color) {
         if (color.equals(Color.BLACK.symbol)) {
             if (owners.get(counterOfGroups) == Owner.NONE) {
@@ -93,6 +115,10 @@ public class StonesCounter {
         }
     }
 
+    /**
+     * По имеющемуся полю из камней, распределенных по группам (номерам)
+     * считаем кому сколько досталось.
+     */
     public void countCapturedEmptyStones() {
         findGroupsOfEmptyStones();
         for (int i = MIN_FIELD_RANGE; i <= MAX_FIELD_RANGE; i++) {
@@ -109,6 +135,11 @@ public class StonesCounter {
         }
     }
 
+    /**
+     * В зависимости от владельца окруженные камни идут в счет белому или
+     * черному игроку.
+     * @param owner
+     */
     private void incrementPoints(final Owner owner) {
         if (Owner.BLACK == owner) {
             blackPoints++;
