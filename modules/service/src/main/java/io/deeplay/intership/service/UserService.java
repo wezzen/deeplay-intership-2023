@@ -45,7 +45,7 @@ public class UserService {
      * @throws ServerException Если при авторизации возникает ошибка.
      */
     public LoginDtoResponse login(final LoginDtoRequest dtoRequest) throws ServerException {
-        User currentUser = userDao.getUserByLogin(dtoRequest.login)
+        User currentUser = aggregatorUtil.getUserByLogin(dtoRequest.login)
                 .orElseThrow(() -> new ServerException(ErrorCode.NOT_FOUND_LOGIN));
         if (!currentUser.passwordHash().equals(dtoRequest.passwordHash)) {
             logger.debug("Incorrect password");
@@ -70,10 +70,12 @@ public class UserService {
      * @throws ServerException Если при регистрации возникает ошибка.
      */
     public InfoDtoResponse register(final RegistrationDtoRequest dtoRequest) throws ServerException {
-        if (userDao.getUserByLogin(dtoRequest.login).isPresent()) {
+        if (aggregatorUtil.getUserByLogin(dtoRequest.login).isPresent()) {
             throw new ServerException(ErrorCode.LOGIN_IS_EXIST);
         }
-        userDao.addUser(new User(dtoRequest.login, dtoRequest.passwordHash));
+        final User newUser = new User(dtoRequest.login, dtoRequest.passwordHash);
+        userDao.addUser(newUser);
+        aggregatorUtil.addNewUser(newUser);
 
         logger.debug("User was successfully registered");
         return new InfoDtoResponse(

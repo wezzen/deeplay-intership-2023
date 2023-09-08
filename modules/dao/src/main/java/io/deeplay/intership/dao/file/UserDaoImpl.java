@@ -7,12 +7,13 @@ import io.deeplay.intership.model.User;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
 public class UserDaoImpl implements UserDao {
     private static final String CREDENTIALS_FILE_NAME = "credentials.txt";
-    private static final String AUTHORIZED_FILE_NAME = "auth.txt";
     private final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
@@ -28,71 +29,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUserByLogin(String login) {
+    public List<User> getAllUsers() throws ServerException {
         try (BufferedReader reader = new BufferedReader(new FileReader(CREDENTIALS_FILE_NAME))) {
+            List<User> users = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                if (parts.length == 2 && parts[0].equals(login)) {
-                    logger.debug("User was found");
-                    return Optional.of(new User(parts[0], parts[1]));
-                }
+                users.add(new User(parts[0], parts[1]));
             }
+            return users;
         } catch (IOException ex) {
-            logger.debug("Login search error: " + ex.getMessage());
-        }
-        return Optional.empty();
-    }
-
-    @Deprecated
-    @Override
-    public void authorizeUser(User user, String token) throws ServerException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(AUTHORIZED_FILE_NAME, true))) {
-            writer.write(token + ":" + user.login());
-            writer.newLine();
-            logger.debug("Token and login have been successfully written to the file.");
-        } catch (IOException ex) {
-            logger.debug("Error authorize user by token: " + ex.getMessage());
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
-        }
-    }
-
-    @Deprecated
-    @Override
-    public User getUserByToken(String token) throws ServerException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(AUTHORIZED_FILE_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts.length == 2 && parts[0].equals(token)) {
-                    logger.debug("User was found by token");
-                    return getUserByLogin(parts[1])
-                            .orElseThrow(() -> new ServerException(ErrorCode.NOT_FOUND_LOGIN));
-                }
-            }
-        } catch (IOException ex) {
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
-        }
-        throw new ServerException(ErrorCode.NOT_AUTHORIZED);
-    }
-
-    @Deprecated
-    @Override
-    public void removeAuth(String token) throws ServerException {
-        final String stub = "temp.txt";
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(AUTHORIZED_FILE_NAME));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(stub))) {
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                if (!currentLine.equals(token)) {
-                    writer.write(currentLine);
-                }
-            }
-
-            File inputFile = new File(AUTHORIZED_FILE_NAME);
-            new File(stub).renameTo(inputFile);
-        } catch (IOException e) {
+            logger.debug("Can't get all users");
             throw new ServerException(ErrorCode.SERVER_EXCEPTION);
         }
     }
