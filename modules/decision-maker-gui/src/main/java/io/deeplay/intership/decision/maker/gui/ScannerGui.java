@@ -3,35 +3,28 @@ package io.deeplay.intership.decision.maker.gui;
 import io.deeplay.intership.model.Color;
 
 public class ScannerGui {
-    private int commandType;
+    private Command commandType;
+    private Action actionType;
     private String password;
     private String login;
     private int rowNumber;
     private int columnNumber;
     private int gameId;
     private int size;
-    private int color;
+    private Color color;
     private boolean turn;
+    private boolean withBot;
     private boolean backStyle;
 
     public ScannerGui() {
-        commandType = -1;
-        password = "";
-        login = "";
-        color = 3;
-        rowNumber = -1;
-        columnNumber = -1;
-        gameId = -1;
-        turn = true;
-        this.backStyle = true;
-        size = 9;
+        this(Command.NONE, "", "", -1, -1, Color.EMPTY, -1, 9, true);
     }
 
-    public ScannerGui(int commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, boolean backStyle) {
+    public ScannerGui(Command commandType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, int sizeOfField, boolean backStyle) {
         this.commandType = commandType;
         this.password = password;
         this.login = login;
-        this.color = 3;
+        this.color = Color.EMPTY;
         this.rowNumber = rowNumber;
         this.columnNumber = columnNumber;
         this.gameId = gameId;
@@ -40,11 +33,11 @@ public class ScannerGui {
         size = 9;
     }
 
-    public int getCommandType() {
+    public Command getCommandType() {
         return commandType;
     }
 
-    public void setCommandType(int commandType) {
+    public void setCommandType(Command commandType) {
         this.commandType = commandType;
     }
 
@@ -85,11 +78,11 @@ public class ScannerGui {
         this.gameId = gameId;
     }
 
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -109,5 +102,21 @@ public class ScannerGui {
 
     public void setBackStyle(boolean backStyle) {
         this.backStyle = backStyle;
+    }
+
+    public Action getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(Action actionType) {
+        this.actionType = actionType;
+    }
+
+    public boolean isWithBot() {
+        return withBot;
+    }
+
+    public void setWithBot(boolean withBot) {
+        this.withBot = withBot;
     }
 }

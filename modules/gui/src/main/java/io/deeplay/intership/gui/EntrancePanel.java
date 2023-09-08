@@ -17,10 +17,10 @@ public class EntrancePanel implements Panel {
     public EntrancePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, "Entrance");
-        jTextLogin = new JTextField( 32);
-        jTextPassword = new JTextField( 32);
-        jButtonSubmit = new JButton("Submit");
+        jDialog = new JDialog(drawGui.frame, Settings.ENTRANCE);
+        jTextLogin = new JTextField( Settings.INPUT_LENGTH);
+        jTextPassword = new JTextField( Settings.INPUT_LENGTH);
+        jButtonSubmit = new JButton(Settings.SUBMIT);
         jButtonSubmit.addActionListener(this);
         isVisible = false;
         setPanel();
@@ -36,7 +36,7 @@ public class EntrancePanel implements Panel {
         jPanel.add(jTextPassword);
         jPanel.add(jButtonSubmit);
         jDialog.add(jPanel);
-        jDialog.setSize(500, 300);
+        jDialog.setSize(Settings.PANEL_WIDTH, Settings.PANEL_HEIGHT);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EntrancePanel implements Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Submit")) {
+        if(line.equals(Settings.SUBMIT)) {
             drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
             drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
             drawGui.entrancePanel.hidePanel();

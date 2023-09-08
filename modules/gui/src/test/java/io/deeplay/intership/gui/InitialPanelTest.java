@@ -1,5 +1,6 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.Command;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +16,7 @@ public class InitialPanelTest {
         assertAll(
                 () -> assertFalse(initialPanel.jDialog.isVisible()),
                 () -> assertTrue(drawGui.entrancePanel.jDialog.isVisible()),
-                () -> assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), 1)
+                () -> assertEquals(initialPanel.drawGui.scannerGui.getCommandType(), Command.REGISTRATION_OR_JOIN)
         );
     }
 
@@ -25,11 +26,10 @@ public class InitialPanelTest {
         DrawGui drawGui = new DrawGui(scannerGui);
         InitialPanel initialPanel = new InitialPanel(drawGui);
         initialPanel.jButtonLogin.doClick();
-        initialPanel.drawGui.scannerGui.setCommandType(2);
         assertAll(
                 () -> assertFalse(initialPanel.jDialog.isVisible()),
                 () -> assertTrue(drawGui.entrancePanel.jDialog.isVisible()),
-                () -> assertEquals(drawGui.scannerGui.getCommandType(), 2)
+                () -> assertEquals(drawGui.scannerGui.getCommandType(), Command.LOGIN_OR_CREATE)
         );
     }
 }
