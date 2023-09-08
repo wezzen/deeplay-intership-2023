@@ -79,8 +79,8 @@ public class CapturedCellsCalculator {
     /**
      * Нужна для проверки: разные ли группы оказались по соседству. Если разные,
      * то вызываем метод, который объединит их в одну группу.
-     * @param firstStone {@link Stone}
-     * @param secondStone {@link Stone}
+     * @param firstStone {@link Stone} первый камень
+     * @param secondStone {@link Stone} второй камень
      */
     private void mergeStonesGroup(final Stone firstStone, final Stone secondStone) {
         if (firstStone.getGroup() != secondStone.getGroup()) {
@@ -91,8 +91,8 @@ public class CapturedCellsCalculator {
     /**
      * Производим слияние двух групп.
      * Помещаем камни из меньшей по размеру группы в большую.
-     * @param firstGroup
-     * @param secondGroup
+     * @param firstGroup {@link Group} группа первого камня
+     * @param secondGroup {@link Group} группа второго камня
      */
     private void mergeGroups(final Group firstGroup, final Group secondGroup) {
         if (firstGroup.getStonesCount() >= secondGroup.getStonesCount()) {
@@ -106,8 +106,8 @@ public class CapturedCellsCalculator {
     /**
      * Из всего множества камней находим уникальные существующие группы камней,
      * чтобы дальше использовать эти группы при подсчете входящих в них камней.
-     * @param stones {@link Set<Stone>}
-     * @return
+     * @param stones {@link Set<Stone>} множество всех пустых камней с поля
+     * @return {@link Set<Stone>} множество существующих групп пустых камней
      */
     private Set<Group> getUniqueGroups(Set<Stone> stones) {
         Set<Group> groups = new HashSet<>();
