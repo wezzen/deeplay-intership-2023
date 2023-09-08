@@ -1,5 +1,6 @@
 package io.deeplay.intership.gui;
 
+import io.deeplay.intership.decision.maker.gui.Action;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class GameFieldPanelTest {
         Color[][] field = gameFieldPanel.getField();
         gameFieldPanel.buttonMove.doClick();
         assertAll(
-                () -> assertEquals(drawGui.scannerGui.getCommandType(), 1),
+                () -> assertEquals(drawGui.scannerGui.getActionType(), Action.MOVE),
                 () -> assertEquals(field[0][0], Color.BLACK)
         );
     }
@@ -27,7 +28,7 @@ public class GameFieldPanelTest {
         DrawGui drawGui = new DrawGui(scannerGui);
         GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
         gameFieldPanel.buttonPass.doClick();
-        assertEquals(drawGui.scannerGui.getCommandType(), 2);
+        assertEquals(drawGui.scannerGui.getActionType(), Action.SKIP);
     }
 
     @Test
@@ -36,6 +37,6 @@ public class GameFieldPanelTest {
         DrawGui drawGui = new DrawGui(scannerGui);
         GameFieldPanel gameFieldPanel = new GameFieldPanel(drawGui);
         gameFieldPanel.buttonSurrender.doClick();
-        assertEquals(drawGui.scannerGui.getCommandType(), 3);
+        assertEquals(drawGui.scannerGui.getActionType(), Action.SURRENDER);
     }
 }

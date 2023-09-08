@@ -3,6 +3,7 @@ package io.deeplay.intership.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import io.deeplay.intership.model.Color;
 
 public class JoinGamePanel implements Panel {
     public final JDialog jDialog;
@@ -20,16 +21,16 @@ public class JoinGamePanel implements Panel {
     public JoinGamePanel(DrawGui drawGui) {
         this.drawGui = drawGui;
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, "Entrance");
+        jDialog = new JDialog(drawGui.frame, Settings.ENTRANCE);
         layout = new GridLayout(3, 1, 50, 10);
         gameIdLabel = new JLabel("Enter game id: ");
         colorLabel = new JLabel("Choose color: ");
-        gameId = new JTextField( 16);
-        buttonBlack = new JRadioButton("Black");
+        gameId = new JTextField( Settings.INPUT_LENGTH / 2);
+        buttonBlack = new JRadioButton(Settings.BLACK);
         buttonBlack.addActionListener(this);
-        buttonWhite = new JRadioButton("White");
+        buttonWhite = new JRadioButton(Settings.WHITE);
         buttonWhite.addActionListener(this);
-        buttonSubmit = new JButton("Submit");
+        buttonSubmit = new JButton(Settings.SUBMIT);
         buttonSubmit.addActionListener(this);
         isVisible = false;
         setPanel();
@@ -76,27 +77,27 @@ public class JoinGamePanel implements Panel {
         jPanel.add(buttonWhite);
         jPanel.add(buttonSubmit);
         jDialog.add(jPanel);
-        jDialog.setSize(500, 300);
+        jDialog.setSize(Settings.PANEL_WIDTH, Settings.PANEL_HEIGHT);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals("Black")) {
+        if(line.equals(Settings.BLACK)) {
             buttonWhite.setSelected(false);
             buttonBlack.setSelected(true);
         }
-        if(line.equals("White")) {
+        if(line.equals(Settings.WHITE)) {
             buttonWhite.setSelected(true);
             buttonBlack.setSelected(false);
         }
-        if(line.equals("Submit")) {
+        if(line.equals(Settings.SUBMIT)) {
             if (buttonWhite.isSelected()) {
-                drawGui.scannerGui.setColor(1);
+                drawGui.scannerGui.setColor(Color.WHITE);
             } else if (buttonBlack.isSelected()) {
-                drawGui.scannerGui.setColor(2);
+                drawGui.scannerGui.setColor(Color.BLACK);
             } else {
-                drawGui.scannerGui.setColor(3);
+                drawGui.scannerGui.setColor(Color.EMPTY);
             }
 
             String gameStrNumber = gameId.getText();
