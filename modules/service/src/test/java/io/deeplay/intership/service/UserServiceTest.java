@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
     private final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
-    private final AggregatorUtil aggregatorUtil = mock(AggregatorUtil.class);
+    private final AggregatorUtil aggregatorUtil = new AggregatorUtil(collectionsAggregator);//mock(AggregatorUtil.class);
     private final UserDao userDao = mock(UserDao.class);
     private final UserService userService = new UserService(collectionsAggregator, userDao);
 
@@ -36,8 +36,8 @@ public class UserServiceTest {
         final String passwordHash = "1234567890";
         final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
         final User user = new User(login, passwordHash);
-
-        when(userDao.getUserByLogin(login)).thenReturn(Optional.of(user));
+        aggregatorUtil.addNewUser(user);
+        when(aggregatorUtil.getUserByLogin(login)).thenReturn(Optional.of(user));
 
         final var loginResponse = userService.login(loginRequest);
 
@@ -56,8 +56,8 @@ public class UserServiceTest {
         final String passwordHash = "1234567890";
         final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
         final User user = new User(login, passwordHash);
-
-        when(userDao.getUserByLogin(login)).thenReturn(Optional.of(user));
+        aggregatorUtil.addNewUser(user);
+//        when(aggregatorUtil.getUserByLogin(loginRequest.login)).thenReturn(Optional.of(user));
 
         final var firstResponse = userService.login(loginRequest);
         final var secondResponse = userService.login(loginRequest);
@@ -111,14 +111,13 @@ public class UserServiceTest {
                 login,
                 passwordHash
         );
-
         final var response = userService.register(registerRequest);
         final ResponseStatus expectedStatus = ResponseStatus.SUCCESS;
         final String expectedMessage = ResponseInfoMessage.SUCCESS_REGISTRATION.message;
         assertAll(
                 () -> assertEquals(expectedStatus, response.status),
                 () -> assertEquals(expectedMessage, response.message),
-                () -> assertDoesNotThrow(() -> userService.register(registerRequest))
+                () -> assertThrows(ServerException.class, () -> userService.register(registerRequest))
         );
     }
 

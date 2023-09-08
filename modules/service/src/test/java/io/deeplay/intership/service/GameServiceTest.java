@@ -24,7 +24,8 @@ public class GameServiceTest {
     private final ConcurrentMap<String, GameSession> idToGameSession = mock(ConcurrentHashMap.class);
     private final ConcurrentMap<String, User> tokenToUser = mock(ConcurrentHashMap.class);
     private final ConcurrentMap<String, String> playerToGame = mock(ConcurrentHashMap.class);
-    private final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator(idToGameSession, tokenToUser, playerToGame);
+    private final ConcurrentMap<String, User> users = mock(ConcurrentHashMap.class);
+    private final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator(idToGameSession, tokenToUser, playerToGame, users);
     private final GameService gameService = new GameService(collectionsAggregator);
     private final GameplayService gameplayService = new GameplayService(collectionsAggregator);
 
