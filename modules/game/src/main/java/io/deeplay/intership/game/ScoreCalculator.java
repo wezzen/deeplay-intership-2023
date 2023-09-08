@@ -22,14 +22,29 @@ public class ScoreCalculator {
         whiteScore = 0;
     }
 
+    /**
+     * Используем при подсчете захваченных камней, соответственно прибавляем
+     * белые камни, окруженные черными в счет черных.
+     * @param pointsCount
+     */
     public void addBlackPoints(int pointsCount) {
         blackScore += pointsCount;
     }
 
+    /**
+     * Используем при подсчете захваченных камней, соответственно прибавляем
+     * черные камни, окруженные белыми в счет белых.
+     * @param pointsCount
+     */
     public void addWhitePoints(int pointsCount) {
         whiteScore += pointsCount;
     }
 
+    /**
+     * Возвращаем общий счет для вывода на экран в конце игры, чтобы понять,
+     * кто победил.
+     * @return {@link Score}
+     */
     public Score getTotalScore() {
         stonesCounter.countCapturedEmptyStones();
         blackScore += stonesCounter.getBlackPoints();

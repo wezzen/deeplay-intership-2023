@@ -56,6 +56,11 @@ public class CapturedCellsCalculator {
         return surroundedGroups;
     }
 
+    /**
+     * Нужна для распределения пустых камней по группам для того, чтобы в конце
+     * игры произвести подсчет захваченных камней.
+     * @return {@link Set<Stone>} множество всех пустых камней на поле
+     */
     private Set<Stone> findEmptyStones() {
         Set<Stone> emptyStones = new HashSet<>();
         for (int i = 0; i < gameField.length; i++) {
@@ -71,12 +76,24 @@ public class CapturedCellsCalculator {
         return emptyStones;
     }
 
+    /**
+     * Нужна для проверки: разные ли группы оказались по соседству. Если разные,
+     * то вызываем метод, который объединит их в одну группу.
+     * @param firstStone {@link Stone}
+     * @param secondStone {@link Stone}
+     */
     private void mergeStonesGroup(final Stone firstStone, final Stone secondStone) {
         if (firstStone.getGroup() != secondStone.getGroup()) {
             mergeGroups(firstStone.getGroup(), secondStone.getGroup());
         }
     }
 
+    /**
+     * Производим слияние двух групп.
+     * Помещаем камни из меньшей по размеру группы в большую.
+     * @param firstGroup
+     * @param secondGroup
+     */
     private void mergeGroups(final Group firstGroup, final Group secondGroup) {
         if (firstGroup.getStonesCount() >= secondGroup.getStonesCount()) {
             firstGroup.getStones().addAll(secondGroup.getStones());
@@ -86,6 +103,12 @@ public class CapturedCellsCalculator {
         }
     }
 
+    /**
+     * Из всего множества камней находим уникальные существующие группы камней,
+     * чтобы дальше использовать эти группы при подсчете входящих в них камней.
+     * @param stones {@link Set<Stone>}
+     * @return
+     */
     private Set<Group> getUniqueGroups(Set<Stone> stones) {
         Set<Group> groups = new HashSet<>();
         for (Stone item : stones) {
