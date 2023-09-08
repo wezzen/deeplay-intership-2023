@@ -21,7 +21,7 @@ public class CheckGameOver {
     /**
      * Проверяет, можно ли сделать ход указанным цветом. Уменьшает количество камней указанного цвета.
      *
-     * @param color цвет игрока, делающего ход
+     * @param color {@link Color} цвет игрока, делающего ход
      * @return {@code true}, если ход можно сделать, иначе {@code false}
      * @throws {@link IllegalStateException}, если цвет не черный или белый
      */

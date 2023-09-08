@@ -9,6 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Данный класс предназаначен для контроля формирования групп камней на поле,
+ * он отвечает за удаление старых, формирование новых, а также слияние имеющихся групп.
+ */
 public class GroupControl {
     private final Logger logger = Logger.getLogger(GroupControl.class);
     private final Stone[][] gameField;
@@ -23,10 +27,10 @@ public class GroupControl {
 
     /**
      * Берем все соседние камни определенного цвета, чтобы дальше использовать
-     * при построении групп и проверки самоубийства.
-     * @param stone {@link Stone}
-     * @param color {@link Color}
-     * @return {@link Set<Stone>}
+     * при построении групп и проверке самоубийства.
+     * @param stone {@link Stone} текущий камень
+     * @param color {@link Color} цвет камней по соседству с текущим камнем
+     * @return {@link Set<Stone>} множество соседей к текущему камню указанного цвета
      */
     public Set<Stone> getNearStonesByColor(Stone stone, Color color) {
         final int x = stone.getRowNumber();
@@ -51,8 +55,8 @@ public class GroupControl {
     /**
      * При очередном ходе проверяем, если новый камень забрал у какой-то
      * вражеской группы по соседству последнее дамэ, тогда удаляем эту группу.
-     * @param stone {@link Stone}
-     * @return
+     * @param stone {@link Stone} новый поставленный на поле камень
+     * @return countOfRemovedStones количество удаленных с поля камней
      */
     public int removeGroup(Stone stone) {
         Set<Stone> enemyStones = getNearStonesByColor(stone, Color.invertColor(stone.getColor()));
@@ -79,7 +83,7 @@ public class GroupControl {
      * если он может войти в несколько групп то сливаем эти группы в большую
      * по размеру, если группа по соседству одна, то просто в нее добавляем его.
      * Если групп нет по соседству, тогда создаем новую группу.
-     * @param stone {@link Stone}
+     * @param stone {@link Stone} камень, который нужно определить в группу
      */
     public void setGroup(Stone stone) {
         Set<Stone> friendStones = getNearStonesByColor(stone, stone.getColor());
@@ -119,7 +123,7 @@ public class GroupControl {
     /**
      * Убираем этот камень из множества свободных дамэ соседних вражеских групп.
      * Используется, когда мы ставим на позицию новый камень.
-     * @param stone {@link Stone}
+     * @param stone {@link Stone} новый камень, который соседствует с вражескими
      */
     public void removeFreeCellFromNeighborStones(Stone stone) {
         Set<Stone> neighborStones = getNearStones(stone);
@@ -132,8 +136,8 @@ public class GroupControl {
 
     /**
      * Берем все соседние к данному камни независимо от их цвета.
-     * @param currentStone {@link Stone}
-     * @return
+     * @param currentStone {@link Stone} некоторый камень, вокруг него смотрим
+     * @return {@link Set<Stone>} множество всех соседних камней
      */
     public Set<Stone> getNearStones(Stone currentStone) {
         int x = currentStone.getRowNumber();
@@ -155,9 +159,10 @@ public class GroupControl {
     }
 
     /**
-     * Возвращаем все пустые камни по соседстсву с данным. Нужно для того, чтобы
-     * найти камни, дающие дамэ группе.
-     * @param stone {@link Stone}
+     * Возвращаем всем вражеским группам по соседстсву с данным камнем
+     * этот камень в множество свободных дамэ, так как он был уничтожен.
+     * У него либо у его группы не осталось свободных дамэ.
+     * @param stone {@link Stone}  некоторый мертвый камень
      */
     private void returnFreeCell(Stone stone) {
         Color color = stone.getColor();

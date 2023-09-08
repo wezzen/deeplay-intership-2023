@@ -9,6 +9,11 @@ import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.validation.Validation;
 
+/**
+ * Класс игры со всеми необходимыми для процесса игры полями.
+ * Имеется валидатор, логгер, игровая доска, групповой контроль,
+ * номер игры, проверщик конца игры, счётчик очков.
+ */
 public class Game {
     private static int idGenerator = 1;
     private final int gameId;
@@ -33,7 +38,7 @@ public class Game {
 
     /**
      * Начинает игру, запускает логгер.
-     * @return {@link Stone[][]} изначальное состояние доски
+     * @return {@link Stone} массив изначального состояния доски
      */
     public Board startGame() {
         gameLog.startGame(gameId);
@@ -42,8 +47,8 @@ public class Game {
 
     /**
      * Реализует пропуск хода, через цвет понимаем, кто именно пропускает ход.
-     * @param color
-     * @return {@link Stone[][]} возвращаем новое состояние доски
+     * @param color цвет игрока, который пропускает ход
+     * @return {@link Stone} возвращаем массив нового состояния доски
      */
     public Stone[][] skipTurn(Color color) {
         if (!checkGameOver.canSkipTurn()) {
@@ -57,7 +62,7 @@ public class Game {
      * Позволяет клиенту сделать ход в той позиции, в которой находится
      * поданный на вход Stone. Также здесь происходят групповые преобразования.
      * @param stone позиция, в которую делаем ход
-     * @return {@link Stone[][]} измененное состояние доски
+     * @return {@link Stone} массив измененного состояния доски
      * @throws GameException при возникновении проблемы игрового процесса
      */
     public Stone[][] makeMove(Stone stone) throws GameException {

@@ -25,7 +25,7 @@ public class ScoreCalculator {
     /**
      * Используем при подсчете захваченных камней, соответственно прибавляем
      * белые камни, окруженные черными в счет черных.
-     * @param pointsCount
+     * @param pointsCount количество новых полученных черным игроком очков
      */
     public void addBlackPoints(int pointsCount) {
         blackScore += pointsCount;
@@ -34,7 +34,7 @@ public class ScoreCalculator {
     /**
      * Используем при подсчете захваченных камней, соответственно прибавляем
      * черные камни, окруженные белыми в счет белых.
-     * @param pointsCount
+     * @param pointsCount количество новых полученных белым игроком очков
      */
     public void addWhitePoints(int pointsCount) {
         whiteScore += pointsCount;
@@ -43,7 +43,7 @@ public class ScoreCalculator {
     /**
      * Возвращаем общий счет для вывода на экран в конце игры, чтобы понять,
      * кто победил.
-     * @return {@link Score}
+     * @return {@link Score} возвращет финальный счет игры
      */
     public Score getTotalScore() {
         stonesCounter.countCapturedEmptyStones();
