@@ -8,7 +8,7 @@ import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.validator.Validator;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.service.GameplayService;
@@ -45,7 +45,7 @@ public class GameplayTest {
         final String response = "response";
 
         when(gameplayService.surrenderGame(mock(SurrenderDtoRequest.class)))
-                .thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+                .thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> gameplayController.surrenderGame(dtoRequest));
     }
@@ -73,7 +73,7 @@ public class GameplayTest {
         final String response = "response";
 
         when(gameplayService.turn(mock(TurnDtoRequest.class)))
-                .thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+                .thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> gameplayController.turn(mock(TurnDtoRequest.class)));
     }
@@ -95,7 +95,7 @@ public class GameplayTest {
         final String response = "response";
 
         when(gameplayService.pass(mock(PassDtoRequest.class)))
-                .thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+                .thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> gameplayController.pass(mock(PassDtoRequest.class)));
     }

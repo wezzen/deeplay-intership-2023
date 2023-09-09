@@ -4,7 +4,7 @@ import io.deeplay.intership.dto.request.LoginDtoRequest;
 import io.deeplay.intership.dto.request.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.validator.Validator;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.service.UserService;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
@@ -52,7 +52,7 @@ public class UserControllerTest {
                 login,
                 password);
 
-        when(userService.register(dtoRequest)).thenThrow(new ServerException(ErrorCode.LOGIN_IS_EXIST));
+        when(userService.register(dtoRequest)).thenThrow(new ServerException(ServerErrorCode.LOGIN_IS_EXIST));
 
         assertDoesNotThrow(() -> userController.registerUser(dtoRequest));
     }
@@ -78,7 +78,7 @@ public class UserControllerTest {
                 password);
         final String response = dtoRequest.toString();
 
-        when(userService.login(dtoRequest)).thenThrow(new ServerException(ErrorCode.NOT_FOUND_LOGIN));
+        when(userService.login(dtoRequest)).thenThrow(new ServerException(ServerErrorCode.NOT_FOUND_LOGIN));
 
         assertDoesNotThrow(() -> userController.login(dtoRequest));
     }
@@ -97,7 +97,7 @@ public class UserControllerTest {
         final String token = UUID.randomUUID().toString();
         final LogoutDtoRequest dtoRequest = new LogoutDtoRequest(token);
 
-        when(userService.logout(dtoRequest)).thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+        when(userService.logout(dtoRequest)).thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> userController.logout(dtoRequest));
     }

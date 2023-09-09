@@ -1,7 +1,7 @@
 package io.deeplay.intership.dao.file;
 
 import io.deeplay.intership.dao.UserDao;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.User;
 import org.apache.log4j.Logger;
@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class UserDaoImpl implements UserDao {
@@ -24,7 +23,7 @@ public class UserDaoImpl implements UserDao {
             logger.debug("Login and password have been successfully written to the file.");
         } catch (IOException ex) {
             logger.debug("Error writing username and password: " + ex.getMessage());
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+            throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
         }
     }
 
@@ -40,7 +39,7 @@ public class UserDaoImpl implements UserDao {
             return users;
         } catch (IOException ex) {
             logger.debug("Can't get all users");
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+            throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
         }
     }
 }
