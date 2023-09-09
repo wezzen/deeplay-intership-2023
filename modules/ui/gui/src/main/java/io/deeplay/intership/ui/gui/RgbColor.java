@@ -1,0 +1,7 @@
+package io.deeplay.intership.ui.gui;
+
+public record RgbColor(int red, int green, int blue) {
+    public int[] getRgbColor(){
+        return new int[]{red, green, blue};
+    }
+}

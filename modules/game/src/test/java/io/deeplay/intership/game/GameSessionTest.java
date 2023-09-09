@@ -1,6 +1,6 @@
 package io.deeplay.intership.game;
 
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Player;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class GameSessionTest {
     public void testRepeatedPlayerException(){
         GameSession gameSession = new GameSession(UUID.randomUUID().toString());
         gameSession.addCreator(new Player("abobus", "Black"));
-        assertThrows(new ServerException(ErrorCode.REPEATED_PLAYER).getClass(), () -> gameSession.addPlayer(new Player("abobus", "White")));
+        assertThrows(new ServerException(ServerErrorCode.REPEATED_PLAYER).getClass(), () -> gameSession.addPlayer(new Player("abobus", "White")));
     }
 
     @Test

@@ -3,7 +3,7 @@ package io.deeplay.intership.service;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.dto.validator.Validator;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.Color;
@@ -144,7 +144,7 @@ public class GameService {
     private GameSession findGameSessionById(final String gameId) throws ServerException {
         GameSession gameSession = ID_TO_GAME_SESSION.get(gameId);
         if (gameSession == null) {
-            throw new ServerException(ErrorCode.GAME_NOT_FOUND);
+            throw new ServerException(ServerErrorCode.GAME_NOT_FOUND);
         }
         return gameSession;
     }
@@ -152,7 +152,7 @@ public class GameService {
     private Player findPlayerByToken(final String token) throws ServerException {
         final Player player = ACTIVE_PLAYERS.get(token);
         if (player == null) {
-            throw new ServerException(ErrorCode.GAME_NOT_FOUND);
+            throw new ServerException(ServerErrorCode.GAME_NOT_FOUND);
         }
         return player;
     }
