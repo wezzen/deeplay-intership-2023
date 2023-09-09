@@ -1,6 +1,6 @@
 package io.deeplay.intership.game;
 
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.exception.game.GameException;
 import io.deeplay.intership.model.Color;
@@ -49,7 +49,7 @@ public class GameSession {
      */
     public synchronized void addPlayer(final Player player) throws ServerException {
         if (player.login().equals(creator.login())) {
-            throw new ServerException(ErrorCode.REPEATED_PLAYER);
+            throw new ServerException(ServerErrorCode.REPEATED_PLAYER);
         }
 
         setColor(player);
@@ -105,7 +105,7 @@ public class GameSession {
             changePlayerTurn();
             return getFieldCopy(gameField);
         } catch (GameException ex) {
-            throw new ServerException(ErrorCode.INVALID_MOVE);
+            throw new ServerException(ServerErrorCode.INVALID_MOVE);
         }
     }
 
@@ -135,7 +135,7 @@ public class GameSession {
      */
     private synchronized void isNotStarted() throws ServerException {
         if (!isStarted) {
-            throw new ServerException(ErrorCode.GAME_NOT_STARTED);
+            throw new ServerException(ServerErrorCode.GAME_NOT_STARTED);
         }
     }
 
@@ -147,7 +147,7 @@ public class GameSession {
      */
     private synchronized void checkTurnOrder(final Player player) throws ServerException {
         if (!currentTurn.login().equals(player.login())) {
-            throw new ServerException(ErrorCode.INVALID_TURN_ORDER);
+            throw new ServerException(ServerErrorCode.INVALID_TURN_ORDER);
         }
     }
 
@@ -169,7 +169,7 @@ public class GameSession {
      */
     private synchronized void isFinishedGame() throws ServerException {
         if (game.gameIsOver()) {
-            throw new ServerException(ErrorCode.GAME_WAS_FINISHED);
+            throw new ServerException(ServerErrorCode.GAME_WAS_FINISHED);
         }
     }
 

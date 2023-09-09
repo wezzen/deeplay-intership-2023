@@ -1,7 +1,7 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.model.Color;
@@ -70,7 +70,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(createGame);
         when(gameService.createGame(mock(CreateGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -104,7 +104,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(finishGame);
         when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -140,7 +140,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(registration);
         when(userService.register(mock(RegistrationDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -176,7 +176,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(loginDto);
         when(userService.authorization(mock(LoginDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
         clientHandler.login((LoginDtoRequest) loginDto);
         assertAll(
@@ -210,7 +210,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(logout);
         when(userService.logout(mock(LogoutDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -250,7 +250,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(joinGame);
         when(gameService.joinGame(mock(JoinGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -292,7 +292,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(turn);
         when(gameService.turn(mock(TurnDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -328,7 +328,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(passGame);
         when(gameService.pass(mock(PassDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -364,7 +364,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(surrender);
         when(gameService.surrenderGame(mock(SurrenderDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(
@@ -400,7 +400,7 @@ public class ClientHandlerTest {
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(finishGame);
         when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
                 .thenAnswer(invocation -> {
-                    throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
                 });
 
         assertAll(

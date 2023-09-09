@@ -2,7 +2,7 @@ package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.*;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.service.GameService;
@@ -91,7 +91,7 @@ public class ClientHandler implements Runnable {
         if (dto instanceof final PassDtoRequest request) {
             return pass(request);
         }
-        return getFailureResponse(new ServerException(ErrorCode.INVALID_REQUEST_TYPE));
+        return getFailureResponse(new ServerException(ServerErrorCode.INVALID_REQUEST_TYPE));
     }
 
     public String registerUser(RegistrationDtoRequest dtoRequest) {
@@ -204,7 +204,7 @@ public class ClientHandler implements Runnable {
             final ActionDtoResponse response = gameService.pass(dtoRequest);
             return converter.getJsonFromObject(response);
         } catch (ServerException ex) {
-            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+            if (ex.serverErrorCode == ServerErrorCode.GAME_WAS_FINISHED) {
                 return endGame();
             }
             logger.debug("Clients operation 'pass' was failed");

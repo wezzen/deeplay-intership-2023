@@ -9,7 +9,7 @@ import io.deeplay.intership.dto.request.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.dto.validator.Validator;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.User;
 import org.apache.log4j.Logger;
@@ -57,10 +57,10 @@ public class UserService {
         dtoValidator.validationLoginDto(dtoRequest);
 
         User currentUser = findUserByLogin(dtoRequest.login)
-                .orElseThrow(() -> new ServerException(ErrorCode.NOT_FOUND_LOGIN));
+                .orElseThrow(() -> new ServerException(ServerErrorCode.NOT_FOUND_LOGIN));
         if (!currentUser.passwordHash().equals(dtoRequest.passwordHash)) {
             logger.debug("Incorrect password");
-            throw new ServerException(ErrorCode.INVALID_AUTHORIZATION);
+            throw new ServerException(ServerErrorCode.INVALID_AUTHORIZATION);
         }
 
         removeTokenIfExist(currentUser);
@@ -85,7 +85,7 @@ public class UserService {
     public InfoDtoResponse register(final RegistrationDtoRequest dtoRequest) throws ServerException {
         dtoValidator.validationRegistrationDto(dtoRequest);
         if (findUserByLogin(dtoRequest.login).isPresent()) {
-            throw new ServerException(ErrorCode.LOGIN_IS_EXIST);
+            throw new ServerException(ServerErrorCode.LOGIN_IS_EXIST);
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(CREDENTIALS_FILE_NAME, true))) {
@@ -94,7 +94,7 @@ public class UserService {
             logger.debug("Login and password have been successfully written to the file.");
         } catch (IOException ex) {
             logger.debug("Error writing username and password: " + ex.getMessage());
-            throw new ServerException(ErrorCode.SERVER_EXCEPTION);
+            throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
         }
 
         logger.debug("User was successfully registered");
@@ -154,7 +154,7 @@ public class UserService {
     public User findUserByToken(final String token) throws ServerException {
         User user = AUTHORIZED_USERS.get(token);
         if (user == null) {
-            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
+            throw new ServerException(ServerErrorCode.NOT_AUTHORIZED);
         }
         return user;
     }

@@ -1,5 +1,6 @@
 package io.deeplay.intership.bot;
 
+import io.deeplay.intership.bot.random.RandomBot;
 import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
