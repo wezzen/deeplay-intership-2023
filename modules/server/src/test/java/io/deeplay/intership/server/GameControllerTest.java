@@ -7,7 +7,7 @@ import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.validator.Validator;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.service.GameService;
@@ -56,7 +56,7 @@ public class GameControllerTest {
     @Test
     public void testCreateGameFailure() throws ServerException {
         when(gameService.createGame(mock(CreateGameDtoRequest.class)))
-                .thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+                .thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> gameController.createGame(mock(CreateGameDtoRequest.class)));
     }
@@ -75,7 +75,7 @@ public class GameControllerTest {
         final String response = "response";
 
         when(gameService.joinGame(mock(JoinGameDtoRequest.class)))
-                .thenThrow(new ServerException(ErrorCode.NOT_AUTHORIZED));
+                .thenThrow(new ServerException(ServerErrorCode.NOT_AUTHORIZED));
 
         assertDoesNotThrow(() -> gameController.joinGame(mock(JoinGameDtoRequest.class)));
     }

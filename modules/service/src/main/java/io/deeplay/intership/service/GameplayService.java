@@ -4,7 +4,7 @@ import io.deeplay.intership.dto.request.PassDtoRequest;
 import io.deeplay.intership.dto.request.SurrenderDtoRequest;
 import io.deeplay.intership.dto.request.TurnDtoRequest;
 import io.deeplay.intership.dto.response.*;
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.Score;
@@ -44,7 +44,7 @@ public class GameplayService {
                     ResponseInfoMessage.SUCCESS_TURN.message,
                     gameField);
         } catch (ServerException ex) {
-            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+            if (ex.errorCode == ServerErrorCode.GAME_WAS_FINISHED) {
                 finishGame(gameSession);
             }
             throw ex;
@@ -68,7 +68,7 @@ public class GameplayService {
                     ResponseInfoMessage.SUCCESS_PASS.message,
                     gameField);
         } catch (ServerException ex) {
-            if (ex.errorCode == ErrorCode.GAME_WAS_FINISHED) {
+            if (ex.errorCode == ServerErrorCode.GAME_WAS_FINISHED) {
                 return finishGame(gameSession);
             }
             throw ex;

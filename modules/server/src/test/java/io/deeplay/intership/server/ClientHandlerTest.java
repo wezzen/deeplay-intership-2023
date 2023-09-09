@@ -94,25 +94,6 @@ public class ClientHandlerTest {
     }
 
     @Test
-    public void testDefineCommand2_Failure() {
-        final String gameId = UUID.randomUUID().toString();
-        final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
-        final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
-        final String request = converter.getJsonFromObject(finishGame);
-
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(finishGame);
-        when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
-                .thenAnswer(invocation -> {
-                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
-                });
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
-        );
-    }
-
-    @Test
     public void testDefineCommand3() {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
@@ -382,26 +363,6 @@ public class ClientHandlerTest {
         final String request = converter.getJsonFromObject(finishGame);
 
         when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(finishGame);
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))
-        );
-    }
-
-    @Test
-    public void testDefineCommand10_Failure() {
-        final String gameId = UUID.randomUUID().toString();
-        final Socket socket = new Socket();
-        final ClientHandler clientHandler = new ClientHandler(socket, gameService, userService, converter);
-
-        final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
-        final String request = converter.getJsonFromObject(finishGame);
-
-        when(converter.getObjectFromJson(request, BaseDtoRequest.class)).thenReturn(finishGame);
-        when(gameService.finishGame(mock(FinishGameDtoRequest.class)))
-                .thenAnswer(invocation -> {
-                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
-                });
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(request))

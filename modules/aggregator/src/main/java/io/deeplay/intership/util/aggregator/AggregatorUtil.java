@@ -1,6 +1,6 @@
 package io.deeplay.intership.util.aggregator;
 
-import io.deeplay.intership.exception.ErrorCode;
+import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.User;
@@ -37,7 +37,7 @@ public class AggregatorUtil {
     public User getUserByToken(final String token) throws ServerException {
         User user = collectionsAggregator.tokenToUser().get(token);
         if (user == null) {
-            throw new ServerException(ErrorCode.NOT_AUTHORIZED);
+            throw new ServerException(ServerErrorCode.NOT_AUTHORIZED);
         }
         return user;
     }
@@ -46,7 +46,7 @@ public class AggregatorUtil {
     public GameSession getGameSessionById(final String gameId) throws ServerException {
         GameSession gameSession = collectionsAggregator.idToGameSession().get(gameId);
         if (gameSession == null) {
-            throw new ServerException(ErrorCode.GAME_NOT_FOUND);
+            throw new ServerException(ServerErrorCode.GAME_NOT_FOUND);
         }
         return gameSession;
     }
@@ -54,7 +54,7 @@ public class AggregatorUtil {
     public GameSession getGameByUserToken(final String token) throws ServerException {
         final String gameId = collectionsAggregator.playerToGame().get(token);
         if (gameId == null) {
-            throw new ServerException(ErrorCode.GAME_NOT_FOUND);
+            throw new ServerException(ServerErrorCode.GAME_NOT_FOUND);
         }
         return getGameSessionById(gameId);
     }
