@@ -1,5 +1,6 @@
 package io.deeplay.intership.client;
 
+import io.deeplay.intership.connection.ClientStreamConnector;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.LoginPassword;
@@ -11,13 +12,14 @@ import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ClientException;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class AuthorizationControllerTest {
-    private final StreamConnector streamConnector = mock(StreamConnector.class);
+    private final ClientStreamConnector streamConnector = mock(ClientStreamConnector.class);
     private final UserInterface userInterface = mock(UserInterface.class);
     private final DecisionMaker decisionMaker = mock(DecisionMaker.class);
 
@@ -27,7 +29,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testRegistration() throws ClientException {
+    public void testRegistration() throws IOException {
         final AuthorizationController authorizationController = new AuthorizationController(
                 streamConnector,
                 userInterface,
@@ -45,7 +47,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testLogin() throws ClientException {
+    public void testLogin() throws IOException {
         final AuthorizationController authorizationController = new AuthorizationController(
                 streamConnector,
                 userInterface,
@@ -65,7 +67,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testLogout() throws ClientException {
+    public void testLogout() throws IOException {
         final AuthorizationController authorizationController = new AuthorizationController(
                 streamConnector,
                 userInterface,
@@ -81,7 +83,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testAuthorizeClient_ForLogin() throws ClientException {
+    public void testAuthorizeClient_ForLogin() throws IOException, ClientException {
         final AuthorizationController authorizationController = new AuthorizationController(
                 streamConnector,
                 userInterface,
@@ -113,7 +115,7 @@ public class AuthorizationControllerTest {
     }
 
     @Test
-    public void testAuthorizeClient_ForRegistration() throws ClientException {
+    public void testAuthorizeClient_ForRegistration() throws IOException, ClientException {
         final AuthorizationController authorizationController = new AuthorizationController(
                 streamConnector,
                 userInterface,

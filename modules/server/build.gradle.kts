@@ -1,10 +1,11 @@
 dependencies {
-    implementation(project(":aggregator"))
     implementation(project(":dto"))
-    implementation(project(":dto-validator"))
     implementation(project(":game"))
     implementation(project(":model"))
+
     implementation(project(":service"))
-    implementation(project(":json-converter"))
+    implementation(project(":aggregator"))
+    implementation(project(":socket-io"))
+    implementation(project(":dto-validator"))
     implementation(project(":server-exception"))
 }

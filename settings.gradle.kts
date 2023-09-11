@@ -68,3 +68,6 @@ project(":dao").projectDir = file("modules/dao")
 
 include("aggregator")
 project(":aggregator").projectDir = file("modules/aggregator")
+
+include("socket-io")
+project(":socket-io").projectDir = file("modules/socket-io")

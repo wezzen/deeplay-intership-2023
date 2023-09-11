@@ -1,12 +1,15 @@
 dependencies {
-    implementation(project(":model"))
     implementation(project(":dto"))
-    implementation(project(":gui"))
-    implementation(project(":decision-maker"))
-    implementation(project(":terminal-ui"))
-    implementation(project(":json-converter"))
+    implementation(project(":model"))
+
     implementation(project(":user-interface"))
+    implementation(project(":gui"))
+    implementation(project(":terminal-ui"))
+
+    implementation(project(":decision-maker"))
     implementation(project(":decision-maker-terminal"))
     implementation(project(":decision-maker-gui"))
+
+    implementation(project(":socket-io"))
     implementation(project(":client-exception"))
 }
