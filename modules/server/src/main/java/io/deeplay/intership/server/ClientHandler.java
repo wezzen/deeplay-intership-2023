@@ -1,11 +1,11 @@
 package io.deeplay.intership.server;
 
+import io.deeplay.intership.connection.ServerStreamConnector;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.FailureDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
-import io.deeplay.intership.json.converter.JSONConverter;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.apache.log4j.Logger;
 
@@ -20,45 +20,44 @@ public class ClientHandler implements Runnable {
     private static final AtomicInteger clientIdCounter = new AtomicInteger(1);
     private final Logger logger = Logger.getLogger(ClientHandler.class);
     private final Socket clientSocket;
+    private final ServerStreamConnector streamConnector;
     private final UserController userController;
     private final GameController gameController;
     private final GameplayController gameplayController;
-    private final JSONConverter converter;
 
 
     public ClientHandler(
             Socket clientSocket,
             UserController userController,
             GameController gameController,
-            GameplayController gameplayController,
-            JSONConverter converter) {
+            GameplayController gameplayController) throws IOException {
         this.clientSocket = clientSocket;
         this.userController = userController;
         this.gameController = gameController;
         this.gameplayController = gameplayController;
-        this.converter = converter;
+        this.streamConnector = new ServerStreamConnector(
+                new DataOutputStream(clientSocket.getOutputStream()),
+                new DataInputStream(clientSocket.getInputStream())
+        );
         clientIdCounter.getAndAdd(1);
     }
 
-    public ClientHandler(Socket socket, DataCollectionsAggregator collectionsAggregator) {
+    public ClientHandler(Socket socket, DataCollectionsAggregator collectionsAggregator) throws IOException {
         this(
                 socket,
-                new UserController(collectionsAggregator,clientIdCounter.get()),
+                new UserController(collectionsAggregator, clientIdCounter.get()),
                 new GameController(collectionsAggregator, clientIdCounter.get()),
-                new GameplayController(collectionsAggregator, clientIdCounter.get()),
-                new JSONConverter());
+                new GameplayController(collectionsAggregator, clientIdCounter.get()));
     }
 
     @Override
     public void run() {
-        try (DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-             DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream())) {
+        try {
             //TODO: реализовать отключение клиента от сервера, после n секунд бездействия со стороны клиента
             while (!clientSocket.isClosed()) {
-                String clientCommand = in.readUTF();
-                BaseDtoResponse dtoResponse = defineCommand(clientCommand);
-                out.writeUTF(converter.getJsonFromObject(dtoResponse));
-                out.flush();
+                BaseDtoRequest dtoRequest = streamConnector.getRequest();
+                BaseDtoResponse dtoResponse = defineCommand(dtoRequest);
+                streamConnector.sendResponse(dtoResponse);
             }
         } catch (IOException e) {
             logger.debug(e.getMessage());
@@ -73,31 +72,29 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public BaseDtoResponse defineCommand(final String json) {
-        final BaseDtoRequest dto = converter.getObjectFromJson(json, BaseDtoRequest.class);
-
-        if (dto instanceof final RegistrationDtoRequest request) {
+    public BaseDtoResponse defineCommand(final BaseDtoRequest dtoRequest) {
+        if (dtoRequest instanceof final RegistrationDtoRequest request) {
             return userController.registerUser(request);
         }
-        if (dto instanceof final LoginDtoRequest request) {
+        if (dtoRequest instanceof final LoginDtoRequest request) {
             return userController.login(request);
         }
-        if (dto instanceof final LogoutDtoRequest request) {
+        if (dtoRequest instanceof final LogoutDtoRequest request) {
             return userController.logout(request);
         }
-        if (dto instanceof final CreateGameDtoRequest request) {
+        if (dtoRequest instanceof final CreateGameDtoRequest request) {
             return gameController.createGame(request);
         }
-        if (dto instanceof final JoinGameDtoRequest request) {
+        if (dtoRequest instanceof final JoinGameDtoRequest request) {
             return gameController.joinGame(request);
         }
-        if (dto instanceof final SurrenderDtoRequest request) {
+        if (dtoRequest instanceof final SurrenderDtoRequest request) {
             return gameplayController.surrenderGame(request);
         }
-        if (dto instanceof final TurnDtoRequest request) {
+        if (dtoRequest instanceof final TurnDtoRequest request) {
             return gameplayController.turn(request);
         }
-        if (dto instanceof final PassDtoRequest request) {
+        if (dtoRequest instanceof final PassDtoRequest request) {
             return gameplayController.pass(request);
         }
         return new FailureDtoResponse(ResponseStatus.FAILURE, ResponseInfoMessage.SUCCESS_FINISH_GAME.message);

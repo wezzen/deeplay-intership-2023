@@ -1,5 +1,6 @@
 package io.deeplay.intership.client;
 
+import io.deeplay.intership.connection.ClientStreamConnector;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
@@ -11,6 +12,7 @@ import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class GameControllerTest {
-    private final StreamConnector streamConnector = mock(StreamConnector.class);
+    private final ClientStreamConnector streamConnector = mock(ClientStreamConnector.class);
     private final UserInterface userInterface = mock(UserInterface.class);
     private final DecisionMaker decisionMaker = mock(DecisionMaker.class);
     private final GameController gameController = new GameController(streamConnector, userInterface, decisionMaker);
@@ -29,7 +31,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testJoinToGame_CreateGame() throws ClientException {
+    public void testJoinToGame_CreateGame() throws ClientException, IOException {
         final Color color = Color.BLACK;
         final int size = 9;
         final String token = UUID.randomUUID().toString();
@@ -52,7 +54,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testJoinToGame_JoinGame() throws ClientException {
+    public void testJoinToGame_JoinGame() throws ClientException, IOException {
         final Color color = Color.BLACK;
         final int size = 9;
         final String token = UUID.randomUUID().toString();
@@ -92,7 +94,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testLogin() throws ClientException {
+    public void testLogin() throws ClientException, IOException {
         final Color color = Color.BLACK;
         final int size = 9;
         final String token = UUID.randomUUID().toString();
@@ -114,7 +116,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testDefineGameAction_ForTurn() throws ClientException {
+    public void testDefineGameAction_ForTurn() throws ClientException, IOException {
         final int fieldSize = 9;
         final int row = 1;
         final int column = 5;
@@ -140,7 +142,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testDefineGameAction_ForPass() throws ClientException {
+    public void testDefineGameAction_ForPass() throws ClientException, IOException {
         final int fieldSize = 9;
         final int row = 1;
         final int column = 5;

@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.ui.UserInterface;
+import io.deeplay.intership.connection.ClientStreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
@@ -10,17 +10,18 @@ import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.LoginDtoResponse;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
-import io.deeplay.intership.json.converter.JSONConverter;
+import io.deeplay.intership.ui.UserInterface;
 import org.apache.log4j.Logger;
+
+import java.io.IOException;
 
 public class AuthorizationController {
     private final Logger logger = Logger.getLogger(AuthorizationController.class);
-    private final JSONConverter jsonConverter = new JSONConverter();
-    private final StreamConnector streamConnector;
+    private final ClientStreamConnector streamConnector;
     private final UserInterface userInterface;
     private final DecisionMaker decisionMaker;
 
-    public AuthorizationController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public AuthorizationController(ClientStreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
         this.streamConnector = streamConnector;
         this.userInterface = userInterface;
         this.decisionMaker = decisionMaker;
@@ -53,23 +54,32 @@ public class AuthorizationController {
     }
 
     public BaseDtoResponse registration(final LoginPassword loginPassword) throws ClientException {
-        String request = jsonConverter.getJsonFromObject(new RegistrationDtoRequest(
-                loginPassword.login(),
-                loginPassword.password()));
-        streamConnector.sendRequest(request);
-        return streamConnector.getResponse();
+        try {
+            streamConnector.sendRequest(new RegistrationDtoRequest(
+                    loginPassword.login(),
+                    loginPassword.password()));
+            return streamConnector.getResponse();
+        } catch (IOException ex) {
+            throw new ClientException(ClientErrorCode.UNKNOWN_IO_EXCEPTION);
+        }
     }
 
     public BaseDtoResponse login(final LoginPassword loginPassword) throws ClientException {
-        String requestString = jsonConverter.getJsonFromObject(new LoginDtoRequest(
-                loginPassword.login(),
-                loginPassword.password()));
-        streamConnector.sendRequest(requestString);
-        return streamConnector.getResponse();
+        try {
+            streamConnector.sendRequest(new LoginDtoRequest(
+                    loginPassword.login(),
+                    loginPassword.password()));
+            return streamConnector.getResponse();
+        } catch (IOException ex) {
+            throw new ClientException(ClientErrorCode.UNKNOWN_IO_EXCEPTION);
+        }
     }
 
     public void logout(final String token) throws ClientException {
-        String requestString = jsonConverter.getJsonFromObject(new LogoutDtoRequest(token));
-        streamConnector.sendRequest(requestString);
+        try {
+            streamConnector.sendRequest(new LogoutDtoRequest(token));
+        } catch (IOException ex) {
+            throw new ClientException(ClientErrorCode.UNKNOWN_IO_EXCEPTION);
+        }
     }
 }
