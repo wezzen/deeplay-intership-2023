@@ -9,7 +9,6 @@ import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class DecisionMakerTerminal implements DecisionMaker {
@@ -29,12 +28,12 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     @Override
-    public GameAction getGameAction() throws ClientException {
+    public GameAction getGameAction() {
         return switch (getChooseNumber()) {
             case 1 -> makeMove();
             case 2 -> skipTurn();
             case 3 -> surrender();
-            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
+            default -> throw new IllegalStateException(ClientErrorCode.NO_SUCH_OPTIONS.message);
         };
     }
 
@@ -48,13 +47,23 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     @Override
-    public Color getColor() throws ClientException {
+    public Color getColor() {
         return switch (getChooseNumber()) {
             case 1 -> Color.WHITE;
             case 2 -> Color.BLACK;
             case 3 -> getRandomColor();
-            default -> throw new ClientException(ClientErrorCode.NO_SUCH_OPTIONS);
+            default -> throw new IllegalStateException(ClientErrorCode.NO_SUCH_OPTIONS.message);
         };
+    }
+
+    @Override
+    public void startGame() {
+
+    }
+
+    @Override
+    public void endGame() {
+
     }
 
     private Color getRandomColor() {
@@ -69,20 +78,16 @@ public class DecisionMakerTerminal implements DecisionMaker {
      * Функция возвращает номер выбранного действия от 1 до 9
      *
      * @return INT
-     * @throws IOException и сообщение-причину
+     * @throws IllegalStateException и сообщение-причину
      */
-    private int getChooseNumber() throws ClientException {
+    private int getChooseNumber() {
         String consoleMessage = scanner.next();
         char firstSymbol = consoleMessage.charAt(0);
         if (firstSymbol <= '9' && firstSymbol >= '1') {
             return Integer.parseInt("" + firstSymbol);
         } else {
-            throw new ClientException(ClientErrorCode.WRONG_INPUT);
+            throw new IllegalStateException(ClientErrorCode.WRONG_INPUT.message);
         }
-    }
-
-    private LoginPassword endGame() {
-        return new LoginPassword(RequestType.FINISH_GAME, null, null);
     }
 
     private LoginPassword logout() {
@@ -93,7 +98,7 @@ public class DecisionMakerTerminal implements DecisionMaker {
         return new GameAction(RequestType.SURRENDER, 0, 0);
     }
 
-    private GameConfig joinGame() throws ClientException {
+    private GameConfig joinGame() {
         Color color = getColor();
         return new GameConfig(RequestType.JOIN_GAME, false, color, 0, scanner.next());
     }

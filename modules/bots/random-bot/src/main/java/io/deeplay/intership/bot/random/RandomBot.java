@@ -1,28 +1,19 @@
 package io.deeplay.intership.bot.random;
 
-import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
-import io.deeplay.intership.decision.maker.GameConfig;
-import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class RandomBot implements DecisionMaker {
-    private final String login = "Bot" + UUID.randomUUID();
-    private final String password = UUID.randomUUID().toString();
-    private final Color color;
+public class RandomBot extends Bot {
     private Stone[][] gameField = new Board().getField();
-    private int enterCount = 0;
 
-    public RandomBot(Color color) {
-        this.color = color;
+    public RandomBot(String name, Color color) {
+        super(name, color);
     }
 
     @Override
@@ -45,38 +36,7 @@ public class RandomBot implements DecisionMaker {
     }
 
     @Override
-    public LoginPassword getLoginPassword() throws ClientException {
-        if (enterCount == 0) {
-            enterCount++;
-            return new LoginPassword(RequestType.REGISTRATION, login, password);
-        } else {
-            return new LoginPassword(RequestType.LOGIN, login, password);
-        }
-    }
-
-
-    @Override
-    public GameConfig getGameConfig() throws ClientException {
-        final int size = 9;
-        if (color == Color.BLACK) {
-            return new GameConfig(
-                    RequestType.CREATE_GAME,
-                    false,
-                    color,
-                    size,
-                    UUID.randomUUID().toString());
-        } else {
-            return new GameConfig(
-                    RequestType.JOIN_GAME,
-                    false,
-                    color,
-                    size,
-                    UUID.randomUUID().toString());
-        }
-    }
-
-    @Override
-    public Color getColor() throws ClientException {
+    public Color getColor() {
         return color;
     }
 
@@ -97,6 +57,16 @@ public class RandomBot implements DecisionMaker {
                 stone.getRowNumber(),
                 stone.getColumnNumber()
         );
+
+    }
+
+    @Override
+    public void startGame() {
+
+    }
+
+    @Override
+    public void endGame() {
 
     }
 
