@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.connection.ClientStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
@@ -26,7 +26,7 @@ public class Client {
     private static DataOutputStream writer;
     private static UserInterface userInterface;
     private static DecisionMaker decisionMaker;
-    private static ClientStreamConnector streamConnector;
+    private static StreamConnector streamConnector;
     private static GameController gameController;
     private static AuthorizationController authorizationController;
     private static String token;
@@ -64,7 +64,7 @@ public class Client {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        streamConnector = new ClientStreamConnector(writer, reader);
+        streamConnector = new StreamConnector(writer, reader);
         gameController = new GameController(streamConnector, userInterface, decisionMaker);
         authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
     }

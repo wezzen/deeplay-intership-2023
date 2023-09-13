@@ -1,6 +1,6 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.connection.ServerStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.FailureDtoResponse;
@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
     private static final AtomicInteger clientIdCounter = new AtomicInteger(1);
     private final Logger logger = Logger.getLogger(ClientHandler.class);
     private final Socket clientSocket;
-    private final ServerStreamConnector streamConnector;
+    private final StreamConnector streamConnector;
     private final UserController userController;
     private final GameController gameController;
     private final GameplayController gameplayController;
@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
         this.userController = userController;
         this.gameController = gameController;
         this.gameplayController = gameplayController;
-        this.streamConnector = new ServerStreamConnector(
+        this.streamConnector = new StreamConnector(
                 new DataOutputStream(clientSocket.getOutputStream()),
                 new DataInputStream(clientSocket.getInputStream())
         );

@@ -9,16 +9,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ClientStreamConnector {
-    private final Logger logger = Logger.getLogger(ClientStreamConnector.class);
+public class StreamConnector {
+    private final Logger logger = Logger.getLogger(StreamConnector.class);
     private final JSONConverter jsonConverter = new JSONConverter();
     private final DataOutputStream writer;
     private final DataInputStream reader;
 
-    public ClientStreamConnector(DataOutputStream writer, DataInputStream reader) {
+    public StreamConnector(DataOutputStream writer, DataInputStream reader) {
         this.writer = writer;
         this.reader = reader;
     }
+
 
     public void sendRequest(final BaseDtoRequest dtoRequest) throws IOException {
         try {
@@ -30,10 +31,30 @@ public class ClientStreamConnector {
         }
     }
 
+    public void sendResponse(final BaseDtoResponse dtoResponse) throws IOException {
+        try {
+            writer.writeUTF(jsonConverter.getJsonFromObject(dtoResponse));
+            writer.flush();
+        } catch (IOException ex) {
+            logger.error("Unknown IOException");
+            throw ex;
+        }
+    }
+
     public BaseDtoResponse getResponse() throws IOException {
         try {
             final String fromServer = reader.readUTF();
             return jsonConverter.getObjectFromJson(fromServer, BaseDtoResponse.class);
+        } catch (IOException ex) {
+            logger.error(ex);
+            throw ex;
+        }
+    }
+
+    public BaseDtoRequest getRequest() throws IOException {
+        try {
+            final String fromServer = reader.readUTF();
+            return jsonConverter.getObjectFromJson(fromServer, BaseDtoRequest.class);
         } catch (IOException ex) {
             logger.error(ex);
             throw ex;

@@ -1,4 +1,4 @@
-import io.deeplay.intership.connection.ClientStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.dto.request.BaseDtoRequest;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class ClientStreamConnectorTest {
+public class StreamConnectorTest {
     private final DataInputStream dataInputStream = mock(DataInputStream.class);
     private final DataOutputStream dataOutputStream = mock(DataOutputStream.class);
-    private final ClientStreamConnector streamConnector = new ClientStreamConnector(dataOutputStream, dataInputStream);
+    private final StreamConnector streamConnector = new StreamConnector(dataOutputStream, dataInputStream);
     private final JSONConverter jsonConverter = new JSONConverter();
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(() -> new ClientStreamConnector(dataOutputStream, dataInputStream));
+        assertDoesNotThrow(() -> new StreamConnector(dataOutputStream, dataInputStream));
     }
 
     @Test
