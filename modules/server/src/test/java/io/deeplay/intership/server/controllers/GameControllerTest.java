@@ -1,4 +1,4 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.server.controllers;
 
 import io.deeplay.intership.dto.request.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.JoinGameDtoRequest;
@@ -10,6 +10,7 @@ import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
+import io.deeplay.intership.server.controllers.GameController;
 import io.deeplay.intership.service.GameService;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;

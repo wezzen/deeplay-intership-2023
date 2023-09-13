@@ -1,4 +1,4 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.server.controllers;
 
 import io.deeplay.intership.dto.request.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.JoinGameDtoRequest;
