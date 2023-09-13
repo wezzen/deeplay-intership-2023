@@ -1,4 +1,4 @@
-package io.deeplay.intership.sandbox.bot;
+package io.deeplay.intership.selfplay.bot;
 
 import org.junit.jupiter.api.Test;
 

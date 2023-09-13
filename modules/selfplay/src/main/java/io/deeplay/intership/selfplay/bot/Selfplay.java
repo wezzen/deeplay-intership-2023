@@ -1,4 +1,4 @@
-package io.deeplay.intership.sandbox.bot;
+package io.deeplay.intership.selfplay.bot;
 
 import io.deeplay.intership.bot.random.RandomBot;
 import io.deeplay.intership.decision.maker.GameAction;
