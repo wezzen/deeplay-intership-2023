@@ -9,7 +9,7 @@ public class RegistrationDtoRequest extends BaseDtoRequest {
 
     @JsonCreator
     public RegistrationDtoRequest(
-            @JsonProperty("login") String login,
+            @JsonProperty("name") String login,
             @JsonProperty("passwordHash") String passwordHash) {
         this.login = login;
         this.passwordHash = passwordHash;

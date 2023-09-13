@@ -51,7 +51,7 @@ public class GameSession {
      * @throws ServerException если игрок пытается сам с собой сыграть
      */
     public synchronized void addPlayer(final Player player) throws ServerException {
-        if (player.login().equals(creator.login())) {
+        if (player.name().equals(creator.name())) {
             throw new ServerException(ServerErrorCode.REPEATED_PLAYER);
         }
 
@@ -175,7 +175,7 @@ public class GameSession {
      * @throws ServerException при попытке сходить не в свою очередь
      */
     private synchronized Player checkTurnOrder(final String login) throws ServerException {
-        if (!currentTurn.login().equals(login)) {
+        if (!currentTurn.name().equals(login)) {
             throw new ServerException(ServerErrorCode.INVALID_TURN_ORDER);
         }
         return currentTurn;

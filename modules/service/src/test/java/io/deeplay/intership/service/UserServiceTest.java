@@ -57,7 +57,7 @@ public class UserServiceTest {
         final LoginDtoRequest loginRequest = new LoginDtoRequest(login, passwordHash);
         final User user = new User(login, passwordHash);
         aggregatorUtil.addNewUser(user);
-//        when(aggregatorUtil.getUserByLogin(loginRequest.login)).thenReturn(Optional.of(user));
+//        when(aggregatorUtil.getUserByLogin(loginRequest.name)).thenReturn(Optional.of(user));
 
         final var firstResponse = userService.login(loginRequest);
         final var secondResponse = userService.login(loginRequest);

@@ -46,6 +46,10 @@ public class Game {
         return board;
     }
 
+    public Stone[][] getGameField() {
+        return board.getField();
+    }
+
     /**
      * Реализует пропуск хода, через цвет понимаем, кто именно пропускает ход.
      *
