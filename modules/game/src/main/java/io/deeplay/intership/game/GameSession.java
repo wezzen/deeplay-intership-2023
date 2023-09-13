@@ -17,10 +17,10 @@ public class GameSession {
     private final String gameId;
     private final Game game;
     private boolean isStarted;
-    private Player creator;
     private Player blackPlayer;
     private Player whitePlayer;
     private Player currentTurn;
+    private int nextPlayer;
 
     public GameSession(final String gameId) {
         this.gameId = gameId;
@@ -32,14 +32,8 @@ public class GameSession {
         return gameId;
     }
 
-    /**
-     * Добавляем создателя игры, чтобы понимать, кто является творцом.
-     * Это позволит контролировать ситуации с подключеним к игре.
-     *
-     * @param player {@link Player} один из игроков
-     */
-    public void addCreator(final Player player) {
-        creator = player;
+    public int getNextPlayer() {
+        return (nextPlayer + 1) % 2;
     }
 
     /**
@@ -51,10 +45,6 @@ public class GameSession {
      * @throws ServerException если игрок пытается сам с собой сыграть
      */
     public synchronized void addPlayer(final Player player) throws ServerException {
-        if (player.name().equals(creator.name())) {
-            throw new ServerException(ServerErrorCode.REPEATED_PLAYER);
-        }
-
         setColor(player);
         currentTurn = blackPlayer;
         isStarted = true;
@@ -68,23 +58,26 @@ public class GameSession {
      *
      * @param player {@link Player} второй игрок, creator уже определен
      */
-    public void setColor(final Player player) {
-        if (Color.EMPTY.name().equals(creator.color())) {
-            if (Color.BLACK.name().equals(player.color())) {
-                blackPlayer = player;
-            } else if (Color.WHITE.name().equals(player.color())) {
-                whitePlayer = player;
-            } else {
-                blackPlayer = creator;
-                whitePlayer = player;
-            }
-        } else if (Color.BLACK.name().equals(creator.color())) {
-            blackPlayer = creator;
-            whitePlayer = player;
-        } else {
-            blackPlayer = player;
-            whitePlayer = creator;
+    public void setColor(final Player player) throws ServerException {
+        switch (Color.valueOf(player.color())) {
+            case BLACK -> setBlackPlayer(player);
+            case WHITE -> setWhitePlayer(player);
+            default -> throw new ServerException(ServerErrorCode.INVALID_COLOR);
         }
+    }
+
+    public void setBlackPlayer(final Player player) throws ServerException {
+        if (blackPlayer != null) {
+            throw new ServerException(ServerErrorCode.INVALID_COLOR);
+        }
+        blackPlayer = player;
+    }
+
+    public void setWhitePlayer(final Player player) throws ServerException {
+        if (whitePlayer != null) {
+            throw new ServerException(ServerErrorCode.INVALID_COLOR);
+        }
+        whitePlayer = player;
     }
 
     /**
@@ -137,22 +130,6 @@ public class GameSession {
 
     public Score getGameScore() {
         return game.getGameScore();
-    }
-
-
-    private void checkEnemyColor(final Player player) throws ServerException {
-        Color color = Color.valueOf(player.color());
-        if (color == Color.EMPTY || color == Color.valueOf(creator.color())) {
-            throw new ServerException(ServerErrorCode.INVALID_COLOR);
-        }
-    }
-
-    private void chooseColor(final Player player) {
-        if (Color.BLACK.name().equals(player.color())) {
-            blackPlayer = player;
-        } else {
-            whitePlayer = player;
-        }
     }
 
     /**

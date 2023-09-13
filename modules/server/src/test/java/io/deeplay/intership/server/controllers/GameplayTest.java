@@ -1,4 +1,4 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.server.controllers;
 
 import io.deeplay.intership.dto.request.PassDtoRequest;
 import io.deeplay.intership.dto.request.SurrenderDtoRequest;
@@ -11,6 +11,7 @@ import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.server.controllers.GameplayController;
 import io.deeplay.intership.service.GameplayService;
 import org.junit.jupiter.api.Test;
 

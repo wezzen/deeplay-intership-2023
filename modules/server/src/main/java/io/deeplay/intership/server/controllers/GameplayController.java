@@ -1,4 +1,4 @@
-package io.deeplay.intership.server;
+package io.deeplay.intership.server.controllers;
 
 import io.deeplay.intership.dto.request.PassDtoRequest;
 import io.deeplay.intership.dto.request.SurrenderDtoRequest;

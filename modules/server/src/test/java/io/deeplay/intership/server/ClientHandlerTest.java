@@ -4,6 +4,9 @@ import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.server.controllers.GameController;
+import io.deeplay.intership.server.controllers.GameplayController;
+import io.deeplay.intership.server.controllers.UserController;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;
 
