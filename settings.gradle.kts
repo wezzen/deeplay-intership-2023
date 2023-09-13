@@ -39,8 +39,8 @@ project(":dto-validator").projectDir = file("modules/validators/dto-validator")
 include("json-converter")
 project(":json-converter").projectDir = file("modules/json-converter")
 
-include("sandbox")
-project(":sandbox").projectDir = file("modules/sandbox")
+include("selfplay")
+project(":selfplay").projectDir = file("modules/selfplay")
 
 include("game-exception")
 project(":game-exception").projectDir = file("modules/exceptions/game-exception")
