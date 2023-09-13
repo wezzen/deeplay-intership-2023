@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.connection.ClientStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.LoginDtoRequest;
@@ -17,11 +17,11 @@ import java.io.IOException;
 
 public class AuthorizationController {
     private final Logger logger = Logger.getLogger(AuthorizationController.class);
-    private final ClientStreamConnector streamConnector;
+    private final StreamConnector streamConnector;
     private final UserInterface userInterface;
     private final DecisionMaker decisionMaker;
 
-    public AuthorizationController(ClientStreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public AuthorizationController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
         this.streamConnector = streamConnector;
         this.userInterface = userInterface;
         this.decisionMaker = decisionMaker;

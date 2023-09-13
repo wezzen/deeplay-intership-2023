@@ -1,5 +1,4 @@
-import io.deeplay.intership.connection.ClientStreamConnector;
-import io.deeplay.intership.connection.ServerStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
@@ -19,12 +18,12 @@ import static org.mockito.Mockito.*;
 public class ServerStreamConnectorTest {
     private final DataInputStream dataInputStream = mock(DataInputStream.class);
     private final DataOutputStream dataOutputStream = mock(DataOutputStream.class);
-    private final ServerStreamConnector streamConnector = new ServerStreamConnector(dataOutputStream, dataInputStream);
+    private final StreamConnector streamConnector = new StreamConnector(dataOutputStream, dataInputStream);
     private final JSONConverter jsonConverter = new JSONConverter();
 
     @Test
     public void testConstructor() {
-        assertDoesNotThrow(() -> new ClientStreamConnector(dataOutputStream, dataInputStream));
+        assertDoesNotThrow(() -> new StreamConnector(dataOutputStream, dataInputStream));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.connection.ClientStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class GameControllerTest {
-    private final ClientStreamConnector streamConnector = mock(ClientStreamConnector.class);
+    private final StreamConnector streamConnector = mock(StreamConnector.class);
     private final UserInterface userInterface = mock(UserInterface.class);
     private final DecisionMaker decisionMaker = mock(DecisionMaker.class);
     private final GameController gameController = new GameController(streamConnector, userInterface, decisionMaker);

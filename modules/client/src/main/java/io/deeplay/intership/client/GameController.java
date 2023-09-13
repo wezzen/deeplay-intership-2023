@@ -1,6 +1,6 @@
 package io.deeplay.intership.client;
 
-import io.deeplay.intership.connection.ClientStreamConnector;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameConfig;
@@ -21,13 +21,13 @@ import java.io.IOException;
 
 public class GameController {
     private final Logger logger = Logger.getLogger(GameController.class);
-    private ClientStreamConnector streamConnector;
+    private StreamConnector streamConnector;
     private UserInterface userInterface;
     private DecisionMaker decisionMaker;
     private String token;
     private Color clientColor;
 
-    public GameController(ClientStreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public GameController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
         this.streamConnector = streamConnector;
         this.userInterface = userInterface;
         this.decisionMaker = decisionMaker;
