@@ -1,4 +1,4 @@
 package io.deeplay.intership.model;
 
-public record Player(String login, String color) {
+public record Player(String name, String color) {
 }

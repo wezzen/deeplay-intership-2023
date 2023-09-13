@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class SandboxTest {
+public class SelfplayTest {
     @Test
     public void testMain() {
-        assertDoesNotThrow(() -> new Sandbox());
+        assertDoesNotThrow(() -> new Selfplay());
     }
 
     @Test
     public void testStartGame() {
-        assertDoesNotThrow(() -> new Sandbox().startGame());
+        assertDoesNotThrow(() -> new Selfplay().startGame());
     }
 }

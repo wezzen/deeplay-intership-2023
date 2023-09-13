@@ -1,13 +1,14 @@
 dependencies {
-    implementation(project(":client"))
-    implementation(project(":dto"))
-    implementation(project(":decision-maker"))
     implementation(project(":logger"))
     implementation(project(":model"))
-    implementation(project(":random-bot"))
-    implementation(project(":service"))
-    implementation(project(":client-exception"))
+    implementation(project(":game"))
+    implementation(project(":dto"))
+    implementation(project(":game-exception"))
     implementation(project(":server-exception"))
-    implementation(project(":terminal-ui"))
+
+    implementation(project(":decision-maker"))
+    implementation(project(":random-bot"))
+
     implementation(project(":user-interface"))
+    implementation(project(":terminal-ui"))
 }

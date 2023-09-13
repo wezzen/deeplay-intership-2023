@@ -12,9 +12,9 @@ public class PlayerTest {
         final Player player = new Player(login, color);
 
         assertAll(
-                () -> assertDoesNotThrow(player::login),
-                () -> assertNotNull(player.login()),
-                () -> assertEquals(login, player.login()),
+                () -> assertDoesNotThrow(player::name),
+                () -> assertNotNull(player.name()),
+                () -> assertEquals(login, player.name()),
 
                 () -> assertDoesNotThrow(player::color),
                 () -> assertNotNull(player.color()),
@@ -27,9 +27,9 @@ public class PlayerTest {
         final Player player = new Player(null, null);
 
         assertAll(
-                () -> assertDoesNotThrow(player::login),
+                () -> assertDoesNotThrow(player::name),
                 () -> assertDoesNotThrow(player::color),
-                () -> assertNull(player.login()),
+                () -> assertNull(player.name()),
                 () -> assertNull(player.color())
         );
     }

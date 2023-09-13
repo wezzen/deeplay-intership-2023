@@ -45,7 +45,7 @@ public class UserController extends Controller {
             dtoValidator.validationLoginDto(dtoRequest);
             return userService.login(dtoRequest);
         } catch (ServerException ex) {
-            logger.debug("Clients login was failed");
+            logger.debug("Clients name was failed");
             return getFailureResponse(ex);
         }
     }
