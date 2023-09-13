@@ -12,8 +12,10 @@ import java.util.List;
 public class RandomBot extends Bot {
     private Stone[][] gameField = new Board().getField();
 
+
     public RandomBot(String name, Color color) {
         super(name, color);
+
     }
 
     @Override

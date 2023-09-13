@@ -131,6 +131,7 @@ public class GameController {
 
     public void turn(final Color color, final GameAction gameAction) throws ClientException {
         try {
+
             streamConnector.sendRequest(new TurnDtoRequest(
                     color.name(),
                     gameAction.row() - 1,
