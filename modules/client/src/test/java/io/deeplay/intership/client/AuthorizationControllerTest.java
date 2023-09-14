@@ -6,7 +6,7 @@ import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.LoginPassword;
 import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
-import io.deeplay.intership.dto.response.LoginDtoResponse;
+import io.deeplay.intership.dto.response.authorization.LoginDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ClientException;
