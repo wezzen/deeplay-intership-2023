@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.authorization.LoginDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

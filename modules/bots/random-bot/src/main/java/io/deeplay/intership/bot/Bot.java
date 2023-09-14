@@ -1,4 +1,4 @@
-package io.deeplay.intership.bot.random;
+package io.deeplay.intership.bot;
 
 import io.deeplay.intership.decision.maker.GoPlayer;
 import io.deeplay.intership.model.Color;

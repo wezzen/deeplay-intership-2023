@@ -2,7 +2,7 @@ package io.deeplay.intership.json.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.deeplay.intership.dto.request.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 

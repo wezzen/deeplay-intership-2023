@@ -1,6 +1,12 @@
 package io.deeplay.intership.server;
 
 import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
+import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.model.Color;

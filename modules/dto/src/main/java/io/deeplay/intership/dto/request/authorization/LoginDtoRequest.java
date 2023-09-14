@@ -1,6 +1,7 @@
-package io.deeplay.intership.dto.request;
+package io.deeplay.intership.dto.request.authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.deeplay.intership.dto.request.BaseDtoRequest;
 
 public class LoginDtoRequest extends BaseDtoRequest {
     public final String login;

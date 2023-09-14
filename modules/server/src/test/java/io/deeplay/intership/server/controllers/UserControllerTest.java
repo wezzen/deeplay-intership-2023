@@ -1,12 +1,11 @@
 package io.deeplay.intership.server.controllers;
 
-import io.deeplay.intership.dto.request.LoginDtoRequest;
-import io.deeplay.intership.dto.request.LogoutDtoRequest;
-import io.deeplay.intership.dto.request.RegistrationDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
+import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
-import io.deeplay.intership.server.controllers.UserController;
 import io.deeplay.intership.service.UserService;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
 import org.junit.jupiter.api.Test;

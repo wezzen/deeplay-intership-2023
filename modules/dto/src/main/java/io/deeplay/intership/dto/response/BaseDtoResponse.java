@@ -4,6 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.deeplay.intership.dto.response.authorization.LoginDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.AnswerDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.StartGameDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.UpdateFieldDtoResponse;
+import io.deeplay.intership.model.Answer;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -15,7 +21,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = FailureDtoResponse.class, name = "FAILURE"),
         @JsonSubTypes.Type(value = FinishGameDtoResponse.class, name = "FINISH_GAME"),
         @JsonSubTypes.Type(value = InfoDtoResponse.class, name = "INFO"),
-        @JsonSubTypes.Type(value = LoginDtoResponse.class, name = "LOGIN")
+        @JsonSubTypes.Type(value = LoginDtoResponse.class, name = "LOGIN"),
+        @JsonSubTypes.Type(value = AnswerDtoResponse.class, name = "ANSWER"),
+        @JsonSubTypes.Type(value = StartGameDtoResponse.class, name = "START_GAME"),
+        @JsonSubTypes.Type(value = UpdateFieldDtoResponse.class, name = "UPDATE"),
+        @JsonSubTypes.Type(value = TurnDtoResponse.class, name = "TURN"),
 })
 public class BaseDtoResponse {
     public final ResponseStatus status;

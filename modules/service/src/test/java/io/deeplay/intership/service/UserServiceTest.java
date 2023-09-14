@@ -1,9 +1,9 @@
 package io.deeplay.intership.service;
 
 import io.deeplay.intership.dao.UserDao;
-import io.deeplay.intership.dto.request.LoginDtoRequest;
-import io.deeplay.intership.dto.request.LogoutDtoRequest;
-import io.deeplay.intership.dto.request.RegistrationDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
+import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ServerException;

@@ -1,7 +1,8 @@
-package io.deeplay.intership.dto.request;
+package io.deeplay.intership.dto.request.game;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.deeplay.intership.dto.request.BaseDtoRequest;
 
 public class JoinGameDtoRequest extends BaseDtoRequest {
     public final String gameId;
