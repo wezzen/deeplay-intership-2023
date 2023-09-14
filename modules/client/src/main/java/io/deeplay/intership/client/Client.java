@@ -1,14 +1,19 @@
 package io.deeplay.intership.client;
 
 import io.deeplay.intership.connection.StreamConnector;
+import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
+<<<<<<<HEAD
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.ui.gui.DisplayGui;
+=======
+import io.deeplay.intership.model.Color;
+>>>>>>>fix:изменена клиентская часть для инверсии управления игрой
 import io.deeplay.intership.ui.terminal.Display;
 
 import java.io.DataInputStream;
@@ -33,7 +38,10 @@ public class Client {
     private static GameController gameController;
     private static ScannerGui scannerGui;
     private static AuthorizationController authorizationController;
+    private static GameController gameController;
+    private static GameplayController gameplayController;
     private static String token;
+    private static Color color;
 
     public Client(UserInterface ui, DecisionMaker maker, String host, int port) {
         init(ui, maker, host, port);
@@ -44,13 +52,13 @@ public class Client {
         scannerGui = new ScannerGui();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Client();
         token = authorizationController.authorizeClient();
-        while (true) {
+        while (!socket.isClosed()) {
             try {
-                gameController.joinToGame(token);
-                gameController.processingGame();
+                color = gameController.joinToGame(token);
+                gameplayController.processingGame(token, color);
             } catch (ClientException ex) {
                 if (ex.errorCode == ClientErrorCode.NOT_AUTHORIZED_CLIENT) {
                     token = authorizationController.authorizeClient();
@@ -72,6 +80,7 @@ public class Client {
         }
         streamConnector = new StreamConnector(writer, reader);
         gameController = new GameController(streamConnector, userInterface, decisionMaker);
+        gameplayController = new GameplayController(streamConnector, userInterface, decisionMaker);
         authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
     }
 
