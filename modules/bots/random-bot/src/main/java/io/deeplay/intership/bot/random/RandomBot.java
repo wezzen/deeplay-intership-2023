@@ -1,5 +1,6 @@
 package io.deeplay.intership.bot.random;
 
+import io.deeplay.intership.bot.Bot;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.model.Board;

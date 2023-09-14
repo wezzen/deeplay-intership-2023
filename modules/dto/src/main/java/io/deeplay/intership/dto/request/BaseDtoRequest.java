@@ -1,9 +1,14 @@
 package io.deeplay.intership.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
+import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
+import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -19,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = RegistrationDtoRequest.class, name = "REGISTRATION"),
         @JsonSubTypes.Type(value = SurrenderDtoRequest.class, name = "SURRENDER"),
         @JsonSubTypes.Type(value = TurnDtoRequest.class, name = "TURN"),
+        @JsonSubTypes.Type(value = AnswerDtoRequest.class, name = "ANSWER")
 })
 public class BaseDtoRequest {
 

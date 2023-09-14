@@ -1,7 +1,7 @@
 package io.deeplay.intership.server.controllers;
 
-import io.deeplay.intership.dto.request.CreateGameDtoRequest;
-import io.deeplay.intership.dto.request.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerException;

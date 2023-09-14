@@ -1,7 +1,9 @@
-package io.deeplay.intership.dto.response;
+package io.deeplay.intership.dto.response.gameplay;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.deeplay.intership.dto.response.BaseDtoResponse;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.model.Stone;
 
 public class StartGameDtoResponse extends BaseDtoResponse {

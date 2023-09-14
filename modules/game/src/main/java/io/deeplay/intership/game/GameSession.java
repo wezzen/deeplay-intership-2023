@@ -20,7 +20,7 @@ public class GameSession {
     private Player blackPlayer;
     private Player whitePlayer;
     private Player currentTurn;
-    private int nextPlayer;
+    private int nextPlayer = 0;
 
     public GameSession(final String gameId) {
         this.gameId = gameId;
@@ -32,8 +32,21 @@ public class GameSession {
         return gameId;
     }
 
+    public Stone[][] getGameField() {
+        return game.getGameField();
+    }
+
+    public void startGame() {
+        currentTurn = blackPlayer;
+        isStarted = true;
+    }
+
+    public boolean isFinished() {
+        return game.gameIsOver();
+    }
+
     public int getNextPlayer() {
-        return (nextPlayer + 1) % 2;
+        return (nextPlayer) % 2;
     }
 
     /**
@@ -46,8 +59,6 @@ public class GameSession {
      */
     public synchronized void addPlayer(final Player player) throws ServerException {
         setColor(player);
-        currentTurn = blackPlayer;
-        isStarted = true;
     }
 
     /**
@@ -97,6 +108,7 @@ public class GameSession {
         try {
             Stone[][] gameField = game.makeMove(stone);
             changePlayerTurn();
+            nextPlayer += 1;
             return getFieldCopy(gameField);
         } catch (GameException ex) {
             throw new ServerException(ServerErrorCode.INVALID_MOVE);
@@ -121,6 +133,7 @@ public class GameSession {
         try {
             Stone[][] gameField = game.skipTurn(Color.valueOf(player.color()));
             changePlayerTurn();
+            nextPlayer += 1;
             return getFieldCopy(gameField);
         } catch (GameException e) {
             throw new ServerException(ServerErrorCode.GAME_WAS_FINISHED);

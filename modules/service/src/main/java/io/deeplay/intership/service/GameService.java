@@ -1,7 +1,7 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.request.CreateGameDtoRequest;
-import io.deeplay.intership.dto.request.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
@@ -43,7 +43,7 @@ public class GameService {
 
         final String gameId = UUID.randomUUID().toString();
         final GameSession gameSession = new GameSession(gameId);
-        gameSession.addCreator(player);
+        gameSession.addPlayer(player);
 
         aggregatorUtil.addGameSession(gameId, gameSession);
         aggregatorUtil.addUserToGame(dtoRequest.token, gameId);

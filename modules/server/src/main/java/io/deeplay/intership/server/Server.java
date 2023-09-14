@@ -18,11 +18,12 @@ public class Server {
         logger.info("Port number " + PORT);
         final ExecutorService executorService = Executors.newCachedThreadPool();
         final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
+        final GameManager gameManager = new GameManager();
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
-                executorService.execute(new ClientHandler(clientSocket, collectionsAggregator));
+                executorService.execute(new ClientHandler(clientSocket, collectionsAggregator, gameManager));
             }
         } catch (IOException ex) {
             logger.debug(ex.getMessage());

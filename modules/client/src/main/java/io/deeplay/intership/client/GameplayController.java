@@ -35,6 +35,7 @@ public class GameplayController {
     }
 
     public FinishGameDtoResponse processingGame(final String token, final Color clientColor) throws ClientException, IOException {
+        logger.debug("ENTER TO CLIENT GAMEPLAYE CONTROLLER");
         this.clientColor = clientColor;
         this.token = token;
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
@@ -47,6 +48,7 @@ public class GameplayController {
 
     public void defineAction(final BaseDtoResponse response) throws IOException, ClientException {
         if (response instanceof final AnswerDtoResponse dtoResponse) {
+            userInterface.showBoard(dtoResponse.gameField);
             streamConnector.sendRequest(getGameAction());
         }
         if (response instanceof final UpdateFieldDtoResponse dtoResponse) {

@@ -4,6 +4,7 @@ import io.deeplay.intership.dto.request.PassDtoRequest;
 import io.deeplay.intership.dto.request.SurrenderDtoRequest;
 import io.deeplay.intership.dto.request.TurnDtoRequest;
 import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.exception.ServerErrorCode;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;

@@ -1,9 +1,8 @@
-package io.deeplay.intership.server;
-
-import io.deeplay.intership.model.Color;
+package io.deeplay.intership.model;
 
 public interface GoPlayer {
     String getName();
+
     Color getColor();
 
     Answer getGameAction();
