@@ -71,3 +71,7 @@ project(":aggregator").projectDir = file("modules/aggregator")
 
 include("socket-io")
 project(":socket-io").projectDir = file("modules/socket-io")
+
+include("simons-bot")
+project(":simons-bot").projectDir = file("modules/bots/simons-bot")
+
