@@ -15,8 +15,10 @@ import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.ui.UserInterface;
+import io.deeplay.intership.validation.Validation;
 import org.apache.log4j.Logger;
 
+import javax.xml.validation.Validator;
 import java.io.IOException;
 
 public class GameController {
@@ -24,6 +26,7 @@ public class GameController {
     private StreamConnector streamConnector;
     private UserInterface userInterface;
     private DecisionMaker decisionMaker;
+    private Validation validation;
     private String token;
     private Color clientColor;
 
@@ -64,7 +67,9 @@ public class GameController {
 
     public FinishGameDtoResponse processingGame() throws ClientException {
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
-        Stone[][] field = new Board().getField();
+        Board board = new Board();
+        Stone[][] field = board.getField();
+        validation = new Validation(board);
 
         while (!isFinish(response)) {
             userInterface.showBoard(field);
@@ -131,7 +136,6 @@ public class GameController {
 
     public void turn(final Color color, final GameAction gameAction) throws ClientException {
         try {
-
             streamConnector.sendRequest(new TurnDtoRequest(
                     color.name(),
                     gameAction.row() - 1,

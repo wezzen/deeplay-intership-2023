@@ -94,15 +94,22 @@ public class DrawGui implements UserInterface {
 
     @Override
     public void showBoard(Stone[][] gameField) {
-        if(!gameFieldPanel.isVisible) {
+        /*if(!gameFieldPanel.isVisible) {
             gameFieldPanel.showPanel();
             gameFieldPanel.isVisible = true;
-        }
+        }*/
+        gameFieldPanel.drawField(gameField);
     }
 
     @Override
     public void showGameResult(String result) {
+        JOptionPane pane = new JOptionPane(result,
+                JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = pane.createDialog(null, "Info");
+        dialog.setModal(false);
+        dialog.setVisible(true);
 
+        new Timer(3000, e -> dialog.setVisible(false)).start();
     }
 
     public void showMessage(String title, String message){

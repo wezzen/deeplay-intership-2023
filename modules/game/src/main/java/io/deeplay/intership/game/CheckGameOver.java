@@ -62,4 +62,12 @@ public class CheckGameOver {
     private boolean hasStones(int stoneNumber) {
         return stoneNumber >= 0;
     }
+    public boolean hasYetStones(Color color) {
+        if(color == Color.BLACK){
+            return blackStonesCount >= 0;
+        }
+        else {
+            return whiteStonesCount >= 0;
+        }
+    }
 }

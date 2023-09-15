@@ -1,6 +1,7 @@
 dependencies {
     implementation(project(":dto"))
     implementation(project(":model"))
+    implementation(project(":validation"))
 
     implementation(project(":user-interface"))
     implementation(project(":gui"))

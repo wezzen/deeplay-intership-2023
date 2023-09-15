@@ -19,7 +19,7 @@ public class Settings {
     public static final String START = "Start";
     public static final String ENTRANCE = "Entrance";
 
-    public static final String RESOURCE_DIR = "gui/src/main/resources/";
+    public static final String RESOURCE_DIR = "modules/ui/gui/src/main/resources/";
     public static final String BOARD_FILE_NAME = RESOURCE_DIR + "board/board.jpg";
     public static final String WHITE_STONE_FILE_NAME = RESOURCE_DIR + "stone/white_stone.png";
     public static final String BLACK_STONE_FILE_NAME = RESOURCE_DIR + "stone/black_stone.png";

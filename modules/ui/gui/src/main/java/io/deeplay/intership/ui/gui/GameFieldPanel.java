@@ -14,6 +14,8 @@ import java.io.IOException;
 
 import io.deeplay.intership.decision.maker.gui.Action;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Stone;
+
 import static java.lang.Math.abs;
 import java.util.Random;
 
@@ -186,7 +188,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics graphics) {
         graphics2D = (Graphics2D) graphics;
-        if(drawGui.scannerGui.isBackStyle()) {
+        if(!drawGui.scannerGui.isBackStyle()) {
             drawStandardSquare();
         }
         else {
@@ -201,13 +203,31 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         for(int i = 1; i < N + 1; i++) {
             for(int j = 1; j < N + 1; j++) {
                 if(field[i-1][j-1] == Color.WHITE) {
-                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(0,0,0), Settings.WHITE_STONE_FILE_NAME));
+                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(255,255,255), Settings.WHITE_STONE_FILE_NAME));
                 }
                 else if(field[i-1][j-1] == Color.BLACK) {
-                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(255,255,255), Settings.BLACK_STONE_FILE_NAME));
+                    drawCustomStone(new ObjectGui(i * Settings.PADDING_X + square.x(), j * Settings.PADDING_Y + square.y(), Settings.SIZE_OF_STONE, new RgbColor(0,0,0), Settings.BLACK_STONE_FILE_NAME));
                 }
             }
         }
+    }
+
+    public Color[][] getColors(Stone[][] gameField){
+        int n = gameField.length;
+        Color colors[][] = new Color[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                colors[i][j] = gameField[i][j].getColor();
+            }
+        }
+        return colors;
+    }
+
+    public void drawField(Stone[][] gameField){
+        this.field = getColors(gameField);
+        drawGui.frame.revalidate();
+        drawGui.frame.repaint();
+        showPanel();
     }
 
     public Color[][] getField() {

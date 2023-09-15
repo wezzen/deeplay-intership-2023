@@ -1,6 +1,7 @@
 package io.deeplay.intership.selfplay.bot;
 
 import io.deeplay.intership.bot.random.RandomBot;
+import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GoPlayer;
 import io.deeplay.intership.exception.game.GameException;
@@ -8,18 +9,22 @@ import io.deeplay.intership.game.Game;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
-import io.deeplay.intership.ui.terminal.Display;
+import io.deeplay.intership.ui.UserInterface;
+import io.deeplay.intership.ui.gui.DrawGui;
 import org.apache.log4j.Logger;
+
+import java.util.concurrent.TimeUnit;
 
 public class Selfplay {
     private static final Logger log = Logger.getLogger(Selfplay.class);
     private static final int PLAYERS_COUNT = 2;
+    private static int countOfBlackWins = 0;
     private final GoPlayer[] players = new GoPlayer[PLAYERS_COUNT];
-    private final Display display = new Display();
-    private final Game game = new Game();
+    private final UserInterface display;
+    private final Game game;
 
     public static void main(String[] args) throws InterruptedException {
-        final int gamesCount = 100;
+        final int gamesCount = 5;
         for (int i = 0; i < gamesCount; i++) {
             String startMessage = String.format("Game %d was started", i);
             String endMessage = String.format("Game %d was ended", i);
@@ -29,11 +34,14 @@ public class Selfplay {
             Thread.sleep(10);
             log.info(endMessage);
         }
+        new Selfplay().showAllResults();
     }
 
     public Selfplay() {
         players[0] = new RandomBot("Bot black", Color.BLACK);
         players[1] = new RandomBot("Bot white", Color.WHITE);
+        display = new DrawGui(new ScannerGui());
+        game = new Game();
     }
 
     public void startGame() {
@@ -42,6 +50,11 @@ public class Selfplay {
             try {
                 var field = getMove(players[currentPlayer]);
                 display.showBoard(field);
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 currentPlayer = (currentPlayer + 1) % 2;
             } catch (GameException e) {
                 log.debug("Invalid move");
@@ -51,7 +64,12 @@ public class Selfplay {
     }
 
     private Stone[][] getMove(final GoPlayer player) throws GameException {
-        ((RandomBot) player).setGameField(game.getGameField());
+        if (player instanceof RandomBot){
+            ((RandomBot) player).setGameField(game.getGameField());
+        }
+        else{
+            ((RandomBot) player).setGameField(game.getGameField());
+        }
         final GameAction gameAction = player.getGameAction();
         return switch (gameAction.type()) {
             case TURN -> turn(gameAction, player.getColor());
@@ -69,7 +87,15 @@ public class Selfplay {
     }
 
     private void gameResult(final Score score) {
+        if(score.blackPoints() > score.whitePoints()){
+            countOfBlackWins++;
+        }
         final String result = String.format("Черные: %f очков \nБелые: %f очков", score.blackPoints(), score.whitePoints());
+        display.showGameResult(result);
+    }
+
+    public void showAllResults(){
+        final String result = String.format("Черные: %d игр \nБелые: %d игр", countOfBlackWins, 5-countOfBlackWins);
         display.showGameResult(result);
     }
 }
