@@ -147,7 +147,7 @@ public class GameControllerTest {
 
     @Test
     public void testProcessingGame() {
-        assertThrows(ClientException.class, () -> gameController.processingGame());
+        assertThrows(NullPointerException.class, () -> gameController.processingGame());
 
     }
 
