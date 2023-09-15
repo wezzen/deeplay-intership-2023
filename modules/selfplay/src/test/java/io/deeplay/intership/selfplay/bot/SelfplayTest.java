@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class SelfplayTest {
+
     @Test
     public void testMain() {
         assertDoesNotThrow(() -> new Selfplay());
