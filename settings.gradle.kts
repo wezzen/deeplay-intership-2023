@@ -71,3 +71,6 @@ project(":aggregator").projectDir = file("modules/aggregator")
 
 include("socket-io")
 project(":socket-io").projectDir = file("modules/socket-io")
+
+include("minimax-bot-gleb")
+project(":minimax-bot-gleb").projectDir = file("modules/bots/minimax-bot-gleb")

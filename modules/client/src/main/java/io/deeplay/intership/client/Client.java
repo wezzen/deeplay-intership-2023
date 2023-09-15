@@ -45,6 +45,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
+        new Client();
         token = authorizationController.authorizeClient();
         while (true) {
             try {
@@ -76,7 +77,7 @@ public class Client {
 
     public static void init() {
         UserInterfaceType userInterfaceType = UserInterfaceType.TERMINAL;
-        try (FileInputStream fis = new FileInputStream(CONFIG_PATH);) {
+        try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
             Properties property = new Properties();
             property.load(fis);
 
