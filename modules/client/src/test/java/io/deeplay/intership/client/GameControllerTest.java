@@ -146,6 +146,12 @@ public class GameControllerTest {
     }
 
     @Test
+    public void testProcessingGame() {
+        assertThrows(ClientException.class, () -> gameController.processingGame());
+
+    }
+
+    @Test
     public void testDefineGameAction_ForPass() throws ClientException, IOException {
         final int fieldSize = 9;
         final int row = 1;

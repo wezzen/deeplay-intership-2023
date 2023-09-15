@@ -1,6 +1,7 @@
 package io.deeplay.intership.ui.gui;
 
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
+import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.ui.gui.DrawGui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +20,16 @@ public class DrawGuiTest {
                 () -> assertNotNull(drawGui.entrancePanel),
                 () -> assertNotNull(drawGui.createGamePanel),
                 () -> assertNotNull(drawGui.joinGamePanel),
-                () -> assertNotNull(drawGui.gameFieldPanel)
+                () -> assertNotNull(drawGui.gameFieldPanel),
+                () -> assertDoesNotThrow(() -> drawGui.showGameResult("")),
+                () -> assertDoesNotThrow(() -> drawGui.showMoveRules()),
+                () -> assertDoesNotThrow(() -> drawGui.showGameActions()),
+                () -> assertDoesNotThrow(() -> drawGui.showJoin()),
+                () -> assertDoesNotThrow(() -> drawGui.showLogin()),
+                () -> assertDoesNotThrow(() -> drawGui.showMessage("", "")),
+                () -> assertDoesNotThrow(() -> drawGui.showColorSelection()),
+                () -> assertDoesNotThrow(() -> drawGui.showAuthorizationActions()),
+                () -> assertDoesNotThrow(() -> drawGui.showRoomActions())
         );
     }
 }

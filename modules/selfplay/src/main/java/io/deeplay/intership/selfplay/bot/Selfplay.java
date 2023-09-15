@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Selfplay {
     private static final Logger log = Logger.getLogger(Selfplay.class);
+    private static final int gamesCount = 5;
     private static final int PLAYERS_COUNT = 2;
     private static int countOfBlackWins = 0;
     private final GoPlayer[] players = new GoPlayer[PLAYERS_COUNT];
@@ -24,7 +25,6 @@ public class Selfplay {
     private final Game game;
 
     public static void main(String[] args) throws InterruptedException {
-        final int gamesCount = 5;
         for (int i = 0; i < gamesCount; i++) {
             String startMessage = String.format("Game %d was started", i);
             String endMessage = String.format("Game %d was ended", i);
@@ -34,7 +34,6 @@ public class Selfplay {
             Thread.sleep(10);
             log.info(endMessage);
         }
-        new Selfplay().showAllResults();
     }
 
     public Selfplay() {
@@ -51,7 +50,7 @@ public class Selfplay {
                 var field = getMove(players[currentPlayer]);
                 display.showBoard(field);
                 try {
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -95,7 +94,7 @@ public class Selfplay {
     }
 
     public void showAllResults(){
-        final String result = String.format("Черные: %d игр \nБелые: %d игр", countOfBlackWins, 5-countOfBlackWins);
+        final String result = String.format("Черные: %d игр \nБелые: %d игр", countOfBlackWins, gamesCount-countOfBlackWins);
         display.showGameResult(result);
     }
 }
