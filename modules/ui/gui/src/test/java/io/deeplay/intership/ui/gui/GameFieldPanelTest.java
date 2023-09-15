@@ -14,7 +14,9 @@ public class GameFieldPanelTest {
 
     @BeforeAll
     public static void createGameField(){
-        gameFieldPanel = new GameFieldPanel(new DrawGui(new ScannerGui()));
+        ScannerGui scannerGui = new ScannerGui();
+        scannerGui.setColor(Color.BLACK);
+        gameFieldPanel = new GameFieldPanel(new DrawGui(scannerGui));
     }
 
     @Test
@@ -50,16 +52,19 @@ public class GameFieldPanelTest {
     @Test
     public void testDrawField(){
         Stone[][] stones = new Stone[9][9];
-        stones[0][0] = new Stone(Color.BLACK, 0, 0);
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                stones[i][j] = new Stone(Color.BLACK, i, j);
+            }
+        }
         assertDoesNotThrow(() -> gameFieldPanel.drawField(stones));
     }
 
     @Test
     public void testSetStone(){
-        gameFieldPanel.drawGui.scannerGui.setColor(Color.BLACK);
-        gameFieldPanel.setStone(70, 190);
+        gameFieldPanel.setStone(130, 250);
 
-        assertEquals(gameFieldPanel.getField()[0][0], Color.BLACK);
+        assertEquals(gameFieldPanel.getField()[1][1], Color.BLACK);
     }
 
     @Test

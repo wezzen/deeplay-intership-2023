@@ -49,7 +49,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         this.square = new ObjectGui(0, 100, Settings.SIZE_OF_FIELD, new RgbColor(242,176,109), Settings.BOARD_FILE_NAME);
         this.lineColor = new RgbColor(Settings.LINE_RED, Settings.LINE_GREEN, Settings.LINE_BLUE);
         isVisible = false;
-        color = Color.BLACK;
+        color = drawGui.scannerGui.getColor();
         setPanel();
     }
 
