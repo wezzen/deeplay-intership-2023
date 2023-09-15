@@ -119,13 +119,13 @@ public class GameControllerTest {
         assertDoesNotThrow(() -> gameController.joinToGame(token));
     }
 
-    /*@Test
+    @Test
     public void testDefineGameAction_ForTurn() throws ClientException, IOException {
         final int fieldSize = 9;
-        final int row = 1;
-        final int column = 5;
+        final int row = 0;
+        final int column = 0;
         final GameAction gameAction = new GameAction(
-                RequestType.TURN,
+                RequestType.PASS,
                 row,
                 column);
         final ActionDtoResponse dtoResponse = new ActionDtoResponse(
@@ -143,7 +143,7 @@ public class GameControllerTest {
                 () -> assertEquals(ResponseStatus.SUCCESS, result.status),
                 () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, result.message)
         );
-    }*/
+    }
 
     @Test
     public void testDefineGameAction_ForPass() throws ClientException, IOException {
