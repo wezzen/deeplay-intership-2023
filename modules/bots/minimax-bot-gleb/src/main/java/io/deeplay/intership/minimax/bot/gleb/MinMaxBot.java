@@ -3,7 +3,6 @@ package io.deeplay.intership.minimax.bot.gleb;
 import io.deeplay.intership.bot.random.Bot;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.game.CheckGameOver;
 import io.deeplay.intership.game.ScoreCalculator;
