@@ -1,5 +1,6 @@
 package io.deeplay.intership.ui.gui.panel;
 
+import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.ui.gui.DisplayGui;
 
 import java.awt.event.ActionListener;
@@ -17,4 +18,5 @@ public abstract class Panel implements ActionListener {
     abstract public void setPanel();
     abstract public void showPanel();
     abstract public void hidePanel();
+    public void drawField(Stone[][] gameField) {}
 }
