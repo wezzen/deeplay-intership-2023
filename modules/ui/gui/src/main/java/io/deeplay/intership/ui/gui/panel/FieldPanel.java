@@ -30,6 +30,7 @@ public class FieldPanel extends Panel {
         setPanel();
     }
 
+    @Override
     public void drawField(Stone[][] gameField){
         this.gameField.setField(gameField);
         displayGui.frame.revalidate();
