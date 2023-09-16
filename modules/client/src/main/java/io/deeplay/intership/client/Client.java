@@ -8,7 +8,7 @@ import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.ui.UserInterface;
-import io.deeplay.intership.ui.gui.DrawGui;
+import io.deeplay.intership.ui.gui.DisplayGui;
 import io.deeplay.intership.ui.terminal.Display;
 
 import java.io.DataInputStream;
@@ -88,8 +88,9 @@ public class Client {
             e.printStackTrace();
         }
 
+        ScannerGui scannerGui = new ScannerGui();
         switch (userInterfaceType) {
-            case SWING -> init(new DrawGui(scannerGui), new DecisionMakerGui(scannerGui), host, port);
+            case SWING -> init(new DisplayGui(scannerGui), new DecisionMakerGui(scannerGui), host, port);
             default -> init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
         }
     }

@@ -1,26 +1,26 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.panel;
 
 import io.deeplay.intership.decision.maker.gui.Command;
+import io.deeplay.intership.ui.gui.DisplayGui;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class StartGamePanel implements Panel {
+public class StartGamePanel extends Panel {
     public final JDialog jDialog;
     public final GridLayout layout;
-    public final DrawGui drawGui;
     public final JButton jButtonCreate;
     public final JButton jButtonJoin;
     public final JButton jButtonLogout;
     public final JButton jButtonExit;
     public final JPanel jPanel;
-    public boolean isVisible;
 
-    public StartGamePanel(DrawGui drawGui) {
-        this.drawGui = drawGui;
+    public StartGamePanel(DisplayGui displayGui, String name) {
+        super(displayGui, name);
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, Settings.START);
+        jDialog = new JDialog(displayGui.frame, Settings.START);
         layout = new GridLayout(4, 1, 50, 10);
         jButtonCreate = new JButton(Settings.CREATE);
         jButtonCreate.addActionListener(this);
@@ -30,7 +30,7 @@ public class StartGamePanel implements Panel {
         jButtonLogout.addActionListener(this);
         jButtonExit = new JButton(Settings.EXIT);
         jButtonExit.addActionListener(this);
-        isVisible = false;
+
         setPanel();
     }
 
@@ -41,11 +41,11 @@ public class StartGamePanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jDialog.setVisible(false);
         jButtonCreate.setSelected(false);
         jButtonJoin.setSelected(false);
         jButtonLogout.setSelected(false);
         jButtonExit.setSelected(false);
-        jDialog.setVisible(false);
     }
 
     @Override
@@ -64,14 +64,14 @@ public class StartGamePanel implements Panel {
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals(Settings.JOIN)) {
-            drawGui.scannerGui.setCommandType(Command.REGISTRATION_OR_JOIN);
-            drawGui.startGamePanel.hidePanel();
-            drawGui.joinGamePanel.showPanel();
+            displayGui.scannerGui.setCommandType(Command.REGISTRATION_OR_JOIN);
+            changeSwitch(Settings.START_PANEL, false);
+            changeSwitch(Settings.JOIN_PANEL, true);
         }
         else if(line.equals(Settings.CREATE)) {
-            drawGui.scannerGui.setCommandType(Command.LOGIN_OR_CREATE);
-            drawGui.startGamePanel.hidePanel();
-            drawGui.createGamePanel.showPanel();
+            displayGui.scannerGui.setCommandType(Command.LOGIN_OR_CREATE);
+            changeSwitch(Settings.START_PANEL, false);
+            changeSwitch(Settings.CREATE_PANEL, true);
         }
         else {
 

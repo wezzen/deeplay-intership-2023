@@ -1,6 +1,6 @@
 package io.deeplay.intership.ui.gui;
 
-import io.deeplay.intership.ui.gui.RgbColor;
+import io.deeplay.intership.ui.gui.stuff.RgbColor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

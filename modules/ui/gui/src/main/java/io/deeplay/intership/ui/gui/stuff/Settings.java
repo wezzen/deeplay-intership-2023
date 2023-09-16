@@ -1,4 +1,4 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.stuff;
 
 public class Settings {
     public static final String BOT = "Bot";
@@ -18,6 +18,12 @@ public class Settings {
     public static final String INITIAL = "Initial";
     public static final String START = "Start";
     public static final String ENTRANCE = "Entrance";
+    public static final String ENTRANCE_PANEL = "entrance_panel";
+    public static final String CREATE_PANEL = "create_panel";
+    public static final String JOIN_PANEL = "join_panel";
+    public static final String START_PANEL = "start_panel";
+    public static final String INITIAL_PANEL = "initial_panel";
+    public static final String FIELD_PANEL = "field_panel";
 
     public static final String RESOURCE_DIR = "modules/ui/gui/src/main/resources/";
     public static final String BOARD_FILE_NAME = RESOURCE_DIR + "board/board.jpg";

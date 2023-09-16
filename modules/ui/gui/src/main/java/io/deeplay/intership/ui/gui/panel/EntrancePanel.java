@@ -1,28 +1,28 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.panel;
+
+import io.deeplay.intership.ui.gui.DisplayGui;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EntrancePanel implements Panel {
+public class EntrancePanel extends Panel {
     public final JDialog jDialog;
-    public final DrawGui drawGui;
     public final JTextField jTextPassword;
     public final JTextField jTextLogin;
     public final JButton jButtonSubmit;
     public final JPanel jPanel;
-    public boolean isVisible;
 
-    public EntrancePanel(DrawGui drawGui) {
-        this.drawGui = drawGui;
+    public EntrancePanel(DisplayGui displayGui, String name) {
+        super(displayGui, name);
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, Settings.ENTRANCE);
+        jDialog = new JDialog(displayGui.frame, Settings.ENTRANCE);
         jTextLogin = new JTextField( Settings.INPUT_LENGTH);
         jTextPassword = new JTextField( Settings.INPUT_LENGTH);
         jButtonSubmit = new JButton(Settings.SUBMIT);
         jButtonSubmit.addActionListener(this);
-        isVisible = false;
         setPanel();
     }
 
@@ -46,20 +46,20 @@ public class EntrancePanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jDialog.setVisible(false);
         jTextLogin.setText("");
         jTextPassword.setText("");
         jButtonSubmit.setSelected(false);
-        jDialog.setVisible(false);
-        isVisible = false;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals(Settings.SUBMIT)) {
-            drawGui.scannerGui.setLogin(jTextLogin.getText().toString());
-            drawGui.scannerGui.setPassword(jTextPassword.getText().toString());
-            drawGui.entrancePanel.hidePanel();
+            displayGui.scannerGui.setLogin(jTextLogin.getText().toString());
+            displayGui.scannerGui.setPassword(jTextPassword.getText().toString());
+
+            changeSwitch(Settings.ENTRANCE_PANEL, false);
 
             JOptionPane pane = new JOptionPane("Вы вошли на сервер!",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -74,7 +74,7 @@ public class EntrancePanel implements Panel {
                 }
             }).start();
 
-            drawGui.startGamePanel.showPanel();
+            changeSwitch(Settings.START_PANEL, true);
         }
     }
 }

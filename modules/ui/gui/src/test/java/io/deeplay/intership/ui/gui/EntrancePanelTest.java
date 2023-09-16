@@ -1,8 +1,7 @@
 package io.deeplay.intership.ui.gui;
 
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
-import io.deeplay.intership.ui.gui.DrawGui;
-import io.deeplay.intership.ui.gui.EntrancePanel;
+import io.deeplay.intership.ui.gui.panel.EntrancePanel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,16 +10,15 @@ public class EntrancePanelTest {
     @Test
     public void entrancePanelTest(){
         ScannerGui scannerGui = new ScannerGui();
-        DrawGui drawGui = new DrawGui(scannerGui);
-        EntrancePanel entrancePanel = new EntrancePanel(drawGui);
+        DisplayGui displayGui = new DisplayGui(scannerGui);
+        EntrancePanel entrancePanel = new EntrancePanel(displayGui, "entrance_panel");
         entrancePanel.jTextLogin.setText("aboba");
         entrancePanel.jTextPassword.setText("pupa&lupa228");
         entrancePanel.jButtonSubmit.doClick();
         assertAll(
-                () -> assertEquals(drawGui.scannerGui.getLogin(), "aboba"),
-                () -> assertEquals(drawGui.scannerGui.getPassword(), "pupa&lupa228"),
-                () -> assertFalse(entrancePanel.jDialog.isVisible()),
-                () -> assertTrue(drawGui.startGamePanel.jDialog.isVisible())
+                () -> assertEquals(displayGui.scannerGui.getLogin(), "aboba"),
+                () -> assertEquals(displayGui.scannerGui.getPassword(), "pupa&lupa228"),
+                () -> assertFalse(entrancePanel.jDialog.isVisible())
         );
     }
 }

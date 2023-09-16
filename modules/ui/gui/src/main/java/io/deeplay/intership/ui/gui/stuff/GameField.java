@@ -1,56 +1,46 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.stuff;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import io.deeplay.intership.decision.maker.gui.Action;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Stone;
+import io.deeplay.intership.ui.gui.*;
 
 import static java.lang.Math.abs;
 import java.util.Random;
 
-public class GameFieldPanel extends JPanel implements ActionListener {
-    public final DrawGui drawGui;
+public class GameField extends JPanel {
+    public final DisplayGui displayGui;
     public final ObjectGui square;
     private RgbColor lineColor;
     public final int N;
-    public final JButton buttonMove;
-    public final JButton buttonPass;
-    public final JButton buttonSurrender;
     public final JLabel gameId;
     private Graphics2D graphics2D;
     private Color[][] field;
-    public boolean isVisible;
-    private Color color;
 
-    public GameFieldPanel(DrawGui drawGui) {
-        N = drawGui.scannerGui.getSize();
+    public GameField(DisplayGui displayGui) {
+        N = displayGui.scannerGui.getSize();
         field = new Color[N][N];
+        fillField();
+
+        gameId = new JLabel();
+
+        this.displayGui = displayGui;
+        this.square = new ObjectGui(0, 100, Settings.SIZE_OF_FIELD, new RgbColor(242,176,109), Settings.BOARD_FILE_NAME);
+        this.lineColor = new RgbColor(Settings.LINE_RED, Settings.LINE_GREEN, Settings.LINE_BLUE);
+    }
+
+    public void fillField(){
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 field[i][j] = Color.EMPTY;
             }
         }
-        buttonMove = new JButton(Settings.MOVE);
-        buttonPass = new JButton(Settings.PASS);
-        buttonSurrender = new JButton(Settings.GIVE_UP);
-        gameId = new JLabel();
-        this.drawGui = drawGui;
-        this.square = new ObjectGui(0, 100, Settings.SIZE_OF_FIELD, new RgbColor(242,176,109), Settings.BOARD_FILE_NAME);
-        this.lineColor = new RgbColor(Settings.LINE_RED, Settings.LINE_GREEN, Settings.LINE_BLUE);
-        isVisible = false;
-        color = drawGui.scannerGui.getColor();
-        setPanel();
     }
 
     public BufferedImage resize(BufferedImage image, int newWidth, int newHeight) {
@@ -108,7 +98,7 @@ public class GameFieldPanel extends JPanel implements ActionListener {
                 if (abs(x - 10 - i * Settings.PADDING_X - square.x()) <= Settings.PADDING_X / 2 &&
                         abs((y-30) - j * Settings.PADDING_Y - square.y()) <= Settings.PADDING_Y / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY) {
-                        field[i - 1][j - 1] = this.color;
+                        field[i - 1][j - 1] = displayGui.scannerGui.getColor();
                         return;
                     }
                 }
@@ -116,79 +106,15 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         }
     }
 
-    public void showPanel() {
-        color = drawGui.scannerGui.getColor();
-        drawGui.frame.setVisible(true);
-    }
-
-    public void hidePanel() {
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                field[i][j] = Color.EMPTY;
-            }
-        }
-        buttonMove.setSelected(false);
-        buttonPass.setSelected(false);
-        buttonSurrender.setSelected(false);
-        drawGui.frame.setVisible(false);
-    }
-
     public String getGameId() {
         int max = 100000, min = 10000;
         return String.valueOf(new Random().nextInt((max - min) + 1) + min);
     }
 
-    public void setPanel() {
-        JPanel controlPanel = new JPanel();
-
-        gameId.setFont(new Font("serif", Font.BOLD, 20));
-        gameId.setText("Номер игры: " + String.valueOf(getGameId()));
-        gameId.setSize(600, 50);
-        gameId.setForeground(java.awt.Color.BLACK);
-        gameId.setBorder(new EmptyBorder(10,210,10,0));
-
-        GridLayout gameIdLayout = new GridLayout(1,1);
-        JPanel gameIdPanel = new JPanel();
-        gameIdPanel.setSize(600, 50);
-        gameIdPanel.setLocation(0, 0);
-        gameIdPanel.setLayout(gameIdLayout);
-        gameIdPanel.add(gameId, BorderLayout.CENTER);
-
-        drawGui.frame.add(gameIdPanel);
-        drawGui.frame.add(controlPanel);
-        drawGui.frame.add(this);
-
-        GridLayout layout = new GridLayout(1, 3);
-        controlPanel.setLocation(0, 50);
-        controlPanel.setSize(600, 50);
-        controlPanel.setLayout(layout);
-        drawGui.frame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                setStone(e.getX(), e.getY());
-            }
-        });
-
-        buttonMove.setLocation(1000, 150);
-        buttonPass.setLocation(1000, 200);
-        buttonSurrender.setLocation(1000, 250);
-        buttonMove.setFont(new Font("serif", Font.BOLD, 20));
-        buttonPass.setFont(new Font("serif", Font.BOLD, 20));
-        buttonSurrender.setFont(new Font("serif", Font.BOLD, 20));
-        buttonMove.addActionListener(this);
-        buttonPass.addActionListener(this);
-        buttonSurrender.addActionListener(this);
-        controlPanel.add(buttonMove);
-        controlPanel.add(buttonPass);
-        controlPanel.add(buttonSurrender);
-        drawGui.frame.setSize(Settings.GAME_PANEL_WIDTH, Settings.GAME_PANEL_HEIGHT);
-        drawGui.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
     @Override
     public void paintComponent(Graphics graphics) {
         graphics2D = (Graphics2D) graphics;
-        if(!drawGui.scannerGui.isBackStyle()) {
+        if(!displayGui.scannerGui.isBackStyle()) {
             drawStandardSquare();
         }
         else {
@@ -223,38 +149,11 @@ public class GameFieldPanel extends JPanel implements ActionListener {
         return colors;
     }
 
-    public void drawField(Stone[][] gameField){
+    public void setField(Stone[][] gameField){
         this.field = getColors(gameField);
-        drawGui.frame.revalidate();
-        drawGui.frame.repaint();
-        showPanel();
     }
 
     public Color[][] getField() {
         return field;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String line = e.getActionCommand();
-        if(line.equals(Settings.MOVE)) {
-            drawGui.scannerGui.setActionType(Action.MOVE);
-            drawGui.frame.revalidate();
-            drawGui.frame.repaint();
-
-            // Realize move interaction with client
-        }
-        else if(line.equals(Settings.PASS)) {
-            drawGui.scannerGui.setActionType(Action.SKIP);
-
-            // Realize pass interaction with client
-        }
-        else if(line.equals(Settings.GIVE_UP)) {
-            drawGui.scannerGui.setActionType(Action.SURRENDER);
-            drawGui.gameFieldPanel.hidePanel();
-            drawGui.startGamePanel.showPanel();
-
-            // Realize surrender interaction with client
-        }
     }
 }
