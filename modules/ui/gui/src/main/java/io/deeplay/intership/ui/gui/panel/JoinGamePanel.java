@@ -1,14 +1,15 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.panel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.ui.gui.DisplayGui;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 
-public class JoinGamePanel implements Panel {
+public class JoinGamePanel extends Panel {
     public final JDialog jDialog;
     public final GridLayout layout;
-    public final DrawGui drawGui;
     public final JLabel gameIdLabel;
     public final JLabel colorLabel;
     public final JTextField gameId;
@@ -16,12 +17,11 @@ public class JoinGamePanel implements Panel {
     public final JRadioButton buttonWhite;
     public final JButton buttonSubmit;
     public final JPanel jPanel;
-    public boolean isVisible;
 
-    public JoinGamePanel(DrawGui drawGui) {
-        this.drawGui = drawGui;
+    public JoinGamePanel(DisplayGui displayGui, String name) {
+        super(displayGui, name);
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, Settings.ENTRANCE);
+        jDialog = new JDialog(displayGui.frame, Settings.ENTRANCE);
         layout = new GridLayout(3, 1, 50, 10);
         gameIdLabel = new JLabel("Enter game id: ");
         colorLabel = new JLabel("Choose color: ");
@@ -32,7 +32,7 @@ public class JoinGamePanel implements Panel {
         buttonWhite.addActionListener(this);
         buttonSubmit = new JButton(Settings.SUBMIT);
         buttonSubmit.addActionListener(this);
-        isVisible = false;
+
         setPanel();
     }
 
@@ -43,12 +43,11 @@ public class JoinGamePanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jDialog.setVisible(false);
         gameId.setText("");
         buttonBlack.setSelected(false);
         buttonWhite.setSelected(false);
         buttonSubmit.setSelected(false);
-        jDialog.setVisible(false);
-        isVisible = false;
     }
 
     @Override
@@ -93,21 +92,21 @@ public class JoinGamePanel implements Panel {
         }
         if(line.equals(Settings.SUBMIT)) {
             if (buttonWhite.isSelected()) {
-                drawGui.scannerGui.setColor(Color.WHITE);
+                displayGui.scannerGui.setColor(Color.WHITE);
             } else if (buttonBlack.isSelected()) {
-                drawGui.scannerGui.setColor(Color.BLACK);
+                displayGui.scannerGui.setColor(Color.BLACK);
             } else {
-                drawGui.scannerGui.setColor(Color.EMPTY);
+                displayGui.scannerGui.setColor(Color.EMPTY);
             }
 
             String gameStrNumber = gameId.getText();
             if(!gameStrNumber.isEmpty()) {
-                drawGui.scannerGui.setGameId(Integer.valueOf(gameStrNumber));
-                drawGui.joinGamePanel.hidePanel();
-                drawGui.gameFieldPanel.showPanel();
+                displayGui.scannerGui.setGameId(Integer.valueOf(gameStrNumber));
+                changeSwitch(Settings.JOIN_PANEL, false);
+                changeSwitch(Settings.FIELD_PANEL, true);
             }
             else {
-                drawGui.showMessage("Ошибка", "Введите номер игры!");
+                displayGui.showMessage("Ошибка", "Введите номер игры!");
             }
         }
     }

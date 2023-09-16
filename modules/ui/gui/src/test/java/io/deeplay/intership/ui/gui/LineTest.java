@@ -1,6 +1,6 @@
 package io.deeplay.intership.ui.gui;
 
-import io.deeplay.intership.ui.gui.Line;
+import io.deeplay.intership.ui.gui.stuff.Line;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

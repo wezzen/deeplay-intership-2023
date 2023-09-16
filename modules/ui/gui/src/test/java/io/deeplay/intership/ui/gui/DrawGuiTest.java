@@ -1,9 +1,12 @@
 package io.deeplay.intership.ui.gui;
 
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
-import io.deeplay.intership.model.Stone;
-import io.deeplay.intership.ui.gui.DrawGui;
+import io.deeplay.intership.ui.gui.panel.Panel;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DrawGuiTest {
@@ -11,25 +14,26 @@ public class DrawGuiTest {
     @Test
     public void drawGuiTest(){
         ScannerGui scannerGui = new ScannerGui();
-        DrawGui drawGui = new DrawGui(scannerGui);
+        DisplayGui displayGui = new DisplayGui(scannerGui);
+        Map<String, Panel> panels = displayGui.switcher.getPanels();
         assertAll(
-                () -> assertNotNull(drawGui.scannerGui),
-                () -> assertNotNull(drawGui.initialPanel),
-                () -> assertNotNull(drawGui.startGamePanel),
-                () -> assertNotNull(drawGui.frame),
-                () -> assertNotNull(drawGui.entrancePanel),
-                () -> assertNotNull(drawGui.createGamePanel),
-                () -> assertNotNull(drawGui.joinGamePanel),
-                () -> assertNotNull(drawGui.gameFieldPanel),
-                () -> assertDoesNotThrow(() -> drawGui.showGameResult("")),
-                () -> assertDoesNotThrow(() -> drawGui.showMoveRules()),
-                () -> assertDoesNotThrow(() -> drawGui.showGameActions()),
-                () -> assertDoesNotThrow(() -> drawGui.showJoin()),
-                () -> assertDoesNotThrow(() -> drawGui.showLogin()),
-                () -> assertDoesNotThrow(() -> drawGui.showMessage("", "")),
-                () -> assertDoesNotThrow(() -> drawGui.showColorSelection()),
-                () -> assertDoesNotThrow(() -> drawGui.showAuthorizationActions()),
-                () -> assertDoesNotThrow(() -> drawGui.showRoomActions())
+                () -> assertNotNull(displayGui.scannerGui),
+                () -> assertNotNull(panels.get(Settings.INITIAL_PANEL)),
+                () -> assertNotNull(panels.get(Settings.START_PANEL)),
+                () -> assertNotNull(displayGui.frame),
+                () -> assertNotNull(panels.get(Settings.ENTRANCE_PANEL)),
+                () -> assertNotNull(panels.get(Settings.CREATE_PANEL)),
+                () -> assertNotNull(panels.get(Settings.JOIN_PANEL)),
+                () -> assertNotNull(panels.get(Settings.FIELD_PANEL)),
+                () -> assertDoesNotThrow(() -> displayGui.showGameResult("")),
+                () -> assertDoesNotThrow(() -> displayGui.showMoveRules()),
+                () -> assertDoesNotThrow(() -> displayGui.showGameActions()),
+                () -> assertDoesNotThrow(() -> displayGui.showJoin()),
+                () -> assertDoesNotThrow(() -> displayGui.showLogin()),
+                () -> assertDoesNotThrow(() -> displayGui.showMessage("", "")),
+                () -> assertDoesNotThrow(() -> displayGui.showColorSelection()),
+                () -> assertDoesNotThrow(() -> displayGui.showAuthorizationActions()),
+                () -> assertDoesNotThrow(() -> displayGui.showRoomActions())
         );
     }
 }

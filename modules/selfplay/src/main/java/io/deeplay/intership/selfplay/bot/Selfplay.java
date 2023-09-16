@@ -10,10 +10,8 @@ import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.ui.UserInterface;
-import io.deeplay.intership.ui.gui.DrawGui;
+import io.deeplay.intership.ui.gui.DisplayGui;
 import org.apache.log4j.Logger;
-
-import java.util.concurrent.TimeUnit;
 
 public class Selfplay {
     private static final Logger log = Logger.getLogger(Selfplay.class);
@@ -39,7 +37,7 @@ public class Selfplay {
     public Selfplay() {
         players[0] = new RandomBot("Bot black", Color.BLACK);
         players[1] = new RandomBot("Bot white", Color.WHITE);
-        display = new DrawGui(new ScannerGui());
+        display = new DisplayGui(new ScannerGui());
         game = new Game();
     }
 

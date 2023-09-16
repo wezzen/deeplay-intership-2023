@@ -1,25 +1,26 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.panel;
 
 import io.deeplay.intership.decision.maker.gui.Command;
+import io.deeplay.intership.ui.gui.DisplayGui;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class InitialPanel implements Panel {
+public class InitialPanel extends Panel {
     public final JDialog jDialog;
     public final GridLayout layout;
-    public final DrawGui drawGui;
     public final JButton jButtonRegister;
     public final JButton jButtonLogin;
     public final JButton jButtonExit;
     public final JPanel jPanel;
     public boolean isVisible;
 
-    public InitialPanel(DrawGui drawGui) {
-        this.drawGui = drawGui;
+    public InitialPanel(DisplayGui displayGui, String name) {
+        super(displayGui, name);
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, Settings.INITIAL);
+        jDialog = new JDialog(displayGui.frame, Settings.INITIAL);
         layout = new GridLayout(3, 1);
         jButtonRegister = new JButton(Settings.REGISTER);
         jButtonRegister.addActionListener(this);
@@ -38,10 +39,10 @@ public class InitialPanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jDialog.setVisible(false);
         jButtonRegister.setSelected(false);
         jButtonLogin.setSelected(false);
         jButtonExit.setSelected(false);
-        jDialog.setVisible(false);
     }
 
     @Override
@@ -64,14 +65,14 @@ public class InitialPanel implements Panel {
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
         if(line.equals(Settings.REGISTER)) {
-            drawGui.scannerGui.setCommandType(Command.REGISTRATION_OR_JOIN);
-            drawGui.initialPanel.hidePanel();
-            drawGui.entrancePanel.showPanel();
+            displayGui.scannerGui.setCommandType(Command.REGISTRATION_OR_JOIN);
+            changeSwitch(Settings.INITIAL_PANEL, false);
+            changeSwitch(Settings.ENTRANCE_PANEL, true);
         }
         else if(line.equals(Settings.LOGIN)) {
-            drawGui.scannerGui.setCommandType(Command.LOGIN_OR_CREATE);
-            drawGui.initialPanel.hidePanel();
-            drawGui.entrancePanel.showPanel();
+            displayGui.scannerGui.setCommandType(Command.LOGIN_OR_CREATE);
+            changeSwitch(Settings.INITIAL_PANEL, false);
+            changeSwitch(Settings.ENTRANCE_PANEL, true);
         }
         else {
 

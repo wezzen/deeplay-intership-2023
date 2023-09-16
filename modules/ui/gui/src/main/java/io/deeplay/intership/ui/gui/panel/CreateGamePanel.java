@@ -1,14 +1,15 @@
-package io.deeplay.intership.ui.gui;
+package io.deeplay.intership.ui.gui.panel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.ui.gui.DisplayGui;
+import io.deeplay.intership.ui.gui.stuff.Settings;
 
-public class CreateGamePanel implements Panel {
+public class CreateGamePanel extends Panel {
     public final JDialog jDialog;
     public final GridLayout layout;
-    public final DrawGui drawGui;
     public final JLabel enemyLabel;
     public final JLabel colorLabel;
     public final JButton buttonSubmit;
@@ -17,13 +18,12 @@ public class CreateGamePanel implements Panel {
     public final JRadioButton buttonBlack;
     public final JRadioButton buttonWhite;
     public final JPanel jPanel;
-    public boolean isVisible;
 
 
-    public CreateGamePanel(DrawGui drawGui) {
-        this.drawGui = drawGui;
+    public CreateGamePanel(DisplayGui displayGui, String name) {
+        super(displayGui, name);
         jPanel = new JPanel();
-        jDialog = new JDialog(drawGui.frame, Settings.ENTRANCE);
+        jDialog = new JDialog(displayGui.frame, Settings.ENTRANCE);
         layout = new GridLayout(3, 3, 50, 10);
 
         enemyLabel = new JLabel("Choose enemy");
@@ -39,7 +39,6 @@ public class CreateGamePanel implements Panel {
         buttonBlack.addActionListener(this);
         buttonWhite = new JRadioButton(Settings.WHITE);
         buttonWhite.addActionListener(this);
-        isVisible = false;
         setPanel();
     }
 
@@ -50,13 +49,12 @@ public class CreateGamePanel implements Panel {
 
     @Override
     public void hidePanel() {
+        jDialog.setVisible(false);
         buttonBot.setSelected(false);
         buttonHuman.setSelected(false);
         buttonBlack.setSelected(false);
         buttonWhite.setSelected(false);
         buttonSubmit.setSelected(false);
-        jDialog.setVisible(false);
-        isVisible = false;
     }
 
     @Override
@@ -113,25 +111,25 @@ public class CreateGamePanel implements Panel {
 
         if(line.equals(Settings.SUBMIT)) {
             if (buttonWhite.isSelected()) {
-                drawGui.scannerGui.setColor(Color.WHITE);
+                displayGui.scannerGui.setColor(Color.WHITE);
             } else if (buttonBlack.isSelected()) {
-                drawGui.scannerGui.setColor(Color.BLACK);
+                displayGui.scannerGui.setColor(Color.BLACK);
             } else {
-                drawGui.scannerGui.setColor(Color.EMPTY);
+                displayGui.scannerGui.setColor(Color.EMPTY);
             }
 
             if (buttonBot.isSelected() || buttonHuman.isSelected()) {
                 if(buttonBot.isSelected()){
-                    drawGui.scannerGui.setWithBot(true);
+                    displayGui.scannerGui.setWithBot(true);
                 }
                 else {
-                    drawGui.scannerGui.setWithBot(false);
+                    displayGui.scannerGui.setWithBot(false);
                 }
-                drawGui.createGamePanel.hidePanel();
-                drawGui.gameFieldPanel.showPanel();
+                changeSwitch(Settings.CREATE_PANEL, false);
+                changeSwitch(Settings.FIELD_PANEL, true);
             }
             else {
-                drawGui.showMessage("Ошибка", "Выберите с кем играть!");
+                displayGui.showMessage("Ошибка", "Выберите с кем играть!");
             }
         }
     }
