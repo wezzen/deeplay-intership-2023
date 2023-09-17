@@ -9,8 +9,10 @@ import io.deeplay.intership.ui.gui.stuff.Settings;
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 public class DisplayGui implements UserInterface {
@@ -59,7 +61,7 @@ public class DisplayGui implements UserInterface {
         }
     }
 
-    private static final String CONFIG_PATH = "modules/ui/gui/src/main/resources/config.properties";
+    private static final String CONFIG_NAME = "modules/ui/gui/src/main/resources/config.properties";
 
     private String startPanelName;
 
@@ -70,7 +72,8 @@ public class DisplayGui implements UserInterface {
 
     public DisplayGui(ScannerGui scannerGui) {
         frame = new JFrame("GO");
-        setMode();
+        //startPanelName = Settings.FIELD_PANEL;
+        startPanelName = getStartPanel("display.start").orElseGet(() -> Settings.FIELD_PANEL);
 
         switcher = new Switcher();
         this.scannerGui = scannerGui;
@@ -83,19 +86,20 @@ public class DisplayGui implements UserInterface {
         switcher.addPanel(Settings.FIELD_PANEL, new FieldPanel(this, Settings.FIELD_PANEL));
     }
 
-    public void setMode(){
-        try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
+    public ScannerGui getScannerGui() {
+        return scannerGui;
+    }
+
+    public static Optional<String> getStartPanel(String configKey) {
+        try (FileInputStream fis = new FileInputStream(CONFIG_NAME)) {
             Properties property = new Properties();
             property.load(fis);
 
-            startPanelName = property.getProperty("display.start");
+            return Optional.ofNullable(property.getProperty(configKey));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public ScannerGui getScannerGui() {
-        return scannerGui;
+        return Optional.empty();
     }
 
     @Override
@@ -147,12 +151,14 @@ public class DisplayGui implements UserInterface {
 
     @Override
     public void showBoard(Stone[][] gameField) {
-        switch(startPanelName){
-            case Settings.INITIAL_PANEL -> switcher.panels.get(
-                    Settings.START_PANEL).changeSwitch(
-                    Settings.START_PANEL, switcher.isVisible.get(
-                            Settings.START_PANEL));
-            case Settings.FIELD_PANEL -> switcher.getPanels().get(
+        if(startPanelName.equals(Settings.INITIAL_PANEL)) {
+            switcher.panels.get(
+                    Settings.INITIAL_PANEL).changeSwitch(
+                    Settings.INITIAL_PANEL, switcher.isVisible.get(
+                            Settings.INITIAL_PANEL));
+        }
+        else {
+            switcher.getPanels().get(
                     Settings.FIELD_PANEL).drawField(gameField);
         }
     }
