@@ -191,4 +191,11 @@ public class Display implements UserInterface {
         System.out.println("Результаты игры:\n");
         System.out.print(result);
     }
+
+    @Override
+    public void showMessage(String title, String text) {
+        showHorizontalLine();
+        System.out.print(text);
+        showHorizontalLine();
+    }
 }

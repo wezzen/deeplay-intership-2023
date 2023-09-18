@@ -9,57 +9,12 @@ import io.deeplay.intership.ui.gui.stuff.Settings;
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
 public class DisplayGui implements UserInterface {
-
-    public class Switcher {
-        private Map<String, Boolean> isVisible;
-        private Map<String, Panel> panels;
-        Switcher(){
-            isVisible = new HashMap<>();
-            panels = new HashMap<>();
-
-            isVisible.put(Settings.CREATE_PANEL, false);
-            isVisible.put(Settings.START_PANEL, false);
-            isVisible.put(Settings.JOIN_PANEL, false);
-            isVisible.put(Settings.INITIAL_PANEL, false);
-            isVisible.put(Settings.ENTRANCE_PANEL, false);
-            isVisible.put(Settings.FIELD_PANEL, false);
-            isVisible.replace(startPanelName, true);
-        }
-
-        public Map<String, Panel> getPanels() {
-            return panels;
-        }
-
-        public void addPanel(String name, Panel panel){
-            panels.put(name, panel);
-        }
-
-        public boolean checking(String name){
-            boolean flag = true;
-            for(var key : isVisible.keySet()){
-                if(!name.equals(key)) flag = flag && !isVisible.get(key);
-            }
-            return flag;
-        }
-
-        public void switchPanel(String name, boolean isVis){
-            if(isVis && checking(name)){
-                isVisible.replace(name, true);
-                panels.get(name).showPanel();
-            }
-            else {
-                isVisible.replace(name, false);
-                panels.get(name).hidePanel();
-            }
-        }
-    }
 
     private static final String CONFIG_NAME = "modules/ui/gui/src/main/resources/config.properties";
 
@@ -174,6 +129,7 @@ public class DisplayGui implements UserInterface {
         new Timer(3000, e -> dialog.setVisible(false)).start();
     }
 
+    @Override
     public void showMessage(String title, String message){
         JOptionPane pane = new JOptionPane(message,
                 JOptionPane.INFORMATION_MESSAGE);
@@ -182,5 +138,49 @@ public class DisplayGui implements UserInterface {
         dialog.setVisible(true);
 
         new Timer(2000, e -> dialog.setVisible(false)).start();
+    }
+
+    public class Switcher {
+        private Map<String, Boolean> isVisible;
+        private Map<String, Panel> panels;
+        Switcher(){
+            isVisible = new HashMap<>();
+            panels = new HashMap<>();
+
+            isVisible.put(Settings.CREATE_PANEL, false);
+            isVisible.put(Settings.START_PANEL, false);
+            isVisible.put(Settings.JOIN_PANEL, false);
+            isVisible.put(Settings.INITIAL_PANEL, false);
+            isVisible.put(Settings.ENTRANCE_PANEL, false);
+            isVisible.put(Settings.FIELD_PANEL, false);
+            isVisible.replace(startPanelName, true);
+        }
+
+        public Map<String, Panel> getPanels() {
+            return panels;
+        }
+
+        public void addPanel(String name, Panel panel){
+            panels.put(name, panel);
+        }
+
+        public boolean checking(String name){
+            boolean flag = true;
+            for(var key : isVisible.keySet()){
+                if(!name.equals(key)) flag = flag && !isVisible.get(key);
+            }
+            return flag;
+        }
+
+        public void switchPanel(String name, boolean isVis){
+            if(isVis && checking(name)){
+                isVisible.replace(name, true);
+                panels.get(name).showPanel();
+            }
+            else {
+                isVisible.replace(name, false);
+                panels.get(name).hidePanel();
+            }
+        }
     }
 }

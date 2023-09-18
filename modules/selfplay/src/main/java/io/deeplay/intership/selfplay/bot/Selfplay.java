@@ -64,9 +64,6 @@ public class Selfplay {
         if (player instanceof RandomBot){
             ((RandomBot) player).setGameField(game.getGameField());
         }
-        else{
-            ((RandomBot) player).setGameField(game.getGameField());
-        }
         final GameAction gameAction = player.getGameAction();
         return switch (gameAction.type()) {
             case TURN -> turn(gameAction, player.getColor());

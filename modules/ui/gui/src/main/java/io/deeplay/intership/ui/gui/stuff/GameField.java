@@ -97,8 +97,11 @@ public class GameField extends JPanel {
             for(int j = 1; j < N + 1; j++) {
                 if (abs(x - 10 - i * Settings.PADDING_X - square.x()) <= Settings.PADDING_X / 2 &&
                         abs((y-30) - j * Settings.PADDING_Y - square.y()) <= Settings.PADDING_Y / 2) {
-                    if (field[i - 1][j - 1] == Color.EMPTY) {
+                    if (field[i - 1][j - 1] == Color.EMPTY &&
+                            displayGui.scannerGui.isTurn()) {
                         field[i - 1][j - 1] = displayGui.scannerGui.getColor();
+                        displayGui.scannerGui.setRowNumber(i - 1);
+                        displayGui.scannerGui.setColumnNumber(j - 1);
                         return;
                     }
                 }

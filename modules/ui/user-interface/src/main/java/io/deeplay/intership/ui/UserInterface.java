@@ -24,4 +24,6 @@ public interface UserInterface {
     void showBoard(final Stone[][] gameField);
 
     void showGameResult(String result);
+
+    void showMessage(String title, String text);
 }

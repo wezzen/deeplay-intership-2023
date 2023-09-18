@@ -106,6 +106,7 @@ public class FieldPanel extends Panel {
         String line = e.getActionCommand();
         if(line.equals(Settings.MOVE)) {
             displayGui.scannerGui.setActionType(Action.MOVE);
+            displayGui.scannerGui.setTurn(false);
             displayGui.frame.revalidate();
             displayGui.frame.repaint();
 

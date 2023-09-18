@@ -87,6 +87,14 @@ public class ScannerGui {
         this.color = color;
     }
 
+    public void setRowNumber(int rowNumber){
+        this.rowNumber = rowNumber;
+    }
+
+    public void setColumnNumber(int columnNumber){
+        this.columnNumber = columnNumber;
+    }
+
     public void setSize(int size) { this.size = size; }
 
     public boolean isTurn() {
