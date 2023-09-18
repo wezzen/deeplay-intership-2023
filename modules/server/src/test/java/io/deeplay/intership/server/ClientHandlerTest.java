@@ -1,6 +1,6 @@
 package io.deeplay.intership.server;
 
-import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
 import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
@@ -14,9 +14,11 @@ import io.deeplay.intership.server.controllers.GameController;
 import io.deeplay.intership.server.controllers.GameplayController;
 import io.deeplay.intership.server.controllers.UserController;
 import io.deeplay.intership.util.aggregator.DataCollectionsAggregator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -26,18 +28,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ClientHandlerTest {
-    private final Socket socket = mock(Socket.class);
+    private static Socket socket;
+    private final GameManager gameManager = mock(GameManager.class);
     private final UserController userController = mock(UserController.class);
     private final GameController gameController = mock(GameController.class);
     private final GameplayController gameplayController = mock(GameplayController.class);
 
+    @BeforeAll
+    public static void init() throws IOException {
+        final int port = 5555;
+        final ServerSocket serverSocket = new ServerSocket(port);
+        socket = new Socket("localhost", port);
+    }
+
     @Test
     public void testConstructors() {
-        DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
+        final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
 
         assertAll(
-                () -> assertDoesNotThrow(() -> new ClientHandler(socket, collectionsAggregator)),
-                () -> assertDoesNotThrow(() -> new ClientHandler(socket, userController, gameController, gameplayController))
+                () -> assertDoesNotThrow(() -> new ClientHandler(socket, collectionsAggregator, gameManager)),
+                () -> assertDoesNotThrow(() -> new ClientHandler(socket, userController, gameController, gameManager))
         );
     }
 
@@ -46,7 +56,7 @@ public class ClientHandlerTest {
         final String color = Color.WHITE.name();
         final int size = 9;
         final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final CreateGameDtoRequest createGame = new CreateGameDtoRequest(
                 true,
                 color,
@@ -63,7 +73,7 @@ public class ClientHandlerTest {
         final String color = Color.WHITE.name();
         final int size = 9;
         final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final CreateGameDtoRequest createGame = new CreateGameDtoRequest(
                 true,
                 color,
@@ -83,7 +93,7 @@ public class ClientHandlerTest {
     @Test
     public void testDefineCommand2() throws IOException {
         final String gameId = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
 
         assertAll(
@@ -95,7 +105,7 @@ public class ClientHandlerTest {
     public void testDefineCommand3() throws IOException {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final RegistrationDtoRequest registration = new RegistrationDtoRequest(login, password);
 
         assertAll(
@@ -107,7 +117,7 @@ public class ClientHandlerTest {
     public void testDefineCommand3_Failure() throws IOException {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final RegistrationDtoRequest registration = new RegistrationDtoRequest(login, password);
 
         when(userController.registerUser(mock(RegistrationDtoRequest.class)))
@@ -124,7 +134,7 @@ public class ClientHandlerTest {
     public void testDefineCommand4() throws IOException {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final LoginDtoRequest loginDto = new LoginDtoRequest(login, password);
 
         assertAll(
@@ -136,7 +146,7 @@ public class ClientHandlerTest {
     public void testDefineCommand4_Failure() throws IOException {
         final String login = "Bot" + UUID.randomUUID();
         final String password = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final LoginDtoRequest loginDto = new LoginDtoRequest(login, password);
 
         when(userController.login(mock(LoginDtoRequest.class)))
@@ -152,7 +162,7 @@ public class ClientHandlerTest {
     @Test
     public void testDefineCommand5() throws IOException {
         final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final LogoutDtoRequest logout = new LogoutDtoRequest(token);
 
         assertAll(
@@ -163,7 +173,7 @@ public class ClientHandlerTest {
     @Test
     public void testDefineCommand5_Failure() throws IOException {
         final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
         final LogoutDtoRequest logout = new LogoutDtoRequest(token);
 
         when(userController.logout(mock(LogoutDtoRequest.class)))
@@ -181,7 +191,7 @@ public class ClientHandlerTest {
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString();
         final String color = Color.WHITE.name();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
 
         final JoinGameDtoRequest joinGame = new JoinGameDtoRequest(gameId, token, color);
 
@@ -195,7 +205,7 @@ public class ClientHandlerTest {
         final String gameId = UUID.randomUUID().toString();
         final String token = UUID.randomUUID().toString();
         final String color = Color.WHITE.name();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
+        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameManager);
 
         final JoinGameDtoRequest joinGame = new JoinGameDtoRequest(gameId, token, color);
 
@@ -206,111 +216,6 @@ public class ClientHandlerTest {
 
         assertAll(
                 () -> assertDoesNotThrow(() -> clientHandler.defineCommand(joinGame))
-        );
-    }
-
-    @Test
-    public void testDefineCommand7() throws IOException {
-        final String color = Color.WHITE.name();
-        final String token = UUID.randomUUID().toString();
-        final int row = 1;
-        final int column = 3;
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final TurnDtoRequest turn = new TurnDtoRequest(color, row, column, token);
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(turn))
-        );
-    }
-
-    @Test
-    public void testDefineCommand7_Failure() throws IOException {
-        final String color = Color.WHITE.name();
-        final String token = UUID.randomUUID().toString();
-        final int row = 1;
-        final int column = 3;
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final TurnDtoRequest turn = new TurnDtoRequest(color, row, column, token);
-
-        when(gameplayController.turn(mock(TurnDtoRequest.class)))
-                .thenAnswer(invocation -> {
-                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
-                });
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(turn))
-        );
-    }
-
-    @Test
-    public void testDefineCommand8() throws IOException {
-        final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final PassDtoRequest passGame = new PassDtoRequest(token);
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(passGame))
-        );
-    }
-
-    @Test
-    public void testDefineCommand8_Failure() throws IOException {
-        final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final PassDtoRequest passGame = new PassDtoRequest(token);
-
-        when(gameplayController.pass(mock(PassDtoRequest.class)))
-                .thenAnswer(invocation -> {
-                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
-                });
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(passGame))
-        );
-    }
-
-    @Test
-    public void testDefineCommand9() throws IOException {
-        final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final SurrenderDtoRequest surrender = new SurrenderDtoRequest(token);
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(surrender))
-        );
-    }
-
-    @Test
-    public void testDefineCommand9_Failure() throws IOException {
-        final String token = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final SurrenderDtoRequest surrender = new SurrenderDtoRequest(token);
-
-        when(gameplayController.surrenderGame(mock(SurrenderDtoRequest.class)))
-                .thenAnswer(invocation -> {
-                    throw new ServerException(ServerErrorCode.SERVER_EXCEPTION);
-                });
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(surrender))
-        );
-    }
-
-    @Test
-    public void testDefineCommand10() throws IOException {
-        final String gameId = UUID.randomUUID().toString();
-        final ClientHandler clientHandler = new ClientHandler(socket, userController, gameController, gameplayController);
-
-        final FinishGameDtoRequest finishGame = new FinishGameDtoRequest(gameId);
-
-        assertAll(
-                () -> assertDoesNotThrow(() -> clientHandler.defineCommand(finishGame))
         );
     }
 }

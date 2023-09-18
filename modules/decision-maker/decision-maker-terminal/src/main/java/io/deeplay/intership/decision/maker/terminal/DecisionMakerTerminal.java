@@ -119,7 +119,7 @@ public class DecisionMakerTerminal implements DecisionMaker {
     }
 
     private GameAction makeMove() {
-        return new GameAction(RequestType.TURN, scanner.nextInt()-1, scanner.nextInt()-1);
+        return new GameAction(RequestType.TURN, scanner.nextInt() - 1, scanner.nextInt() - 1);
     }
 
     private LoginPassword registration() {

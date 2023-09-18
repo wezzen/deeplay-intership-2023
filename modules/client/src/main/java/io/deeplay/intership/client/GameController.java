@@ -5,6 +5,8 @@ import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.dto.request.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
+import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
 import io.deeplay.intership.dto.response.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.InfoDtoResponse;

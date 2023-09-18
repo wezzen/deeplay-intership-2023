@@ -93,7 +93,7 @@ public class DecisionMakerGui implements DecisionMaker {
     }
 
     private GameAction makeMove() {
-        return new GameAction(RequestType.TURN, scannerGui.getRowNumber(), scannerGui.getColumnNumber());
+        return new GameAction(RequestType.TURN, scannerGui.getRowNumber() - 1, scannerGui.getColumnNumber() - 1);
     }
 
     private LoginPassword registration() {

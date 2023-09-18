@@ -95,7 +95,7 @@ public class GameServiceTest {
 
         final User user = new User(login, password);
         final GameSession gameSession = new GameSession(gameId);
-        gameSession.addCreator(new Player("dads", Color.BLACK.name()));
+        gameSession.addPlayer(new Player("dads", Color.BLACK.name()));
 
         when(collectionsAggregator.tokenToUser().get(token)).thenReturn(user);
         when(collectionsAggregator.playerToGame().get(token)).thenReturn(gameId);

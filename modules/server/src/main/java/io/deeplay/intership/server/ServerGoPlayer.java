@@ -57,7 +57,7 @@ public class ServerGoPlayer implements GoPlayer {
 
     @Override
     public void startGame() {
-//        lock.lock();
+        lock.lock();
     }
 
     @Override

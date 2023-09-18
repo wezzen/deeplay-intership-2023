@@ -56,9 +56,9 @@ public class DecisionMakerTerminalTest {
         Assertions.assertEquals(decisionMaker.getGameAction().type(), RequestType.PASS);
         Assertions.assertEquals(decisionMaker.getGameAction().type(), RequestType.SURRENDER);
 
-        GameAction ga = new GameAction(RequestType.TURN, 2, 5);
+        GameAction ga = new GameAction(RequestType.TURN, 0, 3);
 
-        Assertions.assertEquals(5, ga.column());
+        Assertions.assertEquals(3, ga.column());
         LoginPassword lp = new LoginPassword(RequestType.LOGIN, "sus", "ses");
         Assertions.assertEquals("sus", lp.login());
 
