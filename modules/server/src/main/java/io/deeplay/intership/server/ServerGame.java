@@ -84,6 +84,14 @@ public class ServerGame extends Thread {
         }
     }
 
+    public BaseDtoResponse notifyAnswer(final Stone[][] gameField) throws IOException {
+        final Stone[][] fieldCopy = copyField(gameField);
+        return new AnswerDtoResponse(
+                ResponseStatus.SUCCESS,
+                ResponseInfoMessage.CAN_TURN.message,
+                fieldCopy);
+    }
+
     private BaseDtoResponse turn(final String name, final Color color, final Answer answer) throws ServerException, IOException {
         var response = gameSession.turn(
                 name
@@ -109,19 +117,16 @@ public class ServerGame extends Thread {
         return new FailureDtoResponse(ResponseStatus.FAILURE, ex.message);
     }
 
-    private BaseDtoResponse notifyAnswer(final Stone[][] gameField) throws IOException {
-        Stone[][] fieldCopy = new Stone[gameField.length][gameField.length];
+    private Stone[][] copyField(final Stone[][] gameField) {
+        final Stone[][] copy = new Stone[gameField.length][gameField.length];
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
-                fieldCopy[i][j] = new Stone(
+                copy[i][j] = new Stone(
                         gameField[i][j].getColor(),
                         gameField[i][j].getRowNumber(),
                         gameField[i][j].getColumnNumber());
             }
         }
-        return new AnswerDtoResponse(
-                ResponseStatus.SUCCESS,
-                ResponseInfoMessage.SUCCESS_PASS.message,
-                fieldCopy);
+        return copy;
     }
 }

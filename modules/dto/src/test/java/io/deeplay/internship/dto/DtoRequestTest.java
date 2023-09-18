@@ -1,17 +1,21 @@
 package io.deeplay.internship.dto;
 
-import io.deeplay.intership.dto.request.*;
+import io.deeplay.intership.dto.request.SurrenderDtoRequest;
+import io.deeplay.intership.dto.request.TurnDtoRequest;
 import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
 import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoType;
 import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DtoRequestTest {
@@ -84,10 +88,16 @@ public class DtoRequestTest {
 
     @Test
     public void checkPassRequest() {
-        final String token = UUID.randomUUID().toString();
-        final PassDtoRequest passDtoRequest = new PassDtoRequest(token);
+        final AnswerDtoType answerDtoType = AnswerDtoType.PASS;
+        final int row = 0;
+        final int column = 0;
+        final AnswerDtoRequest passDtoRequest = new AnswerDtoRequest(answerDtoType, row, column);
 
-        assertEquals(passDtoRequest.token, token);
+        assertAll(
+                () -> assertEquals(answerDtoType, passDtoRequest.answerType),
+                () -> assertEquals(row, passDtoRequest.row),
+                () -> assertEquals(column, passDtoRequest.column)
+        );
     }
 
     @Test

@@ -28,10 +28,6 @@ public class GameSession {
         this.isStarted = false;
     }
 
-    public String getGameId() {
-        return gameId;
-    }
-
     public Stone[][] getGameField() {
         return game.getGameField();
     }

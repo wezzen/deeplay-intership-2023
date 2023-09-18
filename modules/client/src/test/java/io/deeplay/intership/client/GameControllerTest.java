@@ -4,7 +4,7 @@ import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.dto.response.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;

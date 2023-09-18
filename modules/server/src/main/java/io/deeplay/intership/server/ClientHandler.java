@@ -8,6 +8,7 @@ import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
 import io.deeplay.intership.model.Color;

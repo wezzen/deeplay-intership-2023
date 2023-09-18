@@ -1,10 +1,11 @@
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.request.authorization.LoginDtoRequest;
 import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoType;
 import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
 import io.deeplay.intership.dto.validator.Validator;
 import io.deeplay.intership.exception.ServerException;
@@ -636,88 +637,28 @@ public class ValidatorTest {
 
     @Test
     public void testSuccessValidationTurnDto() {
-        final String color = Color.WHITE.name();
+        final AnswerDtoType answerDtoType = AnswerDtoType.TURN;
         final int row = 1;
         final int column = 1;
-        final String token = UUID.randomUUID().toString();
-        final TurnDtoRequest dtoRequest = new TurnDtoRequest(
-                color,
+        final AnswerDtoRequest dtoRequest = new AnswerDtoRequest(
+                answerDtoType,
                 row,
-                column,
-                token);
+                column);
 
         assertDoesNotThrow(() -> validator.validationTurnDto(dtoRequest));
     }
 
     @Test
     public void testFailureValidationTurnDto() {
-        final String color = Color.WHITE.name();
+        final AnswerDtoType answerDtoType = AnswerDtoType.TURN;
         final int row = 100;
         final int column = -1;
-        final String token = UUID.randomUUID().toString();
-        final TurnDtoRequest dtoRequest = new TurnDtoRequest(
-                color,
+        final AnswerDtoRequest dtoRequest = new AnswerDtoRequest(
+                answerDtoType,
                 row,
-                column,
-                token);
+                column);
 
         assertThrows(ServerException.class, () -> validator.validationTurnDto(dtoRequest));
-    }
-
-    @Test
-    public void testSuccessValidationPassDto() {
-        final String token = UUID.randomUUID().toString();
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertDoesNotThrow(() -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto1() {
-        final String token = null;
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto2() {
-        final String token = "";
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto3() {
-        final String token = "         ";
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto4() {
-        final String token = "!@#$%^& *()";
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto5() {
-        final String token = UUID.randomUUID().toString() + " ";
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
-    }
-
-    @Test
-    public void testFailureValidationPassDto6() {
-        final String token = UUID.randomUUID() + "{}:#!$ ^&?></.,";
-        final PassDtoRequest dtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> validator.validationPassDto(dtoRequest));
     }
 
     @Test

@@ -2,6 +2,8 @@ package io.deeplay.internship.dto;
 
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.dto.response.authorization.LoginDtoResponse;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.AnswerDtoResponse;
 import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.Test;
@@ -69,7 +71,7 @@ public class DtoResponseTest {
         final String message = "Moved!";
         final ResponseStatus status = ResponseStatus.SUCCESS;
         final Stone[][] field = new Stone[9][9];
-        final ActionDtoResponse actionDtoResponse = new ActionDtoResponse(status, message, field);
+        final AnswerDtoResponse actionDtoResponse = new AnswerDtoResponse(status, message, field);
 
         assertEquals(actionDtoResponse.message, "Moved!");
         assertEquals(actionDtoResponse.status, ResponseStatus.SUCCESS);
@@ -81,7 +83,7 @@ public class DtoResponseTest {
         final String message = "Passed!";
         final ResponseStatus status = ResponseStatus.SUCCESS;
         final Stone[][] field = new Stone[9][9];
-        final ActionDtoResponse actionDtoResponse = new ActionDtoResponse(status, message, field);
+        final AnswerDtoResponse actionDtoResponse = new AnswerDtoResponse(status, message, field);
 
         assertEquals(actionDtoResponse.message, "Passed!");
         assertEquals(actionDtoResponse.status, ResponseStatus.SUCCESS);
@@ -93,7 +95,7 @@ public class DtoResponseTest {
         final String message = "Surrendered!";
         final ResponseStatus status = ResponseStatus.SUCCESS;
         final Stone[][] field = new Stone[9][9];
-        final ActionDtoResponse actionDtoResponse = new ActionDtoResponse(status, message, field);
+        final AnswerDtoResponse actionDtoResponse = new AnswerDtoResponse(status, message, field);
 
         assertEquals(actionDtoResponse.message, "Surrendered!");
         assertEquals(actionDtoResponse.status, ResponseStatus.SUCCESS);
