@@ -70,7 +70,6 @@ public class ClientHandler implements Runnable {
         try {
             while (!clientSocket.isClosed()) {
                 lock.lock();
-                logger.debug("ClientHandler завладел locker");
                 BaseDtoRequest dtoRequest = streamConnector.getRequest();
                 lock.unlock();
                 defineCommand(dtoRequest);
@@ -90,17 +89,17 @@ public class ClientHandler implements Runnable {
 
     public BaseDtoResponse defineCommand(final BaseDtoRequest dtoRequest) throws IOException {
         if (dtoRequest instanceof final RegistrationDtoRequest request) {
-            var response = userController.registerUser(request);
+            final BaseDtoResponse response = userController.registerUser(request);
             streamConnector.sendResponse(response);
             return response;
         }
         if (dtoRequest instanceof final LoginDtoRequest request) {
-            var response = userController.login(request);
+            final BaseDtoResponse response = userController.login(request);
             streamConnector.sendResponse(response);
             return response;
         }
         if (dtoRequest instanceof final LogoutDtoRequest request) {
-            var response = userController.logout(request);
+            final BaseDtoResponse response = userController.logout(request);
             streamConnector.sendResponse(response);
             return response;
         }
@@ -115,7 +114,7 @@ public class ClientHandler implements Runnable {
                     final GoPlayer player = new ServerGoPlayer(streamConnector, lock, name, Color.valueOf(request.color));
                     serverGame.joinPlayer(player);
                     gameManager.gameMap.put(dtoResponse.gameId, serverGame);
-                    final Thread thread = new Thread(new PlayerThread(serverGame));
+                    final Thread thread = new Thread(new PlayerThread(serverGame, lock));
                     thread.start();
                     thread.join();
                 } catch (ServerException | InterruptedException e) {
@@ -132,8 +131,8 @@ public class ClientHandler implements Runnable {
                 try {
                     final String name = aggregatorUtil.getUserByToken(request.token).login();
                     serverGame.joinPlayer(new ServerGoPlayer(streamConnector, lock, name, Color.valueOf(request.color)));
-                    startGame(serverGame);
-                    final Thread thread = new Thread(new PlayerThread(serverGame));
+                    serverGame.start();
+                    final Thread thread = new Thread(new PlayerThread(serverGame, lock));
                     thread.start();
                     thread.join();
                 } catch (InterruptedException | ServerException ex) {
@@ -147,12 +146,5 @@ public class ClientHandler implements Runnable {
             return null;
         }
         return new FailureDtoResponse(ResponseStatus.FAILURE, ResponseInfoMessage.SUCCESS_FINISH_GAME.message);
-    }
-
-    private void startGame(final ServerGame serverGame) {
-        if (serverGame.isCompletable()) {
-            serverGame.run();
-            serverGame.run();
-        }
     }
 }

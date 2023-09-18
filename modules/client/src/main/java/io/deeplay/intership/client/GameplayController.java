@@ -4,7 +4,6 @@ import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.dto.request.BaseDtoRequest;
-import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
 import io.deeplay.intership.dto.request.gameplay.AnswerDtoType;
 import io.deeplay.intership.dto.response.*;
@@ -35,11 +34,11 @@ public class GameplayController {
     }
 
     public FinishGameDtoResponse processingGame(final String token, final Color clientColor) throws ClientException, IOException {
-        logger.debug("ENTER TO CLIENT GAMEPLAYE CONTROLLER");
         this.clientColor = clientColor;
         this.token = token;
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
         while (!isFinish(response)) {
+            logger.debug("client listen socket");
             response = streamConnector.getResponse();
             defineAction(response);
         }
@@ -50,30 +49,29 @@ public class GameplayController {
         if (response instanceof final AnswerDtoResponse dtoResponse) {
             userInterface.showBoard(dtoResponse.gameField);
             streamConnector.sendRequest(getGameAction());
+            return;
         }
         if (response instanceof final UpdateFieldDtoResponse dtoResponse) {
             userInterface.showBoard(dtoResponse.gameField);
+            return;
         }
         if (response instanceof StartGameDtoResponse) {
-            logger.debug("ОТЛОВЛЕН START GAME");
             userInterface.showBoard(((StartGameDtoResponse) response).gameField);
             return;
         }
         if (response instanceof FailureDtoResponse) {
             //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
             //TODO: что делаем в случае ошибки
-            logger.debug("ОТЛОВЛЕН FAILURE RESPONSE");
             return;
         }
         if (response instanceof FinishGameDtoResponse) {
             //TODO: вывести результат игры на экран
-            logger.debug("ОТЛОВЛЕН FINISH RESPONSE");
             userInterface.showGameResult("Черные " + ((FinishGameDtoResponse) response).blackScore + "\n" +
                     "Белые " + ((FinishGameDtoResponse) response).whiteScore);
             return;
         }
         if (response instanceof BaseDtoResponse) {
-            logger.error("НЕ ОТЛОВЛЕН RESPONSE!!!");
+            logger.error("НЕ ОТЛОВЛЕН response");
             logger.debug(response.status);
             logger.debug(response.message);
             return;

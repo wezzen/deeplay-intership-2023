@@ -1,15 +1,10 @@
 package io.deeplay.intership.game;
 
-import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Group;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 
-import java.util.Map;
-import java.util.Set;
-
 public class ScoreCalculator {
-    private static final double POINTS_COMPENSATION = 6.5;
+    private static final double POINTS_COMPENSATION = 5.5;
     private final StonesCounter stonesCounter;
     private final CapturedCellsCalculator cellsCalculator;
     private int blackScore;
@@ -25,6 +20,7 @@ public class ScoreCalculator {
     /**
      * Используем при подсчете захваченных камней, соответственно прибавляем
      * белые камни, окруженные черными в счет черных.
+     *
      * @param pointsCount количество новых полученных черным игроком очков
      */
     public void addBlackPoints(int pointsCount) {
@@ -34,6 +30,7 @@ public class ScoreCalculator {
     /**
      * Используем при подсчете захваченных камней, соответственно прибавляем
      * черные камни, окруженные белыми в счет белых.
+     *
      * @param pointsCount количество новых полученных белым игроком очков
      */
     public void addWhitePoints(int pointsCount) {
@@ -43,6 +40,7 @@ public class ScoreCalculator {
     /**
      * Возвращаем общий счет для вывода на экран в конце игры, чтобы понять,
      * кто победил.
+     *
      * @return {@link Score} возвращет финальный счет игры
      */
     public Score getTotalScore() {

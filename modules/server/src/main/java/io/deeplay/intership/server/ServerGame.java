@@ -5,6 +5,7 @@ import io.deeplay.intership.dto.response.FailureDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.response.gameplay.AnswerDtoResponse;
+import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.dto.response.gameplay.UpdateFieldDtoResponse;
 import io.deeplay.intership.exception.ServerException;
 import io.deeplay.intership.game.GameSession;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ServerGame implements Runnable {
+public class ServerGame extends Thread {
     private static final int PLAYERS_COUNT = 2;
     private final GoPlayer[] players = new GoPlayer[PLAYERS_COUNT];
     private final GameSession gameSession;
@@ -30,32 +31,37 @@ public class ServerGame implements Runnable {
 
     public void joinPlayer(final GoPlayer player) {
         players[totalPlayers++] = player;
+        player.startGame();
     }
 
     @Override
     public void run() {
+        while (!isCompletable()) {
+
+        }
         gameSession.startGame();
-        System.out.println("Enter into Server game");
-        while (!gameSession.isFinished()) {
-            try {
-                final int nextPlayerToAction = gameSession.getNextPlayer();
-                final GoPlayer player = players[nextPlayerToAction];
+        try {
+            while (!gameSession.isFinished()) {
+                try {
+                    int nextPlayerToAction = gameSession.getNextPlayer();
+                    GoPlayer player = players[nextPlayerToAction];
 
-                ((ServerGoPlayer) player).sendResponse(notifyAnswer(gameSession.getGameField()));
-                notifyAnswer(gameSession.getGameField());
-                final Answer answer = players[nextPlayerToAction].getGameAction();
+                    ((ServerGoPlayer) player).sendResponse(notifyAnswer(gameSession.getGameField()));
+                    Answer answer = players[nextPlayerToAction].getGameAction();
 
-                var res = switch (answer.answerType()) {
-                    case TURN -> turn(player.getName(), player.getColor(), answer);
-                    case PASS -> pass(player.getName());
-                    default -> throw new IllegalStateException();
-                };
-                ((ServerGoPlayer) player).sendResponse(res);
-            } catch (ServerException ex) {
-
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                    var res = switch (answer.answerType()) {
+                        case TURN -> turn(player.getName(), player.getColor(), answer);
+                        case PASS -> pass(player.getName());
+                        default -> throw new IllegalStateException();
+                    };
+                    ((ServerGoPlayer) player).sendResponse(res);
+                } catch (ServerException ex) {
+                    ((ServerGoPlayer) players[gameSession.getNextPlayer()]).sendResponse(getFailure(ex));
+                }
             }
+            endGame();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -67,14 +73,13 @@ public class ServerGame implements Runnable {
         return gameSession.isFinished();
     }
 
-    public void startGame() {
+    public void endGame() throws IOException {
         for (var player : players) {
-            player.startGame();
-        }
-    }
-
-    public void endGame() {
-        for (var player : players) {
+            ((ServerGoPlayer) player).sendResponse(new FinishGameDtoResponse(
+                    ResponseStatus.SUCCESS,
+                    ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
+                    gameSession.getGameScore().blackPoints(),
+                    gameSession.getGameScore().whitePoints()));
             player.endGame();
         }
     }
@@ -105,9 +110,18 @@ public class ServerGame implements Runnable {
     }
 
     private BaseDtoResponse notifyAnswer(final Stone[][] gameField) throws IOException {
+        Stone[][] fieldCopy = new Stone[gameField.length][gameField.length];
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField[i].length; j++) {
+                fieldCopy[i][j] = new Stone(
+                        gameField[i][j].getColor(),
+                        gameField[i][j].getRowNumber(),
+                        gameField[i][j].getColumnNumber());
+            }
+        }
         return new AnswerDtoResponse(
                 ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_PASS.message,
-                gameField);
+                fieldCopy);
     }
 }

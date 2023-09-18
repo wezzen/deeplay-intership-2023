@@ -1,10 +1,15 @@
 package io.deeplay.intership.server;
 
-public class PlayerThread implements Runnable {
-    private final ServerGame serverGame;
+import java.util.concurrent.locks.Lock;
 
-    public PlayerThread(ServerGame serverGame) {
+public class PlayerThread extends Thread {
+    private final ServerGame serverGame;
+    private final Lock lock;
+
+    public PlayerThread(ServerGame serverGame, Lock lock) {
         this.serverGame = serverGame;
+        this.lock = lock;
+        lock.lock();
     }
 
     @Override
@@ -12,5 +17,6 @@ public class PlayerThread implements Runnable {
         while (!serverGame.isFinished()) {
 
         }
+        lock.unlock();
     }
 }

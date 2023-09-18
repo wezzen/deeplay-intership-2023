@@ -1,16 +1,18 @@
 package io.deeplay.intership.client;
 
 import io.deeplay.intership.connection.StreamConnector;
-import io.deeplay.intership.model.Board;
-import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
-import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.dto.request.RequestType;
-import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.InfoDtoResponse;
+import io.deeplay.intership.dto.response.ResponseInfoMessage;
+import io.deeplay.intership.dto.response.ResponseStatus;
+import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.exception.ClientException;
+import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
-import io.deeplay.intership.model.Stone;
+import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.validation.Validation;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +30,7 @@ public class GameControllerTest {
     private Board board = new Board();
     private Validation validation = new Validation(board);
     private final GameController gameController = new GameController(streamConnector, userInterface, decisionMaker);
+    private final GameplayController gameplayController = new GameplayController(streamConnector, userInterface, decisionMaker);
 
     @Test
     public void testConstructor() {
@@ -120,85 +123,13 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testDefineGameAction_ForTurn() throws ClientException, IOException {
-        final int fieldSize = 9;
-        final int row = 0;
-        final int column = 0;
-        final GameAction gameAction = new GameAction(
-                RequestType.PASS,
-                row,
-                column);
-        final ActionDtoResponse dtoResponse = new ActionDtoResponse(
-                ResponseStatus.SUCCESS,
-                ResponseInfoMessage.SUCCESS_TURN.message,
-                new Stone[fieldSize][fieldSize]);
-        gameController.setColor(Color.BLACK);
-
-        when(decisionMaker.getGameAction()).thenReturn(gameAction);
-        when(streamConnector.getResponse()).thenReturn(dtoResponse);
-
-        var result = gameController.defineGameAction();
-        assertAll(
-                () -> assertDoesNotThrow(gameController::defineGameAction),
-                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_TURN.message, result.message)
-        );
-    }
-
-    @Test
-    public void testProcessingGame() {
-        assertThrows(NullPointerException.class, () -> gameController.processingGame());
-
-    }
-
-    @Test
-    public void testDefineGameAction_ForPass() throws ClientException, IOException {
-        final int fieldSize = 9;
-        final int row = 1;
-        final int column = 5;
-        final GameAction gameAction = new GameAction(
-                RequestType.PASS,
-                row,
-                column);
-        final ActionDtoResponse dtoResponse = new ActionDtoResponse(
-                ResponseStatus.SUCCESS,
-                ResponseInfoMessage.SUCCESS_PASS.message,
-                new Stone[fieldSize][fieldSize]);
-        gameController.setColor(Color.BLACK);
-
-        when(decisionMaker.getGameAction()).thenReturn(gameAction);
-        when(streamConnector.getResponse()).thenReturn(dtoResponse);
-
-        var result = gameController.defineGameAction();
-        assertAll(
-                () -> assertDoesNotThrow(gameController::defineGameAction),
-                () -> assertEquals(ResponseStatus.SUCCESS, result.status),
-                () -> assertEquals(ResponseInfoMessage.SUCCESS_PASS.message, result.message)
-        );
-    }
-
-    @Test
-    public void testDefineGameAction_Failure() throws ClientException {
-        final int row = 1;
-        final int column = 5;
-        final GameAction gameAction = new GameAction(
-                RequestType.CREATE_GAME,
-                row,
-                column);
-
-        when(decisionMaker.getGameAction()).thenReturn(gameAction);
-
-        assertThrows(ClientException.class, gameController::defineGameAction);
-    }
-
-    @Test
     public void testIsFinishSuccess() {
         final FinishGameDtoResponse dtoResponse = new FinishGameDtoResponse(
                 ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message,
                 10,
                 20);
-        assertTrue(gameController.isFinish(dtoResponse));
+        assertTrue(gameplayController.isFinish(dtoResponse));
     }
 
     @Test
@@ -206,7 +137,7 @@ public class GameControllerTest {
         final InfoDtoResponse dtoResponse = new InfoDtoResponse(
                 ResponseStatus.SUCCESS,
                 ResponseInfoMessage.SUCCESS_FINISH_GAME.message);
-        assertFalse(gameController.isFinish(dtoResponse));
+        assertFalse(gameplayController.isFinish(dtoResponse));
     }
 
     @Test
