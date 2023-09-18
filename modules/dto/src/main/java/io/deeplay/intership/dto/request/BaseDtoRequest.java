@@ -20,7 +20,6 @@ import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
         @JsonSubTypes.Type(value = JoinGameDtoRequest.class, name = "JOIN_GAME"),
         @JsonSubTypes.Type(value = LoginDtoRequest.class, name = "LOGIN"),
         @JsonSubTypes.Type(value = LogoutDtoRequest.class, name = "LOGOUT"),
-        @JsonSubTypes.Type(value = PassDtoRequest.class, name = "PASS"),
         @JsonSubTypes.Type(value = RegistrationDtoRequest.class, name = "REGISTRATION"),
         @JsonSubTypes.Type(value = SurrenderDtoRequest.class, name = "SURRENDER"),
         @JsonSubTypes.Type(value = TurnDtoRequest.class, name = "TURN"),

@@ -6,7 +6,9 @@ import io.deeplay.intership.decision.maker.GameAction;
 import io.deeplay.intership.dto.request.BaseDtoRequest;
 import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
 import io.deeplay.intership.dto.request.gameplay.AnswerDtoType;
-import io.deeplay.intership.dto.response.*;
+import io.deeplay.intership.dto.response.BaseDtoResponse;
+import io.deeplay.intership.dto.response.FailureDtoResponse;
+import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.dto.response.gameplay.AnswerDtoResponse;
 import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
 import io.deeplay.intership.dto.response.gameplay.StartGameDtoResponse;
@@ -21,11 +23,9 @@ import java.io.IOException;
 
 public class GameplayController {
     private final Logger logger = Logger.getLogger(GameplayController.class);
-    private StreamConnector streamConnector;
-    private UserInterface userInterface;
-    private DecisionMaker decisionMaker;
-    private Color clientColor;
-    private String token;
+    private final StreamConnector streamConnector;
+    private final UserInterface userInterface;
+    private final DecisionMaker decisionMaker;
 
     public GameplayController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
         this.streamConnector = streamConnector;
@@ -34,8 +34,6 @@ public class GameplayController {
     }
 
     public FinishGameDtoResponse processingGame(final String token, final Color clientColor) throws ClientException, IOException {
-        this.clientColor = clientColor;
-        this.token = token;
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
         while (!isFinish(response)) {
             logger.debug("client listen socket");
@@ -71,7 +69,7 @@ public class GameplayController {
             return;
         }
         if (response instanceof BaseDtoResponse) {
-            logger.error("НЕ ОТЛОВЛЕН response");
+            logger.error("Does not catch response");
             logger.debug(response.status);
             logger.debug(response.message);
             return;
@@ -111,13 +109,5 @@ public class GameplayController {
 
     public boolean isFinish(final BaseDtoResponse dtoResponse) {
         return dtoResponse instanceof FinishGameDtoResponse;
-    }
-
-    public void setToken(final String token) {
-        this.token = token;
-    }
-
-    public void setColor(final Color color) {
-        this.clientColor = color;
     }
 }

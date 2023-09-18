@@ -20,7 +20,7 @@ public class ClientHandlerTest {
 
 
     @Test
-    public void testConstructors() throws IOException {
+    public void testConstructors() {
         final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator();
 
         assertAll(

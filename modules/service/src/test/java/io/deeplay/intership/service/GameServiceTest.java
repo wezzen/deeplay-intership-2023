@@ -1,9 +1,8 @@
 package io.deeplay.intership.service;
 
-import io.deeplay.intership.dto.request.*;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
-import io.deeplay.intership.dto.response.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.ResponseInfoMessage;
 import io.deeplay.intership.dto.response.ResponseStatus;
 import io.deeplay.intership.exception.ServerException;
@@ -29,7 +28,6 @@ public class GameServiceTest {
     private final ConcurrentMap<String, User> users = mock(ConcurrentHashMap.class);
     private final DataCollectionsAggregator collectionsAggregator = new DataCollectionsAggregator(idToGameSession, tokenToUser, playerToGame, users);
     private final GameService gameService = new GameService(collectionsAggregator);
-    private final GameplayService gameplayService = new GameplayService(collectionsAggregator);
 
     @Test
     public void testConstructor() {
@@ -121,42 +119,5 @@ public class GameServiceTest {
                 color);
 
         assertThrows(ServerException.class, () -> gameService.joinGame(joinGameRequest));
-    }
-
-    @Test
-    public void testSurrenderGame() {
-        final String token = UUID.randomUUID().toString();
-        final SurrenderDtoRequest dto = new SurrenderDtoRequest(token);
-
-        assertDoesNotThrow(() -> gameplayService.surrenderGame(dto));
-    }
-
-    @Test
-    public void testFinishGame() {
-        final String gameId = UUID.randomUUID().toString();
-        final GameSession gameSession = new GameSession(gameId);
-
-        assertDoesNotThrow(() -> gameplayService.finishGame(gameSession));
-    }
-
-    @Test
-    public void testSuccessTurn() throws ServerException {
-        final String blackColor = Color.BLACK.name();
-        final String token = UUID.randomUUID().toString();
-        final TurnDtoRequest turnDtoRequest = new TurnDtoRequest(
-                blackColor,
-                0,
-                0,
-                token);
-
-        assertThrows(ServerException.class, () -> gameplayService.turn(turnDtoRequest));
-    }
-
-    @Test
-    public void testPass() throws ServerException {
-        final String token = UUID.randomUUID().toString();
-        final PassDtoRequest passDtoRequest = new PassDtoRequest(token);
-
-        assertThrows(ServerException.class, () -> gameplayService.pass(passDtoRequest));
     }
 }
