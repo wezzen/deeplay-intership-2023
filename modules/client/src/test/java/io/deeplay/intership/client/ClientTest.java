@@ -11,9 +11,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Properties;
 
-import static org.mockito.Mockito.mock;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.mock;
 
 class ClientTest {
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
@@ -21,8 +20,9 @@ class ClientTest {
     private static int port;
     private static UserInterface userInterface;
     private static DecisionMaker decisionMaker;
+
     @BeforeAll
-    public static void setProperties(){
+    public static void setProperties() {
         userInterface = mock(UserInterface.class);
         decisionMaker = mock(DecisionMaker.class);
         try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
@@ -41,8 +41,9 @@ class ClientTest {
             throw new RuntimeException(e);
         }
     }
+
     @Test
     void creatingInstanceTest() {
-        assertDoesNotThrow(()->new Client(userInterface, decisionMaker, host, port));
+        assertDoesNotThrow(() -> new Client(userInterface, decisionMaker, host, port));
     }
 }

@@ -1,19 +1,15 @@
 package io.deeplay.intership.client;
 
 import io.deeplay.intership.connection.StreamConnector;
-import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
-<<<<<<<HEAD
+import io.deeplay.intership.model.Color;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.ui.gui.DisplayGui;
-=======
-import io.deeplay.intership.model.Color;
->>>>>>>fix:изменена клиентская часть для инверсии управления игрой
 import io.deeplay.intership.ui.terminal.Display;
 
 import java.io.DataInputStream;
@@ -35,7 +31,6 @@ public class Client {
     private static UserInterface userInterface;
     private static DecisionMaker decisionMaker;
     private static StreamConnector streamConnector;
-    private static GameController gameController;
     private static ScannerGui scannerGui;
     private static AuthorizationController authorizationController;
     private static GameController gameController;
