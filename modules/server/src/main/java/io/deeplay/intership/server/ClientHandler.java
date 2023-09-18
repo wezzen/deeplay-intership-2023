@@ -52,7 +52,7 @@ public class ClientHandler implements Runnable {
                 new DataOutputStream(clientSocket.getOutputStream()),
                 new DataInputStream(clientSocket.getInputStream())
         );
-        this.aggregatorUtil = new AggregatorUtil(null);
+        this.aggregatorUtil = new AggregatorUtil(new DataCollectionsAggregator());
         clientIdCounter.getAndAdd(1);
     }
 
