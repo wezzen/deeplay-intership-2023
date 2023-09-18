@@ -9,7 +9,7 @@ public class ScannerGui {
     private String login;
     private int rowNumber;
     private int columnNumber;
-    private int gameId;
+    private String gameId;
     private int size;
     private Color color;
     private boolean turn;
@@ -17,10 +17,10 @@ public class ScannerGui {
     private boolean backStyle;
 
     public ScannerGui() {
-        this(Command.NONE, Action.NONE, "", "", -1, -1, Color.EMPTY, -1, 9, true);
+        this(Command.NONE, Action.NONE, "", "", -1, -1, Color.EMPTY, "", 9, true);
     }
 
-    public ScannerGui(Command commandType, Action actionType, String login, String password, int rowNumber, int columnNumber, Color color, int gameId, int sizeOfField, boolean backStyle) {
+    public ScannerGui(Command commandType, Action actionType, String login, String password, int rowNumber, int columnNumber, Color color, String gameId, int sizeOfField, boolean backStyle) {
         this.commandType = commandType;
         this.actionType = actionType;
         this.password = password;
@@ -67,7 +67,7 @@ public class ScannerGui {
         return columnNumber;
     }
 
-    public int getGameId() {
+    public String getGameId() {
         return gameId;
     }
 
@@ -75,7 +75,7 @@ public class ScannerGui {
         return size;
     }
 
-    public void setGameId(int gameId) {
+    public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 

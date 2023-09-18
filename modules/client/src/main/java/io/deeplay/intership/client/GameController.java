@@ -6,7 +6,7 @@ import io.deeplay.intership.decision.maker.GameConfig;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
 import io.deeplay.intership.dto.response.BaseDtoResponse;
-import io.deeplay.intership.dto.response.CreateGameDtoResponse;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.InfoDtoResponse;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
@@ -51,7 +51,7 @@ public class GameController {
             if (response instanceof CreateGameDtoResponse) {
 
                 userInterface.showCreating(((CreateGameDtoResponse) response).gameId);
-                userInterface.showJoin();
+                //userInterface.showJoin();
                 isNoCreated = false;
             }
             if (response instanceof InfoDtoResponse) {

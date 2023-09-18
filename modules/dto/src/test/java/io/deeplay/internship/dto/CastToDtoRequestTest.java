@@ -9,6 +9,7 @@ import io.deeplay.intership.dto.request.authorization.LogoutDtoRequest;
 import io.deeplay.intership.dto.request.authorization.RegistrationDtoRequest;
 import io.deeplay.intership.dto.request.game.CreateGameDtoRequest;
 import io.deeplay.intership.dto.request.game.JoinGameDtoRequest;
+import io.deeplay.intership.dto.request.gameplay.AnswerDtoRequest;
 import io.deeplay.intership.dto.request.gameplay.FinishGameDtoRequest;
 import io.deeplay.intership.model.Color;
 import org.junit.jupiter.api.BeforeAll;
@@ -105,18 +106,6 @@ public class CastToDtoRequestTest {
         final String json = mapper.writeValueAsString(dtoResponse);
 
         final LogoutDtoRequest result = (LogoutDtoRequest) mapper.readValue(json, BaseDtoRequest.class);
-        assertAll(
-                () -> assertEquals(token, result.token)
-        );
-    }
-
-    @Test
-    public void testCastToPassDtoRequest() throws JsonProcessingException {
-        final String token = UUID.randomUUID().toString();
-        final PassDtoRequest dtoResponse = new PassDtoRequest(token);
-        final String json = mapper.writeValueAsString(dtoResponse);
-
-        final PassDtoRequest result = (PassDtoRequest) mapper.readValue(json, BaseDtoRequest.class);
         assertAll(
                 () -> assertEquals(token, result.token)
         );

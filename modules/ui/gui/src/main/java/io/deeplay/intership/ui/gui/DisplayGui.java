@@ -91,6 +91,7 @@ public class DisplayGui implements UserInterface {
 
     @Override
     public void showCreating(String gameId) {
+        scannerGui.setGameId(gameId);
         showMessage("Вход", "Создана игровая сессия под номером: " + gameId);
     }
 
@@ -106,6 +107,9 @@ public class DisplayGui implements UserInterface {
 
     @Override
     public void showBoard(Stone[][] gameField) {
+        scannerGui.setTurn(true);
+        scannerGui.setRowNumber(-1);
+        scannerGui.setColumnNumber(-1);
         if(startPanelName.equals(Settings.INITIAL_PANEL)) {
             switcher.panels.get(
                     Settings.INITIAL_PANEL).changeSwitch(
@@ -116,6 +120,8 @@ public class DisplayGui implements UserInterface {
             switcher.getPanels().get(
                     Settings.FIELD_PANEL).drawField(gameField);
         }
+        frame.revalidate();
+        frame.repaint();
     }
 
     @Override

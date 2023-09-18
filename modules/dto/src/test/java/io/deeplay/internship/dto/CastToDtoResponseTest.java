@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.deeplay.intership.dto.response.*;
 import io.deeplay.intership.dto.response.authorization.LoginDtoResponse;
+import io.deeplay.intership.dto.response.game.CreateGameDtoResponse;
 import io.deeplay.intership.dto.response.gameplay.FinishGameDtoResponse;
-import io.deeplay.intership.model.Stone;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,23 +23,6 @@ public class CastToDtoResponseTest {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-
-    @Test
-    public void testCastToActionDtoResponse() throws JsonProcessingException {
-        final ResponseStatus status = ResponseStatus.SUCCESS;
-        final String message = ResponseInfoMessage.SUCCESS_TURN.message;
-        final ActionDtoResponse dtoResponse = new ActionDtoResponse(
-                status,
-                message,
-                new Stone[][]{});
-        final String json = mapper.writeValueAsString(dtoResponse);
-
-        final ActionDtoResponse result = (ActionDtoResponse) mapper.readValue(json, BaseDtoResponse.class);
-        assertAll(
-                () -> assertEquals(status, result.status),
-                () -> assertEquals(message, result.message)
-        );
-    }
 
     @Test
     public void testCastToCreateGameDtoResponse() throws JsonProcessingException {

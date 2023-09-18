@@ -74,7 +74,7 @@ public class DecisionMakerGui implements DecisionMaker {
 
     private GameConfig joinGame() throws ClientException {
         Color color = getColor();
-        return new GameConfig(RequestType.JOIN_GAME, false, color, 0, scannerGui.getGameId() + "");
+        return new GameConfig(RequestType.JOIN_GAME, scannerGui.isWithBot(), color, scannerGui.getSize(), scannerGui.getGameId() + "");
     }
 
     private GameConfig createGame() throws ClientException {

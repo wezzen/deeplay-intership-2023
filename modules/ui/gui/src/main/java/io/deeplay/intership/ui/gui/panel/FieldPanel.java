@@ -43,10 +43,10 @@ public class FieldPanel extends Panel {
         JPanel controlPanel = new JPanel();
 
         gameField.gameId.setFont(new Font("serif", Font.BOLD, 20));
-        gameField.gameId.setText("Номер игры: " + String.valueOf(gameField.getGameId()));
+        gameField.gameId.setText("Номер игры: " + displayGui.scannerGui.getGameId());
         gameField.gameId.setSize(600, 50);
         gameField.gameId.setForeground(java.awt.Color.BLACK);
-        gameField.gameId.setBorder(new EmptyBorder(10,210,10,0));
+        gameField.gameId.setBorder(new EmptyBorder(10,50,10,0));
 
         GridLayout gameIdLayout = new GridLayout(1,1);
         JPanel gameIdPanel = new JPanel();
@@ -89,6 +89,7 @@ public class FieldPanel extends Panel {
 
     @Override
     public void showPanel() {
+        gameField.gameId.setText("Номер игры: " + displayGui.scannerGui.getGameId());
         displayGui.frame.setVisible(true);
     }
 
@@ -104,25 +105,28 @@ public class FieldPanel extends Panel {
     @Override
     public void actionPerformed(ActionEvent e) {
         String line = e.getActionCommand();
-        if(line.equals(Settings.MOVE)) {
-            displayGui.scannerGui.setActionType(Action.MOVE);
-            displayGui.scannerGui.setTurn(false);
-            displayGui.frame.revalidate();
-            displayGui.frame.repaint();
+        if(displayGui.scannerGui.isTurn()) {
+            if (line.equals(Settings.MOVE)) {
+                displayGui.scannerGui.setActionType(Action.MOVE);
+                displayGui.scannerGui.setTurn(false);
+                gameField.setStoneColor(displayGui.scannerGui.getRowNumber()-1,
+                        displayGui.scannerGui.getColumnNumber()-1);
+                displayGui.frame.revalidate();
+                displayGui.frame.repaint();
 
-            // Realize move interaction with client
-        }
-        else if(line.equals(Settings.PASS)) {
-            displayGui.scannerGui.setActionType(Action.SKIP);
+                // Realize move interaction with client
+            } else if (line.equals(Settings.PASS)) {
+                displayGui.scannerGui.setActionType(Action.SKIP);
+                displayGui.scannerGui.setTurn(false);
 
-            // Realize pass interaction with client
-        }
-        else if(line.equals(Settings.GIVE_UP)) {
-            displayGui.scannerGui.setActionType(Action.SURRENDER);
-            changeSwitch(Settings.FIELD_PANEL, false);
-            changeSwitch(Settings.START_PANEL, true);
+                // Realize pass interaction with client
+            } else if (line.equals(Settings.GIVE_UP)) {
+                displayGui.scannerGui.setActionType(Action.SURRENDER);
+                changeSwitch(Settings.FIELD_PANEL, false);
+                changeSwitch(Settings.START_PANEL, true);
 
-            // Realize surrender interaction with client
+                // Realize surrender interaction with client
+            }
         }
     }
 }

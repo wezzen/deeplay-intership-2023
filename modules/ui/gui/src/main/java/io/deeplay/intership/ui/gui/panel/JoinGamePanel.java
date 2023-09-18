@@ -101,7 +101,7 @@ public class JoinGamePanel extends Panel {
 
             String gameStrNumber = gameId.getText();
             if(!gameStrNumber.isEmpty()) {
-                displayGui.scannerGui.setGameId(Integer.valueOf(gameStrNumber));
+                displayGui.scannerGui.setGameId(gameStrNumber);
                 changeSwitch(Settings.JOIN_PANEL, false);
                 changeSwitch(Settings.FIELD_PANEL, true);
             }

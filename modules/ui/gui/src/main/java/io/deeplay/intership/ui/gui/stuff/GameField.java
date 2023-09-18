@@ -99,14 +99,18 @@ public class GameField extends JPanel {
                         abs((y-30) - j * Settings.PADDING_Y - square.y()) <= Settings.PADDING_Y / 2) {
                     if (field[i - 1][j - 1] == Color.EMPTY &&
                             displayGui.scannerGui.isTurn()) {
-                        field[i - 1][j - 1] = displayGui.scannerGui.getColor();
-                        displayGui.scannerGui.setRowNumber(i - 1);
-                        displayGui.scannerGui.setColumnNumber(j - 1);
+                        //field[i - 1][j - 1] = displayGui.scannerGui.getColor();
+                        displayGui.scannerGui.setRowNumber(i);
+                        displayGui.scannerGui.setColumnNumber(j);
                         return;
                     }
                 }
             }
         }
+    }
+
+    public void setStoneColor(int x, int y){
+        field[x][y] = displayGui.scannerGui.getColor();
     }
 
     public String getGameId() {
