@@ -18,7 +18,6 @@ import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.validation.Validation;
 import org.apache.log4j.Logger;
 
-import javax.xml.validation.Validator;
 import java.io.IOException;
 
 public class GameController {
@@ -138,8 +137,8 @@ public class GameController {
         try {
             streamConnector.sendRequest(new TurnDtoRequest(
                     color.name(),
-                    gameAction.row() - 1,
-                    gameAction.column() - 1,
+                    gameAction.row(),
+                    gameAction.column(),
                     token));
         } catch (IOException ex) {
             throw new ClientException(ClientErrorCode.UNKNOWN_IO_EXCEPTION);

@@ -12,13 +12,14 @@ import java.util.List;
 
 public class RandomBot extends Bot {
     private Stone[][] gameField;
-    private final Board board;
+    private Validation validation;
 
 
     public RandomBot(String name, Color color) {
         super(name, color);
-        this.board = new Board();
-        this.gameField = this.board.getField();
+        Board board = new Board();
+        this.validation = new Validation(board);
+        this.gameField = board.getField();
     }
 
     @Override
@@ -46,15 +47,15 @@ public class RandomBot extends Bot {
     }
 
     private GameAction makeMove(final Stone[][] field) {
-        Validation validation = new Validation(this.board);
         List<Stone> emptyStones = new ArrayList<>();
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
-                Stone stone = new Stone(field[i][j].getColor(), field[i][j].getRowNumber(), field[i][j].getColumnNumber());
-                if (stone.getColor() == Color.EMPTY && validation.isCorrectMove(
-                        stone.getColor(), stone.getRowNumber(), stone.getColumnNumber()
+                if (field[i][j].getColor() == Color.EMPTY &&
+                        validation.isCorrectMove(
+                        color, field[i][j].getRowNumber(),
+                                field[i][j].getColumnNumber()
                 )) {
-                    emptyStones.add(stone);
+                    emptyStones.add(field[i][j]);
                 }
             }
         }
