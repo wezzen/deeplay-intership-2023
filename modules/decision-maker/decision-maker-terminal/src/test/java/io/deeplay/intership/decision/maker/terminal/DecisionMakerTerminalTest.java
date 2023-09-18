@@ -51,7 +51,7 @@ public class DecisionMakerTerminalTest {
     @Test
     public void getGameActionTest() {
         final DecisionMaker decisionMaker = new DecisionMakerTerminal(new Scanner("1 1 4 2 3"));
-        final GameAction gameAction = new GameAction(RequestType.TURN, 1, 4);
+        final GameAction gameAction = new GameAction(RequestType.TURN, 0, 3);
         Assertions.assertEquals(gameAction, decisionMaker.getGameAction());
         Assertions.assertEquals(decisionMaker.getGameAction().type(), RequestType.PASS);
         Assertions.assertEquals(decisionMaker.getGameAction().type(), RequestType.SURRENDER);
