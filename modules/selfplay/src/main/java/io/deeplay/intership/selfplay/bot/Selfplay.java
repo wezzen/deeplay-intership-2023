@@ -11,6 +11,7 @@ import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.ui.gui.DisplayGui;
+import io.intership.deeplay.minimax.bot.MinMaxBot;
 import org.apache.log4j.Logger;
 
 public class Selfplay {
@@ -35,7 +36,7 @@ public class Selfplay {
     }
 
     public Selfplay() {
-        players[0] = new RandomBot("Bot black", Color.BLACK);
+        players[0] = new MinMaxBot("Bot black", Color.BLACK);
         players[1] = new RandomBot("Bot white", Color.WHITE);
         display = new DisplayGui(new ScannerGui());
         game = new Game();
@@ -61,9 +62,7 @@ public class Selfplay {
     }
 
     private Stone[][] getMove(final GoPlayer player) throws GameException {
-        if (player instanceof RandomBot){
-            ((RandomBot) player).setGameField(game.getGameField());
-        }
+        player.setGameField(game.getGameField());
         final GameAction gameAction = player.getGameAction();
         return switch (gameAction.type()) {
             case TURN -> turn(gameAction, player.getColor());

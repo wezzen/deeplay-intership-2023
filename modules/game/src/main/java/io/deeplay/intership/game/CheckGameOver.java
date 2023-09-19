@@ -64,10 +64,10 @@ public class CheckGameOver {
     }
     public boolean hasYetStones(Color color) {
         if(color == Color.BLACK){
-            return blackStonesCount >= 0;
+            return blackStonesCount > 0;
         }
         else {
-            return whiteStonesCount >= 0;
+            return whiteStonesCount > 0;
         }
     }
 }

@@ -8,6 +8,7 @@ import io.deeplay.intership.dto.request.RequestType;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;
+import io.deeplay.intership.model.Stone;
 
 public class DecisionMakerGui implements DecisionMaker {
     private final ScannerGui scannerGui;
@@ -57,6 +58,11 @@ public class DecisionMakerGui implements DecisionMaker {
 
     @Override
     public void endGame() {
+
+    }
+
+    @Override
+    public void setGameField(Stone[][] gameField) {
 
     }
 

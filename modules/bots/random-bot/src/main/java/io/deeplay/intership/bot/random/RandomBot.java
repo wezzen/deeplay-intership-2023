@@ -12,15 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RandomBot extends Bot {
-    private Stone[][] gameField;
     private Validation validation;
 
 
     public RandomBot(String name, Color color) {
         super(name, color);
         Board board = new Board();
-        this.validation = new Validation(board);
-        this.gameField = board.getField();
+        validation = new Validation(board);
+        gameField = board.getField();
     }
 
     @Override
@@ -54,8 +53,7 @@ public class RandomBot extends Bot {
                 if (field[i][j].getColor() == Color.EMPTY &&
                         validation.isCorrectMove(
                         color, field[i][j].getRowNumber(),
-                                field[i][j].getColumnNumber()
-                )) {
+                                field[i][j].getColumnNumber())) {
                     emptyStones.add(field[i][j]);
                 }
             }
@@ -80,9 +78,5 @@ public class RandomBot extends Bot {
 
     private GameAction skipTurn() {
         return new GameAction(RequestType.PASS, 0, 0);
-    }
-
-    public void setGameField(final Stone[][] gameField) {
-        this.gameField = gameField;
     }
 }

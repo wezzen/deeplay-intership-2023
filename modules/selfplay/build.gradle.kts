@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":decision-maker"))
     implementation(project(":decision-maker-gui"))
     implementation(project(":random-bot"))
+    implementation(project(":minimax-bot"))
 
     implementation(project(":user-interface"))
     implementation(project(":terminal-ui"))

@@ -37,6 +37,14 @@ public class ScoreCalculator {
         whiteScore += pointsCount;
     }
 
+    public int getBlackScore() {
+        return blackScore;
+    }
+
+    public int getWhiteScore() {
+        return whiteScore;
+    }
+
     /**
      * Возвращаем общий счет для вывода на экран в конце игры, чтобы понять,
      * кто победил.
