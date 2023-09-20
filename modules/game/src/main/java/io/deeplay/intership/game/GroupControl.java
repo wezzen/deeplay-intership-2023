@@ -5,9 +5,7 @@ import io.deeplay.intership.model.Group;
 import io.deeplay.intership.model.Stone;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Данный класс предназаначен для контроля формирования групп камней на поле,
@@ -172,4 +170,148 @@ public class GroupControl {
         }
     }
 
+
+    // NEW
+    /*public boolean checkIfSurrounded (Group outGroup, Group inGroup) {
+        Stone stone = (Stone)inGroup.getStones().stream().toArray()[0];
+        int x = stone.getRowNumber();
+        int y = stone.getColumnNumber();
+        return ifClosed(stone, outGroup, -1, 0) &&
+                ifClosed(stone, outGroup, 1, 0) &&
+                ifClosed(stone, outGroup, 0, -1) &&
+                ifClosed(stone, outGroup, 0, 1);
+    }
+
+    public boolean ifClosed(Stone stone, Group group, int i, int j) {
+        int x = stone.getRowNumber();
+        int y = stone.getColumnNumber();
+        while(x >= 0 && x <= 8 && y <= 0 && y <= 8) {
+            if(gameField[x][y].getGroup() == group) {
+                return true;
+            }
+            x += i;
+            y += j;
+        }
+        return false;
+    }*/
+
+    public Set<Group> getAllGroups() {
+        int n = gameField.length;
+        Set<Group> groups = new HashSet<>();
+        for(int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                groups.add(gameField[i][j].getGroup());
+            }
+        }
+        return groups;
+    }
+
+    public Set<Group> getSurroundedGroups(Set<Group> allGroups) {
+        Set<Group> groups = new HashSet<>();
+        for(Group group : allGroups) {
+            Stone stone = (Stone)group.getStones().stream().toArray()[0];
+            Set<Stone> stonesFromAreas = itSurrounds(group, stone.getColor());
+        }
+        return groups;
+    }
+
+    public Set<Group> getInnerGroups(Set<Stone> stonesFromAreas, Group group) {
+        Set<Group> surroundedGroups = new HashSet<>();
+        Color colorGroup = ((Stone)group.getStones().stream().toArray()[0]).getColor();
+        for(Stone stone : stonesFromAreas) {
+            Set<Group> tempGroups = new HashSet<>();
+            Set<Stone> visited = new HashSet<>();
+            searchGroups(tempGroups, stone, group, visited, colorGroup);
+            surroundedGroups.addAll(tempGroups);
+        }
+        return surroundedGroups;
+    }
+
+    public void searchGroups(Set<Group> foundedGroups, Stone stone, Group group, Set<Stone> visited, Color colorGroup) {
+        int i = stone.getRowNumber();
+        int j = stone.getColumnNumber();
+        visited.add(stone);
+        if(stone.getColor() == Color.invertColor(colorGroup)) {
+            foundedGroups.add(stone.getGroup());
+        }
+
+        if(i > MIN_FIELD_RANGE && gameField[i-1][j].getGroup() != group &&
+                !visited.contains(gameField[i-1][j])) {
+            searchGroups(foundedGroups, gameField[i-1][j], group, visited, colorGroup);
+        }
+        if(i < MAX_FIELD_RANGE && gameField[i+1][j].getGroup() != group &&
+                !foundedGroups.contains(gameField[i+1][j].getGroup())) {
+            searchGroups(foundedGroups, gameField[i+1][j], group, visited, colorGroup);
+        }
+        if(j > MIN_FIELD_RANGE && gameField[i][j-1].getGroup() != group &&
+                !foundedGroups.contains(gameField[i][j-1].getGroup())) {
+            searchGroups(foundedGroups, gameField[i][j-1], group, visited, colorGroup);
+        }
+        if(j < MAX_FIELD_RANGE && gameField[i][j+1].getGroup() != group &&
+                !foundedGroups.contains(gameField[i][j+1].getGroup())) {
+            searchGroups(foundedGroups, gameField[i][j+1], group, visited, colorGroup);
+        }
+    }
+
+    public Set<Stone> itSurrounds(Group group, Color color) {
+        int n = gameField.length;
+        Set<Group> groups = new HashSet<>();
+        Stone[][] tempField = new Stone[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(gameField[i][j].getGroup() == group) {
+                    tempField[i][j] = new Stone(color, i, j, group);
+                }
+                else {
+                    tempField[i][j] = new Stone(Color.EMPTY, i, j);
+                }
+            }
+        }
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                Stone stone = tempField[i][j];
+                if(stone.getGroup() != group && !groups.contains(stone.getGroup())) {
+                    Group newGroup = new Group();
+                    groups.add(newGroup);
+                    open(tempField, i, j, newGroup);
+                }
+            }
+        }
+
+        Set<Stone> areas = new HashSet<>();
+
+        Group maxGroup = groups
+                .stream()
+                .max((group1, group2) -> {
+                    int countOfStones1 = group1.getStonesCount();
+                    int countOfStones2 = group2.getStonesCount();
+                    return countOfStones1 - countOfStones2;
+                })
+                .get();
+        groups.remove(maxGroup);
+        for(Group surroundedGroup : groups) {
+            areas.add((Stone)surroundedGroup.getStones().stream().toArray()[0]);
+        }
+        return areas;
+    }
+
+    public void open(Stone[][] tempField, int i, int j, Group group) {
+        group.addStone(tempField[i][j]);
+        tempField[i][j].setGroup(group);
+        Color curColor = tempField[i][j].getColor();
+        Group curGroup = tempField[i][j].getGroup();
+        if(i > 0 && curGroup != group && curColor == Color.EMPTY) {
+            open(tempField, i-1, j, group);
+        }
+        if(j > 0 && curGroup != group && curColor == Color.EMPTY) {
+            open(tempField, i-1, j, group);
+        }
+        if(i > 0 && curGroup != group && curColor == Color.EMPTY) {
+            open(tempField, i-1, j, group);
+        }
+        if(i > 0 && curGroup != group && curColor == Color.EMPTY) {
+            open(tempField, i-1, j, group);
+        }
+    }
 }

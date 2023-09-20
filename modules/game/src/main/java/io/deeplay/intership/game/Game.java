@@ -8,7 +8,6 @@ import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Score;
 import io.deeplay.intership.model.Stone;
 import io.deeplay.intership.validation.Validation;
-import org.apache.log4j.Logger;
 
 /**
  * Класс игры со всеми необходимыми для процесса игры полями.
@@ -25,7 +24,6 @@ public class Game {
     private final Validation validation;
     private final ScoreCalculator scoreCalculator;
     private boolean gameIsOver;
-    private Logger logger;
 
     public Game() {
         this.gameId = idGenerator++;
@@ -36,7 +34,6 @@ public class Game {
         this.validation = new Validation(board);
         this.scoreCalculator = new ScoreCalculator(board.getField());
         this.gameIsOver = false;
-        this.logger = Logger.getLogger(Game.class);
     }
 
     /**
@@ -130,10 +127,8 @@ public class Game {
      */
     private void addPoints(final int points, final Color color) {
         if (color == Color.BLACK) {
-            logger.debug("Black get: " + points);
             scoreCalculator.addBlackPoints(points);
         } else {
-            logger.debug("White get: " + points);
             scoreCalculator.addWhitePoints(points);
         }
     }

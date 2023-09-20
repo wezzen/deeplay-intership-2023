@@ -106,16 +106,8 @@ public class DisplayGui implements UserInterface {
 
     @Override
     public void showBoard(Stone[][] gameField) {
-        if(startPanelName.equals(Settings.INITIAL_PANEL)) {
-            switcher.panels.get(
-                    Settings.INITIAL_PANEL).changeSwitch(
-                    Settings.INITIAL_PANEL, switcher.isVisible.get(
-                            Settings.INITIAL_PANEL));
-        }
-        else {
-            switcher.getPanels().get(
+        switcher.getPanels().get(
                     Settings.FIELD_PANEL).drawField(gameField);
-        }
     }
 
     @Override

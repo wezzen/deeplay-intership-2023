@@ -16,12 +16,13 @@ import org.apache.log4j.Logger;
 
 public class Selfplay {
     private static final Logger log = Logger.getLogger(Selfplay.class);
-    private static final int gamesCount = 5;
+    private static final int gamesCount = 10;
     private static final int PLAYERS_COUNT = 2;
     private static int countOfBlackWins = 0;
     private final GoPlayer[] players = new GoPlayer[PLAYERS_COUNT];
     private final UserInterface display;
     private final Game game;
+    private Logger logger;
 
     public static void main(String[] args) throws InterruptedException {
         for (int i = 0; i < gamesCount; i++) {
@@ -33,12 +34,14 @@ public class Selfplay {
             Thread.sleep(10);
             log.info(endMessage);
         }
+        new Selfplay().showAllResults();
     }
 
     public Selfplay() {
         players[0] = new MinMaxBot("Bot black", Color.BLACK);
         players[1] = new RandomBot("Bot white", Color.WHITE);
         display = new DisplayGui(new ScannerGui());
+        this.logger = Logger.getLogger(Selfplay.class);
         game = new Game();
     }
 
@@ -49,7 +52,7 @@ public class Selfplay {
                 var field = getMove(players[currentPlayer]);
                 display.showBoard(field);
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -90,5 +93,6 @@ public class Selfplay {
     public void showAllResults(){
         final String result = String.format("Черные: %d игр \nБелые: %d игр", countOfBlackWins, gamesCount-countOfBlackWins);
         display.showGameResult(result);
+        logger.debug(result);
     }
 }

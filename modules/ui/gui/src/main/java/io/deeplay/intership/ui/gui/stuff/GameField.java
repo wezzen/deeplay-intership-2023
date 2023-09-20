@@ -153,7 +153,12 @@ public class GameField extends JPanel {
     }
 
     public void setField(Stone[][] gameField){
-        this.field = getColors(gameField);
+        int n = gameField.length;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++){
+                this.field[i][j] = gameField[i][j].getColor();
+            }
+        }
     }
 
     public Color[][] getField() {
