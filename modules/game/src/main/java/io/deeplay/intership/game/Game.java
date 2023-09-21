@@ -2,7 +2,6 @@ package io.deeplay.intership.game;
 
 import io.deeplay.intership.exception.game.GameCode;
 import io.deeplay.intership.exception.game.GameException;
-import io.deeplay.intership.logger.GameLog;
 import io.deeplay.intership.model.Board;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Score;
@@ -18,7 +17,6 @@ public class Game {
     private static int idGenerator = 1;
     private final int gameId;
     private final Board board;
-    private final GameLog gameLog;
     private final CheckGameOver checkGameOver;
     private final GroupControl groupControl;
     private final Validation validation;
@@ -28,7 +26,6 @@ public class Game {
     public Game() {
         this.gameId = idGenerator++;
         this.board = new Board();
-        this.gameLog = new GameLog();
         this.checkGameOver = new CheckGameOver();
         this.groupControl = new GroupControl(board.getField());
         this.validation = new Validation(board);
@@ -42,7 +39,6 @@ public class Game {
      * @return {@link Stone} массив изначального состояния доски
      */
     public Board startGame() {
-        gameLog.startGame(gameId);
         return board;
     }
 
@@ -61,7 +57,6 @@ public class Game {
             gameIsOver = true;
             throw new GameException(GameCode.FINISHED);
         }
-        gameLog.skipMove(color);
         return board.getField();
     }
 
@@ -92,10 +87,7 @@ public class Game {
             groupControl.removeFreeCellFromNeighborStones(stone);
             int removedStonesCount = groupControl.removeGroup(stone);
             addPoints(removedStonesCount, stone.getColor());
-
-            gameLog.move(stone);
         } else {
-            gameLog.wrongMove(stone);
             throw new GameException(GameCode.PASSED);
         }
 
@@ -110,7 +102,6 @@ public class Game {
     public Score getGameScore() {
         this.gameIsOver = true;
         final Score score = new ScoreCalculator(board.getField()).getTotalScore();
-        gameLog.endGame(score.whitePoints() - score.blackPoints());
         return score;
     }
 

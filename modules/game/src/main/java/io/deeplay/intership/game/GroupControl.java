@@ -3,7 +3,6 @@ package io.deeplay.intership.game;
 import io.deeplay.intership.model.Color;
 import io.deeplay.intership.model.Group;
 import io.deeplay.intership.model.Stone;
-import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Set;
  * он отвечает за удаление старых, формирование новых, а также слияние имеющихся групп.
  */
 public class GroupControl {
-    private final Logger logger = Logger.getLogger(GroupControl.class);
     private final Stone[][] gameField;
     private final int MAX_FIELD_RANGE;
     private final int MIN_FIELD_RANGE;
@@ -88,7 +86,6 @@ public class GroupControl {
     public void setGroup(Stone stone) {
         Set<Stone> friendStones = getNearStonesByColor(stone, stone.getColor());
         if (friendStones.isEmpty()) {
-            logger.debug("не найдены смежные союзные камни");
             Group group = new Group(new HashSet<>(List.of(stone)),
                     getNearStonesByColor(stone, Color.EMPTY));
             stone.setGroup(group);
@@ -101,7 +98,6 @@ public class GroupControl {
                         return countOfStones1 - countOfStones2;
                     })
                     .get();
-            logger.debug("Найден смежный союзный камень с самой большой группой " + maxStone);
 
             maxStone.getGroup().addStone(stone);
             maxStone.getGroup().addFreeCells(getNearStonesByColor(stone, Color.EMPTY));

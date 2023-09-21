@@ -17,4 +17,6 @@ dependencies {
 
     implementation(project(":game-exception"))
     implementation(project(":server-exception"))
+    implementation(project(mapOf("path" to ":simons-bot")))
+    implementation(project(mapOf("path" to ":gui")))
 }

@@ -3,4 +3,7 @@ dependencies {
     implementation(project(mapOf("path" to ":model")))
     implementation(project(mapOf("path" to ":decision-maker")))
     implementation(project(mapOf("path" to ":dto")))
+    implementation(project(mapOf("path" to ":game")))
+    implementation(project(mapOf("path" to ":game")))
+    implementation(project(mapOf("path" to ":game-exception")))
 }
