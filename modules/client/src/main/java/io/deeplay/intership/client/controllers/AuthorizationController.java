@@ -15,13 +15,24 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * Этот класс обеспечивает взаимодействие клиентов с сервером в процессе авторизации, регистрации и выхода.
+ */
 public class AuthorizationController extends Controller {
     private final Logger logger = Logger.getLogger(AuthorizationController.class);
 
-    public AuthorizationController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public AuthorizationController(
+            final StreamConnector streamConnector,
+            final UserInterface userInterface,
+            final DecisionMaker decisionMaker) {
         super(streamConnector, userInterface, decisionMaker);
     }
 
+    /**
+     * Метод для авторизации клиента.
+     *
+     * @return Токен клиента после успешной авторизации.
+     */
     public String authorizeClient() {
         BaseDtoResponse response;
         String token = null;
@@ -48,6 +59,13 @@ public class AuthorizationController extends Controller {
         return token;
     }
 
+    /**
+     * Метод для отправки запроса на регистрацию клиента на сервере.
+     *
+     * @param loginPassword Объект {@link LoginPassword} с данными (логин и пароль) для регистрации.
+     * @return Ответ от сервера после попытки регистрации.
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером или неверные данные.
+     */
     public BaseDtoResponse registration(final LoginPassword loginPassword) throws ClientException {
         try {
             streamConnector.sendRequest(new RegistrationDtoRequest(
@@ -59,6 +77,13 @@ public class AuthorizationController extends Controller {
         }
     }
 
+    /**
+     * Метод для отправки запроса на вход клиента на сервере.
+     *
+     * @param loginPassword Объект {@link LoginPassword} с данными (логин и пароль) для входа.
+     * @return Ответ от сервера после попытки входа.
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером или неверные данные.
+     */
     public BaseDtoResponse login(final LoginPassword loginPassword) throws ClientException {
         try {
             streamConnector.sendRequest(new LoginDtoRequest(
@@ -70,6 +95,12 @@ public class AuthorizationController extends Controller {
         }
     }
 
+    /**
+     * Метод для отправки запроса на выход клиента из системы.
+     *
+     * @param token Токен клиента, который должен разлогиниться.
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером.
+     */
     public void logout(final String token) throws ClientException {
         try {
             streamConnector.sendRequest(new LogoutDtoRequest(token));
