@@ -1,3 +1,20 @@
+![GitHub top language](https://img.shields.io/github/languages/top/wezzen/deeplay-intership-2023)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/wezzen/deeplay-intership-2023)
+![GitHub repo size](https://img.shields.io/github/repo-size/wezzen/deeplay-intership-2023)
+![GitHub](https://img.shields.io/github/license/wezzen/deeplay-intership-2023)
+
+[![example workflow](https://github.com/wezzen/deeplay-intership-2023/actions/workflows/gradle_ubuntu.yml/badge.svg)](https://github.com/wezzen/deeplay-intership-2023/actions)
+[![example workflow](https://github.com/wezzen/deeplay-intership-2023/actions/workflows/gradle_windows.yml/badge.svg)](https://github.com/wezzen/deeplay-intership-2023/actions)
+
+[![codecov](https://codecov.io/gh/wezzen/deeplay-intership-2023/branch/master/graph/badge.svg)](https://codecov.io/gh/wezzen/deeplay-intership-2023)
+![GitHub last commit](https://img.shields.io/github/last-commit/wezzen/deeplay-intership-2023)
+
+<p align="left">
+<img src="https://visitor-badge.laobi.icu/badge?page_id=wezzen.deeplay-intership-2023" alt="visitors"/>
+</p>
+
+Читать на других языках: [English](README.en.md)
+
 # Сетевая игра Го
 
 Данный проект представляет собой реализацию игры Го на языке программирования Java с использованием клиент-серверной
@@ -12,16 +29,13 @@
 2. [Правила игры](#Правила-игры)
 3. [Структура проекта](#Структура-проекта)
 4. [Архитектура](#Архитектура)
-5. [Структура сервера](#Структура-сервера)
-6. [Структура клиента](#Структура-клиента)
-7. [Протокол зваимодействия между сервером и клиентом](#Протокол-взаимодействия)
-
+5. [Протокол зваимодействия между сервером и клиентом](#Протокол-взаимодействия)
 
 <a name="Описание"></a>
 
 ## Описание
 
-Игра Го - это древняя стратегическая настольная игра для двух игроков, в которой игроки чередуются размещать камни на
+Игра Го - древняя стратегическая настольная игра для двух игроков, в которой игроки чередуются размещать камни на
 пересечениях линий игрового поля. Цель игры - захватывать территорию и пленять камни противника. Данный проект реализует
 игру Го с возможностью игры по сети через клиент-серверную архитектуру.
 
@@ -43,7 +57,7 @@
 
 ### Ходы
 
-Два игрока (черные и белые) ходят по очереди. Первый ход делают черные.
+Два игрока ходят по очереди. Первый ход делают черные.
 Во время своего хода игрок может поставить одну свою фишку на пустую клетку на доске.
 При каждом ходе на доску выставляется один камень. Камень ставится на пересечение линий.
 Игроки выставляют камни на доску так, чтобы отгородить как можно больше территории. Камни — это своего рода строительный
@@ -52,7 +66,7 @@
 
 ### Захват
 
-У каждого камня, поставленного на доску, есть “дыхания” — это соседние пустые пункты доски, напрямую связанные с камнем
+У каждого камня, поставленного на доску, есть `дыхания` — это соседние пустые пункты доски, напрямую связанные с камнем
 линией. У камня в центре 4 дыхания, на краю — 3, а в углу — 2. Если у камня перекрыть все пункты дыхания, то он
 снимается с доски. Каждый захваченный камень приносит одно дополнительное очко!
 
@@ -78,8 +92,8 @@
 захваченные фишки противника и территории, которую он захватил.
 
 Так как черные начинают игру первыми, у них есть небольшое преимущество: они первыми захватывают углы, первыми атакуют и
-т.д. И для того чтобы уравнять начальные условия игроков, ввели правило, согласно которому белым добавляется 6,5 очка
-компенсации. Половинка очка не позволит закончить партию вничью. Эта компенсация называется коми.
+т.д. И для того чтобы уравнять начальные условия игроков, ввели правило, согласно которому белым добавляется 5,5 очков
+компенсации. Половинка очка не позволит закончить партию вничью. Эта компенсация называется `коми`.
 
 [К оглавлению](#Содержание)
 
@@ -87,23 +101,18 @@
 
 ## Структура проекта
 
-директория modules:
+Основные модули проекта:
 
-* bots
-    * random-bot
-* dto
-* dto-validator
-* game
-* json-converter
-* logger
-* model
-* player-actions
-* server
-* server-exception
-* service
-* user-interface
-    * terminal-ui
-* validation
+* client - модуль запуска клиента
+* dao - содержит слой приложения, отвечающий за передачу данных в БД/диск
+* dto - модуль с классами, отвечающими за передачу данных между слоями приложения
+* decision-maker - содержит модули, отвечающие за пользовательский ввод(зависит от графической оболочки)
+* exceptions - содержит модули кастомных исключений
+* game - модуль с классами игровой логики
+* model - модуль с основными игровми сущностями
+* selfplay - модуль запуска игры локально между ботами
+* server - модуль запуска сервера
+* ui - содержит модули отображения польовательского интерфейса 
 
 [К оглавлению](#Содержание)
 
@@ -121,27 +130,6 @@
 
 [К оглавлению](#Содержание)
 
-<a name="Структура-сервера"></a>
-
-## Структура сервера
-
-Класс *Server* имеет точку входа main. При получении нового соединения через Socket, создается экземпляр класса
-ClientHandler и передается в ExecutorService для управления этим потоком.
-![img.png](readme-images/server-struct.png)
-
-<a name="Структура-клиента"></a>
-
-[К оглавлению](#Содержание)
-
-## Структура клиента
-
-Класс клиент хранит в себе реализацию пользовательского интерфейса *UI*, а также способ принятия решений (бот или
-пользовательский ввод). Реализация интерфейса отображения и способ принятия решений задаются в конфигурационном файле.
-![img.png](readme-images/client-struct.png)
-flowchart TB
-node
-
-[К оглавлению](#Содержание)
 
 <a name="Протокол-взаимодействия"></a>
 
@@ -153,7 +141,6 @@ node
 
 ```json
 {
-  "request-type": "registration",
   "login": "login",
   "password-hash": "password_hash"
 }
@@ -163,16 +150,15 @@ node
 
 ```json
 {
-  "message": "You was successfully registrated!",
-  "status": "success"
+  "status": "success",
+  "message": "You was successfully registrated!"
 }
 ```
 
 ```json
 {
-  "message": "This login already exists!",
-  "Incorrect login!",
-  "status": "failure"
+  "status": "failure",
+  "message": "This login already exists!", "Incorrect login!"
 }
 ```
 
@@ -184,7 +170,6 @@ node
 
 ```json
 {
-  "request-type": "login",
   "login": "login",
   "password-hash": "password_hash"
 }
@@ -194,16 +179,16 @@ node
 
 ```json
 {
-  "message": "You entered!",
   "status": "success",
+  "message": "You entered!",
   "token": "UID"
 }
 ```
 
 ```json
 {
-  "message": "Invalid login or password!",
-  "status": "failure"
+  "status": "failure",
+  "message": "Invalid login or password!"
 }
 ```
 
@@ -213,7 +198,6 @@ node
 
 ```json
 {
-  "request-type": "logout",
   "token": "UID"
 }
 ```
@@ -222,16 +206,15 @@ node
 
 ```json
 {
-  "message": "You've log out!",
-  "status": "success"
+  "status": "success",
+  "message": "You've log out!"
 }
 ```
 
 ```json
 {
-  "message": "You're not authorized!",
-  "Something bad happened!",
-  "status": "failure"
+  "status": "failure",
+  "message": "You're not authorized!", "Something bad happened!"
 }
 ```
 
@@ -243,15 +226,9 @@ node
 
 ```json
 {
-  "request-type": "create_game",
-  "with-bot": true,
-  false,
-  "color": "WHITE",
-  "BLACK",
-  "EMPTY",
-  "size": 9,
-  13,
-  19,
+  "with-bot": true, false,
+  "color": "WHITE", "BLACK", "EMPTY",
+  "size": 9, 13, 19,
   "token": "UID"
 }
 ```
@@ -260,17 +237,16 @@ node
 
 ```json
 {
-  "message": "Have a good game!",
   "status": "success",
+  "message": "Have a good game!",
   "game-id": "game_id"
 }
 ```
 
 ```json
 {
-  "message": "You're not authorized!",
-  "Server is temporarily unavailable!",
-  "status": "failure"
+  "status": "failure",
+  "message": "You're not authorized!", "Server is temporarily unavailable!"
 }
 ```
 
@@ -282,11 +258,9 @@ node
 
 ```json
 {
-  "request-type": "join_game",
   "game-id": "game_id",
   "token": "UID",
-  "color": "WHITE",
-  "BLACK"
+  "color": "WHITE", "BLACK"
 }
 ```
 
@@ -294,17 +268,15 @@ node
 
 ```json
 {
-  "message": "Have a good game!",
-  "status": "success"
+  "status": "success",
+  "message": "Have a good game!"
 }
 ```
 
 ```json
 {
-  "message": "You're not authorized!",
-  "There are two players already!",
-  "Server is temporarily unavailable!",
-  "status": "failure"
+  "status": "failure",
+  "message": "You're not authorized!", "There are two players already!", "Server is temporarily unavailable!"
 }
 ```
 
@@ -318,10 +290,8 @@ node
 
 ```json
 {
-  "request-type": "turn",
   "token": "UID",
-  "color": "BLACK",
-  "WHITE",
+  "answerType": "TURN",
   "row": "row",
   "column": "column"
 }
@@ -331,17 +301,16 @@ node
 
 ```json
 {
-  "message": "You can move!",
   "status": "success",
+  "message": "You can move!",
   "game-field": "game_field"
 }
 ```
 
 ```json
 {
-  "message": "Invalid move!",
-  "Something bad happened!",
   "status": "failure",
+  "message": "Invalid move!", "Something bad happened!",
   "game-field": "game_field"
 }
 ```
@@ -354,8 +323,10 @@ node
 
 ```json
 {
-  "request-type": "pass",
-  "token": "UID"
+  "token": "UID",
+  "answerType": "PASS",
+  "row": "row",
+  "column": "column"
 }
 ```
 
@@ -363,79 +334,16 @@ node
 
 ```json
 {
+  "status": "success",
   "message": "You can pass!",
-  "status": "success",
   "game-field": "game_field"
 }
 ```
 
 ```json
 {
-  "message": "Something bad happened!",
   "status": "failure",
-  "game-field": "game_field"
-}
-```
-
-### Сдаться
-
-Запрос
-
-```json
-{
-  "request-type": "surrender",
-  "token": "UID"
-}
-```
-
-Ответ
-
-```json
-{
-  "message": "You're so miserable!",
-  "status": "success",
-  "game-field": "game_field"
-}
-```
-
-```json
-{
   "message": "Something bad happened!",
-  "status": "failure",
   "game-field": "game_field"
-}
-```
-
----
-
-### В конце игры
-
-### Закончить игру
-
-Запрос
-
-```json
-{
-  "request-type": "finish_game",
-  "game-id": "game_id"
-}
-```
-
-Ответ
-
-```json
-{
-  "message": "Game over!",
-  "status": "success",
-  "white-score": "white_score",
-  "black-score": "black_score"
-}
-```
-
-```json
-{
-  "message": "End of game haven't reached yet!",
-  "Something bad happened!",
-  "status": "failure"
 }
 ```
