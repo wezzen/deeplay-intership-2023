@@ -16,15 +16,29 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * Обеспечивает взаимодействие клиента с сервером в процессе создания и присоединения к игровым сессиям.
+ */
 public class GameController extends Controller {
     private final Logger logger = Logger.getLogger(GameController.class);
     private String token;
     private Color clientColor;
 
-    public GameController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public GameController(
+            final StreamConnector streamConnector,
+            final UserInterface userInterface,
+            final DecisionMaker decisionMaker) {
         super(streamConnector, userInterface, decisionMaker);
     }
 
+    /**
+     * Метод для присоединения клиента к игровой сессии с использованием токена.
+     *
+     * @param token Токен клиента, необходимый для аутентификации.
+     * @return Цвет клиента в игре (Black или White).
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером или неверные данные.
+     * @throws IOException     Если возникла ошибка при отправке запроса.
+     */
     public Color joinToGame(final String token) throws ClientException, IOException {
         this.token = token;
         BaseDtoResponse response;
@@ -56,6 +70,13 @@ public class GameController extends Controller {
         return clientColor;
     }
 
+    /**
+     * Метод для отправки запроса на создание игровой сессии.
+     *
+     * @param gameConfig Конфигурация игры {@link GameConfig}, включая параметры, такие как наличие бота, цвет игрока и размер поля.
+     * @return Ответ от сервера после попытки создания игровой сессии.
+     * @throws IOException Если возникла ошибка при отправке запроса.
+     */
     public BaseDtoResponse createGame(final GameConfig gameConfig) throws IOException {
         streamConnector.sendRequest(new CreateGameDtoRequest(
                 gameConfig.withBot(),
@@ -65,6 +86,13 @@ public class GameController extends Controller {
         return streamConnector.getResponse();
     }
 
+    /**
+     * Метод для отправки запроса на присоединение к существующей игровой сессии по идентификатору.
+     *
+     * @param gameConfig Конфигурация игры {@link GameConfig}, включая идентификатор сессии, цвет игрока и другие параметры.
+     * @return Ответ от сервера после попытки присоединения к игровой сессии.
+     * @throws IOException Если возникла ошибка при отправке запроса.
+     */
     public BaseDtoResponse joinGameById(final GameConfig gameConfig) throws IOException {
         streamConnector.sendRequest(new JoinGameDtoRequest(
                 gameConfig.gameId(),
@@ -73,10 +101,20 @@ public class GameController extends Controller {
         return streamConnector.getResponse();
     }
 
+    /**
+     * Метод для установки токена клиента.
+     *
+     * @param token Токен клиента, необходимый для аутентификации.
+     */
     public void setToken(final String token) {
         this.token = token;
     }
 
+    /**
+     * Метод для установки цвета клиента в игре (Black или White).
+     *
+     * @param color Цвет клиента в игре.
+     */
     public void setColor(final Color color) {
         this.clientColor = color;
     }

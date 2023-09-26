@@ -21,13 +21,29 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * Обеспечивает взаимодействие клиента с игровой сессией, обработку игровых действий
+ * и отображение информации о ходе игры.
+ */
 public class GameplayController extends Controller {
     private final Logger logger = Logger.getLogger(GameplayController.class);
 
-    public GameplayController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
+    public GameplayController(
+            final StreamConnector streamConnector,
+            final UserInterface userInterface,
+            final DecisionMaker decisionMaker) {
         super(streamConnector, userInterface, decisionMaker);
     }
 
+    /**
+     * Обработка игровой сессии, включая передачу ходов, получение ответов от сервера и отображение информации.
+     *
+     * @param token       Токен клиента, необходимый для аутентификации.
+     * @param clientColor Цвет клиента {@link Color} в игре (Black или White).
+     * @return Результат игры, включая счет и победителя.
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером или неверные данные.
+     * @throws IOException     Если возникла ошибка при отправке запросов и получении ответов.
+     */
     public FinishGameDtoResponse processingGame(final String token, final Color clientColor) throws ClientException, IOException {
         BaseDtoResponse response = new BaseDtoResponse(ResponseStatus.SUCCESS, "");
         while (!isFinish(response)) {
@@ -38,6 +54,13 @@ public class GameplayController extends Controller {
         return (FinishGameDtoResponse) response;
     }
 
+    /**
+     * Определение действия, которое необходимо выполнить в зависимости от ответа сервера.
+     *
+     * @param response Ответ от сервера.
+     * @throws ClientException Если возникла ошибка взаимодействия с сервером или неверные данные.
+     * @throws IOException     Если возникла ошибка при отправке запросов и получении ответов.
+     */
     public void defineAction(final BaseDtoResponse response) throws IOException, ClientException {
         logger.debug(response.message);
         if (response instanceof final AnswerDtoResponse dtoResponse) {
@@ -59,6 +82,12 @@ public class GameplayController extends Controller {
         }
     }
 
+    /**
+     * Получение игрового действия от пользователя с использованием {@link DecisionMaker}.
+     *
+     * @return Запрос на игровое действие, который будет отправлен на сервер.
+     * @throws ClientException Если возникла ошибка при отправке запросов и получении ответов.
+     */
     public BaseDtoRequest getGameAction() throws ClientException {
         userInterface.showMoveRules();
         userInterface.showGameActions();
@@ -76,6 +105,12 @@ public class GameplayController extends Controller {
         }
     }
 
+    /**
+     * Создание запроса на выполнение хода в игре.
+     *
+     * @param gameAction Действие {@link GameAction}, которое клиент хочет собирается выполнить.
+     * @return Запрос на выполнение хода.
+     */
     public AnswerDtoRequest turn(final GameAction gameAction) {
         return new AnswerDtoRequest(
                 AnswerDtoType.TURN,
@@ -83,6 +118,11 @@ public class GameplayController extends Controller {
                 gameAction.column());
     }
 
+    /**
+     * Создание запроса на пропуск хода в игре.
+     *
+     * @return Запрос на передачу хода (пропуск хода).
+     */
     public AnswerDtoRequest pass() {
         return new AnswerDtoRequest(
                 AnswerDtoType.PASS,
@@ -90,6 +130,12 @@ public class GameplayController extends Controller {
                 -1);
     }
 
+    /**
+     * Проверка, завершена ли игровая сессия на основе ответа от сервера.
+     *
+     * @param dtoResponse Ответ от сервера.
+     * @return {@code true}, если игровая сессия завершена; в противном случае - {@code false}.
+     */
     public boolean isFinish(final BaseDtoResponse dtoResponse) {
         return dtoResponse instanceof FinishGameDtoResponse;
     }
