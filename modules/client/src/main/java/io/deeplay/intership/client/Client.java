@@ -5,9 +5,6 @@ import io.deeplay.intership.decision.maker.DecisionMaker;
 import io.deeplay.intership.decision.maker.gui.DecisionMakerGui;
 import io.deeplay.intership.decision.maker.gui.ScannerGui;
 import io.deeplay.intership.decision.maker.terminal.DecisionMakerTerminal;
-import io.deeplay.intership.exception.ClientErrorCode;
-import io.deeplay.intership.exception.ClientException;
-import io.deeplay.intership.model.Color;
 import io.deeplay.intership.ui.UserInterface;
 import io.deeplay.intership.ui.gui.DisplayGui;
 import io.deeplay.intership.ui.terminal.Display;
@@ -23,79 +20,61 @@ import java.util.Scanner;
 
 public class Client {
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
-    private static String host;
-    private static int port;
-    private static Socket socket;
-    private static DataInputStream reader;
-    private static DataOutputStream writer;
-    private static UserInterface userInterface;
-    private static DecisionMaker decisionMaker;
-    private static StreamConnector streamConnector;
-    private static ScannerGui scannerGui;
-    private static AuthorizationController authorizationController;
-    private static GameController gameController;
-    private static GameplayController gameplayController;
-    private static String token;
-    private static Color color;
 
-    public Client(UserInterface ui, DecisionMaker maker, String host, int port) {
-        init(ui, maker, host, port);
-    }
-
-    public Client() {
-        init();
-        scannerGui = new ScannerGui();
-    }
-
-    public static void main(String[] args) throws IOException {
-        new Client();
-        token = authorizationController.authorizeClient();
-        while (!socket.isClosed()) {
-            try {
-                color = gameController.joinToGame(token);
-                gameplayController.processingGame(token, color);
-            } catch (ClientException ex) {
-                if (ex.errorCode == ClientErrorCode.NOT_AUTHORIZED_CLIENT) {
-                    token = authorizationController.authorizeClient();
-                }
-            }
-        }
-    }
-
-    public static void init(UserInterface ui, DecisionMaker maker, String host, int port) {
-        userInterface = ui;
-        decisionMaker = maker;
-
+    public static void main(String[] args) {
         try {
-            socket = new Socket(InetAddress.getByName(host), port);
-            reader = new DataInputStream(socket.getInputStream());
-            writer = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        streamConnector = new StreamConnector(writer, reader);
-        gameController = new GameController(streamConnector, userInterface, decisionMaker);
-        gameplayController = new GameplayController(streamConnector, userInterface, decisionMaker);
-        authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
-    }
+            final ClientProperties clientProperties = readProperties();
+            final Socket socket = new Socket(InetAddress.getByName(clientProperties.host()), clientProperties.port());
+            final UserInterfaceType userInterfaceType = UserInterfaceType.valueOf(clientProperties.interfaceType());
+            final StreamConnector streamConnector = initConnector(socket);
 
-    public static void init() {
-        UserInterfaceType userInterfaceType = UserInterfaceType.TERMINAL;
-        try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
-            Properties property = new Properties();
-            property.load(fis);
+            final UserInterface userInterface;
+            final DecisionMaker decisionMaker;
+            switch (userInterfaceType) {
+                case SWING -> {
+                    final ScannerGui scannerGui = new ScannerGui();
+                    userInterface = new DisplayGui(scannerGui);
+                    decisionMaker = new DecisionMakerGui(scannerGui);
+                }
+                case TERMINAL -> {
+                    userInterface = new Display();
+                    decisionMaker = new DecisionMakerTerminal(new Scanner(System.in));
+                }
+                default -> throw new IllegalStateException();
+            }
+            final GameController gameController = new GameController(streamConnector, userInterface, decisionMaker);
+            final GameplayController gameplayController = new GameplayController(streamConnector, userInterface, decisionMaker);
+            final AuthorizationController authorizationController = new AuthorizationController(streamConnector, userInterface, decisionMaker);
 
-            host = property.getProperty("client.host");
-            port = Integer.parseInt(property.getProperty("client.port"));
-            userInterfaceType = UserInterfaceType.valueOf(property.getProperty("client.GUI").toUpperCase());
+            final ClientThread clientThread = new ClientThread(
+                    socket,
+                    authorizationController,
+                    gameController,
+                    gameplayController);
+            clientThread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        ScannerGui scannerGui = new ScannerGui();
-        switch (userInterfaceType) {
-            case SWING -> init(new DisplayGui(scannerGui), new DecisionMakerGui(scannerGui), host, port);
-            default -> init(new Display(), new DecisionMakerTerminal(new Scanner(System.in)), host, port);
+    private static ClientProperties readProperties() throws IOException {
+        try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
+            final Properties property = new Properties();
+            property.load(fis);
+
+            final String host = property.getProperty("client.host");
+            final int port = Integer.parseInt(property.getProperty("client.port"));
+            final String userInterfaceType = property.getProperty("client.GUI").toUpperCase();
+            return new ClientProperties(host, port, userInterfaceType);
+        } catch (IOException ex) {
+            throw ex;
         }
+    }
+
+    private static StreamConnector initConnector(final Socket socket) throws IOException {
+        return new StreamConnector(
+                new DataOutputStream(socket.getOutputStream()),
+                new DataInputStream(socket.getInputStream())
+        );
     }
 }

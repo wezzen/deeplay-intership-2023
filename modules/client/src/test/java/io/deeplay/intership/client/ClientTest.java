@@ -44,6 +44,6 @@ class ClientTest {
 
     @Test
     void creatingInstanceTest() {
-        assertDoesNotThrow(() -> new Client(userInterface, decisionMaker, host, port));
+        assertDoesNotThrow(() -> new Client());
     }
 }
