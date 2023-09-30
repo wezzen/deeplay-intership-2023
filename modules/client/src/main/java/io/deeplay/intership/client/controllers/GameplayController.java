@@ -1,4 +1,4 @@
-package io.deeplay.intership.client;
+package io.deeplay.intership.client.controllers;
 
 import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
@@ -21,16 +21,11 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
-public class GameplayController {
+public class GameplayController extends Controller {
     private final Logger logger = Logger.getLogger(GameplayController.class);
-    private final StreamConnector streamConnector;
-    private final UserInterface userInterface;
-    private final DecisionMaker decisionMaker;
 
     public GameplayController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
-        this.streamConnector = streamConnector;
-        this.userInterface = userInterface;
-        this.decisionMaker = decisionMaker;
+        super(streamConnector, userInterface, decisionMaker);
     }
 
     public FinishGameDtoResponse processingGame(final String token, final Color clientColor) throws ClientException, IOException {
@@ -44,35 +39,23 @@ public class GameplayController {
     }
 
     public void defineAction(final BaseDtoResponse response) throws IOException, ClientException {
+        logger.debug(response.message);
         if (response instanceof final AnswerDtoResponse dtoResponse) {
             userInterface.showBoard(dtoResponse.gameField);
             streamConnector.sendRequest(getGameAction());
-            return;
-        }
-        if (response instanceof final UpdateFieldDtoResponse dtoResponse) {
+        } else if (response instanceof final UpdateFieldDtoResponse dtoResponse) {
             userInterface.showBoard(dtoResponse.gameField);
-            return;
-        }
-        if (response instanceof StartGameDtoResponse) {
-            userInterface.showBoard(((StartGameDtoResponse) response).gameField);
-            return;
-        }
-        if (response instanceof FailureDtoResponse) {
+        } else if (response instanceof final StartGameDtoResponse dtoResponse) {
+            userInterface.showBoard(dtoResponse.gameField);
+        } else if (response instanceof FailureDtoResponse) {
             //TODO: через userInterface показать пользователю ошибку, пришедшую с сервера
             //TODO: что делаем в случае ошибки
-            return;
-        }
-        if (response instanceof FinishGameDtoResponse) {
+        } else if (response instanceof final FinishGameDtoResponse dtoResponse) {
             //TODO: вывести результат игры на экран
-            userInterface.showGameResult("Черные " + ((FinishGameDtoResponse) response).blackScore + "\n" +
-                    "Белые " + ((FinishGameDtoResponse) response).whiteScore);
-            return;
-        }
-        if (response instanceof BaseDtoResponse) {
+            userInterface.showGameResult("Черные " + dtoResponse.blackScore + "\n" +
+                    "Белые " + dtoResponse.whiteScore);
+        } else if (response instanceof BaseDtoResponse) {
             logger.error("Does not catch response");
-            logger.debug(response.status);
-            logger.debug(response.message);
-            return;
         }
     }
 
