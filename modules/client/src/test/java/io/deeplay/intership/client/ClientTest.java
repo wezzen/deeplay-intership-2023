@@ -43,7 +43,7 @@ class ClientTest {
     }
 
     @Test
-    void creatingInstanceTest() {
-        assertDoesNotThrow(() -> new Client());
+    public void creatingInstanceTest() {
+        assertDoesNotThrow(() -> Client.main(null));
     }
 }

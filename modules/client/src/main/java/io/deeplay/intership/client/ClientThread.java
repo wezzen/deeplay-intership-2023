@@ -1,5 +1,8 @@
 package io.deeplay.intership.client;
 
+import io.deeplay.intership.client.controllers.AuthorizationController;
+import io.deeplay.intership.client.controllers.GameController;
+import io.deeplay.intership.client.controllers.GameplayController;
 import io.deeplay.intership.exception.ClientErrorCode;
 import io.deeplay.intership.exception.ClientException;
 import io.deeplay.intership.model.Color;

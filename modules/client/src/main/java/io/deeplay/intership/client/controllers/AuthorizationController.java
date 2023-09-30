@@ -1,4 +1,4 @@
-package io.deeplay.intership.client;
+package io.deeplay.intership.client.controllers;
 
 import io.deeplay.intership.connection.StreamConnector;
 import io.deeplay.intership.decision.maker.DecisionMaker;
@@ -15,16 +15,11 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
-public class AuthorizationController {
+public class AuthorizationController extends Controller {
     private final Logger logger = Logger.getLogger(AuthorizationController.class);
-    private final StreamConnector streamConnector;
-    private final UserInterface userInterface;
-    private final DecisionMaker decisionMaker;
 
     public AuthorizationController(StreamConnector streamConnector, UserInterface userInterface, DecisionMaker decisionMaker) {
-        this.streamConnector = streamConnector;
-        this.userInterface = userInterface;
-        this.decisionMaker = decisionMaker;
+        super(streamConnector, userInterface, decisionMaker);
     }
 
     public String authorizeClient() {
