@@ -28,6 +28,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 
+/**
+ * Обработчик клиента, реализующий интерфейс Runnable для обработки клиентского соединения.
+ * Класс отвечает за взаимодействие с клиентом, обработку запросов и отправку ответов.
+ */
 public class ClientHandler implements Runnable {
     private static final AtomicInteger clientIdCounter = new AtomicInteger(1);
     private final Logger logger = Logger.getLogger(ClientHandler.class);
@@ -41,10 +45,10 @@ public class ClientHandler implements Runnable {
 
 
     public ClientHandler(
-            Socket clientSocket,
-            UserController userController,
-            GameController gameController,
-            GameManager gameManager) throws IOException {
+            final Socket clientSocket,
+            final UserController userController,
+            final GameController gameController,
+            final GameManager gameManager) throws IOException {
         this.clientSocket = clientSocket;
         this.userController = userController;
         this.gameController = gameController;
@@ -57,7 +61,10 @@ public class ClientHandler implements Runnable {
         clientIdCounter.getAndAdd(1);
     }
 
-    public ClientHandler(Socket socket, DataCollectionsAggregator collectionsAggregator, GameManager gameManager) throws IOException {
+    public ClientHandler(
+            final Socket socket,
+            final DataCollectionsAggregator collectionsAggregator,
+            final GameManager gameManager) throws IOException {
         this(
                 socket,
                 new UserController(collectionsAggregator, clientIdCounter.get()),
@@ -66,6 +73,10 @@ public class ClientHandler implements Runnable {
         this.aggregatorUtil = new AggregatorUtil(collectionsAggregator);
     }
 
+    /**
+     * Метод, который выполняет обработку клиентского соединения в отдельном потоке.
+     * Ожидает запросы от клиента, обрабатывает их и отправляет ответы.
+     */
     @Override
     public void run() {
         try {
@@ -88,6 +99,13 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Метод, который определяет команду, полученную от клиента, и выполняет соответствующие действия.
+     *
+     * @param dtoRequest Запрос от клиента.
+     * @return Ответ на запрос.
+     * @throws IOException В случае ошибки при отправке ответа.
+     */
     public BaseDtoResponse defineCommand(final BaseDtoRequest dtoRequest) throws IOException {
         if (dtoRequest instanceof final RegistrationDtoRequest request) {
             final BaseDtoResponse response = userController.registerUser(request);
