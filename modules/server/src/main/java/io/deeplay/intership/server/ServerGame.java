@@ -18,22 +18,33 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Этот класс реализует логику игры, включая управление игроками и обмен данными с клиентами.
+ */
 public class ServerGame extends Thread {
     private static final int PLAYERS_COUNT = 2;
     private final GoPlayer[] players = new GoPlayer[PLAYERS_COUNT];
     private final GameSession gameSession;
     private int totalPlayers;
 
-    public ServerGame(GameSession gameSession) {
+    public ServerGame(final GameSession gameSession) {
         this.gameSession = gameSession;
         this.totalPlayers = 0;
     }
 
+    /**
+     * Метод для присоединения игрока к игре.
+     *
+     * @param player Игрок, который присоединяется к игре.
+     */
     public void joinPlayer(final GoPlayer player) {
         players[totalPlayers++] = player;
         player.startGame();
     }
 
+    /**
+     * Переопределенный метод run() для выполнения логики игры в отдельном потоке.
+     */
     @Override
     public void run() {
         while (!isCompletable()) {
@@ -65,14 +76,29 @@ public class ServerGame extends Thread {
         }
     }
 
+    /**
+     * Метод для проверки, можно ли начать игру (все игроки присоединились).
+     *
+     * @return {@code true}, если игра может быть начата, иначе {@code false}.
+     */
     public boolean isCompletable() {
         return Arrays.stream(players).noneMatch(Objects::isNull);
     }
 
+    /**
+     * Метод для проверки, завершена ли игра.
+     *
+     * @return {@code true}, если игра завершена, иначе {@code false}.
+     */
     public boolean isFinished() {
         return gameSession.isFinished();
     }
 
+    /**
+     * Метод для завершения игры и отправки результатов игры всем игрокам.
+     *
+     * @throws IOException В случае ошибок при отправке данных игрокам.
+     */
     public void endGame() throws IOException {
         for (var player : players) {
             ((ServerGoPlayer) player).sendResponse(new FinishGameDtoResponse(
@@ -113,7 +139,7 @@ public class ServerGame extends Thread {
                 response);
     }
 
-    private FailureDtoResponse getFailure(ServerException ex) {
+    private FailureDtoResponse getFailure(final ServerException ex) {
         return new FailureDtoResponse(ResponseStatus.FAILURE, ex.message);
     }
 

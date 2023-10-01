@@ -12,6 +12,10 @@ import io.deeplay.intership.model.GoPlayer;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 
+/**
+ * Реализация интерфейса {@link GoPlayer} для серверного игрока.
+ * Класс предоставляет логику для взаимодействия серверного игрока с игрой через сетевое соединение.
+ */
 public class ServerGoPlayer implements GoPlayer {
     private final StreamConnector streamConnector;
     private final Lock lock;
@@ -25,16 +29,32 @@ public class ServerGoPlayer implements GoPlayer {
         this.color = color;
     }
 
+    /**
+     * Получение имени игрока.
+     *
+     * @return Имя игрока.
+     */
     @Override
     public String getName() {
         return name;
     }
 
+    /**
+     * Получение цвета игрока.
+     *
+     * @return Цвет игрока.
+     */
     @Override
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Получение игрового действия от игрока.
+     *
+     * @return Объект типа {@link Answer}, представляющий игровое действие игрока.
+     * @throws IllegalStateException Если не удалось получить корректный запрос от клиента.
+     */
     @Override
     public Answer getGameAction() {
         try {
@@ -51,15 +71,27 @@ public class ServerGoPlayer implements GoPlayer {
         throw new IllegalStateException();
     }
 
+    /**
+     * Отправка ответа клиенту.
+     *
+     * @param dtoResponse Ответ, который нужно отправить клиенту.
+     * @throws IOException Если возникают ошибки при отправке ответа.
+     */
     public void sendResponse(final BaseDtoResponse dtoResponse) throws IOException {
         streamConnector.sendResponse(dtoResponse);
     }
 
+    /**
+     * Начало игры для игрока.
+     */
     @Override
     public void startGame() {
         lock.lock();
     }
 
+    /**
+     * Завершение игры для игрока.
+     */
     @Override
     public void endGame() {
         lock.unlock();
